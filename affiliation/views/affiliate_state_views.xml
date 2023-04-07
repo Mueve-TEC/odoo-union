@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="affiliation_affiliate_state_form">
+            <field name="name">affiliation.affiliate_state.form</field>
+            <field name="model">affiliation.affiliate_state</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <h2><field name="name" placeholder="State name"/></h2>
+                        <group>
+                            <field name="order" />
+                            <field name="enabled" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="affiliation_affiliate_state_tree">
+            <field name="name">affiliation.affiliate_state.tree</field>
+            <field name="model">affiliation.affiliate_state</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" delete="false">
+                    <field name="name" />
+                    <field name="order" />
+                    <field name="enabled" />
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

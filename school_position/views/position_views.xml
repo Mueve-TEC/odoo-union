@@ -1,0 +1,38 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="school_position_form">
+            <field name="name">School position form</field>
+            <field name="model">school_position.position</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="affiliate_id" />
+                            <field name="type_id" />
+                            <field name="position_number" />
+                            <field name="hs_amount" />
+                            <field name="character_id" />
+                            <field name="dependency_id" />
+                            <field name="tag_ids" widget="many2many_tags" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="school_position_tree">
+            <field name="name">School position tree</field>
+            <field name="model">school_position.position</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="affiliate_id" />
+                    <field name="type_id" />
+                    <field name="position_number" />
+                    <field name="hs_amount" />
+                    <field name="character_id" />
+                    <field name="dependency_id" />
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

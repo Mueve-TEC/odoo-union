@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="group_affiliation_manager" model="res.groups">
+        <field name="name">Affiliation manager</field>
+        <!-- <field name="category_id" ref="base.module_category_operations_project"/> -->
+        <!-- <field name="implied_ids" eval="[(4, ref('group_project_user'))]"/> -->
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+</odoo>

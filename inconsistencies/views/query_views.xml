@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+        <record id="inconsistencies_query_form" model="ir.ui.view">
+            <field name="name">inconsistencies.query.form</field>
+            <field name="model">inconsistencies.query</field>
+            <field name="arch" type="xml">
+                <form string="New query">
+                    <group>
+                        <field name="description"/>
+                        <field name="from_date"/>
+                        <field name="to_date"/>
+                        <field name="affiliate_type_id"/>
+                        <field name="contribute"/>
+                        <field name="not_contribute"/>
+                    </group>
+                    <footer>
+                        <button name="query_inconsistencies" string="Query inconsistencies" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

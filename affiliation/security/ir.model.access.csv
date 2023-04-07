@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_affiliation_affiliate,Access to affiliation.affiliate,model_affiliation_affiliate,affiliation.group_affiliation_manager,1,1,1,1
+access_affiliation_affiliate_child,Access to affiliation.affiliate_child,model_affiliation_affiliate_child,affiliation.group_affiliation_manager,1,1,1,1
+access_affiliation_affiliate_state,Access to affiliation.affiliate_state,model_affiliation_affiliate_state,affiliation.group_affiliation_manager,1,1,1,1
+access_affiliation_affiliation_period,Access to affiliation.affiliation_period,model_affiliation_affiliation_period,affiliation.group_affiliation_manager,1,1,1,1

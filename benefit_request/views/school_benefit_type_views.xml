@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="school_benefit_type_tree">
+            <field name="name">school_benefit_type_tree</field>
+            <field name="model">benefit_request.school_benefit_type</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" delete="false">
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

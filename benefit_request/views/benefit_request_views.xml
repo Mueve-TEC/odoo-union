@@ -1,0 +1,82 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="benefit_request_form">
+            <field name="name">benefit_request_form</field>
+            <field name="model">benefit_request.benefit_request</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Authorize" class="btn btn-primary" type="object" name="authorize" states="requested," />
+                        <button string="Reject" class="btn btn-secondary" type="object" name="reject" states="requested" />
+                        <button string="Finalize" class="btn btn-secondary" type="object" name="finalize" states="authorized" />
+                        <button string="Cancel" class="btn btn-secondary" type="object" name="cancel" states="requested,authorized,finalized" />
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="Request" name="request">
+                                <field name="request_type_id" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}" domain="[('active','=',True)]"/>
+                                <field name="partner_id" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}"/>
+                                <field name="expedient" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}"/>
+                                <field name="full_doc" attrs="{'readonly': [('state', 'not in', ['new','requested','authorized'])]}"/>
+                                <field name="observations" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}"/>
+                                <field name="hide_school_benefits" invisible="1" />
+                                <field name="hide_amounts" invisible="1" />
+                                <field name="hide_notes" invisible="1" />
+                            </group>
+                            <group string="Other information" name="other_information">
+                                <field name="responsible"  attrs="{'readonly': [('state', 'in', ['canceled','rejected'])]}" />
+                                <field name="request_date" readonly="1" />
+                                <field name="last_change_state" readonly="1" />
+                                <field name="last_state" readonly="1" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="School benefits" name="school_benefits" attrs="{'invisible': [('hide_school_benefits','=',True)]}">
+                                <field name="school_benefit_ids"  attrs="{'readonly': [('state', 'not in', ['new','requested'])]}">
+                                    <tree editable="bottom">
+                                        <field name="school_benefit_type_id" />
+                                        <field name="affiliate_child_id" domain="[('verified','=',True)]"/>
+                                        <field name="delivered" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Subsidization" name="amounts" attrs="{'invisible': [('hide_amounts','=',True)]}">
+                                <group>
+                                    <field name="requested_amount" />
+                                    <field name="authorized_amount" attrs="{'readonly': [('state', '!=', 'requested')]}"/>
+                                    <field name="accountabled_amount" />
+                                    <field name="paid_amount" attrs="{'readonly': [('state', '!=', 'authorized')]}"/>
+                                </group>
+                            </page>
+                            <page string="Notes" name="notes" attrs="{'invisible': [('hide_notes','=',True)]}">
+                                <field name="notes" />
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                    
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="benefit_request_tree">
+            <field name="name">benefit_request.tree</field>
+            <field name="model">benefit_request.benefit_request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="request_date" />
+                    <field name="partner_id" />
+                    <field name="request_type_id" />
+                    <field name="expedient" />
+                    <field name="full_doc" />
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

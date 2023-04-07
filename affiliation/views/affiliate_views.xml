@@ -1,0 +1,71 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="affiliation_affiliate_form">
+            <field name="name">affiliation.affiliate.form</field>
+            <field name="model">affiliation.affiliate</field>
+            <!-- <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="mode">primary</field> -->
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Affiliate" class="btn btn-primary" type="object" name="action_affiliate" />
+                        <button string="Disaffiliate" class="btn btn-secondary" type="object" name="action_disaffiliate" />
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <h2><field name="name"/></h2>
+                        <group>
+                            <group string="Personal information">
+                                <field name="uid" />
+                                <field name="personal_id_type" />
+                                <field name="personal_id" />
+                                <field name="gender" />
+                                <field name="civil_status" />
+                                <field name="birth_date" />
+                                <field name="birth_country" />
+                            </group>
+                            <group string="Contact information">
+                                <field name="email" />
+                                <field name="phone" />
+                                <field name="mobile" />
+                                <field name="street" />
+                                <field name="city" />
+                                <field name="state_id" />
+                                <field name="country_id" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Childs" name="Childs">
+                                <field name="affiliate_child_ids"/>
+                            </page>
+                            <page string="Affiliations" name="Affiliations">
+                                <field name="affiliation_period_ids">
+                                    <tree delete="false" create="false">
+                                        <field name="affiliation_number"/>
+                                        <field name="from_date"/>
+                                        <field name="to_date"/>
+                                        <field name="closed"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="affiliation_affiliate_tree">
+            <field name="name">affiliation.affiliate.tree</field>
+            <field name="model">affiliation.affiliate</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="uid" />
+                    <field name="personal_id" />
+                    <field name="gender" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

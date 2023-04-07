@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- <menuitem name="Sindicate" id="affiliation.sindicate" sequence="40" 
+        groups="group_affiliation_manager"/> -->
+
+    <!-- Contributions section -->
+    <menuitem name="Contributions" id="contribution.contributions_section" 
+        sequence="20" parent="affiliation.sindicate" 
+        groups="group_contribution_manager"/>
+
+    <record model="ir.actions.act_window" id="contribution_affiliate_contribution_list_action">
+        <field name="name">Contributions list</field>
+        <field name="res_model">contribution.affiliate_contribution</field>
+        <field name="view_id" ref="contribution_affiliate_contribution_tree"/>
+        <field name="view_mode">tree,form</field> 
+    </record>
+
+    <menuitem name="Contributions list" 
+        id="contribution_affiliate_contribution_list" 
+        sequence="10" parent="contribution.contributions_section" 
+        action="contribution_affiliate_contribution_list_action"
+        groups="group_contribution_manager"/>
+
+    <record model="ir.actions.act_window" id="contribution_affiliate_contribution_code_list_action">
+        <field name="name">Contribution's code list</field>
+        <field name="res_model">contribution.affiliate_contribution_code</field>
+        <field name="view_id" ref="contribution_affiliate_contribution_code_tree"/>
+        <field name="view_mode">tree,form</field> 
+    </record>
+
+    <menuitem name="Contribution's code list" 
+        id="contribution_affiliate_contribution_code_list" 
+        sequence="20" parent="contribution.contributions_section" 
+        action="contribution_affiliate_contribution_code_list_action"
+        groups="group_contribution_manager"/>
+
+</odoo>

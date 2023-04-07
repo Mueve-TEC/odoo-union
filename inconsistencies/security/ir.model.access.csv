@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+write_inconsistencies_query,Write inconsistencies.query,model_inconsistencies_query,inconsistencies.group_inconsistencies_write,1,1,1,1
+read_inconsistencies_query,Read inconsistencies.query,model_inconsistencies_query,inconsistencies.group_inconsistencies_read,1,0,0,0
+write_inconsistencies_result,Write inconsistencies.result,model_inconsistencies_result,inconsistencies.group_inconsistencies_write,1,1,1,1
+read_inconsistencies_result,Read inconsistencies.result,model_inconsistencies_result,inconsistencies.group_inconsistencies_read,1,0,0,0

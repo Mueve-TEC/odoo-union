@@ -1,0 +1,60 @@
+<odoo>
+    <data noupdate="1">
+        <record id="adiuc_school_benefit_type_nacimiento" model="benefit_request.school_benefit_type">
+            <field name="name">Nacimiento</field>
+            <field name="active">True</field>
+        </record>
+        <record id="adiuc_school_benefit_type_inicial4" model="benefit_request.school_benefit_type">
+            <field name="name">Inicial [Sala de 4 años]</field>
+            <field name="active">True</field>
+        </record>
+        <record id="adiuc_school_benefit_type_inicial5" model="benefit_request.school_benefit_type">
+            <field name="name">Inicial [Sala de 5 años]</field>
+            <field name="active">True</field>
+        </record>
+        <record id="adiuc_school_benefit_type_primaria1" model="benefit_request.school_benefit_type">
+            <field name="name">Primario [1º Grado]</field>
+            <field name="active">True</field>
+        </record>
+        <record id="adiuc_school_benefit_type_primaria2" model="benefit_request.school_benefit_type">
+            <field name="name">Primario [2º Grado]</field>
+            <field name="active">True</field>
+        </record>
+        <record id="adiuc_school_benefit_type_primaria3" model="benefit_request.school_benefit_type">
+            <field name="name">Primario [3º Grado]</field>
+            <field name="active">True</field>
+        </record>
+        <record id="adiuc_school_benefit_type_primaria4" model="benefit_request.school_benefit_type">
+            <field name="name">Primario [4º Grado]</field>
+            <field name="active">True</field>
+        </record>
+        <record id="adiuc_school_benefit_type_primaria5" model="benefit_request.school_benefit_type">
+            <field name="name">Primario [5º Grado]</field>
+            <field name="active">True</field>
+        </record>
+        <record id="adiuc_school_benefit_type_primaria6" model="benefit_request.school_benefit_type">
+            <field name="name">Primario [6º Grado]</field>
+            <field name="active">True</field>
+        </record>
+        <record id="adiuc_school_benefit_type_secundariaR" model="benefit_request.school_benefit_type">
+            <field name="name">Secundario [Rivadavia]</field>
+            <field name="active">True</field>
+        </record>
+        <record id="adiuc_school_benefit_type_secundariaO" model="benefit_request.school_benefit_type">
+            <field name="name">Secundario [Oficio]</field>
+            <field name="active">True</field>
+        </record>
+        <record id="adiuc_school_benefit_type_secundariaA" model="benefit_request.school_benefit_type">
+            <field name="name">Secundario [A4]</field>
+            <field name="active">True</field>
+        </record>
+        <record id="adiuc_school_benefit_type_universitario" model="benefit_request.school_benefit_type">
+            <field name="name">Universitario</field>
+            <field name="active">True</field>
+        </record>
+        <record id="adiuc_school_benefit_type_otro" model="benefit_request.school_benefit_type">
+            <field name="name">Otro</field>
+            <field name="active">True</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Request section -->
+    <menuitem name="Requests" id="benefit_request.requests_section" 
+        sequence="30" parent="affiliation.sindicate" 
+        groups="group_benefit_request_read"/>
+
+    <record model="ir.actions.act_window" id="benefit_request_benefit_request_list_action">
+        <field name="name">Requests list</field>
+        <field name="res_model">benefit_request.benefit_request</field>
+        <field name="view_id" ref="benefit_request_tree"/>
+        <field name="view_mode">tree,form</field> 
+    </record>
+
+    <menuitem name="Requests list" 
+        id="benefit_request_benefit_request_list" 
+        sequence="10" parent="benefit_request.requests_section" 
+        action="benefit_request_benefit_request_list_action"
+        groups="group_benefit_request_read"/>
+
+    <record model="ir.actions.act_window" id="benefit_request_request_type_list_action">
+        <field name="name">Request's type list</field>
+        <field name="res_model">benefit_request.request_type</field>
+        <field name="view_id" ref="benefit_request_type_tree"/>
+        <field name="view_mode">tree,form</field> 
+    </record>
+
+    <menuitem name="Request's type list" 
+        id="benefit_request_request_type_list" 
+        sequence="10" parent="benefit_request.requests_section" 
+        action="benefit_request_request_type_list_action"
+        groups="group_benefit_request_read"/>
+
+    <record model="ir.actions.act_window" id="benefit_request_school_benefit_list_action">
+        <field name="name">School benefits list</field>
+        <field name="res_model">benefit_request.school_benefit</field>
+        <field name="view_id" ref="school_benefit_tree"/>
+        <field name="view_mode">tree,form</field> 
+    </record>
+
+    <menuitem name="School benefits list" 
+        id="benefit_request_school_benefit_list" 
+        sequence="30" parent="benefit_request.requests_section" 
+        action="benefit_request_school_benefit_list_action"
+        groups="group_benefit_request_read"/>
+
+    <record model="ir.actions.act_window" id="benefit_request_school_benefit_type_list_action">
+        <field name="name">School benefit types list</field>
+        <field name="res_model">benefit_request.school_benefit_type</field>
+        <field name="view_id" ref="school_benefit_type_tree"/>
+        <field name="view_mode">tree,form</field> 
+    </record>
+
+    <menuitem name="School benefit types list" 
+        id="benefit_request_school_benefit_type_list" 
+        sequence="40" parent="benefit_request.requests_section" 
+        action="benefit_request_school_benefit_type_list_action"
+        groups="group_benefit_request_admin"/>
+</odoo>

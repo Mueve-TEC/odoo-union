@@ -1,0 +1,10 @@
+# -*- coding: utf-8 -*-
+
+from odoo import models, fields, api
+
+class SchoolBenefitType(models.Model):
+    _name = 'benefit_request.school_benefit_type'
+    _description = 'School benefit\'s type model given by ADIUC'
+
+    name = fields.Char(string='Name', required=True)
+    active = fields.Boolean(string='Active', default=True)

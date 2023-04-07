@@ -1,0 +1,20 @@
+<odoo>
+    <data noupdate="1">
+        <record id="adiuc_affiliate_state_affiliated" model="benefit_request.affiliate_state">
+            <field name="name">Affiliated</field>
+            <field name="value">affiliated</field>
+        </record>
+        <record id="adiuc_affiliate_state_not_affiliated" model="benefit_request.affiliate_state">
+            <field name="name">Not affiliated</field>
+            <field name="value">not_affiliated</field>
+        </record>
+        <record id="adiuc_affiliate_state_disaffiliated" model="benefit_request.affiliate_state">
+            <field name="name">Disaffiliated</field>
+            <field name="value">disaffiliated</field>
+        </record>
+        <record id="adiuc_affiliate_state_historical" model="benefit_request.affiliate_state">
+            <field name="name">Historical</field>
+            <field name="value">historical</field>
+        </record>
+    </data>
+</odoo>
