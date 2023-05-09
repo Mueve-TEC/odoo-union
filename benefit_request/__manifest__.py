@@ -9,8 +9,8 @@
         Módulo para la gestión de solicitudes y bolsones de ADIUC
     """,
 
-    'author': "Geneos",
-    'website': "http://www.geneos.com.ar",
+    'author': "Mueve",
+    'website': "",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
@@ -19,7 +19,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','affiliation'],
+    'depends': ['base','affiliation','mail'],
 
     # always loaded
     'data': [

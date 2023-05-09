@@ -13,7 +13,7 @@
         id="query_inconsistencies_wizard_form" 
         sequence="50" parent="contribution.contributions_section" 
         action="query_inconsistencies_form_action"
-        groups="group_inconsistencies_write"/>
+        groups="group_inconsistencies_write" />
 
     <record model="ir.actions.act_window" id="inconsistencies_result_list_action">
         <field name="name">Inconsistencies list</field>
