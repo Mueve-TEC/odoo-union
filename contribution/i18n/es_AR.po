@@ -1,6 +1,5 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* inconsistencies
 # 	* contribution
 #
 msgid ""
@@ -16,9 +15,9 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. modules: inconsistencies, contribution
+#. modules: contribution
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution__affiliate_id
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_result__affiliate_id
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_result__affiliate_id
 msgid "Affiliate"
 msgstr "Afiliado"
 
@@ -37,8 +36,8 @@ msgstr "Monto"
 msgid "Base Import"
 msgstr "Importar Base"
 
-#. module: inconsistencies
-#: model_terms:ir.ui.view,arch_db:inconsistencies.inconsistencies_query_form
+#. module: contribution
+#: model_terms:ir.ui.view,arch_db:contribution.inconsistencies_query_form
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -53,8 +52,8 @@ msgstr "Código"
 msgid "Configuration of Affiliaton module"
 msgstr "Configuración del módulo de afiliación"
 
-#. module: inconsistencies
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_query__contribute
+#. module: contribution
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__contribute
 msgid "Contribute"
 msgstr "Aportó"
 
@@ -117,19 +116,19 @@ msgstr "Lista de aportes"
 msgid "Create user on contribution import"
 msgstr "Crear usuario al importar aportes"
 
-#. modules: inconsistencies, contribution
+#. modules: contribution
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution__create_uid
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution_code__create_uid
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_query__create_uid
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_result__create_uid
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__create_uid
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_result__create_uid
 msgid "Created by"
 msgstr "Creado por"
 
-#. modules: inconsistencies, contribution
+#. modules: contribution
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution__create_date
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution_code__create_date
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_query__create_date
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_result__create_date
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__create_date
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_result__create_date
 msgid "Created on"
 msgstr "Creado el"
 
@@ -138,22 +137,22 @@ msgstr "Creado el"
 msgid "Date"
 msgstr "Fecha"
 
-#. module: inconsistencies
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_query__description
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_result__description
+#. module: contribution
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__description
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_result__description
 msgid "Description"
 msgstr "Descripción"
 
-#. modules: inconsistencies, contribution
+#. modules: contribution
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution__display_name
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution_code__display_name
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_query__display_name
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_result__display_name
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__display_name
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_result__display_name
 msgid "Display Name"
 msgstr "Nombre para mostrar"
 
-#. module: inconsistencies
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_query__not_contribute
+#. module: contribution
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__not_contribute
 msgid "Doesn't contribute"
 msgstr "No aportó"
 
@@ -162,17 +161,17 @@ msgstr "No aportó"
 msgid "Enabled"
 msgstr "Habilitado"
 
-#. module: inconsistencies
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_query__from_date
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_result__from_date
+#. module: contribution
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__from_date
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_result__from_date
 msgid "From"
 msgstr "Desde"
 
-#. modules: inconsistencies, contribution
+#. modules: contribution
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution__id
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution_code__id
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_query__id
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_result__id
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__id
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_result__id
 msgid "ID"
 msgstr ""
 
@@ -196,68 +195,68 @@ msgstr "Legajo (importacion)"
 msgid "Import vat"
 msgstr "CUIL (importacion)"
 
-#. module: inconsistencies
-#: model:ir.model.fields,help:inconsistencies.field_inconsistencies_query__contribute
+#. module: contribution
+#: model:ir.model.fields,help:contribution.field_inconsistencies_query__contribute
 msgid "Include people who contributed and should not have contributed"
 msgstr "Incluir personas que aportaron y no deberían haber aportado"
 
-#. module: inconsistencies
-#: model:ir.model.fields,help:inconsistencies.field_inconsistencies_query__not_contribute
+#. module: contribution
+#: model:ir.model.fields,help:contribution.field_inconsistencies_query__not_contribute
 msgid "Include people who didn't contribute and should have contributed"
 msgstr "Incluir personas que no aportaron y deberían haber aportado"
 
-#. module: inconsistencies
-#: model_terms:ir.ui.view,arch_db:inconsistencies.inconsistencies_result_tree
+#. module: contribution
+#: model_terms:ir.ui.view,arch_db:contribution.inconsistencies_result_tree
 msgid "Inconsistencies"
 msgstr "Inconsistencias"
 
-#. module: inconsistencies
-#: model:res.groups,name:inconsistencies.group_inconsistencies_admin
+#. module: contribution
+#: model:res.groups,name:contribution.group_inconsistencies_admin
 msgid "Inconsistencies admin"
 msgstr "Administracion de inconsistencias"
 
-#. module: inconsistencies
-#: model:ir.actions.act_window,name:inconsistencies.inconsistencies_result_list_action
-#: model:ir.ui.menu,name:inconsistencies.inconsistencies_result_list
+#. module: contribution
+#: model:ir.actions.act_window,name:contribution.inconsistencies_result_list_action
+#: model:ir.ui.menu,name:contribution.inconsistencies_result_list
 msgid "Inconsistencies list"
 msgstr "Lista de inconsistencias"
 
-#. module: inconsistencies
-#: model:res.groups,name:inconsistencies.group_inconsistencies_read
+#. module: contribution
+#: model:res.groups,name:contribution.group_inconsistencies_read
 msgid "Inconsistencies read"
 msgstr "Lectura de inconsistencias"
 
-#. module: inconsistencies
-#: model:res.groups,name:inconsistencies.group_inconsistencies_write
+#. module: contribution
+#: model:res.groups,name:contribution.group_inconsistencies_write
 msgid "Inconsistencies write"
 msgstr "Escritura de inconsistencias"
 
-#. module: inconsistencies
-#: model_terms:ir.ui.view,arch_db:inconsistencies.inconsistencies_result_form
+#. module: contribution
+#: model_terms:ir.ui.view,arch_db:contribution.inconsistencies_result_form
 msgid "Inconsistency"
 msgstr "Inconsistencia"
 
-#. modules: inconsistencies, contribution
+#. modules: contribution
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution____last_update
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution_code____last_update
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_query____last_update
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_result____last_update
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_query____last_update
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_result____last_update
 msgid "Last Modified on"
 msgstr "Última modificación en"
 
-#. modules: inconsistencies, contribution
+#. modules: contribution
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution__write_uid
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution_code__write_uid
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_query__write_uid
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_result__write_uid
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__write_uid
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_result__write_uid
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
-#. modules: inconsistencies, contribution
+#. modules: contribution
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution__write_date
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution_code__write_date
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_query__write_date
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_result__write_date
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__write_date
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_result__write_date
 msgid "Last Updated on"
 msgstr "Última actualización en"
 
@@ -266,8 +265,8 @@ msgstr "Última actualización en"
 msgid "Name"
 msgstr "Nombre"
 
-#. module: inconsistencies
-#: model_terms:ir.ui.view,arch_db:inconsistencies.inconsistencies_query_form
+#. module: contribution
+#: model_terms:ir.ui.view,arch_db:contribution.inconsistencies_query_form
 msgid "New query"
 msgstr "Consultar"
 
@@ -276,37 +275,37 @@ msgstr "Consultar"
 msgid "Personal ID"
 msgstr "Nro de documento"
 
-#. module: inconsistencies
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_query__query_date
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_result__query_date
+#. module: contribution
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__query_date
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_result__query_date
 msgid "Query date"
 msgstr "Fecha de consulta"
 
-#. module: inconsistencies
-#: model:ir.actions.act_window,name:inconsistencies.query_inconsistencies_form_action
-#: model:ir.ui.menu,name:inconsistencies.query_inconsistencies_wizard_form
-#: model_terms:ir.ui.view,arch_db:inconsistencies.inconsistencies_query_form
+#. module: contribution
+#: model:ir.actions.act_window,name:contribution.query_inconsistencies_form_action
+#: model:ir.ui.menu,name:contribution.query_inconsistencies_wizard_form
+#: model_terms:ir.ui.view,arch_db:contribution.inconsistencies_query_form
 msgid "Query inconsistencies"
 msgstr "Consulta de inconsistencias"
 
-#. module: inconsistencies
-#: model:ir.model,name:inconsistencies.model_inconsistencies_query
+#. module: contribution
+#: model:ir.model,name:contribution.model_inconsistencies_query
 msgid "Query of inconsistency of Affiliate's state"
 msgstr "Consulta de inconsistencia del estado del afiliado"
 
-#. module: inconsistencies
-#: model:ir.model,name:inconsistencies.model_inconsistencies_result
+#. module: contribution
+#: model:ir.model,name:contribution.model_inconsistencies_result
 msgid "Result of inconsistencies query about Affiliate's state"
 msgstr ""
 "Resultado de la consulta de inconsistencias sobre el estado del afiliado"
 
-#. module: inconsistencies
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_result__status
+#. module: contribution
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_result__status
 msgid "Situación"
 msgstr ""
 
-#. module: inconsistencies
-#: code:addons/inconsistencies/models/query.py:0
+#. module: contribution
+#: code:addons/contribution/models/query.py:0
 #, python-format
 msgid "There aren't inconsistencies between that dates"
 msgstr "No hay inconsistencias entre esas fechas"
@@ -317,20 +316,20 @@ msgstr "No hay inconsistencias entre esas fechas"
 msgid "There were errors during importation. See the logs!"
 msgstr "Hubo errores durante la importación. ¡Revise los registros!"
 
-#. module: inconsistencies
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_query__to_date
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_result__to_date
+#. module: contribution
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__to_date
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_result__to_date
 msgid "To"
 msgstr "Hasta"
 
-#. module: inconsistencies
-#: code:addons/inconsistencies/models/query.py:0
+#. module: contribution
+#: code:addons/contribution/models/query.py:0
 #, python-format
 msgid "To date should be major to from date"
 msgstr "La fecha \"Hasta\\' debe ser mayor a la fecha \"Desde\""
 
-#. module: inconsistencies
-#: model:ir.model.fields,field_description:inconsistencies.field_inconsistencies_query__affiliate_type_id
+#. module: contribution
+#: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__affiliate_type_id
 msgid "Type"
 msgstr "Tipo"
 
