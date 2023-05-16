@@ -9,8 +9,8 @@
         Módulo para gestión de aportes/contribuciones de afiliados gremiales
     """,
 
-    'author': "Geneos",
-    'website': "http://www.geneos.com.ar",
+    'author': "Mueve",
+    'website': "",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
@@ -23,15 +23,29 @@
 
     # always loaded
     'data': [
-        'security/contribution_security.xml',
-        'security/ir.model.access.csv',
 
+        'security/contribution_security.xml',
         'views/contribution_views.xml',
         'views/contribution_code_views.xml',
-        'views/menu.xml' # Should be the last ever
+
+        'security/inconsistencies_security.xml',
+        'security/ir.model.access.csv',
+
+        'views/menu.xml', 
+        'views/query_views.xml',
+        'views/result_views.xml',
+        'views/inconsistencies_menu.xml',# Should be the last ever
+
+        
+
+
+
+
+
     ],
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',
     ],
+    'post_init_hook': '_post_init_hook',
 }
