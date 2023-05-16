@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <menuitem name="Sindicate" id="affiliation.sindicate" sequence="40" 
-        groups="group_affiliation_manager"/>
+    <menuitem name="Union" id="affiliation.sindicate" sequence="40" 
+        groups="group_affiliation_read"/>
 
     <!-- Affiliates section -->
     <menuitem name="Affiliates" id="affiliation.affiliates_section" 
         sequence="10" parent="affiliation.sindicate" 
-        groups="group_affiliation_manager"/>/>
+        groups="group_affiliation_read"/>
 
     <record model="ir.actions.act_window" id="affiliation_affiliate_list_action">
         <field name="name">Affiliates list</field>
@@ -20,37 +20,64 @@
         id="affiliation_affiliate_list" 
         sequence="10" parent="affiliation.affiliates_section" 
         action="affiliation_affiliate_list_action"
-        groups="group_affiliation_manager"/>
+        groups="group_affiliation_read"/>
+
+    <record model="ir.actions.act_window" id="affiliation_affiliate_emails_list_action">
+        <field name="name">Affiliate emails list</field>
+        <field name="res_model">affiliation.affiliate</field>
+        <field name="view_id" ref="affiliation_affiliate_emails_tree"/>
+        <field name="view_mode">tree,form</field> 
+    </record>
+
+    <menuitem name="Affiliate emails list" 
+        id="affiliation_affiliate_emails_list" 
+        sequence="20" parent="affiliation.affiliates_section" 
+        action="affiliation_affiliate_emails_list_action"
+        groups="group_affiliation_read"/>
 
     <record model="ir.actions.act_window" id="affiliation_affiliate_child_list_action">
-        <field name="name">Affiliates child list</field>
+        <field name="name">Affiliate's childs list</field>
         <field name="res_model">affiliation.affiliate_child</field>
         <field name="view_id" ref="affiliation_affiliate_child_tree"/>
         <field name="view_mode">tree,form</field> 
     </record>
 
-    <menuitem name="Affiliate childs list" 
+    <menuitem name="Affiliate's childs list" 
         id="affiliation_affiliate_child_list" 
-        sequence="20" parent="affiliation.affiliates_section" 
+        sequence="30" parent="affiliation.affiliates_section" 
         action="affiliation_affiliate_child_list_action"
-        groups="group_affiliation_manager"/>
+        groups="group_affiliation_read"/>
 
-    <!-- Configuration section -->
-    <menuitem name="Configuration" id="affiliation.configuration_section" 
-        sequence="20" parent="affiliation.sindicate" 
-        groups="group_affiliation_manager"/>/>
-
-    <record model="ir.actions.act_window" id="affiliation_affiliate_state_list_action">
-        <field name="name">Affiliate states list</field>
-        <field name="res_model">affiliation.affiliate_state</field>
-        <field name="view_id" ref="affiliation_affiliate_state_tree"/>
+    <record model="ir.actions.act_window" id="affiliation_affiliate_type_list_action">
+        <field name="name">Affiliate's types list</field>
+        <field name="res_model">affiliation.affiliate_type</field>
+        <field name="view_id" ref="affiliation_affiliate_type_tree"/>
         <field name="view_mode">tree,form</field> 
     </record>
 
-    <menuitem name="Affiliate states list" 
-        id="affiliation_affiliate_state_list" 
+    <menuitem name="Affiliate's types list" 
+        id="affiliation_affiliate_type_list" 
+        sequence="20" parent="affiliation.affiliates_section" 
+        action="affiliation_affiliate_type_list_action"
+        groups="group_affiliation_admin"/>
+
+    <!-- Configuration section -->
+    <menuitem name="Configuration" id="affiliation.configuration_section" 
+        sequence="100" parent="affiliation.sindicate" 
+        groups="group_affiliation_admin"/>
+
+    <record model="ir.actions.act_window" id="affiliation_affiliation_configuration_form_action">
+        <field name="name">Affiliation configuration</field>
+        <field name="res_model">affiliation.affiliation_configuration</field>
+        <field name="view_id" ref="affiliation_affiliation_configuration_form"/>
+        <field name="view_mode">form</field> 
+        <field name="res_id">1</field>
+    </record>
+
+    <menuitem name="Affiliation configuration" 
+        id="affiliation_affiliation_configuration" 
         sequence="10" parent="affiliation.configuration_section" 
-        action="affiliation_affiliate_state_list_action"
-        groups="group_affiliation_manager"/>
+        action="affiliation_affiliation_configuration_form_action"
+        groups="group_affiliation_admin"/>
 
 </odoo>

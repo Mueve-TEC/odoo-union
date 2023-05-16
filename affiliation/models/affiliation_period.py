@@ -15,8 +15,10 @@ class AffiliationPeriod(models.Model):
     affiliate_id = fields.Many2one(
         comodel_name='affiliation.affiliate',
         string='Affiliate',
-        required=True
+        required=True,
+        ondelete='cascade'
     )
+    affiliate_state = fields.Selection(related='affiliate_id.state', store=False)
 
     @api.constrains('from_date','to_date')
     def _check_dates(self):
@@ -55,18 +57,22 @@ class AffiliationPeriod(models.Model):
     #             return
     #         record.closed = False
 
-    def _are_any_open(self):
-        _id = self.affiliate_id.id | self.env.context['default_affiliate_id']
-        period = self.env['affiliation.affiliation_period'].search([('affiliate_id','=',_id),('closed','=',False)])
+    def _are_any_open(self, affiliate_id):
+        period = self.env['affiliation.affiliation_period'].search([('affiliate_id','=',affiliate_id),('closed','=',False)])
         if len(period.ids):
             return True
         return False
 
     @api.model
     def create(self, vals):
-        if self._are_any_open():
+        _affiliate_id = self.affiliate_id.id | vals['affiliate_id']
+        if not _affiliate_id:
+            self.env.context['default_affiliate_id']
+        if self._are_any_open(_affiliate_id):
             raise ValidationError(_('There is already an open period!'))
         res = super(AffiliationPeriod, self).create(vals)
+        # affiliate = res.affiliate_id
+        # affiliate.affiliate_()
         return res
 
     def write(self, vals) :
@@ -75,5 +81,5 @@ class AffiliationPeriod(models.Model):
         res = super(AffiliationPeriod, self).write(vals)
         return res
 
-    def close(self):
-        self.write({'to_date': fields.Date.today(), 'closed': True})
+    def close(self, date):
+        self.write({'to_date': date, 'closed': True})

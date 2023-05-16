@@ -5,6 +5,8 @@ from odoo import models, fields, api
 
 class RequestType(models.Model):
     _name = 'benefit_request.request_type'
+    _description = 'Type of benefits'
+    _rec_name = 'name'
 
     name = fields.Char(string='name', required=True)
     active = fields.Boolean(string="Active", default=True)
@@ -15,7 +17,7 @@ class RequestType(models.Model):
         column1='request_type_id',
         column2='affiliate_state_id'
     )
-    quote = fields.Boolean(string='Quote', default=False)
+    quote = fields.Boolean(string='Contributors', default=False)
     who_apply = fields.Selection(
         selection=[('everybody','Everybody'),('affiliates','Only affiliates')],
         string='Who can request?',
@@ -32,8 +34,10 @@ class RequestType(models.Model):
         if self.who_apply == 'everybody':
             return True
         affiliate = self.env['affiliation.affiliate'].search([('partner_id','=',affiliate.id)])
-        if not affiliate:
+        if len(affiliate.ids) == 0:
             return True
+        else:
+            affiliate = affiliate[0]
         return True if (self._check_state(affiliate) and self._check_quote(affiliate)) else False
 
     def _check_state(self, affiliate):

@@ -16,7 +16,7 @@ class AffiliateChild(models.Model):
         ('ci', 'CI')],
         string='Personal ID type', default='dni', required=True)
     personal_id = fields.Char(string='Personal ID', required=True)
-    birth_date = fields.Date(string='Birth date', required=True)
+    birth_date = fields.Date(string='Birth date')
     handicapped = fields.Boolean(string='Handicapped', default=False)
     verified = fields.Boolean(string='Verified', default=False)
     observation = fields.Char(string='Observations')
@@ -27,3 +27,10 @@ class AffiliateChild(models.Model):
         column2='affiliate_id',
         string='Parents'
     )
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = ['|',('personal_id', operator, name),('name', operator, name)]
+        recs = self.search(domain + args, limit=limit)
+        return recs.name_get()

@@ -8,3 +8,10 @@ class SchoolBenefitType(models.Model):
 
     name = fields.Char(string='Name', required=True)
     active = fields.Boolean(string='Active', default=True)
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = [('name', operator, name)]
+        recs = self.search(domain + args, limit=limit)
+        return recs.name_get()

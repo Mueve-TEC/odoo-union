@@ -44,6 +44,9 @@ class Query(models.Model):
                 self.env.cr.execute("select calcInconsByType(%s, %s, %s, %s, %s)", ('aporto', self.from_date, self.to_date, self.description, self.affiliate_type_id.id))
                 result = True if len(self.env.cr.fetchall()) >= 1 else result
                 # self.env['docentes.gestion_de_cambios'].invalidate_cache()
+
+            self.env.cr.execute("select calcInconsStateByType(%s, %s, %s, %s)", (self.from_date, self.to_date, self.description, self.affiliate_type_id.id))
+            result = True if len(self.env.cr.fetchall()) >= 1 else result
         else:
             if self.not_contribute :
                 self.env.cr.execute("select calculateInconsistencies(%s, %s, %s, %s)", ('no_aporto', self.from_date, self.to_date, self.description))
@@ -54,6 +57,9 @@ class Query(models.Model):
                 self.env.cr.execute("select calculateInconsistencies(%s, %s, %s, %s)", ('aporto', self.from_date, self.to_date, self.description))
                 result = True if len(self.env.cr.fetchall()) >= 1 else result
                 # self.env['docentes.gestion_de_cambios'].invalidate_cache()
+            
+            self.env.cr.execute("select calculateInconsistentStates(%s, %s, %s)", (self.from_date, self.to_date, self.description))
+            result = True if len(self.env.cr.fetchall()) >= 1 else result
 
         if not result :
             raise ValidationError(_('There aren\'t inconsistencies between that dates'))
