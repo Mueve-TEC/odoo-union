@@ -1,5 +1,11 @@
 <odoo>
     <data>
+        <!-- <template id="assets_backend" name="contribution assets" inherit_id="web.assets_backend">
+            <xpath expr="//script[last()]" position="after">
+                <script type="text/javascript" src="contribution/static/src/js/contribution.js"></script>
+            </xpath>
+        </template> -->
+
         <record model="ir.ui.view" id="contribution_affiliate_contribution_form">
             <field name="name">contribution.affiliate.contribution.form</field>
             <field name="model">contribution.affiliate_contribution</field>
@@ -29,5 +35,29 @@
                 </tree>
             </field>
         </record>
+
+        <record model="ir.ui.view" id="contribution_affiliate_contribution_import_logs_tree">
+            <field name="name">contribution.affiliate.contribution.import.logs.tree</field>
+            <field name="model">butterlog.butterlog</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="date"/>
+                    <field name="model_name"/>
+                    <field name="message"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="contribution_affiliate_contribution_search" model="ir.ui.view">
+            <field name="name">contribution.affiliate.contribution.search</field>
+            <field name="model">contribution.affiliate_contribution</field>
+            <field name="arch" type="xml">
+                <search string="Contribution filters">
+                    <field name="affiliate_id" filter_domain="['|','|',('affiliate_id.name', 'ilike', self),('affiliate_id.uid', 'ilike', self),('affiliate_id.personal_id', 'ilike', self)]"/>
+                    <field name="contribution_code_id" filter_domain="['|',('contribution_code_id.name', 'ilike', self),('contribution_code_id.code', 'ilike', self)]"/>
+                </search>
+            </field>
+        </record>
+
     </data>
 </odoo>

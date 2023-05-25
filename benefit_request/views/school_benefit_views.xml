@@ -22,13 +22,27 @@
             <field name="name">school_benefit_tree</field>
             <field name="model">benefit_request.school_benefit</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree create="false" edit="false" delete="false">
                     <field name="partner_id" />
                     <field name="benefit_request_id" />
+                    <field name="affiliate_child_id" />
                     <field name="school_benefit_type_id" />
                     <field name="delivered" />
                 </tree>
             </field>
         </record>
+
+        <record model="ir.ui.view" id="school_benefit_search">
+            <field name="name">school_benefit_search</field>
+            <field name="model">benefit_request.school_benefit</field>
+            <field name="arch" type="xml">
+                <search string="Request filters">
+                    <field name="partner_id" filter_domain="[('partner_id.name', 'ilike', self)]"/>
+                    <field name="school_benefit_type_id" filter_domain="[('school_benefit_type_id.name', 'ilike', self)]"/>
+                    <field name="affiliate_child_id" filter_domain="['|',('affiliate_child_id.name', 'ilike', self),('affiliate_child_id.personal_id', 'ilike', self)]"/>
+                </search>
+            </field>
+        </record>
+
     </data>
 </odoo>

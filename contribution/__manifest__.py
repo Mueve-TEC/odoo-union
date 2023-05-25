@@ -3,7 +3,7 @@
     'name': "Aportes",
 
     'summary': """
-        Módulo de gestion de gremial de afiliados""",
+        Módulo de gestion de aportes gremiales""",
 
     'description': """
         Módulo para gestión de aportes/contribuciones de afiliados gremiales
@@ -19,29 +19,22 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','affiliation'],
+    'depends': ['base','affiliation','butterlog','import_ignore_error','web_notify'],
 
     # always loaded
     'data': [
-
         'security/contribution_security.xml',
-        'views/contribution_views.xml',
-        'views/contribution_code_views.xml',
-
         'security/inconsistencies_security.xml',
         'security/ir.model.access.csv',
 
-        'views/menu.xml', 
+        'views/contribution_views.xml',
+        'views/contribution_code_views.xml',
+        'views/affiliation_configuration_view.xml',
+        'views/affiliate_views.xml',
+        'views/menu.xml',
         'views/query_views.xml',
         'views/result_views.xml',
         'views/inconsistencies_menu.xml',# Should be the last ever
-
-        
-
-
-
-
-
     ],
     # only loaded in demonstration mode
     'demo': [

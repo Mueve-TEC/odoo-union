@@ -6,18 +6,28 @@ from odoo.exceptions import ValidationError
 
 class BenefitRequest(models.Model):
     _name = 'benefit_request.benefit_request'
+    _description = 'Benefit request for partners'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     request_type_id = fields.Many2one(
         comodel_name='benefit_request.request_type',
         string='Type',
-        required=True
+        required=True,
+        ondelete='restrict'
     )
+    # No se relaciona con la tabla de afiliados porque Araceli comento que existen solicitudes
+    # que pueden ser pedidas por personas que no son afiliados. 
+    # Por esto es que se la relaciona con partner
     partner_id = fields.Many2one(
         comodel_name='res.partner',
         string='Applicant',
-        required=True
+        required=True,
+        ondelete='restrict'
     )
+    # The next two fields only will be used to filters
+    affiliate_uid = fields.Char(string='Affiliate UID', compute='_compute_uid', store=True)
+    affiliate_personal_id = fields.Char(string='Personal ID', compute='_compute_personal_id', store=True)
+    
     state = fields.Selection(
         selection=[
             ('new', 'New'),
@@ -57,6 +67,12 @@ class BenefitRequest(models.Model):
     hide_school_benefits = fields.Boolean(computed='_onchange_request_type')
     hide_amounts = fields.Boolean(computed='_onchange_request_type')
     hide_notes = fields.Boolean(computed='_onchange_request_type')
+    
+    survey_user_input_id = fields.Many2one(
+        comodel_name='survey.user_input'
+    )
+
+    email = fields.Char(related='partner_id.email', store=False)
 
     @api.onchange('request_type_id')
     def _onchange_request_type(self):
@@ -66,10 +82,21 @@ class BenefitRequest(models.Model):
         self.hide_school_benefits = False if 'Bolsones' in _groups else True
 
         if self.request_type_id.who_apply == 'affiliates':
-            return {'domain': {'partner_id': [('type', '=', 'affiliated')]}}
+            sql='SELECT partner_id FROM affiliation_affiliate'
+            self.env.cr.execute(sql)
+            ids = list(map(lambda x: x['partner_id'], self.env.cr.dictfetchall()))
+            return {'domain': {'partner_id': [('id', 'in', ids)]}}
         return {'domain': {'partner_id': False}}
 
+    @api.depends('request_type_id')
+    def _compute_hides(self):
+        _groups = self.request_type_id.request_group_ids.mapped('name')
+        self.hide_notes = False if 'Notas' in _groups else True
+        self.hide_amounts = False if 'Subsidios' in _groups else True
+        self.hide_school_benefits = False if 'Bolsones' in _groups else True
+
     def authorize(self):
+        self._compute_hides()
         if self.hide_amounts == False:  # Se deben chequear montos
             if self.authorized_amount <= 0:
                 raise ValidationError(
@@ -87,6 +114,7 @@ class BenefitRequest(models.Model):
         self.state = 'rejected'
 
     def finalize(self):
+        self._compute_hides()
         if self.hide_amounts == False:  # Se deben chequear montos
             if self.paid_amount <= 0 or self.paid_amount > self.authorized_amount:
                 raise ValidationError(
@@ -101,7 +129,7 @@ class BenefitRequest(models.Model):
     def _register_change_state(self, vals):
         vals.update({
             'last_change_state': fields.Date.today(),
-            'last_state': self.state
+            'last_state': _(self.state)
         })
 
     def write(self, vals):
@@ -110,19 +138,82 @@ class BenefitRequest(models.Model):
         if 'partner_id' in vals:
             self.message_unsubscribe([self.partner_id.id])
             self.message_subscribe([vals['partner_id']])
+
+        # Esto es un parche provisorio para que ADIUC pueda trabajar
+        # mas comodo. Este pedazo de código debería eliminarse una vez
+        # finalizada las encuestas.
+        # Esto debe ocultar las pestañas de subsidios y notas
+        _groups = self.request_type_id.request_group_ids.mapped('name')
+        if len(_groups):
+            vals['hide_notes'] = False if 'Notas' in _groups else True
+            vals['hide_amounts'] = False if 'Subsidios' in _groups else True
+            vals['hide_school_benefits'] = False if 'Bolsones' in _groups else True
+        # Fin del parche 
+
         res = super(BenefitRequest, self).write(vals)
         return res
 
     @api.model
     def create(self, vals):
-        vals.update({'state': 'requested'})
+        # Am I importing data?
+        if 'import_file' in self.env.context:
+            if 'affiliate_uid' in vals:
+                affiliate = self.env['affiliation.affiliate'].search([('uid','=',vals['affiliate_uid'])])
+                if len(affiliate.ids):
+                    vals['partner_id'] = affiliate[0].partner_id.id
+                else:
+                    raise ValidationError(_('There is not an affiliate with that uid %s' % (vals['affiliate_uid'])))
+        
+        if 'state' not in vals:
+            vals.update({'state': 'requested'})
         res = super(BenefitRequest, self).create(vals)
         if 'partner_id' in vals:
             res.message_subscribe([vals['partner_id']])
+        res._compute_hides()
         return res
 
     def name_get(self):
         result = []
         for record in self:
-            result.append((record.request_type_id.name, record.partner_id.name))
+            name = '%s, %s, %s' % (record.request_date.strftime("%Y-%m-%d"),record.request_type_id.name, record.partner_id.name)        
+            result.append((record.id, _("%s")%(name)))
         return result
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = [('request_type_id', operator, name)]
+        if 'import_file' in self.env.context:
+            _date, _type, _name = name.split(',')
+            domain = [('request_date', '=', _date), ('request_type_id', operator, _type)]
+            partner = self.env['res.partner'].search([('name', operator, _name)], limit=limit)
+            if partner:
+                domain = domain + [('partner_id', '=', partner[0].id)]
+        else:
+            partner = self.env['res.partner'].search([('name', operator, name)], limit=limit)
+            if partner:
+                domain = ['|', domain[0], ('partner_id', '=', partner[0].id)]
+
+        recs = self.search(domain + args, limit=limit)
+        return recs.name_get()
+
+    @api.depends('partner_id')
+    def _compute_uid(self):
+        for record in self:
+            if record.partner_id.id:
+                affiliate = record.env['affiliation.affiliate'].search([('partner_id','=',record.partner_id.id)])
+                if len(affiliate.ids):
+                    record.affiliate_uid = affiliate[0].uid
+
+    @api.depends('partner_id')
+    def _compute_personal_id(self):
+        for record in self:
+            if record.partner_id.id:
+                affiliate = record.env['affiliation.affiliate'].search([('partner_id','=',record.partner_id.id)])
+                if len(affiliate.ids):
+                    record.affiliate_personal_id = affiliate[0].personal_id
+
+    def _message_get_suggested_recipients(self):
+        recipients = super(BenefitRequest, self)._message_get_suggested_recipients()
+        recipients[self.id].append((self.partner_id.id, self.partner_id.name, 'Solicitante'))
+        return recipients

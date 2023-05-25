@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="affiliation_affiliation_configuration_form">
+            <field name="name">affiliation.affiliate_configuration.form</field>
+            <field name="model">affiliation.affiliation_configuration</field>
+            <field name="inherit_id" ref="affiliation.affiliation_affiliation_configuration_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet" position="inside">
+                    <h2>Contribution's configuration</h2>
+                    <group>
+                        <field name="create_user_from_contribution"/>
+                    </group>
+                </xpath>
+                    
+            </field>
+        </record>
+    </data>
+</odoo>

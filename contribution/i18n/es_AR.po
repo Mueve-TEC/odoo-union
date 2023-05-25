@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0-20200810\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-07 02:37+0000\n"
 "PO-Revision-Date: 2023-04-07 02:37+0000\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. modules: contribution
+#. module: contribution
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution__affiliate_id
 #: model:ir.model.fields,field_description:contribution.field_inconsistencies_result__affiliate_id
 msgid "Affiliate"
@@ -116,7 +116,7 @@ msgstr "Lista de aportes"
 msgid "Create user on contribution import"
 msgstr "Crear usuario al importar aportes"
 
-#. modules: contribution
+#. module: contribution
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution__create_uid
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution_code__create_uid
 #: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__create_uid
@@ -124,7 +124,7 @@ msgstr "Crear usuario al importar aportes"
 msgid "Created by"
 msgstr "Creado por"
 
-#. modules: contribution
+#. module: contribution
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution__create_date
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution_code__create_date
 #: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__create_date
@@ -173,7 +173,7 @@ msgstr "Desde"
 #: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__id
 #: model:ir.model.fields,field_description:contribution.field_inconsistencies_result__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: contribution
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution__import_name
@@ -244,7 +244,7 @@ msgstr "Inconsistencia"
 msgid "Last Modified on"
 msgstr "Última modificación en"
 
-#. modules: contribution
+#. module: contribution
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution__write_uid
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution_code__write_uid
 #: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__write_uid
@@ -252,7 +252,7 @@ msgstr "Última modificación en"
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
-#. modules: contribution
+#. module: contribution
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution__write_date
 #: model:ir.model.fields,field_description:contribution.field_contribution_affiliate_contribution_code__write_date
 #: model:ir.model.fields,field_description:contribution.field_inconsistencies_query__write_date

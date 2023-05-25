@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="butterlog_butterlog_form">
+            <field name="name">butterlog.butterlog.form</field>
+            <field name="model">butterlog.butterlog</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <h3>ButterLog</h3>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="date"/>
+                            <field name="model_name"/>
+                            <field name="model_id"/>
+                            <field name="type"/>
+                            <field name="message"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="butterlog_butterlog_tree">
+            <field name="name">butterlog.butterlog.tree</field>
+            <field name="model">butterlog.butterlog</field>
+            <field name="arch" type="xml">
+                <tree delete="false" create="false" edit="false">
+                    <field name="user_id"/>
+                    <field name="date"/>
+                    <field name="model_name"/>
+                    <field name="model_id"/>
+                    <field name="type"/>
+                    <field name="message"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

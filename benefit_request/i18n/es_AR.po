@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0-20200810\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-07 02:34+0000\n"
 "PO-Revision-Date: 2023-04-07 02:34+0000\n"
@@ -194,11 +194,6 @@ msgid "Display Name"
 msgstr "Nombre para mostrar"
 
 #. module: benefit_request
-#: model:ir.model.fields,field_description:benefit_request.field_benefit_request_benefit_request__email
-msgid "Email"
-msgstr ""
-
-#. module: benefit_request
 #: model:ir.model.fields.selection,name:benefit_request.selection__benefit_request_request_type__who_apply__everybody
 msgid "Everybody"
 msgstr "Todos"
@@ -282,7 +277,7 @@ msgstr "Ocultar beneficios escolares"
 #: model:ir.model.fields,field_description:benefit_request.field_benefit_request_school_benefit__id
 #: model:ir.model.fields,field_description:benefit_request.field_benefit_request_school_benefit_type__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: benefit_request
 #: model:ir.model.fields,field_description:benefit_request.field_benefit_request_benefit_request__activity_exception_icon
@@ -569,18 +564,7 @@ msgid "School benefits list"
 msgstr "Lista de beneficios escolares"
 
 #. module: benefit_request
-#: model:ir.actions.act_window,name:benefit_request.action_benefit_request_mail_form
-msgid "Send email"
-msgstr "Enviar correo"
-
-#. module: benefit_request
-#: model:ir.actions.act_window,name:benefit_request.action_request_mass_mail
-msgid "Send email to aplicants"
-msgstr "Enviar correo"
-
-#. module: benefit_request
 #: model:ir.model.fields,field_description:benefit_request.field_benefit_request_benefit_request__state
-#: model:ir.model.fields,field_description:benefit_request.field_benefit_request_school_benefit__state
 #: model_terms:ir.ui.view,arch_db:benefit_request.benefit_request_search
 msgid "State"
 msgstr "Estado"
@@ -594,15 +578,6 @@ msgstr "Estado del afiliado"
 #: model:ir.model.fields,field_description:benefit_request.field_benefit_request_request_type__state_ids
 msgid "States"
 msgstr "Estados"
-
-#. module: benefit_request
-#: model:ir.model.fields,help:benefit_request.field_benefit_request_benefit_request__activity_state
-msgid ""
-"Status based on activities\n"
-"Overdue: Due date is already passed\n"
-"Today: Activity date is today\n"
-"Planned: Future activities."
-msgstr ""
 
 #. module: benefit_request
 #: model_terms:ir.ui.view,arch_db:benefit_request.benefit_request_form
@@ -689,16 +664,6 @@ msgid "Unread Messages Counter"
 msgstr "Contador de mensajes no leídos"
 
 #. module: benefit_request
-#: model:ir.model.fields,field_description:benefit_request.field_benefit_request_benefit_request__website_message_ids
-msgid "Website Messages"
-msgstr ""
-
-#. module: benefit_request
-#: model:ir.model.fields,help:benefit_request.field_benefit_request_benefit_request__website_message_ids
-msgid "Website communication history"
-msgstr ""
-
-#. module: benefit_request
 #: model:ir.model.fields,field_description:benefit_request.field_benefit_request_request_type__who_apply
 msgid "Who can request?"
 msgstr "¿Quién puede solicitarlo?"
@@ -714,3 +679,39 @@ msgstr "nombre"
 #: model:ir.model.fields,field_description:benefit_request.field_benefit_request_affiliate_state__value
 msgid "value"
 msgstr "valor"
+
+#. module: benefit_request
+#: code:addons/benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "new"
+msgstr "Nuevo"
+
+#. module: benefit_request
+#: code:addons/benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "requested"
+msgstr "Solicitado"
+
+#. module: benefit_request
+#: code:addons/benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "authorized"
+msgstr "Autorizado"
+
+#. module: benefit_request
+#: code:addons/benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "rejected"
+msgstr "Rechazado"
+
+#. module: benefit_request
+#: code:addons/benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "finalized"
+msgstr "Finalizado"
+
+#. module: benefit_request
+#: code:addons/benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "canceled"
+msgstr "Cancelado"

@@ -1,7 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 admin_benefit_request,Admin for benefit_request.benefit_request,model_benefit_request_benefit_request,benefit_request.group_benefit_request_admin,1,1,1,1
-write_benefit_request,Write for benefit_request.benefit_request,model_benefit_request_benefit_request,benefit_request.group_benefit_request_write,1,1,1,1
-read_benefit_request,Read for benefit_request.benefit_request,model_benefit_request_benefit_request,benefit_request.group_benefit_request_read,1,0,0,0
+write_benefit_request,Write for benefit_request.benefit_request,model_benefit_request_benefit_request,,1,1,1,1
+read_benefit_request,Read for benefit_request.benefit_request,model_benefit_request_benefit_request,,1,0,0,0
 admin_benefit_request_type,Admin for benefit_request_type,model_benefit_request_request_type,benefit_request.group_benefit_request_admin,1,1,1,1
 write_benefit_request_type,Write for benefit_request_type,model_benefit_request_request_type,benefit_request.group_benefit_request_write,1,1,1,1
 read_benefit_request_type,Read for benefit_request_type,model_benefit_request_request_type,benefit_request.group_benefit_request_read,1,0,0,0

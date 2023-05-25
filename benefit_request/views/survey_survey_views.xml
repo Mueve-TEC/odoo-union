@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- <record model="ir.ui.view" id="benefit_request_survey_form">
+            <field name="name">Form view for survey</field>
+            <field name="model">survey.survey</field>
+            <field name="inherit_id" ref="survey.survey_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='category']" position="after">
+                    <field name="generate_benefit"/>
+                    <field name="request_type_id" attrs="{'invisible': [('generate_benefit','=',False)], 'required':[('generate_benefit','=',True)]}"/>
+                </xpath>
+            </field>
+        </record> -->
+
+        <!-- <record model="ir.ui.view" id= "survey_tree">
+            <field name="name">Tree view for survey</field>
+            <field name="model">survey.survey</field>
+            <field name="arch" type="xml">
+                <tree string="Survey">
+                    <field name="active" invisible="1"/>
+                    <field name="certificate" invisible="1"/>
+                    <field name="title"/>
+                    <field name="state"/>
+                    <field name="answer_count"/>
+                    <field name="answer_done_count"/>
+                    <field name="success_count"/>
+                    <field name="success_ratio"/>
+                    <field name="answer_score_avg"/>
+                    <button name="certificate" icon="fa-trophy" title="Certificate" aria-label="Certificate" attrs="{'invisible': [('certificate', '=', False)]}"/>
+                </tree>
+            </field>
+        </record> -->
+    </data>
+</odoo>

@@ -34,5 +34,20 @@
                 </tree>
             </field>
         </record>
+
+        <record model="ir.ui.view" id="school_position_search">
+            <field name="name">School position search</field>
+            <field name="model">school_position.position</field>
+            <field name="arch" type="xml">
+                <search string="Position filters">
+                    <field name="affiliate_id" filter_domain="['|','|',('affiliate_id.name', 'ilike', self),('affiliate_id.uid', 'ilike', self),('affiliate_id.personal_id', 'ilike', self)]"/>
+                    <field name="type_id" filter_domain="['|',('type_id.name', 'ilike', self),('type_id.code', 'ilike', self)]"/>
+                    <field name="dependency_id" filter_domain="['|',('dependency_id.name', 'ilike', self),('dependency_id.code', 'ilike', self)]"/>
+                    <field name="character_id" filter_domain="['|',('character_id.name', 'ilike', self),('character_id.code', 'ilike', self)]"/>
+                    <field name="tag_ids" filter_domain="[('tag_ids.name', 'ilike', self)]"/>
+                </search>
+            </field>
+        </record>
+
     </data>
 </odoo>

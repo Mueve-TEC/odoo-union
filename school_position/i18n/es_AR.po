@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0-20200810\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-07 02:36+0000\n"
 "PO-Revision-Date: 2023-04-07 02:36+0000\n"
@@ -108,7 +108,7 @@ msgstr "Cantidad de horas"
 #: model:ir.model.fields,field_description:school_position.field_school_position_tag__id
 #: model:ir.model.fields,field_description:school_position.field_school_position_type__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: school_position
 #: model:ir.model.fields,field_description:school_position.field_school_position_position__import_personal_id
@@ -236,13 +236,3 @@ msgstr "Etiqueta de cargos"
 #: model:ir.model.fields,field_description:school_position.field_school_position_position__tag_ids
 msgid "Tags"
 msgstr "Etiquetas"
-
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__type_id
-msgid "Type"
-msgstr ""
-
-#. module: school_position
-#: model:ir.model,name:school_position.model_school_position_type
-msgid "Type of school position"
-msgstr ""
