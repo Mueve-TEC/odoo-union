@@ -24,16 +24,21 @@
     # always loaded
     'data': [
         'security/contribution_security.xml',
+        'security/inconsistencies_security.xml',
         'security/ir.model.access.csv',
 
         'views/contribution_views.xml',
         'views/contribution_code_views.xml',
         'views/affiliation_configuration_view.xml',
         'views/affiliate_views.xml',
-        'views/menu.xml' # Should be the last ever
+        'views/menu.xml',
+        'views/query_views.xml',
+        'views/result_views.xml',
+        'views/inconsistencies_menu.xml',# Should be the last ever
     ],
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',
     ],
+    'post_init_hook': '_post_init_hook',
 }

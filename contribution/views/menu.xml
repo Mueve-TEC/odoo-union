@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- <menuitem name="Sindicate" id="affiliation.sindicate" sequence="40" 
+        groups="group_affiliation_manager"/> -->
+
     <!-- Contributions section -->
     <menuitem name="Contributions" id="contribution.contributions_section" 
         sequence="20" parent="affiliation.sindicate" 

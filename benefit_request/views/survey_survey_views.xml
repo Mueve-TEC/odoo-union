@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record model="ir.ui.view" id="benefit_request_survey_form">
+        <!-- <record model="ir.ui.view" id="benefit_request_survey_form">
             <field name="name">Form view for survey</field>
             <field name="model">survey.survey</field>
             <field name="inherit_id" ref="survey.survey_form"/>
@@ -9,11 +9,9 @@
                 <xpath expr="//form/sheet/group/group/field[@name='category']" position="after">
                     <field name="generate_benefit"/>
                     <field name="request_type_id" attrs="{'invisible': [('generate_benefit','=',False)], 'required':[('generate_benefit','=',True)]}"/>
-                    <!-- <field name="school_benefit_type_id" attrs="{'invisible': [('generate_benefit','=',False)]}"/> -->
                 </xpath>
-                
             </field>
-        </record>
+        </record> -->
 
         <!-- <record model="ir.ui.view" id= "survey_tree">
             <field name="name">Tree view for survey</field>

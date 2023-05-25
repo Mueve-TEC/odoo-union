@@ -3,9 +3,9 @@
 # from odoo import models, fields, api
 
 
-# class inconsistencies(models.Model):
-#     _name = 'inconsistencies.inconsistencies'
-#     _description = 'inconsistencies.inconsistencies'
+# class butter-log(models.Model):
+#     _name = 'butter-log.butter-log'
+#     _description = 'butter-log.butter-log'
 
 #     name = fields.Char()
 #     value = fields.Integer()

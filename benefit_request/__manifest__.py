@@ -19,7 +19,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','affiliation','survey','mail'],
+    'depends': ['base','survey','mail','affiliation'],
 
     # always loaded
     'data': [
@@ -30,14 +30,16 @@
         'data/request_groups.xml',
         'data/school_benefit_types.xml',
 
+        'views/survey_user_views.xml',
+
         'views/benefit_request_views.xml',
         'views/request_type_views.xml',
         'views/school_benefit_type_views.xml',
         'views/school_benefit_views.xml',
-        'views/survey_survey_views.xml',
-        'views/survey_user_views.xml',
         #'views/res_partner_views.xml', Se quita a pedido de Araceli
         'views/affiliate_views.xml',
+        'views/survey_survey_views.xml',
+
         'views/menu.xml',
     ],
     # only loaded in demonstration mode
