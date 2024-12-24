@@ -1,5 +1,4 @@
 
-
 # clonar el repo localmente
 
 git clone -b 16.0 git@gitlab.mueve.net.ar:odoo-mueve/odoo-union.git
@@ -8,7 +7,7 @@ git clone -b 16.0 git@gitlab.mueve.net.ar:odoo-mueve/odoo-union.git
 
 # copiar los módulos 
 
-cp -R odoo-union/affiliation soltec-localdev/
+cp -R odoo-union/affiliation soltec-localdev/custom-addons/
 
 cp -R odoo-union/benefit_request soltec-localdev/custom-addons/
 
