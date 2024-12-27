@@ -1,38 +1,22 @@
+# odoo-union
 
-# clonar el repo localmente
+Repositorio de módulos de *Odoo* para gestión y administración de sindicatos.
 
+## Clonar el repo localmente
+
+```bash
 git clone -b 16.0 git@gitlab.mueve.net.ar:odoo-mueve/odoo-union.git
+```
 
+## Instalación de módulos para desarrollo
 
+Seguir el procedimiento detallado en el [repositorio](https://github.com/Mueve-TEC/soltec-localdev/) del entorno de desarrollo.
 
-# copiar los módulos 
+## Dependendencia de módulos complementarios
 
-cp -R odoo-union/affiliation soltec-localdev/custom-addons/
+El módulo `contribution`, para la gestión de aportes, necesita de los módulos `import_ignore_error` y `web_notify` para su instalación y uso.
 
-cp -R odoo-union/benefit_request soltec-localdev/custom-addons/
+Estos módulos fueron descargados de los siguientes links:
 
-cp -R odoo-union/school_position soltec-localdev/custom-addons/
-
-cp -R odoo-union/contribution soltec-localdev/custom-addons/
-
-cp -R odoo-union/butterlog/ soltec-localdev/custom-addons/
-
-
-
-# Descargar los módulos complementarios de los que depende aportes 
-
-https://apps.odoo.com/apps/modules/16.0/import_ignore_error
-
-https://apps.odoo.com/apps/modules/16.0/web_notify
-
-
-descomprimir y copiar la carpeta correspondiente al módulo en addons
-
-
-# Seguir el procedimiento indicado en el repo https://github.com/Mueve-TEC/soltec-localdev
-
-luego 
-
-docker-compose build --no-cache
-
-docker-compose up -d
+- [import_ignore_error](https://apps.odoo.com/apps/modules/16.0/import_ignore_error)
+- [web_notify](<https://apps.odoo.com/apps/modules/16.0/web_notify>)
