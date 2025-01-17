@@ -168,6 +168,10 @@ class Affiliate(models.Model):
         _ctx = {}
         if _config.set_affiliation_date == 'on_confirm':
             _ctx.update({'affiliation_date': fields.Date.today()})
+
+        if not self.quote:
+            self.set_contributor()
+
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'affiliation.affiliation_number',
@@ -181,19 +185,28 @@ class Affiliate(models.Model):
         _config = self.env['affiliation.affiliation_configuration'].browse(1)
         _to_write = {'state': 'pending_unsuscribe'}
         if _config.set_disaffiliation_date == 'on_disaffiliate':
-           _to_write.update({'disaffiliation_date': fields.Date.today()})
+            _to_write.update({'disaffiliation_date': fields.Date.today()})
+
+        if not self.quote:
+            self.set_contributor()
+
         self.write(_to_write)
 
     def confirm_dissafiliation_(self):
         _config = self.env['affiliation.affiliation_configuration'].browse(1)
         _to_write = {'state': 'disaffiliated'}
         if _config.set_disaffiliation_date == 'on_confirm':
-           _to_write.update({'disaffiliation_date': fields.Date.today()})
+            _to_write.update({'disaffiliation_date': fields.Date.today()})
+        if self.quote:
+            self.set_contributor()
+
         self.write(_to_write)
 
     def archive_(self):
         self.state = 'historical'
-    
+        if self.quote:
+            self.set_contributor()
+
     def set_contributor(self):
         self.quote = not self.quote
 
