@@ -20,8 +20,8 @@
                         <h2><field name="name"/></h2>
                         <group>
                             <group string="Personal information" name="personal_information">
-                                <field name="uid" attrs="{'readonly': [('state','in',['affiliated','pending_unsuscribe','disaffiliated','historical'])]}" />
-                                <field name="affiliate_type_id" />
+                                <field name="uid" attrs="{'readonly': [('state','in',['pending_suscribe','affiliated','pending_unsuscribe','disaffiliated','historical'])]}" />
+                                <field name="affiliate_type_id" attrs="{'readonly': [('state','in',['affiliated','disaffiliated','historical'])]}"  />
                                 <field name="personal_id_type" />
                                 <field name="personal_id" />
                                 <field name="vat" string="CUIL" />
@@ -41,8 +41,8 @@
                                 <field name="city" />
                                 <field name="state_id" />
                                 <field name="country_id" />
-                                <field name="category_id" widget="many2many_tags"/>
-                                <field name="category_bis_id" widget="many2many_tags"/>
+                                <field name="category_id" widget="many2many_tags" />
+                                <field name="category_bis_id" widget="many2many_tags" />
                             </group>
                         </group>
                         <notebook>
@@ -51,9 +51,9 @@
                             </page>
                             <page string="Affiliations" name="Affiliations">
                                 <group>
-                                    <field name="affiliation_number"/>
-                                    <field name="affiliation_date"/>
-                                    <field name="disaffiliation_date"/>
+                                    <field name="affiliation_number" readonly="1"/>
+                                    <field name="affiliation_date" readonly="1" />
+                                    <field name="disaffiliation_date" readonly="1"/>
                                 </group>
                             </page>
                             <page string="Affiliate logs" name="Affiliations">
