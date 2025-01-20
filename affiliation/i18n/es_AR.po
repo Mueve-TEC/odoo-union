@@ -1037,10 +1037,20 @@ msgid "To"
 msgstr "A"
 
 #. module: affiliation
-#: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliate__affiliate_type_id
+#: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliate__affiliate_type_id_string
 #: model_terms:ir.ui.view,arch_db:affiliation.affiliation_affiliate_search
-msgid "Type"
-msgstr "Tipo"
+msgid "Employment Relationship Type String"
+msgstr "Tipo de relación"
+
+#. module: affiliation
+#: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliate__affiliate_type_id_string__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: affiliation
+#: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliate__affiliate_type_id_string__retired
+msgid "Retired"
+msgstr "Jubilado"
 
 #. module: affiliation
 #: model:ir.model.fields,help:affiliation.field_affiliation_affiliate__activity_exception_decoration
@@ -1141,7 +1151,7 @@ msgstr "Estado"
 #: code:addons/affiliation/models/affiliate.py:0
 #, python-format
 msgid "affiliate_type_id"
-msgstr "Tipo"
+msgstr "Tipo de afiliado"
 
 #. module: affiliation
 #: code:addons/affiliation/models/affiliate.py:0

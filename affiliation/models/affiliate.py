@@ -3,6 +3,10 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
+AFFILIATE_STR_TO_INT = {
+    'active': 0, 
+    'retired': 1
+}
 
 class Affiliate(models.Model):
     _name = 'affiliation.affiliate'
@@ -68,12 +72,25 @@ class Affiliate(models.Model):
         inverse_name='affiliate_id',
         string='Affiliation periods'
     )
-    affiliate_type_id = fields.Many2one(
-        comodel_name='affiliation.affiliate_type',
-        string='Type',
-        domain="[('enabled', '=', True)]",
-        ondelete='restrict'
+    affiliate_type_id_string = fields.Selection([
+        ('active', 'Active'), 
+        ('retired', 'Retired'),],
+        string='Employment Relationship Type String',
+        required=True  #este parametro es opcional
     )
+    #Previamente se usaba un many2one field para affiliate_type, lo que dejaba meter valores a mano.
+    #Se lo computa así para preservar las querys de consistencia de la base de datos que usan el type como un int
+    #TODO, potencialmente no posible: Modificar esas querys para que usen el valor del fields.Selection
+    @api.depends('affiliate_type_id_string')
+    def _affiliate_type_str_to_int(self):
+        for record in self:
+            record.affiliate_type_id = AFFILIATE_STR_TO_INT.get(record.affiliate_type_id_string)#, 0) habilitar el uso del valor default cuando ya esté testeado el modulo
+
+    affiliate_type_id = fields.Integer(
+        string='Employment Relationship Type',
+        compute="_affiliate_type_str_to_int"
+    )
+
     observations = fields.Text(string='Observations')
     quote = fields.Boolean(string='Contributor', default=False)
     log = fields.Text(string='Log')

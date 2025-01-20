@@ -21,7 +21,7 @@
                         <group>
                             <group string="Personal information" name="personal_information">
                                 <field name="uid" attrs="{'readonly': [('state','in',['affiliated','pending_unsuscribe','disaffiliated','historical'])]}"/>
-                                <field name="affiliate_type_id" />
+                                <field name="affiliate_type_id_string" />
                                 <field name="personal_id_type" />
                                 <field name="personal_id" />
                                 <field name="vat" string="CUIL"/>
