@@ -12,41 +12,42 @@ class Affiliate(models.Model):
     _name = 'affiliation.affiliate'
     _inherits = {'res.partner': 'partner_id'}
     _description = 'Union affiliate entity'
-    _inherit = ['mail.thread','mail.activity.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     partner_id = fields.Many2one(
-        comodel_name='res.partner', 
-        string='Partner', 
-        ondelete='cascade', 
+        comodel_name='res.partner',
+        string='Partner',
+        ondelete='cascade',
         required=True
     )
     uid = fields.Char(string='Affiliate UID', required=True)
     personal_id_type = fields.Selection([
-        ('dni', 'DNI'), 
-        ('du', 'DU'), 
-        ('lc', 'LC'), 
+        ('dni', 'DNI'),
+        ('du', 'DU'),
+        ('lc', 'LC'),
         ('le', 'LE'),
-        ('pasaporte', 'PASAPORTE'), 
+        ('pasaporte', 'PASAPORTE'),
         ('ci', 'CI')],
         string='Personal ID type', default='dni')
     personal_id = fields.Char(string='Personal ID')
     gender = fields.Selection([
-        ('female', 'Female'), 
+        ('female', 'Female'),
         ('male', 'Male'),
-        ('other', 'Other'), 
+        ('other', 'Other'),
         ('not_report', 'Not report')],
         string='Gender', default='not_report')
     civil_status = fields.Selection([
-        ('single', 'Single'), 
+        ('single', 'Single'),
         ('married', 'Married'),
-        ('united', 'United'), 
-        ('separated', 'Separated'), 
-        ('divorced', 'Divorced'), 
+        ('united', 'United'),
+        ('separated', 'Separated'),
+        ('divorced', 'Divorced'),
         ('widowed', 'Widowed'),
         ('not_report', 'Not report')],
         string='Marital status', default='not_report')
     birth_date = fields.Date(string='Birth date')
-    birth_country = fields.Many2one(comodel_name='res.country', string='Birth country')
+    birth_country = fields.Many2one(
+        comodel_name='res.country', string='Birth country')
     affiliate_child_ids = fields.Many2many(
         comodel_name='affiliation.affiliate_child',
         relation='affiliate_affiliate_child',
@@ -56,12 +57,12 @@ class Affiliate(models.Model):
     )
     state = fields.Selection(
         selection=[
-            ('not_affiliated','Not affiliated'),
+            ('not_affiliated', 'Not affiliated'),
             ('new', 'New'),
             ('pending_suscribe', 'Pending suscribe'),
-            ('affiliated','Affiliated'),
+            ('affiliated', 'Affiliated'),
             ('pending_unsuscribe', 'Pending unsuscribe'),
-            ('disaffiliated','Disaffiliated'),
+            ('disaffiliated', 'Disaffiliated'),
             ('historical', 'Historical'),
         ],
         string='Affiliate State',
@@ -100,7 +101,7 @@ class Affiliate(models.Model):
     seniority = fields.Date(string='Seniority')
     # email2 = fields.Char(related='partner_id.email2', store=True)
 
-    #EtiquetaBis
+    # EtiquetaBis
     category_bis_id = fields.Many2many(
         comodel_name='res.partner.category',
         relation='affiliate_category_bis_rel',
@@ -111,16 +112,18 @@ class Affiliate(models.Model):
 
     @api.constrains('uid')
     def _check_uid(self):
-        other = self.env['affiliation.affiliate'].search([('uid','=',self.uid)])
+        other = self.env['affiliation.affiliate'].search(
+            [('uid', '=', self.uid)])
         if len(other.ids) > 1 or (len(other) == 1 and other[0].id != self.id):
-            raise ValidationError(_('There is already exist an affiliate with the same uid!'))
+            raise ValidationError(
+                _('There is already exist an affiliate with the same uid!'))
 
     # @api.constrains('affiliation_date','disaffiliation_date')
     # def _check_dates(self):
     #     if self.affiliation_date and self.disaffiliation_date and self.affiliation_date > self.disaffiliation_date:
     #         raise ValidationError(_('\'From date\' is major to \'to date\'!'))
 
-    # Durante la importacion por RPC este método se debe comentar porque la base de ADIUC 
+    # Durante la importacion por RPC este método se debe comentar porque la base de ADIUC
     # tiene numeros de afiliados repetidos y muchos en 0
     # @api.constrains('affiliation_number')
     # def _check_affiliation_number(self):
@@ -128,13 +131,13 @@ class Affiliate(models.Model):
     #         other = self.env['affiliation.affiliate'].search([('affiliation_number','=',self.affiliation_number)])
     #         if len(other.ids) > 1 or (len(other) == 1 and other[0].id != self.id):
     #             raise ValidationError(_('There is already exist an affiliated with the same affiliation number!'))
-    
+
     # Aunque no haga nada, el metodo es necesario para la importacion por RPC
     @api.model
     def create(self, vals):
         res = super(Affiliate, self).create(vals)
         return res
-    
+
     def write(self, vals):
         self._log_change_field(vals)
         res = super(Affiliate, self).write(vals)
@@ -171,41 +174,56 @@ class Affiliate(models.Model):
         _config = self.env['affiliation.affiliation_configuration'].browse(1)
         _to_write = {'state': 'pending_suscribe'}
         if _config.set_affiliation_date == 'on_affiliate':
-           _to_write.update({'affiliation_date': fields.Date.today()})
+            _to_write.update({'affiliation_date': fields.Date.today()})
+
         self.write(_to_write)
 
     def confirm_affiliation_(self):
         _config = self.env['affiliation.affiliation_configuration'].browse(1)
-        _data = self.env['affiliation.affiliation_number'].create({'affiliate_id': self.id, 'affiliation_number': self.env['ir.sequence'].next_by_code('adiuc_affiliation_number_seq')})
+        _data = self.env['affiliation.affiliation_number'].create(
+            {'affiliate_id': self.id, 'affiliation_number': self.env['ir.sequence'].next_by_code('adiuc_affiliation_number_seq')})
         _ctx = {}
         if _config.set_affiliation_date == 'on_confirm':
             _ctx.update({'affiliation_date': fields.Date.today()})
+
+        if not self.quote:
+            self.set_contributor()
+
         return {
-                'type': 'ir.actions.act_window',
-                'res_model': 'affiliation.affiliation_number',
-                'views': [[False, 'form']],
-                'target': 'new',
-                'res_id': _data.id,
-                'context': _ctx
-            }
+            'type': 'ir.actions.act_window',
+            'res_model': 'affiliation.affiliation_number',
+            'views': [[False, 'form']],
+            'target': 'new',
+            'res_id': _data.id,
+            'context': _ctx
+        }
 
     def disaffiliate_(self):
         _config = self.env['affiliation.affiliation_configuration'].browse(1)
         _to_write = {'state': 'pending_unsuscribe'}
         if _config.set_disaffiliation_date == 'on_disaffiliate':
-           _to_write.update({'disaffiliation_date': fields.Date.today()})
+            _to_write.update({'disaffiliation_date': fields.Date.today()})
+
+        if not self.quote:
+            self.set_contributor()
+
         self.write(_to_write)
 
     def confirm_dissafiliation_(self):
         _config = self.env['affiliation.affiliation_configuration'].browse(1)
         _to_write = {'state': 'disaffiliated'}
         if _config.set_disaffiliation_date == 'on_confirm':
-           _to_write.update({'disaffiliation_date': fields.Date.today()})
+            _to_write.update({'disaffiliation_date': fields.Date.today()})
+        if self.quote:
+            self.set_contributor()
+
         self.write(_to_write)
 
     def archive_(self):
         self.state = 'historical'
-    
+        if self.quote:
+            self.set_contributor()
+
     def set_contributor(self):
         self.quote = not self.quote
 
@@ -219,17 +237,20 @@ class Affiliate(models.Model):
 
     def _log_change_field(self, vals):
         _log = ''
-        _loggables = ['state','quote','affiliate_type_id','email','phone','mobile','affiliation_number']
+        _loggables = ['state', 'quote', 'affiliate_type_id',
+                      'email', 'phone', 'mobile', 'affiliation_number']
         for field in vals:
             if field in _loggables:
-                _log = _('%s [%s] The field %s change from %s to %s \n') % (str(fields.Date.today()), self.env.user.name, _(field), _(self[field]), _(str(vals[field]))) + _log
+                _log = _('%s [%s] The field %s change from %s to %s \n') % (str(fields.Date.today(
+                )), self.env.user.name, _(field), _(self[field]), _(str(vals[field]))) + _log
         _log = _log + self.log if self.log else _log
         vals.update({'log': _log})
 
     @api.model
     def _name_search(self, name, args=None, operator='ilike', limit=100):
         args = args or []
-        domain = ['|','|', ('personal_id', operator, name),('name', operator, name),('uid', operator, name)]
+        domain = ['|', '|', ('personal_id', operator, name),
+                  ('name', operator, name), ('uid', operator, name)]
         recs = self.search(domain + args, limit=limit)
         return recs.name_get()
 

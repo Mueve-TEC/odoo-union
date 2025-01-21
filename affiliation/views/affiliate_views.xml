@@ -9,7 +9,7 @@
                 <form>
                     <header>
                         <button string="Affiliate" class="btn btn-primary" type="object" name="affiliate_" states="disaffiliated,historical,not_affiliated,new" groups="affiliation.group_affiliation_change_state"/>
-                        <button string="Set Contributor" class="btn btn-primary" type="object" name="set_contributor" states="affiliated" groups="affiliation.group_affiliation_change_state"/>
+                        <!-- <button string="Set Contributor" class="btn btn-primary" type="object" name="set_contributor" states="affiliated" groups="affiliation.group_affiliation_change_state"/> -->
                         <button string="Confirm affiliation" class="btn btn-secondary" type="object" name="confirm_affiliation_" states="pending_suscribe" groups="affiliation.group_affiliation_change_state"/>
                         <button string="Disaffiliate" class="btn btn-secondary" type="object" name="disaffiliate_" states="affiliated" groups="affiliation.group_affiliation_change_state"/>
                         <button string="Confirm dissafiliation" class="btn btn-secondary" type="object" name="confirm_dissafiliation_" states="pending_unsuscribe" groups="affiliation.group_affiliation_change_state"/>
@@ -20,17 +20,17 @@
                         <h2><field name="name"/></h2>
                         <group>
                             <group string="Personal information" name="personal_information">
-                                <field name="uid" attrs="{'readonly': [('state','in',['affiliated','pending_unsuscribe','disaffiliated','historical'])]}"/>
-                                <field name="affiliate_type_id_string" />
+                                <field name="uid" attrs="{'readonly': [('state','in',['pending_suscribe','affiliated','pending_unsuscribe','disaffiliated','historical'])]}" />
+                                <field name="affiliate_type_id_string" attrs="{'readonly': [('state','in',['affiliated','disaffiliated','historical'])]}"  />
                                 <field name="personal_id_type" />
                                 <field name="personal_id" />
-                                <field name="vat" string="CUIL"/>
+                                <field name="vat" string="CUIL" />
                                 <field name="gender" />
                                 <field name="civil_status" />
-                                <field name="seniority" string="Antigüedad"/>
+                                <field name="seniority" string="Antigüedad" />
                                 <field name="birth_date" />
                                 <field name="birth_country" />
-                                <field name="quote" class="oe_read_only"/>
+                                <field name="quote" readonly="1" />
                             </group>
                             <group string="Contact information" name="contact_information">
                                 <field name="email" />
@@ -41,8 +41,8 @@
                                 <field name="city" />
                                 <field name="state_id" />
                                 <field name="country_id" />
-                                <field name="category_id" widget="many2many_tags"/>
-                                <field name="category_bis_id" widget="many2many_tags"/>
+                                <field name="category_id" widget="many2many_tags" />
+                                <field name="category_bis_id" widget="many2many_tags" />
                             </group>
                         </group>
                         <notebook>
@@ -51,9 +51,9 @@
                             </page>
                             <page string="Affiliations" name="Affiliations">
                                 <group>
-                                    <field name="affiliation_number"/>
-                                    <field name="affiliation_date"/>
-                                    <field name="disaffiliation_date"/>
+                                    <field name="affiliation_number" readonly="1"/>
+                                    <field name="affiliation_date" readonly="1" />
+                                    <field name="disaffiliation_date" readonly="1"/>
                                 </group>
                             </page>
                             <page string="Affiliate logs" name="Affiliations">
