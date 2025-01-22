@@ -189,6 +189,9 @@ class Affiliate(models.Model):
         if not self.quote:
             self.set_contributor()
 
+        if self.disaffiliation_date is not None:
+            self.write({'disaffiliation_date': None})
+
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'affiliation.affiliation_number',
