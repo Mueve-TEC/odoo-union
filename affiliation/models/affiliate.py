@@ -176,6 +176,9 @@ class Affiliate(models.Model):
         if _config.set_affiliation_date == 'on_affiliate':
             _to_write.update({'affiliation_date': fields.Date.today()})
 
+        if self.quote:
+            _to_write.update({'quote': False})
+
         self.write(_to_write)
 
     def confirm_affiliation_(self):
@@ -201,9 +204,6 @@ class Affiliate(models.Model):
     def disaffiliate_(self):
         _config = self.env['affiliation.affiliation_configuration'].browse(1)
         _to_write = {'state': 'pending_unsuscribe'}
-        if _config.set_disaffiliation_date == 'on_disaffiliate':
-            _to_write.update({'disaffiliation_date': fields.Date.today()})
-
         if not self.quote:
             self.set_contributor()
 
