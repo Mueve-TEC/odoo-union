@@ -141,6 +141,11 @@ msgid "Affiliation change state"
 msgstr "Cambio de estado de afiliación"
 
 #. module: affiliation
+#: model:res.groups,name:affiliation.group_affiliation_change_quote
+msgid "Affiliation change quote"
+msgstr "Cambio de estado cotizante"
+
+#. module: affiliation
 #: model:ir.actions.act_window,name:affiliation.affiliation_affiliation_configuration_form_action
 #: model:ir.ui.menu,name:affiliation.affiliation_affiliation_configuration
 msgid "Affiliation configuration"
