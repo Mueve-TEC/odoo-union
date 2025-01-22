@@ -204,8 +204,8 @@ class Affiliate(models.Model):
     def disaffiliate_(self):
         _config = self.env['affiliation.affiliation_configuration'].browse(1)
         _to_write = {'state': 'pending_unsuscribe'}
-        if not self.quote:
-            self.set_contributor()
+        if _config.set_disaffiliation_date == 'on_disaffiliate':
+            _to_write.update({'disaffiliation_date': fields.Date.today()})
 
         self.write(_to_write)
 
@@ -215,7 +215,7 @@ class Affiliate(models.Model):
         if _config.set_disaffiliation_date == 'on_confirm':
             _to_write.update({'disaffiliation_date': fields.Date.today()})
         if self.quote:
-            self.set_contributor()
+            _to_write.update({'quote': False})
 
         self.write(_to_write)
 
@@ -225,7 +225,10 @@ class Affiliate(models.Model):
             self.set_contributor()
 
     def set_contributor(self):
-        self.quote = not self.quote
+        if not self.quote:
+            self.write({'quote': True})
+        else:
+            self.write({'quote': False})
 
     def _get_current_period(self):
         _period = self.affiliation_period_ids.sorted(key='id', reverse=True)
