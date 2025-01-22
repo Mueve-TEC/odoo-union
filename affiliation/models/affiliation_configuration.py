@@ -8,9 +8,7 @@ class AffiliationConfiguration(models.Model):
     _name = 'affiliation.affiliation_configuration'
     _description = 'Configuration of Affiliaton module'
 
-    # TODO: Cargar traducción para name
-    # Este campo se agregó para que el breadcrumb no figure como "affiliation.affiliation_configuration,1"
-    name = fields.Char(string='Name', default='Configuración')
+    name = fields.Char(string='Name', compute='_compute_name')
     current_affiliation_number = fields.Integer(
         string='Current affiliation number')
     next_affiliation_number = fields.Integer(string='Next affiliation number')
@@ -38,3 +36,13 @@ class AffiliationConfiguration(models.Model):
             _seq.number_next_actual = vals['next_affiliation_number']
         res = super(AffiliationConfiguration, self).write(vals)
         return res
+
+# Este método se agregó para que el breadcrumb no figure como "affiliation.affiliation_configuration,1"
+# y se traduzca según el idioma del usuario
+    @api.depends_context('lang')
+    def _compute_name(self):
+        for record in self:
+            if self.env.user.lang and self.env.user.lang.startswith('es'):
+                record.name = 'Configuración'
+            else:
+                record.name = 'Configuration'
