@@ -9,7 +9,7 @@
                 <form>
                     <header>
                         <button string="Affiliate" class="btn btn-primary" type="object" name="affiliate_" states="disaffiliated,historical,not_affiliated,new" groups="affiliation.group_affiliation_change_state"/>
-                        <!-- <button string="Set Contributor" class="btn btn-primary" type="object" name="set_contributor" states="affiliated" groups="affiliation.group_affiliation_change_state"/> -->
+                        <button string="Set Contributor" class="btn btn-primary" type="object" name="set_contributor" states="affiliated" groups="affiliation.group_affiliation_change_state"/>
                         <button string="Confirm affiliation" class="btn btn-secondary" type="object" name="confirm_affiliation_" states="pending_suscribe" groups="affiliation.group_affiliation_change_state"/>
                         <button string="Disaffiliate" class="btn btn-secondary" type="object" name="disaffiliate_" states="affiliated" groups="affiliation.group_affiliation_change_state"/>
                         <button string="Confirm dissafiliation" class="btn btn-secondary" type="object" name="confirm_dissafiliation_" states="pending_unsuscribe" groups="affiliation.group_affiliation_change_state"/>
