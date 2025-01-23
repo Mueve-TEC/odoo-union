@@ -38,13 +38,20 @@ class RequestType(models.Model):
             return True
         else:
             affiliate = affiliate[0]
-        return True if (self._check_state(affiliate) and self._check_quote(affiliate)) else False
+        if self._check_state(affiliate) and self._check_quote(affiliate):
+            return True
 
     def _check_state(self, affiliate):
         _state_names = self.state_ids.mapped('name')
         if not len(_state_names):
             return True
-        return True if affiliate.state in _state_names else False
+        _state_names= [state.lower() for state in _state_names]
+        if affiliate.state.lower() not in _state_names:
+            raise ValidationError(f"El estado del afiliado '{affiliate.state}' no está en los estados permitidos: {_state_names}")
+        return True
 
     def _check_quote(self, affiliate):
-        return True if affiliate.quote == self.quote else False
+        if affiliate.quote != self.quote:
+            raise ValidationError(f"El estado cotizante del beneficiario es {affiliate.quote} y no cumple con los requisitos de la solicitud.")
+        return True
+            
