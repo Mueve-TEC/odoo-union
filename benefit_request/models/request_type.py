@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 
 class RequestType(models.Model):
@@ -49,11 +50,12 @@ class RequestType(models.Model):
             return True
         _state_names = [state.lower() for state in _state_names]
         if affiliate.state.lower() not in _state_names:
-            raise ValidationError(f"El estado del afiliado '{affiliate.state}' no está en los estados permitidos: {_state_names}")
+            raise ValidationError(
+                _("The beneficiary affiliation state is not valid for this request.\n\nState: %s.\nValid states: %s") % (affiliate.state, ', '.join(_state_names)))
         return True
 
     def _check_quote(self, affiliate):
         if affiliate.quote != self.quote:
-            raise ValidationError(f"El estado cotizante del beneficiario es {affiliate.quote} y no cumple con los requisitos de la solicitud.")
+            raise ValidationError(
+                _("The beneficiary quote state is not valid for this request.\n\nValid quote: %s") % (self.quote))
         return True
-            
