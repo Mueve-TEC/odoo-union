@@ -4,8 +4,10 @@ from odoo import models, fields, api
 
 es_AR_state_names = {
     'not_affiliated': 'No afiliado',
+    'new': 'Nuevo',
+    'pending_suscribe': 'Confirmar afiliación',
     'affiliated': 'Afiliado',
-    'pending_unsuscribe': 'Pending unsuscribe',
+    'pending_unsuscribe': 'Confirmar desafiliación',
     'disaffiliated': 'Desafiliado',
     'historical': 'Histórico'
 }
