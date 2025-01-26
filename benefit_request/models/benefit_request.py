@@ -105,10 +105,8 @@ class BenefitRequest(models.Model):
             if len(self.school_benefit_ids) < 1:
                 raise ValidationError(
                     _('There must be at least one school benefit'))
-        if not self.request_type_id.meet_reqs(self.partner_id):
-            raise ValidationError(
-                _('The beneficiary does not meet the requirements'))
-        self.state = 'authorized'
+        if self.request_type_id.meet_reqs(self.partner_id):
+            self.state = 'authorized'
 
     def reject(self):
         self.state = 'rejected'
