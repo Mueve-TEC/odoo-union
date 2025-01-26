@@ -641,14 +641,14 @@ msgstr "Tipo"
 #. module: benefit_request
 #: code:addons/benefit_request/models/request_type.py:0
 #, python-format
-msgid "The beneficiary affiliation state is not valid for this request.\n\nState: %s.\nValid states: %s"
-msgstr "El estado de afiliación del beneficiario no es válido para esta solicitud.\n\nEstado: %s.\nEstados válidos: %s"
+msgid "The beneficiary affiliation state is not valid for this request.\n\nState: %s.\nValid states: %s."
+msgstr "El estado de afiliación del beneficiario no es válido para esta solicitud.\n\nEstado: %s.\nEstados válidos: %s."
 
 #. module: benefit_request
 #: code:addons/benefit_request/models/request_type.py:0
 #, python-format
-msgid "The beneficiary quote state is not valid for this request.\n\nValid quote: %s"
-msgstr "El estado cotizante del beneficiario no es válido para esta solicitud.\n\nEstado cotizante necesario: %s"
+msgid "The beneficiary quote state is not valid for this request.\n\nValid quote: %s."
+msgstr "El estado cotizante del beneficiario no es válido para esta solicitud.\n\nEstado cotizante necesario: %s."
 
 #. module: benefit_request
 #: model:ir.model,name:benefit_request.model_benefit_request_request_type
