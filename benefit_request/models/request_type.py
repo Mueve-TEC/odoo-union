@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 
 class RequestType(models.Model):
@@ -19,7 +20,8 @@ class RequestType(models.Model):
     )
     quote = fields.Boolean(string='Contributors', default=False)
     who_apply = fields.Selection(
-        selection=[('everybody','Everybody'),('affiliates','Only affiliates')],
+        selection=[('everybody', 'Everybody'),
+                   ('affiliates', 'Only affiliates')],
         string='Who can request?',
         default='affiliates'
     )
@@ -33,18 +35,27 @@ class RequestType(models.Model):
     def meet_reqs(self, affiliate):
         if self.who_apply == 'everybody':
             return True
-        affiliate = self.env['affiliation.affiliate'].search([('partner_id','=',affiliate.id)])
+        affiliate = self.env['affiliation.affiliate'].search(
+            [('partner_id', '=', affiliate.id)])
         if len(affiliate.ids) == 0:
             return True
         else:
             affiliate = affiliate[0]
-        return True if (self._check_state(affiliate) and self._check_quote(affiliate)) else False
+        if self._check_state(affiliate) and self._check_quote(affiliate):
+            return True
 
     def _check_state(self, affiliate):
         _state_names = self.state_ids.mapped('name')
         if not len(_state_names):
             return True
-        return True if affiliate.state in _state_names else False
+        _state_names = [state.lower() for state in _state_names]
+        if affiliate.state.lower() not in _state_names:
+            raise ValidationError(
+                _("The beneficiary affiliation state is not valid for this request.\n\nState: %s.\nValid states: %s.") % (affiliate.state, ', '.join(_state_names)))
+        return True
 
     def _check_quote(self, affiliate):
-        return True if affiliate.quote == self.quote else False
+        if affiliate.quote != self.quote:
+            raise ValidationError(
+                _("The beneficiary quote state is not valid for this request.\n\nValid quote: %s.") % (self.quote))
+        return True
