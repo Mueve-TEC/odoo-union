@@ -15,7 +15,7 @@
                     <sheet>
                         <group>
                             <group string="Request" name="request">
-                                <field name="request_type_id" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}" domain="[('active','=',True)]"/>
+                                <field name="request_type_id" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}" domain="[('active','=',True)]"  options="{'no_create': True}"/>
                                 <field name="partner_id" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}"/>
                                 <field name="expedient" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}"/>
                                 <field name="full_doc" attrs="{'readonly': [('state', 'not in', ['new','requested','authorized'])]}"/>
