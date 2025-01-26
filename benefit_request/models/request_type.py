@@ -3,6 +3,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
+from .affiliate_state import es_AR_state_names
 
 class RequestType(models.Model):
     _name = 'benefit_request.request_type'
@@ -45,12 +46,12 @@ class RequestType(models.Model):
             return True
 
     def _check_state(self, affiliate):
-        _state_names = self.state_ids.mapped('value')
-        if not len(_state_names):
+        _state_values = self.state_ids.mapped('value')
+        if not len(_state_values):
             return True
-        if affiliate.state not in _state_names:
+        if affiliate.state not in _state_values:
             raise ValidationError(
-                _("The beneficiary affiliation state is not valid for this request.\n\nState: %s.\nValid states: %s.") % (affiliate.state, ', '.join(_state_names)))
+                _("The beneficiary affiliation state is not valid for this request.\n\nState: %s.\nValid states: %s.") % (es_AR_state_names[affiliate.state], ', '.join([es_AR_state_names[state] for state in _state_values])))
         return True
 
     def _check_quote(self, affiliate):
