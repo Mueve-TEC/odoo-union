@@ -56,5 +56,5 @@
         id="benefit_request_school_benefit_type_list" 
         sequence="40" parent="benefit_request.requests_section" 
         action="benefit_request_school_benefit_type_list_action"
-        groups="group_benefit_request_admin"/>
+        groups="group_benefit_request_read"/>
 </odoo>
