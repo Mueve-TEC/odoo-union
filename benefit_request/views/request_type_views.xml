@@ -29,9 +29,9 @@
                 <tree>
                     <field name="name" />
                     <field name="who_apply" />
-                    <field name="state_ids" />
+                    <field name="state_ids" widget="many2many_tags"/>
                     <field name="quote" />
-                    <field name="request_group_ids" />
+                    <field name="request_group_ids" widget="many2many_tags" />
                 </tree>
             </field>
         </record>
