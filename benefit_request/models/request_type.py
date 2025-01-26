@@ -19,7 +19,8 @@ class RequestType(models.Model):
     )
     quote = fields.Boolean(string='Contributors', default=False)
     who_apply = fields.Selection(
-        selection=[('everybody','Everybody'),('affiliates','Only affiliates')],
+        selection=[('everybody', 'Everybody'),
+                   ('affiliates', 'Only affiliates')],
         string='Who can request?',
         default='affiliates'
     )
@@ -33,7 +34,8 @@ class RequestType(models.Model):
     def meet_reqs(self, affiliate):
         if self.who_apply == 'everybody':
             return True
-        affiliate = self.env['affiliation.affiliate'].search([('partner_id','=',affiliate.id)])
+        affiliate = self.env['affiliation.affiliate'].search(
+            [('partner_id', '=', affiliate.id)])
         if len(affiliate.ids) == 0:
             return True
         else:
@@ -45,7 +47,7 @@ class RequestType(models.Model):
         _state_names = self.state_ids.mapped('name')
         if not len(_state_names):
             return True
-        _state_names= [state.lower() for state in _state_names]
+        _state_names = [state.lower() for state in _state_names]
         if affiliate.state.lower() not in _state_names:
             raise ValidationError(f"El estado del afiliado '{affiliate.state}' no está en los estados permitidos: {_state_names}")
         return True
