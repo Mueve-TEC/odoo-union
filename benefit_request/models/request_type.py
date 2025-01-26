@@ -45,11 +45,10 @@ class RequestType(models.Model):
             return True
 
     def _check_state(self, affiliate):
-        _state_names = self.state_ids.mapped('name')
+        _state_names = self.state_ids.mapped('value')
         if not len(_state_names):
             return True
-        _state_names = [state.lower() for state in _state_names]
-        if affiliate.state.lower() not in _state_names:
+        if affiliate.state not in _state_names:
             raise ValidationError(
                 _("The beneficiary affiliation state is not valid for this request.\n\nState: %s.\nValid states: %s.") % (affiliate.state, ', '.join(_state_names)))
         return True
