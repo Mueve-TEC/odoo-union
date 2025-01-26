@@ -6,7 +6,8 @@
             <field name="inherit_id" ref="affiliation.affiliation_affiliate_form" />
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/notebook" position="inside">
-                    <page name="contribution" string="Contributions">
+                    <page name="contribution" string="Contributions"
+                    groups="contribution.group_contribution_read,contribution.group_contribution_write,contribution.group_contribution_admin">
                         <field name="contribution_ids" readonly="True" />
                     </page>
                 </xpath>
