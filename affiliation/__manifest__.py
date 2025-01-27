@@ -27,6 +27,7 @@
         'security/ir.model.access.csv',
 
         'data/affiliation_number_seq.xml',
+        'data/affiliation_type_default.xml',
 
         'wizards/affiliation_number.xml',
 

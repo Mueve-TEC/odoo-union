@@ -19,7 +19,7 @@
             <field name="name">affiliation.affiliate_type.tree</field>
             <field name="model">affiliation.affiliate_type</field>
             <field name="arch" type="xml">
-                <tree editable="bottom" delete="false" >
+                <tree editable="bottom">
                     <field name="name" />
                     <field name="enabled" />
                 </tree>
