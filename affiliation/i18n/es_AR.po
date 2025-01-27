@@ -1042,20 +1042,10 @@ msgid "To"
 msgstr "A"
 
 #. module: affiliation
-#: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliate__affiliate_type_id_string
+#: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliate__affiliate_type_id
 #: model_terms:ir.ui.view,arch_db:affiliation.affiliation_affiliate_search
-msgid "Employment Relationship Type String"
-msgstr "Tipo de relación"
-
-#. module: affiliation
-#: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliate__affiliate_type_id_string__active
-msgid "Active"
-msgstr "Activo"
-
-#. module: affiliation
-#: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliate__affiliate_type_id_string__retired
-msgid "Retired"
-msgstr "Jubilado"
+msgid "Employment relationship type"
+msgstr "Tipo de relación laboral"
 
 #. module: affiliation
 #: model:ir.model.fields,help:affiliation.field_affiliation_affiliate__activity_exception_decoration
