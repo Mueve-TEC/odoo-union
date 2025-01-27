@@ -59,7 +59,7 @@
         id="affiliation_affiliate_type_list" 
         sequence="20" parent="affiliation.affiliates_section" 
         action="affiliation_affiliate_type_list_action"
-        groups="group_affiliation_admin"/>
+        groups="group_affiliation_read"/>
 
     <!-- Configuration section -->
     <menuitem name="Configuration" id="affiliation.configuration_section" 
