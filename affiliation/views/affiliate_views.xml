@@ -46,9 +46,6 @@
                             </group>
                         </group>
                         <notebook>
-                            <page string="Childs" name="Childs">
-                                <field name="affiliate_child_ids"/>
-                            </page>
                             <page string="Affiliations" name="Affiliations">
                                 <group>
                                     <field name="affiliation_number" readonly="1"/>
@@ -57,6 +54,9 @@
                                     <field name="affiliation_date" readonly="1" />
                                     <field name="disaffiliation_date" readonly="1"/>
                                 </group>
+                            </page>
+                            <page string="Childs" name="Childs">
+                                <field name="affiliate_child_ids"/>
                             </page>
                             <page string="Affiliate logs" name="Affiliations">
                                 <field name="log" readonly="1"/>
