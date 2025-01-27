@@ -105,8 +105,8 @@ msgstr "Lista de hijos de afiliados"
 #. module: affiliation
 #: model:ir.actions.act_window,name:affiliation.affiliation_affiliate_type_list_action
 #: model:ir.ui.menu,name:affiliation.affiliation_affiliate_type_list
-msgid "Affiliate's types list"
-msgstr "Lista de tipos de afiliados"
+msgid "Employment relationship type list"
+msgstr "Lista de tipos de relación laboral"
 
 #. module: affiliation
 #: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliate__state__affiliated
