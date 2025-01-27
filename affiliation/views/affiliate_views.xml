@@ -23,7 +23,6 @@
                         <group>
                             <group string="Personal information" name="personal_information">
                                 <field name="uid" attrs="{'readonly': [('state','in',['pending_suscribe','affiliated','pending_unsuscribe','disaffiliated','historical'])]}" />
-                                <field name="affiliate_type_id" />
                                 <field name="personal_id_type" />
                                 <field name="personal_id" />
                                 <field name="vat" string="CUIL" />
@@ -53,6 +52,7 @@
                             <page string="Affiliations" name="Affiliations">
                                 <group>
                                     <field name="affiliation_number" readonly="1"/>
+                                    <field name="affiliate_type_id" />
                                     <field name="quote" readonly="1" />
                                     <field name="affiliation_date" readonly="1" />
                                     <field name="disaffiliation_date" readonly="1"/>
