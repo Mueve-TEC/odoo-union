@@ -8,7 +8,7 @@
                     <sheet>
                         <group>
                             <field name="partner_id" />
-                            <field name="benefit_request_id" />
+                            <field name="benefit_request_id" readonly="1"/>
                             <field name="school_benefit_type_id" />
                             <field name="affiliate_child_id" domain="[('verified','=',True)]"/>
                             <field name="delivered" />
