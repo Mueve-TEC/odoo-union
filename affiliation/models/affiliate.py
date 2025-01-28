@@ -232,13 +232,15 @@ class Affiliate(models.Model):
     def _log_change_field(self, vals):
         _log = ''
         _loggables = ['state', 'quote', 'affiliate_type_id',
-                      'email', 'phone', 'mobile', 'affiliation_number']
-        for field in vals:
-            if field in _loggables:
-                _log = _('%s [%s] The field %s change from %s to %s \n') % (str(fields.Date.today(
-                )), self.env.user.name, _(field), _(self[field]), _(str(vals[field]))) + _log
-        _log = _log + self.log if self.log else _log
-        vals.update({'log': _log})
+                    'email', 'phone', 'mobile', 'affiliation_number']
+        for record in self:
+            _log = ''
+            for field in vals:
+                if field in _loggables:
+                    _log = _('%s [%s] The field %s change from %s to %s \n') % (str(fields.Date.today(
+                    )), record.env.user.name, _(field), _(record[field]), _(str(vals[field]))) + _log
+            _log = _log + record.log if record.log else _log
+            vals.update({'log': _log})
 
     @api.model
     def _name_search(self, name, args=None, operator='ilike', limit=100):
