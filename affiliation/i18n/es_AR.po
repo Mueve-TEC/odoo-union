@@ -803,7 +803,7 @@ msgstr "Observaciones"
 #. module: affiliation
 #: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliation_configuration__set_affiliation_date__on_affiliate
 msgid "On affiliate"
-msgstr "En afiliado"
+msgstr "Al afiliar"
 
 #. module: affiliation
 #: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliation_configuration__set_affiliation_date__on_confirm
@@ -818,7 +818,7 @@ msgstr "Al confirmar la desafiliación"
 #. module: affiliation
 #: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliation_configuration__set_disaffiliation_date__on_disaffiliate
 msgid "On disaffiliate"
-msgstr "Al desafiliarse"
+msgstr "Al desafiliar"
 
 #. module: affiliation
 #: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliate__gender__other
