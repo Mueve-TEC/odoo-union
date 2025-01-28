@@ -181,20 +181,20 @@ msgstr "Número de cargo"
 #. module: school_position
 #: model:ir.actions.act_window,name:school_position.school_position_character_list_action
 #: model:ir.ui.menu,name:school_position.school_position_character_list
-msgid "Position's character list"
-msgstr "Lista de carácteres de cargos"
+msgid "Position's character"
+msgstr "Carácteres de cargos"
 
 #. module: school_position
 #: model:ir.actions.act_window,name:school_position.school_position_dependency_list_action
 #: model:ir.ui.menu,name:school_position.school_position_dependency_list
-msgid "Position's dependency list"
-msgstr "Lista de dependencias de cargos"
+msgid "Position's dependency"
+msgstr "Dependencias de cargos"
 
 #. module: school_position
 #: model:ir.actions.act_window,name:school_position.school_position_type_list_action
 #: model:ir.ui.menu,name:school_position.school_position_type_list
-msgid "Position's type list"
-msgstr "Lista de tipos de cargos"
+msgid "Position's type"
+msgstr "Tipos de cargos"
 
 #. module: school_position
 #: model:ir.ui.menu,name:school_position.position_section

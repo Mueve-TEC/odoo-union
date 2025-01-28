@@ -85,8 +85,8 @@ msgstr "Escritura de aportes"
 #. module: contribution
 #: model:ir.actions.act_window,name:contribution.contribution_affiliate_contribution_code_list_action
 #: model:ir.ui.menu,name:contribution.contribution_affiliate_contribution_code_list
-msgid "Contribution's code list"
-msgstr "Lista de códigos de aportes"
+msgid "Contribution's code"
+msgstr "Códigos de aportes"
 
 #. module: contribution
 #: model_terms:ir.ui.view,arch_db:contribution.affiliation_affiliation_configuration_form

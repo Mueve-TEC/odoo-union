@@ -490,8 +490,8 @@ msgstr "Filtro de solicitudes"
 #. module: benefit_request
 #: model:ir.actions.act_window,name:benefit_request.benefit_request_request_type_list_action
 #: model:ir.ui.menu,name:benefit_request.benefit_request_request_type_list
-msgid "Request's type list"
-msgstr "Lista de tipos de solicitud"
+msgid "Request's types"
+msgstr "Tipos de solicitud"
 
 #. module: benefit_request
 #: model:ir.model.fields.selection,name:benefit_request.selection__benefit_request_benefit_request__state__requested
@@ -538,8 +538,8 @@ msgstr "Tipo de beneficio escolar"
 #. module: benefit_request
 #: model:ir.actions.act_window,name:benefit_request.benefit_request_school_benefit_type_list_action
 #: model:ir.ui.menu,name:benefit_request.benefit_request_school_benefit_type_list
-msgid "School benefit types list"
-msgstr "Lista de tipos de beneficios escolares"
+msgid "School benefit types"
+msgstr "Tipos de beneficios escolares"
 
 #. module: benefit_request
 #: model:ir.model,name:benefit_request.model_benefit_request_school_benefit
@@ -560,8 +560,8 @@ msgstr "Beneficios escolares"
 #. module: benefit_request
 #: model:ir.actions.act_window,name:benefit_request.benefit_request_school_benefit_list_action
 #: model:ir.ui.menu,name:benefit_request.benefit_request_school_benefit_list
-msgid "School benefits list"
-msgstr "Lista de beneficios escolares"
+msgid "School benefits"
+msgstr "Beneficios escolares"
 
 #. module: benefit_request
 #: model:ir.model.fields,field_description:benefit_request.field_benefit_request_benefit_request__state
