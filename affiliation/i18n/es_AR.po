@@ -1227,3 +1227,14 @@ msgstr "Necesitas permiso de administración de afiliados para archivar registro
 msgid "Admin affiliation permission is required to unarchive records."
 msgstr "Necesitas permiso de administración de afiliados para desarchivar registros."
 
+#. module: affiliation
+#: code:addons/affiliation/models/affiliate.py:0
+#, python-format
+msgid "There is already exist an affiliated with the same affiliation number!"
+msgstr "¡Existe un afiliado con el mismo número de afiliación!"
+
+#. module: affiliation
+#: code:addons/affiliation/models/affiliate.py:0
+#, python-format
+msgid "The sequence next_affiliation_number_seq is not defined."
+msgstr "La secuencia next_affiliation_number_seq no está definida."
