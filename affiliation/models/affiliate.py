@@ -112,17 +112,17 @@ class Affiliate(models.Model):
 
     # @api.constrains('affiliation_date','disaffiliation_date')
     # def _check_dates(self):
-    #     if self.affiliation_date and self.disaffiliation_date and self.affiliation_date > self.disaffiliation_date:
-    #         raise ValidationError(_('\'From date\' is major to \'to date\'!'))
+        # if self.affiliation_date and self.disaffiliation_date and self.affiliation_date > self.disaffiliation_date:
+        #     raise ValidationError(_('\'From date\' is major to \'to date\'!'))
 
     # Durante la importacion por RPC este método se debe comentar porque la base de ADIUC
     # tiene numeros de afiliados repetidos y muchos en 0
-    # @api.constrains('affiliation_number')
-    # def _check_affiliation_number(self):
-    #     if self.affiliation_number:
-    #         other = self.env['affiliation.affiliate'].search([('affiliation_number','=',self.affiliation_number)])
-    #         if len(other.ids) > 1 or (len(other) == 1 and other[0].id != self.id):
-    #             raise ValidationError(_('There is already exist an affiliated with the same affiliation number!'))
+    @api.constrains('affiliation_number')
+    def _check_affiliation_number(self):
+        if self.affiliation_number:
+            other = self.env['affiliation.affiliate'].search([('affiliation_number','=',self.affiliation_number)])
+            if len(other.ids) > 1 or (len(other) == 1 and other[0].id != self.id):
+                raise ValidationError(_("There is already exist an affiliated with the same affiliation number!"))
 
     # Aunque no haga nada, el metodo es necesario para la importacion por RPC
     @api.model
