@@ -32,7 +32,7 @@ class AffiliationConfiguration(models.Model):
     def write(self, vals):
         if 'next_affiliation_number' in vals:
             _seq = self.env['ir.sequence'].search(
-                [('code', '=', 'adiuc_affiliation_number_seq')])
+                [('code', '=', 'next_affiliation_number_seq')])
             _seq.number_next_actual = vals['next_affiliation_number']
         res = super(AffiliationConfiguration, self).write(vals)
         return res

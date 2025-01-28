@@ -18,5 +18,9 @@ class AffiliationNumber(models.TransientModel):
         _to_write = {'affiliation_number': self.affiliation_number, 'state': 'affiliated'}
         if 'affiliation_date' in self.env.context:
             _to_write.update({'affiliation_date': self.env.context['affiliation_date']})
+        
+        # 
+        self.env['ir.sequence'].next_by_code('next_affiliation_number_seq')
+
         self.affiliate_id.write(_to_write)
 
