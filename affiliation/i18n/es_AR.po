@@ -83,8 +83,8 @@ msgstr "Filtro de hijos de afiliados"
 #. module: affiliation
 #: model:ir.actions.act_window,name:affiliation.affiliation_affiliate_emails_list_action
 #: model:ir.ui.menu,name:affiliation.affiliation_affiliate_emails_list
-msgid "Affiliate emails list"
-msgstr "Lista de correos electrónicos de afiliados"
+msgid "Affiliate emails"
+msgstr "Correos electrónicos de afiliados"
 
 #. module: affiliation
 #: model_terms:ir.ui.view,arch_db:affiliation.affiliation_affiliate_search
@@ -99,14 +99,14 @@ msgstr "Registro de cambios"
 #. module: affiliation
 #: model:ir.actions.act_window,name:affiliation.affiliation_affiliate_child_list_action
 #: model:ir.ui.menu,name:affiliation.affiliation_affiliate_child_list
-msgid "Affiliate's childs list"
-msgstr "Lista de hijos de afiliados"
+msgid "Affiliate's childs"
+msgstr "Hijos de afiliados"
 
 #. module: affiliation
 #: model:ir.actions.act_window,name:affiliation.affiliation_affiliate_type_list_action
 #: model:ir.ui.menu,name:affiliation.affiliation_affiliate_type_list
-msgid "Employment relationship type list"
-msgstr "Lista de tipos de relación laboral"
+msgid "Employment relationship type"
+msgstr "Tipos de relación laboral"
 
 #. module: affiliation
 #: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliate__state__affiliated
@@ -1044,7 +1044,7 @@ msgstr "A"
 #. module: affiliation
 #: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliate__affiliate_type_id
 #: model_terms:ir.ui.view,arch_db:affiliation.affiliation_affiliate_search
-msgid "Employment relationship type"
+msgid "Employment relationship types"
 msgstr "Tipo de relación laboral"
 
 #. module: affiliation
