@@ -51,11 +51,11 @@ class RequestType(models.Model):
             return True
         if affiliate.state not in _state_values:
             raise ValidationError(
-                _("The beneficiary affiliation state is not valid for this request.\n\nState: %s.\nValid states: %s.") % (es_AR_state_names[affiliate.state], ', '.join([es_AR_state_names[state] for state in _state_values])))
+                _("The beneficiary affiliation state is not valid for this request type.\n\nState: %s.\nValid states: %s.") % (es_AR_state_names[affiliate.state], ', '.join([es_AR_state_names[state] for state in _state_values])))
         return True
 
     def _check_quote(self, affiliate):
         if affiliate.quote != self.quote:
             raise ValidationError(
-                _("The beneficiary quote state is not valid for this request.\n\nValid quote: %s.") % (self.quote))
+                _("The beneficiary quote state is not valid for this request type.\n\nValid quote: %s.") % (self.quote))
         return True
