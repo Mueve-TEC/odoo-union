@@ -1214,4 +1214,16 @@ msgstr "Desafiliado"
 msgid "historical"
 msgstr "Historico"
 
+#. module: affiliation
+#: code:addons/affiliation/models/affiliate.py:0
+#, python-format
+msgid "Admin affiliation permission is required to archive records."
+msgstr "Necesitas permiso de administración de afiliados para archivar registros."
+
+
+#. module: affiliation
+#: code:addons/affiliation/models/affiliate.py:0
+#, python-format
+msgid "Admin affiliation permission is required to unarchive records."
+msgstr "Necesitas permiso de administración de afiliados para desarchivar registros."
 

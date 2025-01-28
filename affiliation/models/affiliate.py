@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
+import logging
+
+log = logging.getLogger(__name__)
+
 
 AFFILIATE_STR_TO_INT = {
     'active': 0, 
@@ -230,15 +234,16 @@ class Affiliate(models.Model):
         return False
 
     def _log_change_field(self, vals):
-        _log = ''
         _loggables = ['state', 'quote', 'affiliate_type_id',
-                      'email', 'phone', 'mobile', 'affiliation_number']
-        for field in vals:
-            if field in _loggables:
-                _log = _('%s [%s] The field %s change from %s to %s \n') % (str(fields.Date.today(
-                )), self.env.user.name, _(field), _(self[field]), _(str(vals[field]))) + _log
-        _log = _log + self.log if self.log else _log
-        vals.update({'log': _log})
+                    'email', 'phone', 'mobile', 'affiliation_number']
+        for record in self:
+            _log = ''
+            for field in vals:
+                if field in _loggables:
+                    _log = _('%s [%s] The field %s change from %s to %s \n') % (str(fields.Date.today(
+                    )), record.env.user.name, _(field), _(record[field]), _(str(vals[field]))) + _log
+            _log = _log + record.log if record.log else _log
+            vals.update({'log': _log})
 
     @api.model
     def _name_search(self, name, args=None, operator='ilike', limit=100):
@@ -261,3 +266,14 @@ class Affiliate(models.Model):
         recipients = super(Affiliate, self)._message_get_suggested_recipients()
         recipients[self.id].append((self.partner_id.id, self.name, 'Afiliado'))
         return recipients
+
+    def action_archive(self):
+        log.info(self.env.user.groups_id)
+        if not self.env.user.has_group('affiliation.group_affiliation_admin'):
+            raise UserError(_("Admin affiliation permission is required to archive records."))
+        return super().action_archive()
+
+    def action_unarchive(self):
+        if not self.env.user.has_group('affiliation.group_affiliation_admin'):
+            raise UserError(_("Admin affiliation permission is required to unarchive records."))
+        return super().action_unarchive()
