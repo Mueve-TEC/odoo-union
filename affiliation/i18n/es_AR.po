@@ -189,6 +189,11 @@ msgid "Affiliation's configuration"
 msgstr "Configuración de afiliación"
 
 #. module: affiliation
+#: model_terms:ir.ui.view,arch_db:affiliation.affiliation_affiliation_configuration_form
+msgid "Affiliation number configuration"
+msgstr "Configuración de número de afiliación"
+
+#. module: affiliation
 #: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliate__affiliation_date
 msgid "Affiliation's date"
 msgstr "Fecha de afiliación"
@@ -391,11 +396,6 @@ msgstr "Creado en"
 #: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliate__credit_limit
 msgid "Credit Limit"
 msgstr "Límite de crédito"
-
-#. module: affiliation
-#: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliation_configuration__current_affiliation_number
-msgid "Current affiliation number"
-msgstr "Número de afiliación actual"
 
 #. module: affiliation
 #: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliate__personal_id_type__dni
@@ -739,8 +739,18 @@ msgstr "Siguiente tipo de actividad"
 
 #. module: affiliation
 #: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliation_configuration__next_affiliation_number
-msgid "Next affiliation number"
-msgstr "Siguiente número de afiliación"
+msgid "Next affiliation number on sequence"
+msgstr "Siguiente número de afiliación en la secuencia."
+
+#. module: affiliation
+#: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliation_configuration__enable_affiliation_number_sequence
+msgid "Enable affiliation number sequence"
+msgstr "Habilitar número de afiliación automático."
+
+#. module: affiliation
+#: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliation_configuration__affiliation_number_edition
+msgid "Allow editing affiliation number on start affiliation view."
+msgstr "Permitir la edición del número de afiliación en la ventana de afiliación."
 
 #. module: affiliation
 #: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliate__email_normalized
@@ -801,12 +811,12 @@ msgid "Observations"
 msgstr "Observaciones"
 
 #. module: affiliation
-#: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliation_configuration__set_affiliation_date__on_affiliate
+#: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliation_configuration__affiliation_start__on_affiliate
 msgid "On affiliate"
 msgstr "Al afiliar"
 
 #. module: affiliation
-#: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliation_configuration__set_affiliation_date__on_confirm
+#: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliation_configuration__affiliation_start__on_confirm
 msgid "On confirm affiliation"
 msgstr "Al confirmar la afiliación"
 
@@ -952,7 +962,7 @@ msgid "Set end of affiliation"
 msgstr "Establecer fin de afiliación"
 
 #. module: affiliation
-#: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliation_configuration__set_affiliation_date
+#: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliation_configuration__affiliation_start
 msgid "Set init of affiliation"
 msgstr "Establecer inicio de afiliación"
 
@@ -1227,3 +1237,20 @@ msgstr "Necesitas permiso de administración de afiliados para archivar registro
 msgid "Admin affiliation permission is required to unarchive records."
 msgstr "Necesitas permiso de administración de afiliados para desarchivar registros."
 
+#. module: affiliation
+#: code:addons/affiliation/models/affiliate.py:0
+#, python-format
+msgid "There is already exist an affiliated with the same affiliation number!"
+msgstr "¡Existe un afiliado con el mismo número de afiliación!"
+
+#. module: affiliation
+#: code:addons/affiliation/models/affiliate.py:0
+#, python-format
+msgid "The sequence next_affiliation_number_seq is not defined."
+msgstr "La secuencia next_affiliation_number_seq no está definida."
+
+#. module: affiliation
+#: code:addons/affiliation/wizards/affiliation_number.py:0
+#, python-format
+msgid "Affiliation number cannot be 0."
+msgstr "El número de afiliación no puede ser 0."
