@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 class AffiliationNumber(models.TransientModel):
     _name = 'affiliation.affiliation_number'
@@ -11,11 +12,14 @@ class AffiliationNumber(models.TransientModel):
         string='Affiliate',
         required=True
     )
-    affiliation_number = fields.Integer(string='Affiliation number', required=True)
+    affiliation_number = fields.Integer(string='Affiliation number')
     enable_affiliation_number_sequence = fields.Boolean(string='Enable affiliation number sequence', required=True)
     affiliation_number_edition = fields.Boolean(string='Allow editing affiliation number', required=True)
 
     def confirm(self):
+        if self.affiliation_number == 0:
+                raise ValidationError(_("Affiliation number cannot be 0."))
+
         # write affiliation data
         _to_write = {'affiliation_number': self.affiliation_number }
         fields = ['state', 'quote', 'affiliation_date', 'disaffiliation_date']

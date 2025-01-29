@@ -188,7 +188,7 @@ class Affiliate(models.Model):
         
         _to_write.update({'affiliation_date': fields.Date.today()})
         
-        suggested_affiliation_number = False
+        suggested_affiliation_number = None
         if _config.enable_affiliation_number_sequence:
             suggested_affiliation_number = self.env['ir.sequence'].search([('code','=','next_affiliation_number_seq')], limit=1).number_next_actual
             if not suggested_affiliation_number:

@@ -1248,3 +1248,9 @@ msgstr "¡Existe un afiliado con el mismo número de afiliación!"
 #, python-format
 msgid "The sequence next_affiliation_number_seq is not defined."
 msgstr "La secuencia next_affiliation_number_seq no está definida."
+
+#. module: affiliation
+#: code:addons/affiliation/wizards/affiliation_number.py:0
+#, python-format
+msgid "Affiliation number cannot be 0."
+msgstr "El número de afiliación no puede ser 0."
