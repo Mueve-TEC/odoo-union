@@ -15,11 +15,14 @@
                     <sheet>
                         <h2>Affiliation's configuration</h2>
                         <group>
-                            <!-- <field name="current_affiliation_number" string="Last affiliation number" readonly="1"/> -->
-                            <field name="next_affiliation_number"/>
                             <field name="affiliation_start"/>
                             <field name="set_disaffiliation_date"/>
                         </group>
+                        <separator string="Affiliation number configuration" colspan="0" class="oe_title"/>
+                        <group>
+                            <field name="next_affiliation_number"/>
+                        </group>
+                        <separator string=" " colspan="2"/>
                     </sheet>
                 </form>
             </field>

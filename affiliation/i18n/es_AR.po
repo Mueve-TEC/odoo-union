@@ -189,6 +189,11 @@ msgid "Affiliation's configuration"
 msgstr "Configuración de afiliación"
 
 #. module: affiliation
+#: model_terms:ir.ui.view,arch_db:affiliation.affiliation_affiliation_configuration_form
+msgid "Affiliation number configuration"
+msgstr "Configuración de número de afiliación"
+
+#. module: affiliation
 #: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliate__affiliation_date
 msgid "Affiliation's date"
 msgstr "Fecha de afiliación"
@@ -391,11 +396,6 @@ msgstr "Creado en"
 #: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliate__credit_limit
 msgid "Credit Limit"
 msgstr "Límite de crédito"
-
-#. module: affiliation
-#: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliation_configuration__current_affiliation_number
-msgid "Current affiliation number"
-msgstr "Número de afiliación actual"
 
 #. module: affiliation
 #: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliate__personal_id_type__dni
@@ -739,8 +739,8 @@ msgstr "Siguiente tipo de actividad"
 
 #. module: affiliation
 #: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliation_configuration__next_affiliation_number
-msgid "Next affiliation number"
-msgstr "Siguiente número de afiliación"
+msgid "Next affiliation number on sequence"
+msgstr "Siguiente número de afiliación en la secuencia."
 
 #. module: affiliation
 #: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliate__email_normalized

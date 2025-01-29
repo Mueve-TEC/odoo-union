@@ -9,9 +9,7 @@ class AffiliationConfiguration(models.Model):
     _description = 'Configuration of Affiliaton module'
 
     name = fields.Char(string='Name', compute='_compute_name')
-    current_affiliation_number = fields.Integer(
-        string='Current affiliation number')
-    next_affiliation_number = fields.Integer(string='Next affiliation number')
+    next_affiliation_number = fields.Integer(string='Next affiliation number on sequence')
     affiliation_start = fields.Selection(
         selection=[
             ('on_affiliate', 'On affiliate'),
