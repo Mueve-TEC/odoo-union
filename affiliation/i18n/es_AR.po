@@ -801,12 +801,12 @@ msgid "Observations"
 msgstr "Observaciones"
 
 #. module: affiliation
-#: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliation_configuration__set_affiliation_date__on_affiliate
+#: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliation_configuration__affiliation_start__on_affiliate
 msgid "On affiliate"
 msgstr "Al afiliar"
 
 #. module: affiliation
-#: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliation_configuration__set_affiliation_date__on_confirm
+#: model:ir.model.fields.selection,name:affiliation.selection__affiliation_affiliation_configuration__affiliation_start__on_confirm
 msgid "On confirm affiliation"
 msgstr "Al confirmar la afiliación"
 
@@ -952,7 +952,7 @@ msgid "Set end of affiliation"
 msgstr "Establecer fin de afiliación"
 
 #. module: affiliation
-#: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliation_configuration__set_affiliation_date
+#: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliation_configuration__affiliation_start
 msgid "Set init of affiliation"
 msgstr "Establecer inicio de afiliación"
 

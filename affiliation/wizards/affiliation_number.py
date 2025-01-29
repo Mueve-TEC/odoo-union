@@ -2,7 +2,6 @@
 
 from odoo import models, fields, api
 
-
 class AffiliationNumber(models.TransientModel):
     _name = 'affiliation.affiliation_number'
     _description = 'Model for Affiliation Number wizard'
@@ -15,11 +14,14 @@ class AffiliationNumber(models.TransientModel):
     affiliation_number = fields.Integer(string='Affiliation number', required=True)
 
     def confirm(self):
-        _to_write = {'affiliation_number': self.affiliation_number, 'state': 'affiliated'}
-        if 'affiliation_date' in self.env.context:
-            _to_write.update({'affiliation_date': self.env.context['affiliation_date']})
+        _to_write = {'affiliation_number': self.affiliation_number }
         
-        # 
+        fields = ['state', 'quote', 'affiliation_date', 'disaffiliation_date']
+        for field in fields:
+            if self.env.context.get(field):
+                _to_write.update({field:self.env.context.get(field)})
+
+        # increment next affiliation number sequence
         self.env['ir.sequence'].next_by_code('next_affiliation_number_seq')
 
         self.affiliate_id.write(_to_write)

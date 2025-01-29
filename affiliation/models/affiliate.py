@@ -165,32 +165,41 @@ class Affiliate(models.Model):
     def affiliate_(self):
         _config = self.env['affiliation.affiliation_configuration'].browse(1)
         _to_write = {'state': 'pending_suscribe'}
-        if _config.set_affiliation_date == 'on_affiliate':
-            _to_write.update({'affiliation_date': fields.Date.today()})
-
         if self.quote:
             _to_write.update({'quote': False})
-
-        self.write(_to_write)
+        if _config.set_affiliation_start == 'on_affiliate':
+            return self.start_affiliation_(_to_write)
+        else:
+            self.write(_to_write)
 
     def confirm_affiliation_(self):
         _config = self.env['affiliation.affiliation_configuration'].browse(1)
+        _to_write = {'state': 'affiliated'}
+        if not self.quote:
+            _to_write.update({'quote': True})
+        
+        if _config.affiliation_start == 'on_confirm':
+            return self.start_affiliation_(_to_write)
+        else:
+            self.write(_to_write)
+
+
+    def start_affiliation_(self, _to_write):
+        
+        _to_write.update({'affiliation_date': fields.Date.today()})
+        
         
         suggested_affiliation_number = self.env['ir.sequence'].search([('code','=','next_affiliation_number_seq')], limit=1).number_next_actual
         if not suggested_affiliation_number:
             raise UserError(_("The sequence next_affiliation_number_seq is not defined."))
         
+        # TODO: revisar
         _data = self.env['affiliation.affiliation_number'].create(
             {'affiliate_id': self.id, 'affiliation_number': suggested_affiliation_number})
-        _ctx = {}
         
-        if _config.set_affiliation_date == 'on_confirm':
-            _ctx.update({'affiliation_date': fields.Date.today()})
-        if not self.quote:
-            self.set_contributor()
-
+        # TODO: revisar si borro la fecha de desafiliación si existe
         if self.disaffiliation_date is not None:
-            self.write({'disaffiliation_date': None})
+            _to_write.update({'disaffiliation_date': None})
 
         return {
             'type': 'ir.actions.act_window',
@@ -198,8 +207,10 @@ class Affiliate(models.Model):
             'views': [[False, 'form']],
             'target': 'new',
             'res_id': _data.id,
-            'context': _ctx
+            'context': _to_write
         }
+
+
 
     def disaffiliate_(self):
         _config = self.env['affiliation.affiliation_configuration'].browse(1)

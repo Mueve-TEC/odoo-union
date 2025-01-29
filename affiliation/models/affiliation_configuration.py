@@ -12,7 +12,7 @@ class AffiliationConfiguration(models.Model):
     current_affiliation_number = fields.Integer(
         string='Current affiliation number')
     next_affiliation_number = fields.Integer(string='Next affiliation number')
-    set_affiliation_date = fields.Selection(
+    affiliation_start = fields.Selection(
         selection=[
             ('on_affiliate', 'On affiliate'),
             ('on_confirm', 'On confirm affiliation'),

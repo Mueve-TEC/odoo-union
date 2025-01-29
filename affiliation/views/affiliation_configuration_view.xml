@@ -17,7 +17,7 @@
                         <group>
                             <!-- <field name="current_affiliation_number" string="Last affiliation number" readonly="1"/> -->
                             <field name="next_affiliation_number"/>
-                            <field name="set_affiliation_date"/>
+                            <field name="affiliation_start"/>
                             <field name="set_disaffiliation_date"/>
                         </group>
                     </sheet>
