@@ -9,6 +9,7 @@ class AffiliationConfiguration(models.Model):
     _description = 'Configuration of Affiliaton module'
 
     name = fields.Char(string='Name', compute='_compute_name')
+    affiliation_number_edition = fields.Boolean(string='Allow editing affiliation number on start affiliation view.', default=False)
     next_affiliation_number = fields.Integer(string='Next affiliation number on sequence')
     affiliation_start = fields.Selection(
         selection=[

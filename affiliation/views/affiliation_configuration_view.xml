@@ -21,6 +21,7 @@
                         <separator string="Affiliation number configuration" colspan="0" class="oe_title"/>
                         <group>
                             <field name="next_affiliation_number"/>
+                            <field name="affiliation_number_edition"/>
                         </group>
                         <separator string=" " colspan="2"/>
                     </sheet>

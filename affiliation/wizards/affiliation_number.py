@@ -12,6 +12,7 @@ class AffiliationNumber(models.TransientModel):
         required=True
     )
     affiliation_number = fields.Integer(string='Affiliation number', required=True)
+    affiliation_number_edition = fields.Boolean(string='Allow editing affiliation number', required=True)
 
     def confirm(self):
         # write affiliation data

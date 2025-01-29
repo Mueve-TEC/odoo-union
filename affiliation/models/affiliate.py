@@ -168,7 +168,7 @@ class Affiliate(models.Model):
         if self.quote:
             _to_write.update({'quote': False})
         if _config.affiliation_start == 'on_affiliate':
-            return self.start_affiliation_(_to_write)
+            return self.start_affiliation_(_to_write, _config.affiliation_number_edition)
         else:
             self.write(_to_write)
 
@@ -179,12 +179,12 @@ class Affiliate(models.Model):
             _to_write.update({'quote': True})
         
         if _config.affiliation_start == 'on_confirm':
-            return self.start_affiliation_(_to_write)
+            return self.start_affiliation_(_to_write, _config.affiliation_number_edition)
         else:
             self.write(_to_write)
 
 
-    def start_affiliation_(self, _to_write):
+    def start_affiliation_(self, _to_write, affiliation_number_edition):
         
         _to_write.update({'affiliation_date': fields.Date.today()})
         
@@ -193,9 +193,10 @@ class Affiliate(models.Model):
         if not suggested_affiliation_number:
             raise UserError(_("The sequence next_affiliation_number_seq is not defined."))
         
-        # TODO: agregar forma de borrar los records de esta base de datos automáticamente.
+        # TODO: agregar forma de borrar las afiliaciones no confirmadas
+        # de los records de esta base de datos automáticamente.
         _data = self.env['affiliation.affiliation_number'].create(
-            {'affiliate_id': self.id, 'affiliation_number': suggested_affiliation_number})
+            {'affiliate_id': self.id, 'affiliation_number': suggested_affiliation_number, 'affiliation_number_edition': affiliation_number_edition})
 
         return {
             'type': 'ir.actions.act_window',
