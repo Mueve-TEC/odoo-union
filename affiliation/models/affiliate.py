@@ -167,7 +167,7 @@ class Affiliate(models.Model):
         _to_write = {'state': 'pending_suscribe'}
         if self.quote:
             _to_write.update({'quote': False})
-        if _config.set_affiliation_start == 'on_affiliate':
+        if _config.affiliation_start == 'on_affiliate':
             return self.start_affiliation_(_to_write)
         else:
             self.write(_to_write)
@@ -196,10 +196,6 @@ class Affiliate(models.Model):
         # TODO: revisar
         _data = self.env['affiliation.affiliation_number'].create(
             {'affiliate_id': self.id, 'affiliation_number': suggested_affiliation_number})
-        
-        # TODO: revisar si borro la fecha de desafiliación si existe
-        if self.disaffiliation_date is not None:
-            _to_write.update({'disaffiliation_date': None})
 
         return {
             'type': 'ir.actions.act_window',

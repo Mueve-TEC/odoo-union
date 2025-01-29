@@ -21,6 +21,9 @@ class AffiliationNumber(models.TransientModel):
             if self.env.context.get(field):
                 _to_write.update({field:self.env.context.get(field)})
 
+        if self.affiliate_id.disaffiliation_date:
+            _to_write.update({'disaffiliation_date': None})
+
         # increment next affiliation number sequence
         self.env['ir.sequence'].next_by_code('next_affiliation_number_seq')
 
