@@ -743,6 +743,11 @@ msgid "Next affiliation number on sequence"
 msgstr "Siguiente número de afiliación en la secuencia."
 
 #. module: affiliation
+#: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliation_configuration__enable_affiliation_number_sequence
+msgid "Enable affiliation number sequence"
+msgstr "Habilitar número de afiliación automático."
+
+#. module: affiliation
 #: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliation_configuration__affiliation_number_edition
 msgid "Allow editing affiliation number on start affiliation view."
 msgstr "Permitir la edición del número de afiliación en la ventana de afiliación."

@@ -168,7 +168,7 @@ class Affiliate(models.Model):
         if self.quote:
             _to_write.update({'quote': False})
         if _config.affiliation_start == 'on_affiliate':
-            return self.start_affiliation_(_to_write, _config.affiliation_number_edition)
+            return self.start_affiliation_(_to_write, _config)
         else:
             self.write(_to_write)
 
@@ -179,24 +179,28 @@ class Affiliate(models.Model):
             _to_write.update({'quote': True})
         
         if _config.affiliation_start == 'on_confirm':
-            return self.start_affiliation_(_to_write, _config.affiliation_number_edition)
+            return self.start_affiliation_(_to_write, _config)
         else:
             self.write(_to_write)
 
 
-    def start_affiliation_(self, _to_write, affiliation_number_edition):
+    def start_affiliation_(self, _to_write, _config):
         
         _to_write.update({'affiliation_date': fields.Date.today()})
         
-        
-        suggested_affiliation_number = self.env['ir.sequence'].search([('code','=','next_affiliation_number_seq')], limit=1).number_next_actual
-        if not suggested_affiliation_number:
-            raise UserError(_("The sequence next_affiliation_number_seq is not defined."))
-        
+        suggested_affiliation_number = False
+        if _config.enable_affiliation_number_sequence:
+            suggested_affiliation_number = self.env['ir.sequence'].search([('code','=','next_affiliation_number_seq')], limit=1).number_next_actual
+            if not suggested_affiliation_number:
+                raise UserError(_("The sequence next_affiliation_number_seq is not defined."))
+            
         # TODO: agregar forma de borrar las afiliaciones no confirmadas
         # de los records de esta base de datos automáticamente.
         _data = self.env['affiliation.affiliation_number'].create(
-            {'affiliate_id': self.id, 'affiliation_number': suggested_affiliation_number, 'affiliation_number_edition': affiliation_number_edition})
+            {'affiliate_id': self.id,
+            'affiliation_number': suggested_affiliation_number,
+            'affiliation_number_edition': _config.affiliation_number_edition,
+            'enable_affiliation_number_sequence': _config.enable_affiliation_number_sequence})
 
         return {
             'type': 'ir.actions.act_window',

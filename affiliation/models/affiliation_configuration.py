@@ -11,6 +11,7 @@ class AffiliationConfiguration(models.Model):
     name = fields.Char(string='Name', compute='_compute_name')
     affiliation_number_edition = fields.Boolean(string='Allow editing affiliation number on start affiliation view.', default=False)
     next_affiliation_number = fields.Integer(string='Next affiliation number on sequence')
+    enable_affiliation_number_sequence = fields.Boolean(string='Enable affiliation number sequence', default=True)
     affiliation_start = fields.Selection(
         selection=[
             ('on_affiliate', 'On affiliate'),
