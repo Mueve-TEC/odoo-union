@@ -200,8 +200,8 @@ msgstr "Fecha de afiliación"
 
 #. module: affiliation
 #: model_terms:ir.ui.view,arch_db:affiliation.affiliation_affiliate_form
-msgid "Affiliations"
-msgstr "Afiliaciones"
+msgid "Affiliation"
+msgstr "Afiliación"
 
 #. module: affiliation
 #: model_terms:ir.ui.view,arch_db:affiliation.affiliation_affiliate_form
@@ -350,7 +350,7 @@ msgstr "Contacto"
 #. module: affiliation
 #: model_terms:ir.ui.view,arch_db:affiliation.affiliation_affiliate_form
 msgid "Contact information"
-msgstr "Información del contacto"
+msgstr "Información de contacto"
 
 #. module: affiliation
 #: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliate__quote
@@ -909,7 +909,13 @@ msgstr "Tipo de documento"
 #: model_terms:ir.ui.view,arch_db:affiliation.affiliation_affiliate_child_form
 #: model_terms:ir.ui.view,arch_db:affiliation.affiliation_affiliate_form
 msgid "Personal information"
-msgstr "Informacion personal"
+msgstr "Información personal"
+
+#. module: affiliation
+#: model_terms:ir.ui.view,arch_db:affiliation.affiliation_affiliate_child_form
+#: model_terms:ir.ui.view,arch_db:affiliation.affiliation_affiliate_form
+msgid "Employment infomation"
+msgstr "Información laboral"
 
 #. module: affiliation
 #: model:ir.model.fields,field_description:affiliation.field_affiliation_affiliate__phone

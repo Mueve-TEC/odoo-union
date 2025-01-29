@@ -21,35 +21,36 @@
                             <field name="name"/>
                         </h2>
                         <group>
-                            <group string="Personal information" name="personal_information">
-                                <field name="uid" attrs="{'readonly': [('state','in',['pending_suscribe','affiliated','pending_unsuscribe','disaffiliated','historical'])]}" />
-                                <field name="personal_id_type" />
-                                <field name="personal_id" />
-                                <field name="vat" string="CUIL" />
-                                <field name="gender" />
-                                <field name="civil_status" />
-                                <field name="seniority" string="Antigüedad" />
-                                <field name="birth_date" />
-                                <field name="birth_country" />
+                            <group string="Employment infomation" name="personal_information">
+                                <field name="uid" attrs="{'readonly': [('state','in',['pending_suscribe','affiliated','pending_unsuscribe','disaffiliated','historical'])]}"/>
+                                <field name="affiliate_type_id"/>
+                                <field name="seniority" string="Antigüedad"/>
+                                <separator string="Personal information"/>
+                                <field name="personal_id_type"/>
+                                <field name="personal_id"/>
+                                <field name="vat" string="CUIL"/>
+                                <field name="gender"/>
+                                <field name="civil_status"/>
+                                <field name="birth_date"/>
+                                <field name="birth_country"/>
                             </group>
                             <group string="Contact information" name="contact_information">
-                                <field name="email" />
-                                <field name="email2" />
-                                <field name="phone" />
-                                <field name="mobile" />
-                                <field name="street" />
-                                <field name="city" />
-                                <field name="state_id" />
-                                <field name="country_id" />
-                                <field name="category_id" widget="many2many_tags" />
-                                <field name="category_bis_id" widget="many2many_tags" />
+                                <field name="email"/>
+                                <field name="email2"/>
+                                <field name="phone"/>
+                                <field name="mobile"/>
+                                <field name="street"/>
+                                <field name="city"/>
+                                <field name="state_id"/>
+                                <field name="country_id"/>
+                                <field name="category_id" widget="many2many_tags"/>
+                                <field name="category_bis_id" widget="many2many_tags"/>
                             </group>
                         </group>
                         <notebook>
-                            <page string="Affiliations" name="Affiliations">
+                            <page string="Affiliation" name="Affiliation">
                                 <group>
                                     <field name="affiliation_number" readonly="1"/>
-                                    <field name="affiliate_type_id" />
                                     <field name="quote" readonly="1" />
                                     <field name="affiliation_date" readonly="1" />
                                     <field name="disaffiliation_date" readonly="1"/>
@@ -58,7 +59,7 @@
                             <page string="Childs" name="Childs">
                                 <field name="affiliate_child_ids"/>
                             </page>
-                            <page string="Affiliate logs" name="Affiliations">
+                            <page string="Affiliate logs" name="Affiliation_logs">
                                 <field name="log" readonly="1"/>
                             </page>
                         </notebook>

@@ -81,7 +81,8 @@ class Affiliate(models.Model):
         comodel_name='affiliation.affiliate_type',
         string='Employment relationship type',
         domain="[('enabled', '=', True)]",
-        ondelete='restrict'
+        ondelete='restrict',
+        required=True
     )
 
     observations = fields.Text(string='Observations')
