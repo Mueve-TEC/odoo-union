@@ -193,7 +193,7 @@ class Affiliate(models.Model):
         if not suggested_affiliation_number:
             raise UserError(_("The sequence next_affiliation_number_seq is not defined."))
         
-        # TODO: revisar
+        # TODO: agregar forma de borrar los records de esta base de datos automáticamente.
         _data = self.env['affiliation.affiliation_number'].create(
             {'affiliate_id': self.id, 'affiliation_number': suggested_affiliation_number})
 

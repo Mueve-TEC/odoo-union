@@ -24,9 +24,9 @@ class AffiliationNumber(models.TransientModel):
             _to_write.update({'disaffiliation_date': None})
         self.affiliate_id.write(_to_write)
 
+        # increment next affiliation number sequence if it was used
         _seq = self.env['ir.sequence'].search(
                 [('code', '=', 'next_affiliation_number_seq')])
-        # increment next affiliation number sequence if it was used
         if self.affiliation_number == _seq.number_next_actual:
             next_affiliaton_number = int(self.env['ir.sequence'].next_by_code('next_affiliation_number_seq'))
             next_affiliaton_number = next_affiliaton_number + 1
@@ -34,3 +34,5 @@ class AffiliationNumber(models.TransientModel):
             _to_write = {'next_affiliation_number': str(next_affiliaton_number)}
             _config = self.env['affiliation.affiliation_configuration'].browse(1)
             _config.write(_to_write)
+
+        self.unlink()
