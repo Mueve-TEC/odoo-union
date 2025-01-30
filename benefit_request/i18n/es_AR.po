@@ -566,6 +566,7 @@ msgstr "Beneficios escolares"
 #. module: benefit_request
 #: model:ir.model.fields,field_description:benefit_request.field_benefit_request_benefit_request__state
 #: model_terms:ir.ui.view,arch_db:benefit_request.benefit_request_search
+#: model:ir.model.fields,field_description:benefit_request.field_benefit_request_school_benefit__state
 msgid "State"
 msgstr "Estado"
 
