@@ -34,11 +34,11 @@
                         </group>
                         <notebook>
                             <page string="School benefits" name="school_benefits" attrs="{'invisible': [('hide_school_benefits','=',True)]}">
-                                <field name="school_benefit_ids"  >
+                                <field name="school_benefit_ids" attrs="{'readonly': [('state', 'not in', ['new','requested', 'authorized'])]}" options="{'create': [('state', 'in', ['new','requested'])], 'delete': [('state', 'in', ['new','requested'])]}">
                                     <tree editable="bottom">
                                         <field name="state" invisible="1"/>
-                                        <field name="school_benefit_type_id" />
-                                        <field name="affiliate_child_id" />
+                                        <field name="school_benefit_type_id" attrs="{'readonly': [('state', 'in', ['authorized'])]}" />
+                                        <field name="affiliate_child_id" attrs="{'readonly': [('state', 'in', ['authorized'])]}"/>
                                         <field name="delivered" />
                                     </tree>
                                 </field>
@@ -46,7 +46,7 @@
                             <page string="Subsidy" name="amounts" attrs="{'invisible': [('hide_amounts','=',True)]}">
                                 <group>
                                     <field name="requested_amount" />
-                                    <field name="authorized_amount" attrs="{'readonly': [('state', '!=', 'requested')]}"/>
+                                    <field name="authorized_amount" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}"/>
                                     <field name="accountabled_amount" />
                                     <field name="paid_amount" attrs="{'readonly': [('state', '!=', 'authorized')]}"/>
                                 </group>
