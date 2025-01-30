@@ -52,7 +52,7 @@
                                 </group>
                             </page>
                             <page string="Notes" name="notes" attrs="{'invisible': [('hide_notes','=',True)]}">
-                                <field name="notes" />
+                                <field name="notes" attrs="{'readonly': [('state', 'not in', ['new','requested', 'authorized'])]}" />
                             </page>
                         </notebook>
                     </sheet>
