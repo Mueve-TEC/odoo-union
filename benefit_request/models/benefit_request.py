@@ -61,7 +61,6 @@ class BenefitRequest(models.Model):
     )
     requested_amount = fields.Float(string='Requested amount')
     authorized_amount = fields.Float(string='Authorized amount')
-    accountabled_amount = fields.Float(string='Accountable amount')
     paid_amount = fields.Float(string='Paid amount')
 
     hide_school_benefits = fields.Boolean(computed='_onchange_request_type')

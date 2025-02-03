@@ -43,11 +43,10 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Subsidy" name="amounts" attrs="{'invisible': [('hide_amounts','=',True)]}">
+                            <page string="Amounts" name="amounts" attrs="{'invisible': [('hide_amounts','=',True)]}">
                                 <group>
-                                    <field name="requested_amount" />
+                                    <field name="requested_amount" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}" />
                                     <field name="authorized_amount" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}"/>
-                                    <field name="accountabled_amount" />
                                     <field name="paid_amount" attrs="{'readonly': [('state', '!=', 'authorized')]}"/>
                                 </group>
                             </page>

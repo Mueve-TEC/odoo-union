@@ -582,8 +582,8 @@ msgstr "Estados"
 
 #. module: benefit_request
 #: model_terms:ir.ui.view,arch_db:benefit_request.benefit_request_form
-msgid "Subsidy"
-msgstr "Subsidio"
+msgid "Amounts"
+msgstr "Importes"
 
 #. module: benefit_request
 #: model:ir.model,name:benefit_request.model_survey_survey
