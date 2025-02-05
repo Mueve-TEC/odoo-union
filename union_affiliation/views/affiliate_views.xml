@@ -1,19 +1,19 @@
 <odoo>
     <data>
-        <record model="ir.ui.view" id="affiliation_affiliate_form">
-            <field name="name">affiliation.affiliate.form</field>
+        <record model="ir.ui.view" id="union_affiliation_affiliate_form">
+            <field name="name">union_affiliation.affiliate.form</field>
             <field name="model">affiliation.affiliate</field>
             <!-- <field name="inherit_id" ref="base.view_partner_form" />
             <field name="mode">primary</field> -->
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button string="Affiliate" class="btn btn-primary" type="object" name="affiliate_" states="disaffiliated,historical,not_affiliated,new" groups="affiliation.group_affiliation_change_state"/>
-                        <button string="Set Contributor" class="btn btn-primary" type="object" name="set_contributor" states="affiliated" groups="affiliation.group_affiliation_change_quote"/>
-                        <button string="Confirm affiliation" class="btn btn-secondary" type="object" name="confirm_affiliation_" states="pending_suscribe" groups="affiliation.group_affiliation_change_state"/>
-                        <button string="Disaffiliate" class="btn btn-secondary" type="object" name="disaffiliate_" states="affiliated" groups="affiliation.group_affiliation_change_state"/>
-                        <button string="Confirm dissafiliation" class="btn btn-secondary" type="object" name="confirm_dissafiliation_" states="pending_unsuscribe" groups="affiliation.group_affiliation_change_state"/>
-                        <button string="Archive" class="btn btn-secondary" type="object" name="archive_" states="affiliated" groups="affiliation.group_affiliation_change_state"/>
+                        <button string="Affiliate" class="btn btn-primary" type="object" name="affiliate_" states="disaffiliated,historical,not_affiliated,new" groups="union_affiliation.group_affiliation_change_state"/>
+                        <button string="Set Contributor" class="btn btn-primary" type="object" name="set_contributor" states="affiliated" groups="union_affiliation.group_affiliation_change_quote"/>
+                        <button string="Confirm affiliation" class="btn btn-secondary" type="object" name="confirm_affiliation_" states="pending_suscribe" groups="union_affiliation.group_affiliation_change_state"/>
+                        <button string="Disaffiliate" class="btn btn-secondary" type="object" name="disaffiliate_" states="affiliated" groups="union_affiliation.group_affiliation_change_state"/>
+                        <button string="Confirm dissafiliation" class="btn btn-secondary" type="object" name="confirm_dissafiliation_" states="pending_unsuscribe" groups="union_affiliation.group_affiliation_change_state"/>
+                        <button string="Archive" class="btn btn-secondary" type="object" name="archive_" states="affiliated" groups="union_affiliation.group_affiliation_change_state"/>
                         <field name="state" widget="statusbar" />
                     </header>
                     <sheet>
@@ -75,8 +75,8 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="affiliation_affiliate_tree">
-            <field name="name">affiliation.affiliate.tree</field>
+        <record model="ir.ui.view" id="union_affiliation_affiliate_tree">
+            <field name="name">union_affiliation.affiliate.tree</field>
             <field name="model">affiliation.affiliate</field>
             <field name="arch" type="xml">
                 <tree>
@@ -90,8 +90,8 @@
             </field>
         </record>
 
-        <record id="affiliation_affiliate_search" model="ir.ui.view">
-            <field name="name">affiliation.affiliate.search</field>
+        <record id="union_affiliation_affiliate_search" model="ir.ui.view">
+            <field name="name">union_affiliation.affiliate.search</field>
             <field name="model">affiliation.affiliate</field>
             <field name="arch" type="xml">
                 <search string="Affiliate filters">
@@ -113,11 +113,6 @@
                     <filter string="Not Contributors" name="not_contributors" domain="[('quote', '=', False)]"/>
                     <field name="quote" />
                     <separator/>
-                    <!-- <filter string="Active" name="active" domain="[('affiliate_type_id.name', 'ilike', 'activ')]"/>
-                    <filter string="Jubilade" name="jubilade" domain="[('affiliate_type_id.name', 'ilike', 'jubila')]"/>
-                    <filter string="Contratade" name="contratade" domain="[('affiliate_type_id.name', 'ilike', 'contrata')]"/>
-                    <filter string="Becarie" name="becarie" domain="[('affiliate_type_id.name', 'ilike', 'becari')]"/>
-                    <field name="affiliate_type_id" /> -->
 
                     <group expand="1" string="Group By">
                         <filter string="Contributors" name='contributors' context="{'group_by':'quote'}"/>
@@ -130,8 +125,8 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="affiliation_affiliate_emails_tree">
-            <field name="name">affiliation.affiliate.emails.tree</field>
+        <record model="ir.ui.view" id="union_affiliation_affiliate_emails_tree">
+            <field name="name">union_affiliation.affiliate.emails.tree</field>
             <field name="model">affiliation.affiliate</field>
             <field name="arch" type="xml">
                 <tree create="false" edit="false" delete="false">
@@ -145,7 +140,7 @@
             </field>
         </record>
 
-        <!-- Basado en mail/views/res_partner_views.xml  -->
+        <!-- Based on mail/views/res_partner_views.xml  -->
         <act_window name="Send email"
             res_model="mail.compose.message"
             binding_model="affiliation.affiliate"

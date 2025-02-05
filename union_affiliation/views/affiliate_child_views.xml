@@ -1,7 +1,7 @@
 <odoo>
     <data>
-        <record model="ir.ui.view" id="affiliation_affiliate_child_form">
-            <field name="name">affiliation.affiliate_child.form</field>
+        <record model="ir.ui.view" id="union_affiliation_affiliate_child_form">
+            <field name="name">union_affiliation.affiliate_child.form</field>
             <field name="model">affiliation.affiliate_child</field>
             <field name="arch" type="xml">
                 <form>
@@ -25,8 +25,8 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="affiliation_affiliate_child_tree">
-            <field name="name">affiliation.affiliate_child.tree</field>
+        <record model="ir.ui.view" id="union_affiliation_affiliate_child_tree">
+            <field name="name">union_affiliation.affiliate_child.tree</field>
             <field name="model">affiliation.affiliate_child</field>
             <field name="arch" type="xml">
                 <tree>
@@ -40,8 +40,8 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="affiliation_affiliate_child_search">
-            <field name="name">affiliation.affiliate_child.search</field>
+        <record model="ir.ui.view" id="union_affiliation_affiliate_child_search">
+            <field name="name">union_affiliation.affiliate_child.search</field>
             <field name="model">affiliation.affiliate_child</field>
             <field name="arch" type="xml">
                 <search string="Affiliate child filters">

@@ -3,11 +3,11 @@
         <!-- 
             This will be the only record that will have the table since it is a configuration page.
         -->
-        <record id="affiliation_configuration_default" model="affiliation.affiliation_configuration">
+        <record id="union_affiliation_configuration_default" model="affiliation.affiliation_configuration">
         </record>
 
-        <record model="ir.ui.view" id="affiliation_affiliation_configuration_form">
-            <field name="name">affiliation.affiliate_configuration.form</field>
+        <record model="ir.ui.view" id="union_affiliation_affiliation_configuration_form">
+            <field name="name">union_affiliation.affiliate_configuration.form</field>
             <field name="model">affiliation.affiliation_configuration</field>
             <field name="arch" type="xml">
                 <form create="false" delete="false">

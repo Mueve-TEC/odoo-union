@@ -1,7 +1,7 @@
 <odoo>
     <data>
-        <record model="ir.ui.view" id="affiliation_affiliation_period_form">
-            <field name="name">affiliation.affiliate_period.form</field>
+        <record model="ir.ui.view" id="union_affiliation_affiliation_period_form">
+            <field name="name">union_affiliation.affiliate_period.form</field>
             <field name="model">affiliation.affiliation_period</field>
             <field name="arch" type="xml">
                 <form>
@@ -19,8 +19,8 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="affiliation_affiliation_period_tree">
-            <field name="name">affiliation.affiliate_period.tree</field>
+        <record model="ir.ui.view" id="union_affiliation_affiliation_period_tree">
+            <field name="name">union_affiliation.affiliate_period.tree</field>
             <field name="model">affiliation.affiliation_period</field>
             <field name="arch" type="xml">
                 <tree>
