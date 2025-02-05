@@ -23,7 +23,7 @@ class AffiliateContribution(models.Model):
         required=True,
         ondelete='restrict'
     )
-    # The next fields are to manage the importation like ADIUC way
+    # The next fields are to manage the importation process
     # All need be stored, because are necessary for the import process 
     import_name = fields.Char(string='Import name')
     import_uid = fields.Char(string='Import uid')
@@ -45,7 +45,7 @@ class AffiliateContribution(models.Model):
                     conf = self.env['affiliation.affiliation_configuration'].browse(1)
                     if conf.create_user_from_contribution:
                         affiliate = {'uid': vals['import_uid'], 'state': 'new'}
-                        # El campo nombre debería venir siempre que haya que crear el afiliado 
+                        # Name field should always come when creating the affiliate
                         if 'import_name' in vals:
                             affiliate.update({'name': vals['import_name']})
                         if 'import_vat' in vals:
@@ -59,7 +59,6 @@ class AffiliateContribution(models.Model):
         return res
 
     def write(self, vals):
-        # self._compute_affiliate_fields(vals)
         res = super(AffiliateContribution, self).write(vals)
         return res
 
@@ -80,13 +79,6 @@ class AffiliateContribution(models.Model):
         log = self.env['butterlog.butterlog'].create(log)
         self.env.user.notify_danger(message=(_('There were errors during importation. See the logs!')))
 
-    # def _compute_affiliate_fields(self, vals):
-    #     if 'affiliate_id' in vals:
-    #         affiliate = self.env['affiliation.affiliate'].browse(vals['affiliate_id'])
-    #         vals['affiliate_name'] = affiliate.name
-    #         vals['affiliate_uid'] = affiliate.uid
-    #         vals['affiliate_vat'] = affiliate.vat
-    #         vals['affiliate_personal_id'] = affiliate.personal_id
 
     def name_get(self):
         result = []

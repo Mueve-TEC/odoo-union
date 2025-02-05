@@ -1,8 +1,7 @@
 <odoo>
     <data>
         <!-- 
-            Este será el unico registro que tendra la tabla ya que es una pagina de 
-            configuracion. 
+            This will be the only record that will have the table since it is a configuration page.
         -->
         <record id="affiliation_configuration_default" model="affiliation.affiliation_configuration">
         </record>

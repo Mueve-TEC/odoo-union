@@ -92,7 +92,6 @@ class Affiliate(models.Model):
     affiliation_date = fields.Date(string='Affiliation\'s date')
     disaffiliation_date = fields.Date(string='Disaffiliation\'s date')
     seniority = fields.Date(string='Seniority')
-    # email2 = fields.Char(related='partner_id.email2', store=True)
 
     # EtiquetaBis
     category_bis_id = fields.Many2many(
@@ -111,13 +110,6 @@ class Affiliate(models.Model):
             raise ValidationError(
                 _('There is already exist an affiliate with the same uid!'))
 
-    # @api.constrains('affiliation_date','disaffiliation_date')
-    # def _check_dates(self):
-        # if self.affiliation_date and self.disaffiliation_date and self.affiliation_date > self.disaffiliation_date:
-        #     raise ValidationError(_('\'From date\' is major to \'to date\'!'))
-
-    # Durante la importacion por RPC este método se debe comentar porque la base de ADIUC
-    # tiene numeros de afiliados repetidos y muchos en 0
     @api.constrains('affiliation_number')
     def _check_affiliation_number(self):
         if self.affiliation_number:
@@ -125,7 +117,7 @@ class Affiliate(models.Model):
             if len(other.ids) > 1 or (len(other) == 1 and other[0].id != self.id):
                 raise ValidationError(_("There is already exist an affiliated with the same affiliation number!"))
 
-    # Aunque no haga nada, el metodo es necesario para la importacion por RPC
+    # This method is necessary for RPC importation
     @api.model
     def create(self, vals):
         res = super(Affiliate, self).create(vals)
@@ -184,7 +176,6 @@ class Affiliate(models.Model):
         else:
             self.write(_to_write)
 
-
     def start_affiliation_(self, _to_write, _config):
         
         _to_write.update({'affiliation_date': fields.Date.today()})
@@ -195,8 +186,7 @@ class Affiliate(models.Model):
             if not suggested_affiliation_number:
                 raise UserError(_("The sequence next_affiliation_number_seq is not defined."))
             
-        # TODO: agregar forma de borrar las afiliaciones no confirmadas
-        # de los records de esta base de datos automáticamente.
+        # TODO: find a way to delete the unconfirmed affiliations from database records
         _data = self.env['affiliation.affiliation_number'].create(
             {'affiliate_id': self.id,
             'affiliation_number': suggested_affiliation_number,
@@ -211,8 +201,6 @@ class Affiliate(models.Model):
             'res_id': _data.id,
             'context': _to_write
         }
-
-
 
     def disaffiliate_(self):
         _config = self.env['affiliation.affiliation_configuration'].browse(1)
@@ -269,12 +257,11 @@ class Affiliate(models.Model):
         if not name:
             return super()._name_search(name, args, operator, limit)
 
-        # Construir el dominio con cuidado
         domain = ['|', '|', 
                 ('personal_id', operator, name),
                 ('name', operator, name), 
                 ('uid', operator, name)]
-        # Buscar registros válidos
+        
         recs = self.search(domain + args, limit=limit)
         if not recs:
             return []

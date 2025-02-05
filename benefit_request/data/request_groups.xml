@@ -6,9 +6,6 @@
         <record id="adiuc_request_group_subsidios" model="benefit_request.request_group">
             <field name="name">Subsidios</field>
         </record>
-        <!-- <record id="adiuc_request_group_subsidios" model="benefit_request.request_group">
-            <field name="name">Prestamos</field>
-        </record> -->
         <record id="adiuc_request_group_notas" model="benefit_request.request_group">
             <field name="name">Notas</field>
         </record>

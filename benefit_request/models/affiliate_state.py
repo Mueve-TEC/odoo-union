@@ -20,6 +20,6 @@ class AffiliateState(models.Model):
     name = fields.Char(string='name', required=True)
     value = fields.Char(string='value', required=True)
 
-# TODO: Encontrar un método para traducir los estados de afiliado
+# TODO: find a better way to translate affiliate states
     def name_get(self):
         return [(state.id, es_AR_state_names[state.value]) for state in self]
