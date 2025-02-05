@@ -4,9 +4,6 @@
             <field name="name">affiliation.affiliate_child.form</field>
             <field name="model">affiliation.affiliate_child</field>
             <field name="arch" type="xml">
-                <!-- <header>
-
-                </header> -->
                 <form>
                     <sheet>
                         <h2><field name="name" placeholder="Child name"/></h2>

@@ -15,9 +15,8 @@ class BenefitRequest(models.Model):
         required=True,
         ondelete='restrict'
     )
-    # No se relaciona con la tabla de afiliados porque Araceli comento que existen solicitudes
-    # que pueden ser pedidas por personas que no son afiliados. 
-    # Por esto es que se la relaciona con partner
+    
+    # This is not related to the affiliate table because there are requests that can be made by people who are not affiliates.
     partner_id = fields.Many2one(
         comodel_name='res.partner',
         string='Applicant',
@@ -96,11 +95,11 @@ class BenefitRequest(models.Model):
 
     def authorize(self):
         self._compute_hides()
-        if self.hide_amounts == False:  # Se deben chequear montos
+        if self.hide_amounts == False:  
             if self.authorized_amount <= 0:
                 raise ValidationError(
                     _('Authorized amount must be major to zero'))
-        if self.hide_school_benefits == False:  # Se deben chequear los bolsones
+        if self.hide_school_benefits == False: 
             if len(self.school_benefit_ids) < 1:
                 raise ValidationError(
                     _('There must be at least one school benefit'))
@@ -112,7 +111,7 @@ class BenefitRequest(models.Model):
 
     def finalize(self):
         self._compute_hides()
-        if self.hide_amounts == False:  # Se deben chequear montos
+        if self.hide_amounts == False:
             if self.paid_amount <= 0 or self.paid_amount > self.authorized_amount:
                 raise ValidationError(
                     _('The paid amount must be major to 0 and minor to authorized amount'))
@@ -136,16 +135,12 @@ class BenefitRequest(models.Model):
             self.message_unsubscribe([self.partner_id.id])
             self.message_subscribe([vals['partner_id']])
 
-        # Esto es un parche provisorio para que ADIUC pueda trabajar
-        # mas comodo. Este pedazo de código debería eliminarse una vez
-        # finalizada las encuestas.
-        # Esto debe ocultar las pestañas de subsidios y notas
         _groups = self.request_type_id.request_group_ids.mapped('name')
         if len(_groups):
             vals['hide_notes'] = False if 'Notas' in _groups else True
             vals['hide_amounts'] = False if 'Subsidios' in _groups else True
             vals['hide_school_benefits'] = False if 'Bolsones' in _groups else True
-        # Fin del parche 
+
 
         res = super(BenefitRequest, self).write(vals)
         return res

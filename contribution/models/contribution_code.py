@@ -17,13 +17,3 @@ class AffiliateContributionCode(models.Model):
         for record in self:
             result.append((record.id, record.code))
         return result
-
-    # @api.model
-    # def name_search(self, name, args=None, operator='ilike', limit=100):
-    #     args = args or []
-    #     domain = ['|', ('name', operator, name), ('name', operator, name)]
-    #     partners = self.env['res.partner'].search([('name', operator, name)], limit=limit)
-    #     if partners:
-    #         domain = ['|'] + domain + [('partner_id', 'in', partners.ids)]
-    #     recs = self.search(domain + args, limit=limit)
-    #     return recs.name_get()

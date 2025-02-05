@@ -37,7 +37,7 @@ class Position(models.Model):
         column2='tag_id',
         string='Tags'
     )
-    # The next field are to manage the importation like ADIUC way
+    # The next field are to manage the importation process
     # It is needed be stored, because are necessary for the import process
     import_uid = fields.Char(string='Import UID')
     import_personal_id = fields.Char(string='Import Personal ID')
@@ -72,20 +72,13 @@ class Position(models.Model):
             if 'tag_ids' in vals:
                 vals['tag_ids'] = self._get_tag_for_import(vals['tag_ids'])
             self._clean_affiliate_data(vals)
-        # self._compute_affiliate_fields(vals)
         res = super(Position, self).create(vals)
         return res
 
     def write(self,vals):
-        # self._compute_affiliate_fields(vals)
+
         res = super(Position, self).write(vals)
         return res
-
-    # def _compute_affiliate_fields(self, vals):
-    #     if 'affiliate_id' in vals:
-    #         affiliate = self.env['affiliation.affiliate'].browse(vals['affiliate_id'])
-    #         vals['affiliate_uid'] = affiliate.uid
-    #         vals['affiliate_personal_id'] = affiliate.personal_id
 
     def _get_tag_for_import(self,tags):
         return tags[0][2]

@@ -37,14 +37,12 @@ class SchoolBenefit(models.Model):
         return self._compute_child_domain()
 
     def _compute_child_domain(self):
-        # res = {'domain' : {'affiliate_child_id' : [('verified', '=', True)],}}
         _affiliated = self.env['affiliation.affiliate'].search([('partner_id','=',self.partner_id.id)])
         _child_ids = []
         if _affiliated:
             __childs = _affiliated.affiliate_child_ids
             for _child in __childs :
                 _child_ids.append(_child.id)
-        # res['domain']['affiliate_child_id'].append(('id', 'in', _child_ids),)
         res = {'domain' : {'affiliate_child_id' : [('id', 'in', _child_ids)],}}
         return res
 
@@ -67,5 +65,3 @@ class SchoolBenefit(models.Model):
         return result
 
 
-
-    

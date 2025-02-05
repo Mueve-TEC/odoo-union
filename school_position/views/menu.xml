@@ -58,16 +58,4 @@
         action="school_position_dependency_list_action"
         groups="group_school_position_read"/>
 
-    <!-- <record model="ir.actions.act_window" id="school_position_tag_list_action">
-        <field name="name">Position's tag list</field>
-        <field name="res_model">school_position.tag</field>
-        <field name="view_id" ref="school_position_tag_tree"/>
-        <field name="view_mode">tree,form</field> 
-    </record>
-
-    <menuitem name="Position's tag list" 
-        id="school_position_tag_list" 
-        sequence="10" parent="school_position.position_section" 
-        action="school_position_tag_list_action"
-        groups="group_school_position_read"/> -->
 </odoo>

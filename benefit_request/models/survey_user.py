@@ -39,7 +39,6 @@ class SurveyUserInput(models.Model):
                 return None
         survey = self.survey_id
 
-        #Eliminado de antiguas solicitudes
         self._clean_old_requests(affiliate, survey)
 
         values = {

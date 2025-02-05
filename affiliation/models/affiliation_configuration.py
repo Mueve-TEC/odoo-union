@@ -37,8 +37,8 @@ class AffiliationConfiguration(models.Model):
         res = super(AffiliationConfiguration, self).write(vals)
         return res
 
-# Este método se agregó para que el breadcrumb no figure como "affiliation.affiliation_configuration,1"
-# y se traduzca según el idioma del usuario
+# This method was added so that the breadcrumb does not appear as "affiliation.affiliation_configuration,1"
+# and is translated according to the user's language
     @api.depends_context('lang')
     def _compute_name(self):
         for record in self:
