@@ -1,7 +1,7 @@
 <odoo>
     <data>
-        <record model="ir.ui.view" id="benefit_request_type_form">
-            <field name="name">benefit_request_type_form</field>
+        <record model="ir.ui.view" id="union_benefit_request_type_form">
+            <field name="name">union_benefit_request_type_form</field>
             <field name="model">benefit_request.request_type</field>
             <field name="arch" type="xml">
                 <form>
@@ -22,8 +22,8 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="benefit_request_type_tree">
-            <field name="name">benefit_request_type_tree</field>
+        <record model="ir.ui.view" id="union_benefit_request_type_tree">
+            <field name="name">union_benefit_request_type_tree</field>
             <field name="model">benefit_request.request_type</field>
             <field name="arch" type="xml">
                 <tree>

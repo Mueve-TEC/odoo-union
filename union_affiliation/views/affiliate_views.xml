@@ -3,8 +3,6 @@
         <record model="ir.ui.view" id="union_affiliation_affiliate_form">
             <field name="name">union_affiliation.affiliate.form</field>
             <field name="model">affiliation.affiliate</field>
-            <!-- <field name="inherit_id" ref="base.view_partner_form" />
-            <field name="mode">primary</field> -->
             <field name="arch" type="xml">
                 <form>
                     <header>

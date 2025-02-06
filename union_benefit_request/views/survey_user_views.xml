@@ -13,8 +13,8 @@
             </field>
         </record> -->
 
-        <record id="benefit_request_user_input_view_tree" model="ir.ui.view">
-            <field name="name">benefit.request.user_input.view.tree</field>
+        <record id="union_benefit_request_user_input_view_tree" model="ir.ui.view">
+            <field name="name">union_benefit.request.user_input.view.tree</field>
             <field name="model">survey.user_input</field>
             <field name="inherit_id" ref="survey.survey_user_input_view_tree" />
             <field name="arch" type="xml">
