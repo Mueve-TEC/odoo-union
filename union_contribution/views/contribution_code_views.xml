@@ -1,7 +1,7 @@
 <odoo>
     <data>
-        <record model="ir.ui.view" id="contribution_affiliate_contribution_code_form">
-            <field name="name">contribution.affiliate.contribution.code.form</field>
+        <record model="ir.ui.view" id="union_contribution_affiliate_contribution_code_form">
+            <field name="name">union_contribution.affiliate.contribution.code.form</field>
             <field name="model">contribution.affiliate_contribution_code</field>
             <field name="arch" type="xml">
                 <form>
@@ -16,8 +16,8 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="contribution_affiliate_contribution_code_tree">
-            <field name="name">contribution.affiliate.contribution.code.tree</field>
+        <record model="ir.ui.view" id="union_contribution_affiliate_contribution_code_tree">
+            <field name="name">union_contribution.affiliate.contribution.code.tree</field>
             <field name="model">contribution.affiliate_contribution_code</field>
             <field name="arch" type="xml">
                 <tree>

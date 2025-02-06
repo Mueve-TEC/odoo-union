@@ -19,7 +19,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','affiliation','butterlog','import_ignore_error','web_notify'],
+    'depends': ['base','union_affiliation','butterlog','import_ignore_error','web_notify'],
 
     # always loaded
     'data': [

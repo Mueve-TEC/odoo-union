@@ -1,9 +1,9 @@
 <odoo>
     <data>
-        <record model="ir.ui.view" id="contribution_affiliation_affiliate_form">
-            <field name="name">contribution.affiliation.affiliate.form</field>
+        <record model="ir.ui.view" id="union_contribution_affiliation_affiliate_form">
+            <field name="name">union_contribution.affiliation.affiliate.form</field>
             <field name="model">affiliation.affiliate</field>
-            <field name="inherit_id" ref="affiliation.affiliation_affiliate_form" />
+            <field name="inherit_id" ref="union_affiliation.union_affiliation_affiliate_form" />
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/notebook" position="inside">
                     <page name="contribution" string="Contributions"
