@@ -1,6 +1,6 @@
 <odoo>
     <data>
-        <record model="ir.ui.view" id="school_position_type_tree">
+        <record model="ir.ui.view" id="union_school_position_type_tree">
             <field name="name">School position type tree</field>
             <field name="model">school_position.type</field>
             <field name="arch" type="xml">
@@ -13,7 +13,7 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="school_position_type_form">
+        <record model="ir.ui.view" id="union_school_position_type_form">
             <field name="name">School position type form</field>
             <field name="model">school_position.type</field>
             <field name="arch" type="xml">

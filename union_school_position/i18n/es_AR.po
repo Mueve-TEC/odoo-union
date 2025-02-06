@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* school_position
+# 	* union_school_position
 #
 msgid ""
 msgstr ""
@@ -15,224 +15,229 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__affiliate_id
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__affiliate_id
 msgid "Affiliate"
 msgstr "Afiliado"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__uid
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__type_id
+msgid "Type"
+msgstr "Tipo de cargo"
+
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__uid
 msgid "Affiliate UID"
 msgstr "Legajo"
 
-#. module: school_position
-#: code:addons/school_position/models/position.py:0
+#. module: union_school_position
+#: code:addons/union_school_position/models/position.py:0
 #, python-format
 msgid "Affiliate doesn't exist!."
 msgstr "¡El afiliado no existe!"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__character_id
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__character_id
 msgid "Character"
 msgstr "Carácter"
 
-#. module: school_position
-#: model:ir.model,name:school_position.model_school_position_character
+#. module: union_school_position
+#: model:ir.model,name:union_school_position.model_school_position_character
 msgid "Character of school position"
 msgstr "Carácter del cargo"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_character__code
-#: model:ir.model.fields,field_description:school_position.field_school_position_dependency__code
-#: model:ir.model.fields,field_description:school_position.field_school_position_type__code
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_character__code
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_dependency__code
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_type__code
 msgid "Code"
 msgstr "Código"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_character__create_uid
-#: model:ir.model.fields,field_description:school_position.field_school_position_dependency__create_uid
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__create_uid
-#: model:ir.model.fields,field_description:school_position.field_school_position_tag__create_uid
-#: model:ir.model.fields,field_description:school_position.field_school_position_type__create_uid
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_character__create_uid
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_dependency__create_uid
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__create_uid
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_tag__create_uid
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_type__create_uid
 msgid "Created by"
 msgstr "Creado por"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_character__create_date
-#: model:ir.model.fields,field_description:school_position.field_school_position_dependency__create_date
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__create_date
-#: model:ir.model.fields,field_description:school_position.field_school_position_tag__create_date
-#: model:ir.model.fields,field_description:school_position.field_school_position_type__create_date
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_character__create_date
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_dependency__create_date
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__create_date
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_tag__create_date
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_type__create_date
 msgid "Created on"
 msgstr "Creado en"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_type__dedication
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_type__dedication
 msgid "Dedication"
 msgstr "Dedicación"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__dependency_id
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__dependency_id
 msgid "Dependency"
 msgstr "Dependencia"
 
-#. module: school_position
-#: model:ir.model,name:school_position.model_school_position_dependency
+#. module: union_school_position
+#: model:ir.model,name:union_school_position.model_school_position_dependency
 msgid "Dependency of school position"
 msgstr "Dependencia del cargo"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_character__name
-#: model:ir.model.fields,field_description:school_position.field_school_position_type__name
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_character__name
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_type__name
 msgid "Description"
 msgstr "Descripción"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_character__display_name
-#: model:ir.model.fields,field_description:school_position.field_school_position_dependency__display_name
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__display_name
-#: model:ir.model.fields,field_description:school_position.field_school_position_tag__display_name
-#: model:ir.model.fields,field_description:school_position.field_school_position_type__display_name
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_character__display_name
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_dependency__display_name
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__display_name
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_tag__display_name
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_type__display_name
 msgid "Display Name"
 msgstr "Nombre para mostrar"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__hs_amount
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__hs_amount
 msgid "Hours amount"
 msgstr "Cantidad de horas"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_character__id
-#: model:ir.model.fields,field_description:school_position.field_school_position_dependency__id
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__id
-#: model:ir.model.fields,field_description:school_position.field_school_position_tag__id
-#: model:ir.model.fields,field_description:school_position.field_school_position_type__id
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_character__id
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_dependency__id
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__id
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_tag__id
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_type__id
 msgid "ID"
 msgstr "ID"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__import_personal_id
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__import_personal_id
 msgid "Import Personal ID"
 msgstr "Nro de documento (importacion)"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__import_uid
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__import_uid
 msgid "Import UID"
 msgstr "Legajo (importacion)"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_type__in_hours
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_type__in_hours
 msgid "Is in hours"
 msgstr "Está en horas"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_character____last_update
-#: model:ir.model.fields,field_description:school_position.field_school_position_dependency____last_update
-#: model:ir.model.fields,field_description:school_position.field_school_position_position____last_update
-#: model:ir.model.fields,field_description:school_position.field_school_position_tag____last_update
-#: model:ir.model.fields,field_description:school_position.field_school_position_type____last_update
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_character____last_update
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_dependency____last_update
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position____last_update
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_tag____last_update
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_type____last_update
 msgid "Last Modified on"
 msgstr "Última modificación en"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_character__write_uid
-#: model:ir.model.fields,field_description:school_position.field_school_position_dependency__write_uid
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__write_uid
-#: model:ir.model.fields,field_description:school_position.field_school_position_tag__write_uid
-#: model:ir.model.fields,field_description:school_position.field_school_position_type__write_uid
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_character__write_uid
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_dependency__write_uid
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__write_uid
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_tag__write_uid
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_type__write_uid
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_character__write_date
-#: model:ir.model.fields,field_description:school_position.field_school_position_dependency__write_date
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__write_date
-#: model:ir.model.fields,field_description:school_position.field_school_position_tag__write_date
-#: model:ir.model.fields,field_description:school_position.field_school_position_type__write_date
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_character__write_date
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_dependency__write_date
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__write_date
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_tag__write_date
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_type__write_date
 msgid "Last Updated on"
 msgstr "Última actualización en"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_dependency__name
-#: model:ir.model.fields,field_description:school_position.field_school_position_tag__name
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_dependency__name
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_tag__name
 msgid "Name"
 msgstr "Nombre"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_dependency__parent_id
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_dependency__parent_id
 msgid "Parent"
 msgstr "Padre"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__personal_id
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__personal_id
 msgid "Personal ID"
 msgstr "Nro de documento"
 
-#. module: school_position
-#: model_terms:ir.ui.view,arch_db:school_position.school_position_search
+#. module: union_school_position
+#: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_search
 msgid "Position filters"
 msgstr "Filtro de cargos"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__position_number
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__position_number
 msgid "Position number"
 msgstr "Número de cargo"
 
-#. module: school_position
-#: model:ir.actions.act_window,name:school_position.school_position_character_list_action
-#: model:ir.ui.menu,name:school_position.school_position_character_list
+#. module: union_school_position
+#: model:ir.actions.act_window,name:union_school_position.union_school_position_character_list_action
+#: model:ir.ui.menu,name:union_school_position.union_school_position_character_list
 msgid "Position's character"
 msgstr "Carácteres de cargos"
 
-#. module: school_position
-#: model:ir.actions.act_window,name:school_position.school_position_dependency_list_action
-#: model:ir.ui.menu,name:school_position.school_position_dependency_list
+#. module: union_school_position
+#: model:ir.actions.act_window,name:union_school_position.union_school_position_dependency_list_action
+#: model:ir.ui.menu,name:union_school_position.union_school_position_dependency_list
 msgid "Position's dependency"
 msgstr "Dependencias de cargos"
 
-#. module: school_position
-#: model:ir.actions.act_window,name:school_position.school_position_type_list_action
-#: model:ir.ui.menu,name:school_position.school_position_type_list
+#. module: union_school_position
+#: model:ir.actions.act_window,name:union_school_position.union_school_position_type_list_action
+#: model:ir.ui.menu,name:union_school_position.union_school_position_type_list
 msgid "Position's type"
 msgstr "Tipos de cargos"
 
-#. module: school_position
-#: model:ir.ui.menu,name:school_position.position_section
+#. module: union_school_position
+#: model:ir.ui.menu,name:union_school_position.position_section
 msgid "Positions"
 msgstr "Cargos"
 
-#. module: school_position
-#: model:ir.actions.act_window,name:school_position.school_position_list_action
-#: model:ir.ui.menu,name:school_position.school_position_position_list
+#. module: union_school_position
+#: model:ir.actions.act_window,name:union_school_position.union_school_position_list_action
+#: model:ir.ui.menu,name:union_school_position.union_school_position_position_list
 msgid "Positions list"
 msgstr "Lista de cargos"
 
-#. module: school_position
-#: model:ir.model,name:school_position.model_school_position_position
+#. module: union_school_position
+#: model:ir.model,name:union_school_position.model_school_position_position
 msgid "School position"
 msgstr "Cargo"
 
-#. module: school_position
-#: model:res.groups,name:school_position.group_school_position_admin
+#. module: union_school_position
+#: model:res.groups,name:union_school_position.group_school_position_admin
 msgid "School position admin"
 msgstr "Administrador de cargos"
 
-#. module: school_position
-#: model:res.groups,name:school_position.group_school_position_read
+#. module: union_school_position
+#: model:res.groups,name:union_school_position.group_school_position_read
 msgid "School position read"
 msgstr "Lectura de cargos"
 
-#. module: school_position
-#: model:res.groups,name:school_position.group_school_position_write
+#. module: union_school_position
+#: model:res.groups,name:union_school_position.group_school_position_write
 msgid "School position write"
 msgstr "Escritura de cargos"
 
-#. module: school_position
-#: model:ir.model,name:school_position.model_school_position_tag
+#. module: union_school_position
+#: model:ir.model,name:union_school_position.model_school_position_tag
 msgid "Tag of school position"
 msgstr "Etiqueta de cargos"
 
-#. module: school_position
-#: model:ir.model.fields,field_description:school_position.field_school_position_position__tag_ids
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__tag_ids
 msgid "Tags"
 msgstr "Etiquetas"

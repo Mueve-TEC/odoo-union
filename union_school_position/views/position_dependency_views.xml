@@ -1,6 +1,6 @@
 <odoo>
     <data>
-        <record model="ir.ui.view" id="school_position_dependency_form">
+        <record model="ir.ui.view" id="union_school_position_dependency_form">
             <field name="name">School position dependency form</field>
             <field name="model">school_position.dependency</field>
             <field name="arch" type="xml">
@@ -16,7 +16,7 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="school_position_dependency_tree">
+        <record model="ir.ui.view" id="union_school_position_dependency_tree">
             <field name="name">School position dependency tree</field>
             <field name="model">school_position.dependency</field>
             <field name="arch" type="xml">

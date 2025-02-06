@@ -2,60 +2,60 @@
 <odoo>
 
     <!-- School position section -->
-    <menuitem name="Positions" id="school_position.position_section" 
-        sequence="40" parent="affiliation.sindicate" 
+    <menuitem name="Positions" id="union_school_position.position_section" 
+        sequence="40" parent="union_affiliation.sindicate" 
         groups="group_school_position_read"/>
 
-    <record model="ir.actions.act_window" id="school_position_list_action">
+    <record model="ir.actions.act_window" id="union_school_position_list_action">
         <field name="name">Positions list</field>
         <field name="res_model">school_position.position</field>
-        <field name="view_id" ref="school_position_tree"/>
+        <field name="view_id" ref="union_school_position_tree"/>
         <field name="view_mode">tree,form</field> 
     </record>
 
     <menuitem name="Positions list" 
-        id="school_position_position_list" 
-        sequence="10" parent="school_position.position_section" 
-        action="school_position_list_action"
+        id="union_school_position_position_list" 
+        sequence="10" parent="union_school_position.position_section" 
+        action="union_school_position_list_action"
         groups="group_school_position_read"/>
 
-    <record model="ir.actions.act_window" id="school_position_type_list_action">
+    <record model="ir.actions.act_window" id="union_school_position_type_list_action">
         <field name="name">Position's type</field>
         <field name="res_model">school_position.type</field>
-        <field name="view_id" ref="school_position_type_tree"/>
+        <field name="view_id" ref="union_school_position_type_tree"/>
         <field name="view_mode">tree,form</field> 
     </record>
 
     <menuitem name="Position's type" 
-        id="school_position_type_list" 
-        sequence="10" parent="school_position.position_section" 
-        action="school_position_type_list_action"
+        id="union_school_position_type_list" 
+        sequence="10" parent="union_school_position.position_section" 
+        action="union_school_position_type_list_action"
         groups="group_school_position_read"/>
 
-    <record model="ir.actions.act_window" id="school_position_character_list_action">
+    <record model="ir.actions.act_window" id="union_school_position_character_list_action">
         <field name="name">Position's character</field>
         <field name="res_model">school_position.character</field>
-        <field name="view_id" ref="school_position_character_tree"/>
+        <field name="view_id" ref="union_school_position_character_tree"/>
         <field name="view_mode">tree,form</field> 
     </record>
 
     <menuitem name="Position's character" 
-        id="school_position_character_list" 
-        sequence="10" parent="school_position.position_section" 
-        action="school_position_character_list_action"
+        id="union_school_position_character_list" 
+        sequence="10" parent="union_school_position.position_section" 
+        action="union_school_position_character_list_action"
         groups="group_school_position_read"/>
 
-    <record model="ir.actions.act_window" id="school_position_dependency_list_action">
+    <record model="ir.actions.act_window" id="union_school_position_dependency_list_action">
         <field name="name">Position's dependency</field>
         <field name="res_model">school_position.dependency</field>
-        <field name="view_id" ref="school_position_dependency_tree"/>
+        <field name="view_id" ref="union_school_position_dependency_tree"/>
         <field name="view_mode">tree,form</field> 
     </record>
 
     <menuitem name="Position's dependency" 
-        id="school_position_dependency_list" 
-        sequence="10" parent="school_position.position_section" 
-        action="school_position_dependency_list_action"
+        id="union_school_position_dependency_list" 
+        sequence="10" parent="union_school_position.position_section" 
+        action="union_school_position_dependency_list_action"
         groups="group_school_position_read"/>
 
 </odoo>

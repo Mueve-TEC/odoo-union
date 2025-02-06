@@ -1,6 +1,6 @@
 <odoo>
     <data>
-        <record model="ir.ui.view" id="school_position_character_form">
+        <record model="ir.ui.view" id="union_school_position_character_form">
             <field name="name">School position character form</field>
             <field name="model">school_position.character</field>
             <field name="arch" type="xml">
@@ -15,7 +15,7 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="school_position_character_tree">
+        <record model="ir.ui.view" id="union_school_position_character_tree">
             <field name="name">School position character tree</field>
             <field name="model">school_position.character</field>
             <field name="arch" type="xml">
