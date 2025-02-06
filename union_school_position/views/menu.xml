@@ -3,7 +3,7 @@
 
     <!-- School position section -->
     <menuitem name="Positions" id="union_school_position.position_section" 
-        sequence="40" parent="union_affiliation.sindicate" 
+        sequence="40" parent="union_affiliation.union" 
         groups="group_school_position_read"/>
 
     <record model="ir.actions.act_window" id="union_school_position_list_action">
