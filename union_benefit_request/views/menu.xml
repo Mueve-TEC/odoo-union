@@ -3,7 +3,7 @@
 
     <!-- Request section -->
     <menuitem name="Requests" id="union_benefit_request.requests_section" 
-        sequence="30" parent="union_affiliation.sindicate" 
+        sequence="30" parent="union_affiliation.union" 
         groups="group_benefit_request_read"/>
 
     <record model="ir.actions.act_window" id="union_benefit_request_benefit_request_list_action">

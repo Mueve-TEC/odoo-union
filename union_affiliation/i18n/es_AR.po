@@ -1069,7 +1069,7 @@ msgid "Type of the exception activity on record."
 msgstr "Tipo de actividad de excepción registrada."
 
 #. module: union_affiliation
-#: model:ir.ui.menu,name:union_affiliation.sindicate
+#: model:ir.ui.menu,name:union_affiliation.union
 msgid "Union"
 msgstr "Sindicato"
 
