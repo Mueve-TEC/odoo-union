@@ -3,12 +3,10 @@
     'name': "Sindicato - Cargos",
     'summary': """
         Módulo para gestionar los cargos.""",
-    'description': """
-        Módulo para la gestión de cargos. Complemento del módulo de afiliaciones.
-    """,
     'author': "Mueve",
     'website': "https://github.com/Mueve-TEC",
     'category': 'Union',
+    "license": "AGPL-3",
     'version': '1.0',
     'depends': ['base','union_affiliation'],
     'data': [
@@ -23,4 +21,5 @@
     'demo': [
         'demo/demo.xml',
     ],
+    "installable": True,
 }

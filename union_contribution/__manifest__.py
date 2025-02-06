@@ -3,13 +3,11 @@
     'name': "Sindicato - Aportes",
     'summary': """
         Módulo de gestion de aportes gremiales.""",
-    'description': """
-        Módulo para gestión de aportes/contribuciones de afiliados. Complemento del módulo de afiliaciones.
-    """,
     'author': "Mueve",
     'website': "https://github.com/Mueve-TEC",
     'category': 'Union',
     'version': '1.0',
+    "license": "AGPL-3",
     'depends': ['base','union_affiliation','butterlog','import_ignore_error','web_notify'],
     'data': [
         'security/contribution_security.xml',
@@ -28,4 +26,5 @@
         'demo/demo.xml',
     ],
     'post_init_hook': '_post_init_hook',
+    "installable": True,
 }

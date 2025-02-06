@@ -3,13 +3,11 @@
     'name': "Sindicato - Solicitudes",
     'summary': """
         Módulo para la gestion de solicitudes y beneficios gremiales.""",
-    'description': """
-        Módulo para la gestión de solicitudes y beneficios gremiales. Complemento del módulo de afiliaciones.
-    """,
     'author': "Mueve",
     'website': "https://github.com/Mueve-TEC",
     'category': 'Union',
     'version': '1.0',
+    'license': "AGPL-3",
     'depends': ['base','survey','mail','union_affiliation'],
     'data': [
         'security/benefit_request_security.xml',
@@ -29,4 +27,5 @@
     'demo': [
         'demo/demo.xml',
     ],
+    "installable": True,
 }

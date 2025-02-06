@@ -3,13 +3,11 @@
     'name': "Sindicato - Afiliaciones",
     'summary': """
         Módulo de gestion de gremial de afiliados.""",
-    'description': """
-        Módulo dirigido a la gestión de afiliados gremiales.
-    """,
     'author': "Mueve",
     'website': "https://github.com/Mueve-TEC",
     'category': 'Union',
     'version': '1.0',
+    "license": "AGPL-3",
     'depends': ['base','mail'],
     'data': [
         'security/affiliation_security.xml',
@@ -28,4 +26,5 @@
     'demo': [
         'demo/demo.xml',
     ],
+    "installable": True,
 }
