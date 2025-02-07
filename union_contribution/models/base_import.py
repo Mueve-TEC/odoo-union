@@ -8,7 +8,6 @@ class Import(models.TransientModel):
 
     def do(self, fields, columns, options, dryrun=False):
         # Clean logs
-        old_logs = self.env['butterlog.butterlog'].search([('user_id','=',self.env.user.id),('model_name','=',self.res_model),('type','=','import')])
-        old_logs.unlink()
+        
         res = super(Import, self).do(fields, columns, options, dryrun)
         return res

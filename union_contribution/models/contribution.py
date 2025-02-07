@@ -76,7 +76,6 @@ class AffiliateContribution(models.Model):
             'type': 'import',
             'message': str(_message)
         }
-        log = self.env['butterlog.butterlog'].create(log)
         self.env.user.notify_danger(message=(_('There were errors during importation. See the logs!')))
 
 
