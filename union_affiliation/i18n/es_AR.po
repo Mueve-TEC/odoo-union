@@ -1038,6 +1038,12 @@ msgid "There is already exist an affiliate with the same uid!"
 msgstr "¡Ya existe un afiliado con el mismo legajo!"
 
 #. module: union_affiliation
+#: code:addons/union_affiliation/models/affiliate.py:0
+#, python-format
+msgid "The field 'Employment relationship type' is required when state is not 'new' or 'not_affiliated'."
+msgstr "El 'Tipo de relación laboral' tiene que estar completo."
+
+#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__tz
 msgid "Timezone"
 msgstr "Zona horaria"
