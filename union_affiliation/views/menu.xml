@@ -33,7 +33,7 @@
         id="union_affiliation_affiliate_emails_list" 
         sequence="20" parent="union_affiliation.affiliates_section" 
         action="union_affiliation_affiliate_emails_list_action"
-        groups="group_affiliation_read"/>
+        groups="group_affiliation_emails"/>
 
     <record model="ir.actions.act_window" id="union_affiliation_affiliate_child_list_action">
         <field name="name">Affiliate's childs</field>
