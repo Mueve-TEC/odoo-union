@@ -33,10 +33,4 @@
         groups="group_contribution_read"/>
 
 
-    <menuitem name="Contribution's import logs" 
-        id="union_contribution_affiliate_contribution_import_log_list" 
-        sequence="30" parent="union_contribution.contributions_section" 
-        action="union_contribution_affiliate_contribution_import_logs_action"
-        groups="group_contribution_write"/>
-
 </odoo>
