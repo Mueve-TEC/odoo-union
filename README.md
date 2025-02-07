@@ -31,5 +31,3 @@ git clone -b 16.0 git@gitlab.mueve.net.ar:odoo-mueve/odoo-union.git
 ### Instalación de módulos para desarrollo
 
 Seguir el procedimiento detallado en el [repositorio](https://github.com/Mueve-TEC/soltec-localdev/) del entorno de desarrollo.
-
-### Dependendencia de módulos complementarios
