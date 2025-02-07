@@ -8,7 +8,7 @@
     'category': 'Union',
     'version': '1.0',
     "license": "AGPL-3",
-    'depends': ['base','union_affiliation','web_notify'],
+    'depends': ['base','union_affiliation'],
     'data': [
         'security/contribution_security.xml',
         'security/inconsistencies_security.xml',
