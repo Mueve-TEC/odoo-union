@@ -82,7 +82,6 @@ class Affiliate(models.Model):
         string='Employment relationship type',
         domain="[('enabled', '=', True)]",
         ondelete='restrict',
-        required=True
     )
 
     observations = fields.Text(string='Observations')
@@ -116,6 +115,12 @@ class Affiliate(models.Model):
             other = self.env['affiliation.affiliate'].search([('affiliation_number','=',self.affiliation_number)])
             if len(other.ids) > 1 or (len(other) == 1 and other[0].id != self.id):
                 raise ValidationError(_("There is already exist an affiliated with the same affiliation number!"))
+
+    @api.constrains('state', 'affiliate_type_id')
+    def _check_affiliate_type_id(self):
+        for record in self:
+            if record.state not in ('new', 'not_affiliated') and not record.affiliate_type_id:
+                raise ValidationError(_("The field 'Employment relationship type' is required when state is not 'new' or 'not_affiliated'."))
 
     # This method is necessary for RPC importation
     @api.model
