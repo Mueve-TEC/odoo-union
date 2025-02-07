@@ -36,17 +36,6 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="union_contribution_affiliate_contribution_import_logs_tree">
-            <field name="name">union_contribution.affiliate.contribution.import.logs.tree</field>
-            <field name="model">butterlog.butterlog</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="date"/>
-                    <field name="model_name"/>
-                    <field name="message"/>
-                </tree>
-            </field>
-        </record>
 
         <record id="union_contribution_affiliate_contribution_search" model="ir.ui.view">
             <field name="name">union_contribution.affiliate.contribution.search</field>
