@@ -60,11 +60,11 @@ Autor
 
 Este módulo fue desarrollado por:
 
-- Mueve (https://github.com/Mueve-TEC)
+- Mueve (https://www.mueve.org.ar/)
 
 Mantenedores
 ------------
 
 Este módulo es mantenido por:
 
-- Mueve (https://github.com/Mueve-TEC)
+- Mueve (https://www.mueve.org.ar/)

@@ -1,6 +1,7 @@
 # odoo-union
 
 Repositorio de módulos de *Odoo* para gestión y administración de sindicatos.
+Desarrollados y mantenidos por [Mueve](https://www.mueve.org.ar/).
 
 ## Módulos
 
