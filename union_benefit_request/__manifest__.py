@@ -7,7 +7,7 @@
     'website': "https://github.com/Mueve-TEC",
     'category': 'Union',
     'version': '1.0',
-    'license': "AGPL-3",
+    'license': "GPL-3",
     'depends': ['base','survey','mail','union_affiliation'],
     'data': [
         'security/benefit_request_security.xml',
