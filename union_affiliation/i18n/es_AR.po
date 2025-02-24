@@ -61,7 +61,13 @@ msgstr "Tipo de dirección"
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_period__affiliate_id
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
 msgid "Affiliate"
-msgstr "Afiliar"
+msgstr "Afiliado/a"
+
+#. module: union_affiliation
+#: model:ir.ui.view,name:union_affiliation.affiliation_affiliation_number_form
+#: model_terms:ir.ui.view,arch_db:union_affiliation.affiliation_affiliation_number_form
+msgid "Confirm"
+msgstr "Confirmar"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__state
@@ -144,6 +150,11 @@ msgstr "Cambio de estado de afiliación"
 #: model:res.groups,name:union_affiliation.group_affiliation_change_quote
 msgid "Affiliation change quote"
 msgstr "Cambio de estado cotizante"
+
+#. module: union_affiliation
+#: model:res.groups,name:union_affiliation.group_affiliation_emails
+msgid "Affiliation emails"
+msgstr "Correos electrónicos de afiliados"
 
 #. module: union_affiliation
 #: model:ir.actions.act_window,name:union_affiliation.union_affiliation_affiliation_configuration_form_action

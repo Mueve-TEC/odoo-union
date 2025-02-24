@@ -6,7 +6,7 @@
             <field name="arch" type="xml">
                 <form create="false">
                     <sheet>
-                        <h3>Affiliation</h3>
+                        <h3>Confirmación de Afiliación</h3>
                         <group>
                             <field name="affiliate_id" readonly="1"/>
                             <field name="affiliation_number_edition" invisible="1"/>
