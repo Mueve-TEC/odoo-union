@@ -1,0 +1,53 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="union_school_position_form">
+            <field name="name">School position form</field>
+            <field name="model">school_position.position</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="affiliate_id" />
+                            <field name="type_id" />
+                            <field name="position_number" />
+                            <field name="hs_amount" />
+                            <field name="character_id" />
+                            <field name="dependency_id" />
+                            <field name="tag_ids" widget="many2many_tags" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="union_school_position_tree">
+            <field name="name">School position tree</field>
+            <field name="model">school_position.position</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="affiliate_id" />
+                    <field name="type_id" />
+                    <field name="position_number" />
+                    <field name="hs_amount" />
+                    <field name="character_id" />
+                    <field name="dependency_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="union_school_position_search">
+            <field name="name">School position search</field>
+            <field name="model">school_position.position</field>
+            <field name="arch" type="xml">
+                <search string="Position filters">
+                    <field name="affiliate_id" filter_domain="['|','|',('affiliate_id.name', 'ilike', self),('affiliate_id.uid', 'ilike', self),('affiliate_id.personal_id', 'ilike', self)]"/>
+                    <field name="type_id" filter_domain="['|',('type_id.name', 'ilike', self),('type_id.code', 'ilike', self)]"/>
+                    <field name="dependency_id" filter_domain="['|',('dependency_id.name', 'ilike', self),('dependency_id.code', 'ilike', self)]"/>
+                    <field name="character_id" filter_domain="['|',('character_id.name', 'ilike', self),('character_id.code', 'ilike', self)]"/>
+                    <field name="tag_ids" filter_domain="[('tag_ids.name', 'ilike', self)]"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

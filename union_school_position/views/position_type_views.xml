@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="union_school_position_type_tree">
+            <field name="name">School position type tree</field>
+            <field name="model">school_position.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="code" />
+                    <field name="in_hours" />
+                    <field name="dedication" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="union_school_position_type_form">
+            <field name="name">School position type form</field>
+            <field name="model">school_position.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="code" />
+                            <field name="in_hours" />
+                            <field name="dedication" />
+                        </group>
+                    </sheet>
+                </form>             
+            </field>
+        </record>
+    </data>
+</odoo>

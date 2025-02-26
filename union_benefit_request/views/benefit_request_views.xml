@@ -1,0 +1,135 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="union_benefit_request_form">
+            <field name="name">union_benefit_request_form</field>
+            <field name="model">benefit_request.benefit_request</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Authorize" class="btn btn-primary" type="object" name="authorize" states="requested," />
+                        <button string="Reject" class="btn btn-secondary" type="object" name="reject" states="requested" />
+                        <button string="Finalize" class="btn btn-secondary" type="object" name="finalize" states="authorized" />
+                        <button string="Cancel" class="btn btn-secondary" type="object" name="cancel" states="requested,authorized,finalized" />
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="Request" name="request">
+                                <field name="request_type_id" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}" domain="[('active','=',True)]"  options="{'no_create': True}"/>
+                                <field name="partner_id" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}"/>
+                                <field name="expedient" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}"/>
+                                <field name="full_doc" attrs="{'readonly': [('state', 'not in', ['new','requested','authorized'])]}"/>
+                                <field name="observations" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}"/>
+                                <field name="hide_school_benefits" invisible="1" />
+                                <field name="hide_amounts" invisible="1" />
+                                <field name="hide_notes" invisible="1" />
+                            </group>
+                            <group string="Other information" name="other_information">
+                                <field name="responsible"  attrs="{'readonly': [('state', 'in', ['canceled','rejected'])]}" />
+                                <field name="request_date" readonly="1" />
+                                <field name="last_change_state" readonly="1" />
+                                <field name="last_state" readonly="1" />
+                                <field name="survey_user_input_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="School benefits" name="school_benefits" attrs="{'invisible': [('hide_school_benefits','=',True)]}">
+                                <field name="school_benefit_ids" attrs="{'readonly': [('state', 'not in', ['new','requested', 'authorized'])]}" options="{'create': [('state', 'in', ['new','requested'])], 'delete': [('state', 'in', ['new','requested'])]}">
+                                    <tree editable="bottom">
+                                        <field name="state" invisible="1"/>
+                                        <field name="school_benefit_type_id" attrs="{'readonly': [('state', 'in', ['authorized'])]}" />
+                                        <field name="affiliate_child_id" attrs="{'readonly': [('state', 'in', ['authorized'])]}"/>
+                                        <field name="delivered" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Amounts" name="amounts" attrs="{'invisible': [('hide_amounts','=',True)]}">
+                                <group>
+                                    <field name="requested_amount" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}" />
+                                    <field name="authorized_amount" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}"/>
+                                    <field name="paid_amount" attrs="{'readonly': [('state', '!=', 'authorized')]}"/>
+                                </group>
+                            </page>
+                            <page string="Notes" name="notes" attrs="{'invisible': [('hide_notes','=',True)]}">
+                                <field name="notes" attrs="{'readonly': [('state', 'not in', ['new','requested', 'authorized'])]}" />
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                    
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="union_benefit_request_tree">
+            <field name="name">union_benefit_request.tree</field>
+            <field name="model">benefit_request.benefit_request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="request_date" />
+                    <field name="partner_id" />
+                    <field name="request_type_id" />
+                    <field name="expedient" />
+                    <field name="full_doc" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="union_benefit_request_search" model="ir.ui.view">
+            <field name="name">union_benefit_request.search</field>
+            <field name="model">benefit_request.benefit_request</field>
+            <field name="arch" type="xml">
+                <search string="Request filters">
+                    <field name="partner_id" filter_domain="[('partner_id.name', 'ilike', self)]"/>
+                    <field name="request_type_id" filter_domain="[('request_type_id.name', 'ilike', self)]"/>
+
+                    <filter string="New" name="state_new" domain="[('state', '=', 'new')]"/>
+                    <filter string="Requested" name="state_requested" domain="[('state', '=', 'requested')]"/>
+                    <filter string="Authorized" name="state_authorized" domain="[('state', '=', 'authorized')]"/>
+                    <filter string="Rejected" name="state_rejected" domain="[('state', '=', 'rejected')]"/>
+                    <filter string="Finalized" name="state_finalized" domain="[('state', '=', 'finalized')]"/>
+                    <filter string="Canceled" name="state_canceled" domain="[('state', '=', 'canceled')]"/>
+                    <field name="state" />
+                    <separator/>
+                    <filter string="Full documented" name="full_documented" domain="[('full_doc', '=', True)]"/>
+                    <filter string="Not Full documented" name="not_full_documented" domain="[('full_doc', '=', False)]"/>
+                    <field name="full_doc" />
+
+                    <group expand="1" string="Group By">
+                        <filter string="Full documented" name='full_documented' context="{'group_by':'full_doc'}"/>
+                        <filter string="State" name='contributors' context="{'group_by':'state'}"/>
+                        <filter string="Type" name="type" context="{'group_by':'request_type_id'}"/>
+                        <filter string="Request date" name="request_date" context="{'group_by':'request_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <act_window name="Send email to aplicants"
+            res_model="mail.compose.message"
+            binding_model="benefit_request.benefit_request"
+            binding_views="list"
+            view_mode="form"
+            target="new"
+            id="action_request_mass_mail"
+            context="{
+                'default_composition_mode': 'mass_mail'
+            }"
+        />
+
+        <act_window name="Send email"
+            res_model="mail.compose.message"
+            binding_model="benefit_request.benefit_request"
+            binding_views="form"
+            view_mode="form"
+            target="new"
+            id="action_benefit_request_mail_form" 
+        />
+
+    </data>
+</odoo>

@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="school_benefit_form">
+            <field name="name">school_benefit_form</field>
+            <field name="model">benefit_request.school_benefit</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="partner_id" />
+                            <field name="benefit_request_id" readonly="1"/>
+                            <field name="state" readonly="1"/>
+                            <field name="school_benefit_type_id" readonly="1"/>
+                            <field name="affiliate_child_id" domain="[('verified','=',True)]" readonly="1"/>
+                            <field name="delivered" attrs="{'readonly': [('state', 'not in', ['new','requested', 'authorized'])]}" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="school_benefit_tree">
+            <field name="name">school_benefit_tree</field>
+            <field name="model">benefit_request.school_benefit</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false" delete="false">
+                    <field name="partner_id" />
+                    <field name="benefit_request_id" />
+                    <field name="affiliate_child_id" />
+                    <field name="school_benefit_type_id" />
+                    <field name="delivered" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="school_benefit_search">
+            <field name="name">school_benefit_search</field>
+            <field name="model">benefit_request.school_benefit</field>
+            <field name="arch" type="xml">
+                <search string="Request filters">
+                    <field name="partner_id" filter_domain="[('partner_id.name', 'ilike', self)]"/>
+                    <field name="school_benefit_type_id" filter_domain="[('school_benefit_type_id.name', 'ilike', self)]"/>
+                    <field name="affiliate_child_id" filter_domain="['|',('affiliate_child_id.name', 'ilike', self),('affiliate_child_id.personal_id', 'ilike', self)]"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

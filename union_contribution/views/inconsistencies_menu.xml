@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="query_inconsistencies_form_action">
+        <field name="name">Query inconsistencies</field>
+        <field name="res_model">inconsistencies.query</field>
+        <field name="view_id" ref="inconsistencies_query_form"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem name="Query inconsistencies" 
+        id="query_inconsistencies_wizard_form" 
+        sequence="50" parent="union_contribution.contributions_section" 
+        action="query_inconsistencies_form_action"
+        groups="group_inconsistencies_write" />
+
+    <record model="ir.actions.act_window" id="inconsistencies_result_list_action">
+        <field name="name">Inconsistencies list</field>
+        <field name="res_model">inconsistencies.result</field>
+        <field name="view_id" ref="inconsistencies_result_tree"/>
+        <field name="view_mode">tree,form</field> 
+    </record>
+
+    <menuitem name="Inconsistencies list" 
+        id="inconsistencies_result_list" 
+        sequence="60" parent="union_contribution.contributions_section" 
+        action="inconsistencies_result_list_action"
+        groups="group_inconsistencies_read"/>
+
+</odoo>

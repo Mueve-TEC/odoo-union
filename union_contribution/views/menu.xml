@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Contributions section -->
+    <menuitem name="Contributions" id="union_contribution.contributions_section" 
+        sequence="20" parent="union_affiliation.union" 
+        groups="group_contribution_read"/>
+
+    <record model="ir.actions.act_window" id="union_contribution_affiliate_contribution_list_action">
+        <field name="name">Contributions list</field>
+        <field name="res_model">contribution.affiliate_contribution</field>
+        <field name="view_id" ref="union_contribution_affiliate_contribution_tree"/>
+        <field name="view_mode">tree,form</field> 
+    </record>
+
+    <menuitem name="Contributions list" 
+        id="union_contribution_affiliate_contribution_list" 
+        sequence="10" parent="union_contribution.contributions_section" 
+        action="union_contribution_affiliate_contribution_list_action"
+        groups="group_contribution_read"/>
+
+    <record model="ir.actions.act_window" id="union_contribution_affiliate_contribution_code_list_action">
+        <field name="name">Contribution's code</field>
+        <field name="res_model">contribution.affiliate_contribution_code</field>
+        <field name="view_id" ref="union_contribution_affiliate_contribution_code_tree"/>
+        <field name="view_mode">tree,form</field> 
+    </record>
+
+    <menuitem name="Contribution's code" 
+        id="union_contribution_affiliate_contribution_code_list" 
+        sequence="20" parent="union_contribution.contributions_section" 
+        action="union_contribution_affiliate_contribution_code_list_action"
+        groups="group_contribution_read"/>
+
+
+</odoo>
