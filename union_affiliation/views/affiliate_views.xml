@@ -54,11 +54,11 @@
                                     <field name="disaffiliation_date" readonly="1"/>
                                 </group>
                             </page>
-                            <page string="Childs" name="Childs">
-                                <field name="affiliate_child_ids"/>
-                            </page>
                             <page string="Affiliate logs" name="Affiliation_logs">
                                 <field name="log" readonly="1"/>
+                            </page>
+                            <page string="Childs" name="Childs">
+                                <field name="affiliate_child_ids"/>
                             </page>
                         </notebook>
                     </sheet>
