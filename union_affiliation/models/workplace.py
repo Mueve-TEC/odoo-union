@@ -41,7 +41,7 @@ class UnionWorkplace(models.Model):
     parent_path = fields.Char(index=True)
 
     complete_name = fields.Char(
-        string='Nombre Completo',
+        string='Nombre completo',
         compute='_compute_complete_name',
         recursive=True,
         store=True
@@ -64,18 +64,18 @@ class UnionWorkplace(models.Model):
     main_affiliate_ids = fields.One2many(
         'affiliation.affiliate',
         'main_workplace_id',
-        string='Afiliados Principales',
+        string='Afiliados principales',
         help='Afiliados que tienen este lugar como principal'
     )
 
     # Campos estadísticos
     affiliate_count = fields.Integer(
-        string='Cantidad de Afiliados',
+        string='Cantidad de afiliados',
         compute='_compute_affiliate_count'
     )
 
     main_affiliate_count = fields.Integer(
-        string='Afiliados Principales',
+        string='Afiliados pincipales',
         compute='_compute_main_affiliate_count'
     )
 

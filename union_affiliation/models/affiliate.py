@@ -96,7 +96,7 @@ class Affiliate(models.Model):
 
     main_workplace_id = fields.Many2one(
         comodel_name='union.workplace',
-        string='Lugar de trabajo Principal',
+        string='Lugar de trabajo principal',
         ondelete='set null',
         help='Lugar de trabajo principal para padrones (debe estar en la lista de lugares de trabajo)'
     )

@@ -22,7 +22,10 @@
                             <group string="Employment infomation" name="personal_information">
                                 <field name="uid" attrs="{'readonly': [('state','in',['pending_suscribe','affiliated','pending_unsuscribe','disaffiliated','historical'])]}"/>
                                 <field name="affiliate_type_id"/>
-                                <field name="main_workplace_id" string="Lugar de trabajo principal" readonly="1"/>
+                                <field name="main_workplace_id" 
+                                       string="Lugar de trabajo principal" 
+                                       domain="[('id', 'in', workplace_ids)]"
+                                       options="{'no_create': True, 'no_quick_create': True}"/>
                                 <field name="seniority" string="Antigüedad"/>"
                                 <separator string="Personal information"/>
                                 <field name="personal_id_type"/>
@@ -58,7 +61,10 @@
                             <page string="Lugares de trabajo" name="workplaces">
                                 <group>
                                   <group string="Lugar de trabajo principal">
-                                    <field name="main_workplace_id" context="{'tree_view_ref': 'union_affiliation.union_workplace_tree'}"/>
+                                    <field name="main_workplace_id" 
+                                           domain="[('id', 'in', workplace_ids)]"
+                                           options="{'no_create': True, 'no_quick_create': True}"
+                                           context="{'tree_view_ref': 'union_affiliation.union_workplace_tree'}"/>
                                   </group>
                                 </group>
                                 <separator string="Todos los lugares de trabajo"/>
@@ -73,7 +79,7 @@
                                     <strong>Instrucciones:</strong>
                                     <ul class="mb-0">
                                         <li>Primero agregue los lugares de trabajo usando el botón "Agregar una línea"</li>
-                                        <li>Luego seleccione uno como lugar de trabajo principal en la sección de arriba</li>
+                                        <li>Luego seleccione uno como lugar de trabajo principal</li>
                                     </ul>
                                 </div>
                             </page>
