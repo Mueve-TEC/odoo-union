@@ -91,7 +91,7 @@ class Affiliate(models.Model):
         column1='affiliate_id',
         column2='workplace_id',
         string='Lugares de trabajo',
-        help='Todos los lugares de trabajo donde trabaja el afiliado'
+        help='Todos los lugares de trabajo del afiliado'
     )
 
     main_workplace_id = fields.Many2one(
