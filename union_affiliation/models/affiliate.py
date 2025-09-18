@@ -8,9 +8,10 @@ log = logging.getLogger(__name__)
 
 
 AFFILIATE_STR_TO_INT = {
-    'active': 0, 
+    'active': 0,
     'retired': 1
 }
+
 
 class Affiliate(models.Model):
     _name = 'affiliation.affiliate'
@@ -84,6 +85,22 @@ class Affiliate(models.Model):
         ondelete='restrict',
     )
 
+    workplace_ids = fields.Many2many(
+        comodel_name='union.workplace',
+        relation='affiliate_workplace_rel',
+        column1='affiliate_id',
+        column2='workplace_id',
+        string='Lugares de trabajo',
+        help='Todos los lugares de trabajo donde trabaja el afiliado'
+    )
+
+    main_workplace_id = fields.Many2one(
+        comodel_name='union.workplace',
+        string='Lugar de trabajo Principal',
+        ondelete='restrict',
+        help='Lugar de trabajo principal para padrones (debe estar en la lista de lugares de trabajo)'
+    )
+
     observations = fields.Text(string='Observations')
     quote = fields.Boolean(string='Contributor', default=False)
     log = fields.Text(string='Log')
@@ -112,15 +129,27 @@ class Affiliate(models.Model):
     @api.constrains('affiliation_number')
     def _check_affiliation_number(self):
         if self.affiliation_number:
-            other = self.env['affiliation.affiliate'].search([('affiliation_number','=',self.affiliation_number)])
+            other = self.env['affiliation.affiliate'].search(
+                [('affiliation_number', '=', self.affiliation_number)])
             if len(other.ids) > 1 or (len(other) == 1 and other[0].id != self.id):
-                raise ValidationError(_("There is already exist an affiliated with the same affiliation number!"))
+                raise ValidationError(
+                    _("There is already exist an affiliated with the same affiliation number!"))
 
     @api.constrains('state', 'affiliate_type_id')
     def _check_affiliate_type_id(self):
         for record in self:
             if record.state not in ('new', 'not_affiliated') and not record.affiliate_type_id:
-                raise ValidationError(_("The field 'Employment relationship type' is required when state is not 'new' or 'not_affiliated'."))
+                raise ValidationError(
+                    _("The field 'Employment relationship type' is required when state is not 'new' or 'not_affiliated'."))
+
+    @api.constrains('main_workplace_id', 'workplace_ids')
+    def _check_main_workplace(self):
+        """Valida que el lugar de trabajo principal esté entre los lugares asignados"""
+        for record in self:
+            if record.main_workplace_id and record.main_workplace_id not in record.workplace_ids:
+                raise ValidationError(_(
+                    "El lugar de trabajo principal debe estar incluido en la lista de lugares de trabajo del afiliado."
+                ))
 
     # This method is necessary for RPC importation
     @api.model
@@ -175,28 +204,30 @@ class Affiliate(models.Model):
         _to_write = {'state': 'affiliated'}
         if not self.quote:
             _to_write.update({'quote': True})
-        
+
         if _config.affiliation_start == 'on_confirm':
             return self.start_affiliation_(_to_write, _config)
         else:
             self.write(_to_write)
 
     def start_affiliation_(self, _to_write, _config):
-        
+
         _to_write.update({'affiliation_date': fields.Date.today()})
-        
+
         suggested_affiliation_number = None
         if _config.enable_affiliation_number_sequence:
-            suggested_affiliation_number = self.env['ir.sequence'].search([('code','=','next_affiliation_number_seq')], limit=1).number_next_actual
+            suggested_affiliation_number = self.env['ir.sequence'].search(
+                [('code', '=', 'next_affiliation_number_seq')], limit=1).number_next_actual
             if not suggested_affiliation_number:
-                raise UserError(_("The sequence next_affiliation_number_seq is not defined."))
-            
+                raise UserError(
+                    _("The sequence next_affiliation_number_seq is not defined."))
+
         # TODO: find a way to delete the unconfirmed affiliations from database records
         _data = self.env['affiliation.affiliation_number'].create(
             {'affiliate_id': self.id,
-            'affiliation_number': suggested_affiliation_number,
-            'affiliation_number_edition': _config.affiliation_number_edition,
-            'enable_affiliation_number_sequence': _config.enable_affiliation_number_sequence})
+             'affiliation_number': suggested_affiliation_number,
+             'affiliation_number_edition': _config.affiliation_number_edition,
+             'enable_affiliation_number_sequence': _config.enable_affiliation_number_sequence})
 
         return {
             'type': 'ir.actions.act_window',
@@ -246,7 +277,7 @@ class Affiliate(models.Model):
 
     def _log_change_field(self, vals):
         _loggables = ['state', 'quote', 'affiliate_type_id',
-                    'email', 'phone', 'mobile', 'affiliation_number']
+                      'email', 'phone', 'mobile', 'affiliation_number']
         for record in self:
             _log = ''
             for field in vals:
@@ -262,11 +293,11 @@ class Affiliate(models.Model):
         if not name:
             return super()._name_search(name, args, operator, limit)
 
-        domain = ['|', '|', 
-                ('personal_id', operator, name),
-                ('name', operator, name), 
-                ('uid', operator, name)]
-        
+        domain = ['|', '|',
+                  ('personal_id', operator, name),
+                  ('name', operator, name),
+                  ('uid', operator, name)]
+
         recs = self.search(domain + args, limit=limit)
         if not recs:
             return []
@@ -280,10 +311,12 @@ class Affiliate(models.Model):
     def action_archive(self):
         log.info(self.env.user.groups_id)
         if not self.env.user.has_group('affiliation.group_affiliation_admin'):
-            raise UserError(_("Admin affiliation permission is required to archive records."))
+            raise UserError(
+                _("Admin affiliation permission is required to archive records."))
         return super().action_archive()
 
     def action_unarchive(self):
         if not self.env.user.has_group('affiliation.group_affiliation_admin'):
-            raise UserError(_("Admin affiliation permission is required to unarchive records."))
+            raise UserError(
+                _("Admin affiliation permission is required to unarchive records."))
         return super().action_unarchive()
