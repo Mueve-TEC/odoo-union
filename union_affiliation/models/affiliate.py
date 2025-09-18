@@ -97,7 +97,7 @@ class Affiliate(models.Model):
     main_workplace_id = fields.Many2one(
         comodel_name='union.workplace',
         string='Lugar de trabajo Principal',
-        ondelete='restrict',
+        ondelete='set null',
         help='Lugar de trabajo principal para padrones (debe estar en la lista de lugares de trabajo)'
     )
 
@@ -145,6 +145,10 @@ class Affiliate(models.Model):
     @api.constrains('main_workplace_id', 'workplace_ids')
     def _check_main_workplace(self):
         """Valida que el lugar de trabajo principal esté entre los lugares asignados"""
+        # No validar durante eliminaciones de lugares de trabajo
+        if self.env.context.get('from_delete_wizard') or self.env.context.get('skip_workplace_validation'):
+            return
+
         for record in self:
             if record.main_workplace_id and record.main_workplace_id not in record.workplace_ids:
                 raise ValidationError(_(

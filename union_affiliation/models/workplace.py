@@ -130,16 +130,6 @@ class UnionWorkplace(models.Model):
                     raise ValidationError(
                         f'El código "{workplace.code}" ya existe en otro lugar de trabajo.')
 
-    def name_get(self):
-        """Personaliza cómo se muestra el nombre en selecciones"""
-        result = []
-        for workplace in self:
-            name = workplace.complete_name
-            if workplace.code:
-                name = f"[{workplace.code}] {name}"
-            result.append((workplace.id, name))
-        return result
-
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
         """Permite buscar por código o nombre"""
@@ -169,14 +159,10 @@ class UnionWorkplace(models.Model):
         """
         descendants = self.env['union.workplace']
 
-        # Si no tiene hijos, retornar vacío
         if not self.child_ids:
             return descendants
 
-        # Agregar los hijos directos
         descendants |= self.child_ids
-
-        # Agregar recursivamente los descendientes de cada hijo
         for child in self.child_ids:
             descendants |= child._get_all_descendants()
 
@@ -184,78 +170,79 @@ class UnionWorkplace(models.Model):
 
     def action_delete_with_confirmation(self):
         """
-        Acción personalizada para eliminar con confirmación detallada
+        Acción personalizada para eliminar con el wizard de confirmación
         """
+        if len(self) != 1:
+            raise UserError(
+                "Por favor, seleccione un solo lugar de trabajo para eliminar con confirmación.")
+
+        workplace = self[0]
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Confirmar eliminación',
+            'res_model': 'union.workplace.delete.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'workplace_id': workplace.id,
+                'from_delete_wizard': True,
+            }
+        }
+
+    def unlink(self):
+        """
+        Override del método unlink para limpiar correctamente las relaciones Many2many
+        antes de eliminar el lugar de trabajo.
+        """
+        # Obtener todos los lugares que van a ser eliminados (incluyendo descendientes)
+        all_workplaces_to_delete = self.env['union.workplace']
+
         for workplace in self:
-            all_descendants = workplace._get_all_descendants()
+            all_workplaces_to_delete |= workplace
+            all_workplaces_to_delete |= workplace._get_all_descendants()
 
-            if all_descendants:
-                # Construir mensaje detallado
-                sorted_descendants = all_descendants.sorted(
-                    lambda x: x.parent_path or '')
-                descendant_names = sorted_descendants.mapped('complete_name')
-                total_count = len(descendant_names)
+        # Limpiar las relaciones Many2many con los afiliados para todos los lugares que se eliminarán
+        if all_workplaces_to_delete and self.env.context.get('from_delete_wizard'):
+            affected_affiliates = self.env['affiliation.affiliate'].search([
+                ('workplace_ids', 'in', all_workplaces_to_delete.ids)
+            ])
 
-                if total_count == 1:
-                    title = "Confirmar eliminación"
-                    message = f'Al eliminar "{workplace.complete_name}", también se eliminará 1 lugar descendiente:\n\n• {descendant_names[0]}'
-                else:
-                    display_limit = 10
-                    descendant_list = '\n• '.join(
-                        descendant_names[:display_limit])
-                    if total_count > display_limit:
-                        descendant_list += f'\n... y {total_count - display_limit} más'
+            # Remover estos lugares de trabajo de los afiliados con contexto especial
+            ctx = dict(self.env.context, skip_workplace_validation=True)
+            for affiliate in affected_affiliates:
+                affiliate.with_context(
+                    ctx).workplace_ids = affiliate.workplace_ids - all_workplaces_to_delete
 
-                    title = "Confirmar eliminación"
-                    message = f'Al eliminar "{workplace.complete_name}", también se eliminarán {total_count} lugares descendientes:\n\n• {descendant_list}'
+                # Si el lugar principal está siendo eliminado, verificar que tenga otro lugar principal válido
+                if affiliate.main_workplace_id and affiliate.main_workplace_id in all_workplaces_to_delete:
+                    # Si aún tiene otros lugares de trabajo, sugerir el primero como principal
+                    if affiliate.workplace_ids:
+                        affiliate.with_context(
+                            ctx).main_workplace_id = affiliate.workplace_ids[0]
+                    # Si no tiene otros lugares, main_workplace_id se pondrá en NULL automáticamente por ondelete='set null'
 
-                # Mostrar wizard de confirmación
-                return {
-                    'type': 'ir.actions.act_window',
-                    'name': title,
-                    'res_model': 'union.workplace.delete.wizard',
-                    'view_mode': 'form',
-                    'target': 'new',
-                    'context': {
-                        'default_workplace_id': workplace.id,
-                        'default_message': message,
-                    }
-                }
-            else:
-                # Si no tiene descendientes, eliminar directamente y redireccionar
-                workplace.unlink()
-
-                # Redirigir usando la acción del menú
-                action_ref = self.env.ref(
-                    'union_affiliation.union_workplace_list_action')
-                action = action_ref.read()[0] if action_ref else {}
-
-                action.update({
-                    'target': 'main',
-                    'context': {
-                        'search_default_filter_active': 1,
-                    },
-                    'flags': {'clear_breadcrumbs': True}
-                })
-
-                return action
+        # Continuar con la eliminación normal
+        return super().unlink()
 
     @api.ondelete(at_uninstall=False)
-    def _check_child_workplaces_before_delete(self):
-        """
-        Solo impide eliminación si se llama desde código.
-        La eliminación manual debe usar action_delete_with_confirmation.
-        """
-        # Solo validar si es una eliminación programática (no desde interfaz)
+    def _checks_before_delete(self):
+
+        # Permitir eliminación desde el wizard
         if self.env.context.get('from_delete_wizard'):
-            # Permitir eliminación desde el wizard
             return
 
-        # Para eliminaciones desde interfaz, redirigir al wizard
+        # Para eliminaciones desde interfaz, redirigir al wizard si hay hijos o afiliados asociados al lugar de trabajo
         for workplace in self:
             all_descendants = workplace._get_all_descendants()
             if all_descendants:
                 raise ValidationError(_(
                     'Para eliminar este lugar de trabajo y sus descendientes, '
                     'use el botón "Eliminar con confirmación" desde el formulario.'
+                ))
+
+            if workplace.affiliate_ids:
+                raise ValidationError(_(
+                    'No se puede eliminar este lugar de trabajo porque tiene afiliados asociados. '
+                    'Use el botón "Eliminar con confirmación" desde el formulario.'
                 ))

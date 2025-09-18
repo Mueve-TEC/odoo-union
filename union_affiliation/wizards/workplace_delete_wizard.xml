@@ -19,12 +19,18 @@
                 <div class="o_form_sheet">
                     <field name="message" widget="text" readonly="1" 
                            style="white-space: pre-line; font-family: monospace; border: none; background: none;"/>
+                    
+                    <div attrs="{'invisible': [('affected_affiliates', '=', False)]}" style="margin-top: 15px;">
+                        <separator string="Detalles de afiliados afectados"/>
+                        <field name="affected_affiliates" widget="text" readonly="1" 
+                               style="white-space: pre-line; font-family: monospace; border: none; background: none; color: #6c757d;"/>
+                    </div>
                 </div>
                 
                 <footer>
                     <button name="action_confirm_delete" 
                             type="object" 
-                            string="Sí, eliminar todo" 
+                            string="Sí, eliminar" 
                             class="btn-danger"/>
                     <button name="action_cancel" 
                             type="object" 
