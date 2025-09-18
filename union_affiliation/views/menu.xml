@@ -61,6 +61,19 @@
         action="union_affiliation_affiliate_type_list_action"
         groups="group_affiliation_read"/>
 
+    <record model="ir.actions.act_window" id="union_workplace_list_action">
+        <field name="name">Lugares de trabajo</field>
+        <field name="res_model">union.workplace</field>
+        <field name="view_id" ref="union_workplace_tree"/>
+        <field name="view_mode">tree,form</field> 
+    </record>
+
+    <menuitem name="Lugares de trabajo" 
+        id="union_workplace_list" 
+        sequence="25" parent="union_affiliation.affiliates_section" 
+        action="union_workplace_list_action"
+        groups="group_affiliation_read"/>
+
     <!-- Configuration section -->
     <menuitem name="Configuration" id="union_affiliation.configuration_section" 
         sequence="100" parent="union_affiliation.union" 
