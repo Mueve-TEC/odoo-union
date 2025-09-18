@@ -25,7 +25,7 @@ class UnionWorkplace(models.Model):
 
     parent_id = fields.Many2one(
         'union.workplace',
-        string='Lugar Padre',
+        string='Dependencia superior',
         index=True,
         ondelete='cascade',
         help='Lugar de trabajo padre en la jerarquía'
@@ -34,7 +34,7 @@ class UnionWorkplace(models.Model):
     child_ids = fields.One2many(
         'union.workplace',
         'parent_id',
-        string='Lugares Hijos'
+        string='Dependencias inferiores'
     )
 
     # campo de odoo para jerarquías
