@@ -174,7 +174,7 @@ class UnionWorkplace(models.Model):
         """
         if len(self) != 1:
             raise UserError(
-                "Por favor, seleccione un solo lugar de trabajo para eliminar con confirmación.")
+                "Por favor, seleccione un solo lugar de trabajo para eliminar.")
 
         workplace = self[0]
 
@@ -238,11 +238,11 @@ class UnionWorkplace(models.Model):
             if all_descendants:
                 raise ValidationError(_(
                     'Para eliminar este lugar de trabajo y sus descendientes, '
-                    'use el botón "Eliminar con confirmación" desde el formulario.'
+                    'Use el botón "Eliminar" desde la vista formulario.'
                 ))
 
             if workplace.affiliate_ids:
                 raise ValidationError(_(
                     'No se puede eliminar este lugar de trabajo porque tiene afiliados asociados. '
-                    'Use el botón "Eliminar con confirmación" desde el formulario.'
+                    'Use el botón "Eliminar" desde la vista formulario.'
                 ))

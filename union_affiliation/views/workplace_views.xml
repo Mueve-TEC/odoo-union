@@ -43,7 +43,7 @@
                                 type="object" 
                                 class="oe_stat_button" 
                                 icon="fa-trash"
-                                string="Eliminar con confirmación"/>
+                                string="Eliminar"/>
                     </div>
                     
                     <widget name="web_ribbon" title="Inactivo" bg_color="bg-danger" 
@@ -62,38 +62,14 @@
                     </group>
                     
                     <notebook>
-                        <page string="Dependencias inferiores" attrs="{'invisible': [('child_ids', '=', [])]}">
-                            <field name="child_ids" readonly="1">
+                        <page string="Dependencias inferiores">
+                            <field name="child_ids">
                                 <tree>
                                     <field name="name"/>
                                     <field name="code"/>
                                     <field name="affiliate_count"/>
                                     <field name="main_affiliate_count"/>
                                     <field name="active"/>
-                                </tree>
-                            </field>
-                        </page>
-                        
-                        <page string="Afiliados principales" attrs="{'invisible': [('main_affiliate_count', '=', 0)]}">
-                            <field name="main_affiliate_ids" readonly="1">
-                                <tree>
-                                    <field name="name"/>
-                                    <field name="uid"/>
-                                    <field name="personal_id"/>
-                                    <field name="state"/>
-                                    <field name="affiliate_type_id"/>
-                                </tree>
-                            </field>
-                        </page>
-                        
-                        <page string="Todos los afiliados" attrs="{'invisible': [('affiliate_count', '=', 0)]}">
-                            <field name="affiliate_ids" readonly="1">
-                                <tree>
-                                    <field name="name"/>
-                                    <field name="uid"/>
-                                    <field name="personal_id"/>
-                                    <field name="state"/>
-                                    <field name="affiliate_type_id"/>
                                 </tree>
                             </field>
                         </page>
