@@ -31,6 +31,12 @@ class UnionWorkplace(models.Model):
         help='Lugar de trabajo padre en la jerarquía'
     )
 
+    level = fields.Integer(
+        string='Nivel',
+        compute='_compute_level',
+        store=True
+    )
+
     child_ids = fields.One2many(
         'union.workplace',
         'parent_id',
@@ -78,6 +84,14 @@ class UnionWorkplace(models.Model):
         string='Afiliados pincipales',
         compute='_compute_main_affiliate_count'
     )
+
+    @api.depends('parent_id')
+    def _compute_level(self):
+        for workplace in self:
+            if workplace.parent_id:
+                workplace.level = workplace.parent_id.level + 1
+            else:
+                workplace.level = 1
 
     @api.depends('name', 'parent_id.complete_name')
     def _compute_complete_name(self):

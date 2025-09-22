@@ -101,6 +101,24 @@ class Affiliate(models.Model):
         help='Lugar de trabajo principal para padrones (debe estar en la lista de lugares de trabajo)'
     )
 
+    main_workplace_level1 = fields.Char(
+        string='Agrupación Nivel 1',
+        compute='_compute_main_workplace_levels',
+        store=True
+    )
+
+    main_workplace_level2 = fields.Char(
+        string='Agrupación Nivel 2',
+        compute='_compute_main_workplace_levels',
+        store=True
+    )
+
+    main_workplace_level3 = fields.Char(
+        string='Agrupación Nivel 3',
+        compute='_compute_main_workplace_levels',
+        store=True
+    )
+
     observations = fields.Text(string='Observations')
     quote = fields.Boolean(string='Contributor', default=False)
     log = fields.Text(string='Log')
@@ -173,6 +191,43 @@ class Affiliate(models.Model):
                 parent = parent.parent_id
 
         return self.env['union.workplace'].browse(list(all_workplaces))
+
+    @api.depends('main_workplace_id', 'main_workplace_id.level', 'main_workplace_id.parent_path')
+    def _compute_main_workplace_levels(self):
+        """Computa las agrupaciones jerárquicas por lugar de trabajo"""
+        for affiliate in self:
+            if not affiliate.main_workplace_id:
+                affiliate.main_workplace_level1 = 'Sin lugar de trabajo principal'
+                affiliate.main_workplace_level2 = 'Sin lugar de trabajo principal'
+                affiliate.main_workplace_level3 = 'Sin lugar de trabajo principal'
+                continue
+
+            workplace = affiliate.main_workplace_id
+
+            parent_ids = []
+            if workplace.parent_path:
+                parent_ids = [int(x)
+                              for x in workplace.parent_path.split('/') if x]
+            else:
+                parent_ids = [workplace.id]
+
+            # Ordenar los lugares padres por nivel
+            parent_workplaces = self.env['union.workplace'].browse(
+                parent_ids).sorted('level')
+
+            level1_workplace = parent_workplaces.filtered(
+                lambda w: w.level == 1)
+            affiliate.main_workplace_level1 = level1_workplace[
+                0].name if level1_workplace else workplace.name
+
+            level2_workplace = parent_workplaces.filtered(
+                lambda w: w.level == 2)
+            affiliate.main_workplace_level2 = (
+                level2_workplace[0].name if level2_workplace
+                else affiliate.main_workplace_level1
+            )
+
+            affiliate.main_workplace_level3 = workplace.name
 
     # This method is necessary for RPC importation
     @api.model
