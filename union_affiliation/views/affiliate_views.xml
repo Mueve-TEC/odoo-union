@@ -151,7 +151,7 @@
                         <filter string="Lugar de trabajo principal" name="main_workplace" context="{'group_by':'main_workplace_id'}"/>
                         <filter string="Affiliation date" name="affiliation_date" context="{'group_by':'affiliation_date'}"/>
                         <separator/>
-                        <filter string="Lugares de trabajo" name="workplaces" context="{'group_by':'workplace_ids'}"/>
+                        <filter string="Lugares de trabajo" name="workplaces" context="{'group_by':'workplace_ids', 'orderby':'workplace_ids.complete_name'}"/>
                         <filter string="1° Lugar de trabajo principal" name="main_workplace_level1" context="{'group_by':'main_workplace_level1'}"/>
                         <filter string="2° Lugar de trabajo principal" name="main_workplace_level2" context="{'group_by':'main_workplace_level2'}"/>  
                         <filter string="3° Lugar de trabajo principal" name="main_workplace_level3" context="{'group_by':'main_workplace_level3'}"/>
