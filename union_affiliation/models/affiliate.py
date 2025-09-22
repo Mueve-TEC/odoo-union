@@ -8,9 +8,10 @@ log = logging.getLogger(__name__)
 
 
 AFFILIATE_STR_TO_INT = {
-    'active': 0, 
+    'active': 0,
     'retired': 1
 }
+
 
 class Affiliate(models.Model):
     _name = 'affiliation.affiliate'
@@ -84,6 +85,40 @@ class Affiliate(models.Model):
         ondelete='restrict',
     )
 
+    workplace_ids = fields.Many2many(
+        comodel_name='union.workplace',
+        relation='affiliate_workplace_rel',
+        column1='affiliate_id',
+        column2='workplace_id',
+        string='Lugares de trabajo',
+        help='Todos los lugares de trabajo del afiliado'
+    )
+
+    main_workplace_id = fields.Many2one(
+        comodel_name='union.workplace',
+        string='Lugar de trabajo principal',
+        ondelete='set null',
+        help='Lugar de trabajo principal para padrones (debe estar en la lista de lugares de trabajo)'
+    )
+
+    main_workplace_level1 = fields.Char(
+        string='Agrupación Nivel 1',
+        compute='_compute_main_workplace_levels',
+        store=True
+    )
+
+    main_workplace_level2 = fields.Char(
+        string='Agrupación Nivel 2',
+        compute='_compute_main_workplace_levels',
+        store=True
+    )
+
+    main_workplace_level3 = fields.Char(
+        string='Agrupación Nivel 3',
+        compute='_compute_main_workplace_levels',
+        store=True
+    )
+
     observations = fields.Text(string='Observations')
     quote = fields.Boolean(string='Contributor', default=False)
     log = fields.Text(string='Log')
@@ -112,24 +147,121 @@ class Affiliate(models.Model):
     @api.constrains('affiliation_number')
     def _check_affiliation_number(self):
         if self.affiliation_number:
-            other = self.env['affiliation.affiliate'].search([('affiliation_number','=',self.affiliation_number)])
+            other = self.env['affiliation.affiliate'].search(
+                [('affiliation_number', '=', self.affiliation_number)])
             if len(other.ids) > 1 or (len(other) == 1 and other[0].id != self.id):
-                raise ValidationError(_("There is already exist an affiliated with the same affiliation number!"))
+                raise ValidationError(
+                    _("There is already exist an affiliated with the same affiliation number!"))
 
     @api.constrains('state', 'affiliate_type_id')
     def _check_affiliate_type_id(self):
         for record in self:
             if record.state not in ('new', 'not_affiliated') and not record.affiliate_type_id:
-                raise ValidationError(_("The field 'Employment relationship type' is required when state is not 'new' or 'not_affiliated'."))
+                raise ValidationError(
+                    _("The field 'Employment relationship type' is required when state is not 'new' or 'not_affiliated'."))
+
+    @api.constrains('main_workplace_id', 'workplace_ids')
+    def _check_main_workplace(self):
+        """Valida que el lugar de trabajo principal esté entre los lugares asignados"""
+        # No validar durante eliminaciones de lugares de trabajo
+        if self.env.context.get('from_delete_wizard') or self.env.context.get('skip_workplace_validation'):
+            return
+
+        for record in self:
+            if record.main_workplace_id and record.main_workplace_id not in record.workplace_ids:
+                raise ValidationError(_(
+                    "El lugar de trabajo principal debe estar incluido en la lista de lugares de trabajo del afiliado."
+                ))
+
+    def _auto_assign_workplace_parents(self, workplace_ids):
+        """Asigna automáticamente los lugares padres jerarquía"""
+        if not workplace_ids:
+            return workplace_ids
+
+        all_workplaces = set(workplace_ids.ids if hasattr(
+            workplace_ids, 'ids') else workplace_ids)
+        workplaces_to_check = list(all_workplaces)
+
+        for workplace_id in workplaces_to_check:
+            workplace = self.env['union.workplace'].browse(workplace_id)
+            parent = workplace.parent_id
+            while parent:
+                if parent.id not in all_workplaces:
+                    all_workplaces.add(parent.id)
+                parent = parent.parent_id
+
+        return self.env['union.workplace'].browse(list(all_workplaces))
+
+    @api.depends('main_workplace_id', 'main_workplace_id.level', 'main_workplace_id.parent_path')
+    def _compute_main_workplace_levels(self):
+        """Computa las agrupaciones jerárquicas por lugar de trabajo"""
+        for affiliate in self:
+            if not affiliate.main_workplace_id:
+                affiliate.main_workplace_level1 = 'Sin lugar de trabajo principal'
+                affiliate.main_workplace_level2 = 'Sin lugar de trabajo principal'
+                affiliate.main_workplace_level3 = 'Sin lugar de trabajo principal'
+                continue
+
+            workplace = affiliate.main_workplace_id
+
+            parent_ids = []
+            if workplace.parent_path:
+                parent_ids = [int(x)
+                              for x in workplace.parent_path.split('/') if x]
+            else:
+                parent_ids = [workplace.id]
+
+            # Ordenar los lugares padres por nivel
+            parent_workplaces = self.env['union.workplace'].browse(
+                parent_ids).sorted('level')
+
+            level1_workplace = parent_workplaces.filtered(
+                lambda w: w.level == 1)
+            affiliate.main_workplace_level1 = level1_workplace[
+                0].name if level1_workplace else workplace.name
+
+            level2_workplace = parent_workplaces.filtered(
+                lambda w: w.level == 2)
+            affiliate.main_workplace_level2 = (
+                level2_workplace[0].name if level2_workplace
+                else affiliate.main_workplace_level1
+            )
+
+            affiliate.main_workplace_level3 = workplace.name
 
     # This method is necessary for RPC importation
     @api.model
     def create(self, vals):
+        # Auto-asignar lugares de trabajo padres si se crean afiliados con workplace_ids
+        if 'workplace_ids' in vals and not self.env.context.get('skip_workplace_validation'):
+            res = super(Affiliate, self).create(vals)
+
+            if res.workplace_ids:
+                expanded_workplaces = res._auto_assign_workplace_parents(
+                    res.workplace_ids.ids)
+                res.workplace_ids = expanded_workplaces
+            return res
+
         res = super(Affiliate, self).create(vals)
         return res
 
     def write(self, vals):
         self._log_change_field(vals)
+
+        # Auto-asignar lugares padres si se modifican los workplace_ids
+        if 'workplace_ids' in vals and not self.env.context.get('skip_workplace_validation'):
+            res = super(Affiliate, self).write(vals)
+
+            for record in self:
+                if record.workplace_ids:
+                    expanded_workplaces = record._auto_assign_workplace_parents(
+                        record.workplace_ids.ids)
+                    # Solo actualizar si hay cambios para evitar recursión
+                    if set(expanded_workplaces.ids) != set(record.workplace_ids.ids):
+                        record.with_context(
+                            skip_workplace_validation=True).workplace_ids = expanded_workplaces
+            return res
+
         res = super(Affiliate, self).write(vals)
         return res
 
@@ -175,28 +307,30 @@ class Affiliate(models.Model):
         _to_write = {'state': 'affiliated'}
         if not self.quote:
             _to_write.update({'quote': True})
-        
+
         if _config.affiliation_start == 'on_confirm':
             return self.start_affiliation_(_to_write, _config)
         else:
             self.write(_to_write)
 
     def start_affiliation_(self, _to_write, _config):
-        
+
         _to_write.update({'affiliation_date': fields.Date.today()})
-        
+
         suggested_affiliation_number = None
         if _config.enable_affiliation_number_sequence:
-            suggested_affiliation_number = self.env['ir.sequence'].search([('code','=','next_affiliation_number_seq')], limit=1).number_next_actual
+            suggested_affiliation_number = self.env['ir.sequence'].search(
+                [('code', '=', 'next_affiliation_number_seq')], limit=1).number_next_actual
             if not suggested_affiliation_number:
-                raise UserError(_("The sequence next_affiliation_number_seq is not defined."))
-            
+                raise UserError(
+                    _("The sequence next_affiliation_number_seq is not defined."))
+
         # TODO: find a way to delete the unconfirmed affiliations from database records
         _data = self.env['affiliation.affiliation_number'].create(
             {'affiliate_id': self.id,
-            'affiliation_number': suggested_affiliation_number,
-            'affiliation_number_edition': _config.affiliation_number_edition,
-            'enable_affiliation_number_sequence': _config.enable_affiliation_number_sequence})
+             'affiliation_number': suggested_affiliation_number,
+             'affiliation_number_edition': _config.affiliation_number_edition,
+             'enable_affiliation_number_sequence': _config.enable_affiliation_number_sequence})
 
         return {
             'type': 'ir.actions.act_window',
@@ -246,7 +380,7 @@ class Affiliate(models.Model):
 
     def _log_change_field(self, vals):
         _loggables = ['state', 'quote', 'affiliate_type_id',
-                    'email', 'phone', 'mobile', 'affiliation_number']
+                      'email', 'phone', 'mobile', 'affiliation_number']
         for record in self:
             _log = ''
             for field in vals:
@@ -259,18 +393,14 @@ class Affiliate(models.Model):
     @api.model
     def _name_search(self, name, args=None, operator='ilike', limit=100):
         args = args or []
-        if not name:
-            return super()._name_search(name, args, operator, limit)
-
-        domain = ['|', '|', 
-                ('personal_id', operator, name),
-                ('name', operator, name), 
-                ('uid', operator, name)]
-        
-        recs = self.search(domain + args, limit=limit)
-        if not recs:
-            return []
-        return recs.name_get()
+        if name:
+            domain = ['|', '|',
+                      ('personal_id', operator, name),
+                      ('uid', operator, name),
+                      ('name', operator, name)]
+            # Buscar directamente con el dominio personalizado
+            return self._search(args + domain, limit=limit)
+        return super()._name_search(name, args, operator, limit)
 
     def _message_get_suggested_recipients(self):
         recipients = super(Affiliate, self)._message_get_suggested_recipients()
@@ -280,10 +410,12 @@ class Affiliate(models.Model):
     def action_archive(self):
         log.info(self.env.user.groups_id)
         if not self.env.user.has_group('affiliation.group_affiliation_admin'):
-            raise UserError(_("Admin affiliation permission is required to archive records."))
+            raise UserError(
+                _("Admin affiliation permission is required to archive records."))
         return super().action_archive()
 
     def action_unarchive(self):
         if not self.env.user.has_group('affiliation.group_affiliation_admin'):
-            raise UserError(_("Admin affiliation permission is required to unarchive records."))
+            raise UserError(
+                _("Admin affiliation permission is required to unarchive records."))
         return super().action_unarchive()

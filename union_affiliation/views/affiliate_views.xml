@@ -22,7 +22,11 @@
                             <group string="Employment infomation" name="personal_information">
                                 <field name="uid" attrs="{'readonly': [('state','in',['pending_suscribe','affiliated','pending_unsuscribe','disaffiliated','historical'])]}"/>
                                 <field name="affiliate_type_id"/>
-                                <field name="seniority" string="Antigüedad"/>
+                                <field name="main_workplace_id" 
+                                       string="Lugar de trabajo principal" 
+                                       domain="[('id', 'in', workplace_ids)]"
+                                       options="{'no_create': True, 'no_quick_create': True}"/>
+                                <field name="seniority" string="Antigüedad"/>"
                                 <separator string="Personal information"/>
                                 <field name="personal_id_type"/>
                                 <field name="personal_id"/>
@@ -54,6 +58,31 @@
                                     <field name="disaffiliation_date" readonly="1"/>
                                 </group>
                             </page>
+                            <page string="Lugares de trabajo" name="workplaces">
+                                <group>
+                                  <group string="Lugar de trabajo principal">
+                                    <field name="main_workplace_id" 
+                                           domain="[('id', 'in', workplace_ids)]"
+                                           options="{'no_create': True, 'no_quick_create': True}"
+                                           context="{'tree_view_ref': 'union_affiliation.union_workplace_tree'}"/>
+                                  </group>
+                                </group>
+                                <separator string="Todos los lugares de trabajo"/>
+                                <field name="workplace_ids" widget="many2many" options="{'no_create': True, 'no_quick_create': True}" context="{'tree_view_ref': 'union_affiliation.union_workplace_tree'}">
+                                    <tree>
+                                      <field name="name"/>
+                                      <field name="complete_name"/>
+                                      <field name="code"/>
+                                    </tree>
+                                </field>
+                                <div class="alert alert-info mt-2" role="alert" attrs="{'invisible': [('main_workplace_id', '!=', False)]}">
+                                    <strong>Instrucciones:</strong>
+                                    <ul class="mb-0">
+                                        <li>Primero agregue los lugares de trabajo usando el botón "Agregar una línea"</li>
+                                        <li>Luego seleccione uno como lugar de trabajo principal</li>
+                                    </ul>
+                                </div>
+                            </page>
                             <page string="Affiliate logs" name="Affiliation_logs">
                                 <field name="log" readonly="1"/>
                             </page>
@@ -81,6 +110,7 @@
                     <field name="name" />
                     <field name="uid" />
                     <field name="affiliate_type_id" />
+                    <field name="main_workplace_id" />
                     <field name="personal_id" />
                     <field name="gender" />
                     <field name="state" />
@@ -97,6 +127,8 @@
                     <field name="uid" filter_domain="[('uid', 'ilike', self)]"/>
                     <field name="personal_id" filter_domain="[('personal_id', 'ilike', self)]"/>
                     <field name="category_bis_id" filter_domain="[('category_bis_id', 'ilike', self)]"/>
+                    <field name="main_workplace_id"/>
+                    <field name="workplace_ids"/>
 
                     <filter string="New" name="state_new" domain="[('state', '=', 'new')]"/>
                     <filter string="Not affiliated" name="state_not_affiliated" domain="[('state', '=', 'not_affiliated')]"/>
@@ -115,8 +147,15 @@
                     <group expand="1" string="Group By">
                         <filter string="Contributors" name='contributors' context="{'group_by':'quote'}"/>
                         <filter string="State" name='contributors' context="{'group_by':'state'}"/>
-                        <filter string="Type" name="type" context="{'group_by':'affiliate_type_id'}"/>
+                        <filter string="Tipo de relacion laboral" name="type" context="{'group_by':'affiliate_type_id'}"/>
+                        <filter string="Lugar de trabajo principal" name="main_workplace" context="{'group_by':'main_workplace_id'}"/>
                         <filter string="Affiliation date" name="affiliation_date" context="{'group_by':'affiliation_date'}"/>
+                        <separator/>
+                        <filter string="Lugares de trabajo" name="workplaces" context="{'group_by':'workplace_ids', 'orderby':'workplace_ids.complete_name'}"/>
+                        <filter string="1° Lugar de trabajo principal" name="main_workplace_level1" context="{'group_by':'main_workplace_level1'}"/>
+                        <filter string="2° Lugar de trabajo principal" name="main_workplace_level2" context="{'group_by':'main_workplace_level2'}"/>  
+                        <filter string="3° Lugar de trabajo principal" name="main_workplace_level3" context="{'group_by':'main_workplace_level3'}"/>
+                        <separator/>
                         <filter string="Disafilliation date" name="disaffiliation_date" context="{'group_by':'disaffiliation_date'}"/>
                     </group>
                 </search>
