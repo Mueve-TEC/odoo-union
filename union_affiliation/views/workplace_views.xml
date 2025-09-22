@@ -26,8 +26,8 @@
             <form string="Lugar de trabajo">
                 <sheet>
                     <!-- TODO: Agregar lógica para contabilizar segun el estado de los afiliados -->
-                    <!-- <div class="oe_button_box" name="button_box">
-                        <button name="%(union_affiliation_affiliate_list_action)d" 
+                    <div class="oe_button_box" name="button_box">
+                        <!-- <button name="%(union_affiliation_affiliate_list_action)d" 
                                 type="action" 
                                 class="oe_stat_button" 
                                 icon="fa-users"
