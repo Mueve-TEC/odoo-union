@@ -27,20 +27,6 @@
                 <sheet>
                     <!-- TODO: Agregar lógica para contabilizar segun el estado de los afiliados -->
                     <div class="oe_button_box" name="button_box">
-                        <!-- <button name="%(union_affiliation_affiliate_list_action)d" 
-                                type="action" 
-                                class="oe_stat_button" 
-                                icon="fa-users"
-                                context="{'search_default_workplace_ids': active_id}">
-                            <field name="affiliate_count" widget="statinfo" string="Total Afiliados"/>
-                        </button>
-                        <button name="%(union_affiliation_affiliate_list_action)d" 
-                                type="action" 
-                                class="oe_stat_button" 
-                                icon="fa-user-circle"
-                                context="{'search_default_main_workplace_id': active_id}">
-                            <field name="main_affiliate_count" widget="statinfo" string="Principales"/>
-                        </button> -->
                         <button name="action_delete_with_confirmation" 
                                 type="object" 
                                 class="oe_stat_button" 
