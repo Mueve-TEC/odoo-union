@@ -6,7 +6,7 @@
     'author': "Mueve",
     'website': "https://github.com/Mueve-TEC",
     'category': 'Union',
-    'version': '1.0',
+    'version': '16.0.1.1.2',
     "license": "AGPL-3",
     'depends': ['base', 'mail'],
     'data': [

@@ -6,9 +6,9 @@
     'author': "Mueve",
     'website': "https://github.com/Mueve-TEC",
     'category': 'Union',
-    'version': '1.0',
+    'version': '16.0.1.1.1',
     'license': "GPL-3",
-    'depends': ['base','survey','mail','union_affiliation'],
+    'depends': ['base', 'survey', 'mail', 'union_affiliation'],
     'data': [
         'security/benefit_request_security.xml',
         'security/ir.model.access.csv',
