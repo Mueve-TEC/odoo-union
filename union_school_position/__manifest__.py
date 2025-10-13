@@ -15,7 +15,6 @@
         'views/position_views.xml',
         'views/position_type_views.xml',
         'views/position_character_views.xml',
-        'views/position_dependency_views.xml',
         'views/menu.xml',
     ],
     'demo': [

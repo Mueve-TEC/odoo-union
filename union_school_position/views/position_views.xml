@@ -12,7 +12,7 @@
                             <field name="position_number" />
                             <field name="hs_amount" />
                             <field name="character_id" />
-                            <field name="dependency_id" />
+                            <field name="workplace_id" />
                             <field name="tag_ids" widget="many2many_tags" />
                         </group>
                     </sheet>
@@ -30,7 +30,7 @@
                     <field name="position_number" />
                     <field name="hs_amount" />
                     <field name="character_id" />
-                    <field name="dependency_id" />
+                    <field name="workplace_id" />
                 </tree>
             </field>
         </record>
@@ -42,7 +42,7 @@
                 <search string="Position filters">
                     <field name="affiliate_id" filter_domain="['|','|',('affiliate_id.name', 'ilike', self),('affiliate_id.uid', 'ilike', self),('affiliate_id.personal_id', 'ilike', self)]"/>
                     <field name="type_id" filter_domain="['|',('type_id.name', 'ilike', self),('type_id.code', 'ilike', self)]"/>
-                    <field name="dependency_id" filter_domain="['|',('dependency_id.name', 'ilike', self),('dependency_id.code', 'ilike', self)]"/>
+                    <field name="workplace_id" filter_domain="['|','|',('workplace_id.name', 'ilike', self),('workplace_id.code', 'ilike', self),('workplace_id.complete_name', 'ilike', self)]"/>
                     <field name="character_id" filter_domain="['|',('character_id.name', 'ilike', self),('character_id.code', 'ilike', self)]"/>
                     <field name="tag_ids" filter_domain="[('tag_ids.name', 'ilike', self)]"/>
                 </search>
