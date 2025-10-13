@@ -26,7 +26,7 @@
                                        string="Lugar de trabajo principal" 
                                        domain="[('id', 'in', workplace_ids)]"
                                        options="{'no_create': True, 'no_quick_create': True}"/>
-                                <field name="seniority" string="Antigüedad"/>"
+                                <field name="seniority"/>"
                                 <separator string="Personal information"/>
                                 <field name="personal_id_type"/>
                                 <field name="personal_id"/>
