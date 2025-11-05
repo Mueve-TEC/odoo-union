@@ -79,7 +79,7 @@ class BenefitRequest(models.Model):
     def _onchange_request_type(self):
         _groups = self.request_type_id.request_group_ids.mapped('name')
         self.hide_notes = False if 'Notas' in _groups else True
-        self.hide_amounts = False if 'Subsidios' in _groups else True
+        self.hide_amounts = False if 'Importes' in _groups else True
         self.hide_school_benefits = False if 'Bolsones' in _groups else True
 
         if self.request_type_id.who_apply == 'affiliates':
@@ -93,7 +93,7 @@ class BenefitRequest(models.Model):
     def _compute_hides(self):
         _groups = self.request_type_id.request_group_ids.mapped('name')
         self.hide_notes = False if 'Notas' in _groups else True
-        self.hide_amounts = False if 'Subsidios' in _groups else True
+        self.hide_amounts = False if 'Importes' in _groups else True
         self.hide_school_benefits = False if 'Bolsones' in _groups else True
 
     def authorize(self):
@@ -141,7 +141,7 @@ class BenefitRequest(models.Model):
         _groups = self.request_type_id.request_group_ids.mapped('name')
         if len(_groups):
             vals['hide_notes'] = False if 'Notas' in _groups else True
-            vals['hide_amounts'] = False if 'Subsidios' in _groups else True
+            vals['hide_amounts'] = False if 'Importes' in _groups else True
             vals['hide_school_benefits'] = False if 'Bolsones' in _groups else True
 
 
