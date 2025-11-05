@@ -27,6 +27,9 @@ class BenefitRequest(models.Model):
     affiliate_uid = fields.Char(string='Affiliate UID', compute='_compute_uid', store=True)
     affiliate_personal_id = fields.Char(string='Personal ID', compute='_compute_personal_id', store=True)
     
+    # Field for import process - maps to affiliate by UID
+    import_uid = fields.Char(string='Legajo')
+    
     state = fields.Selection(
         selection=[
             ('new', 'New'),
@@ -149,12 +152,13 @@ class BenefitRequest(models.Model):
     def create(self, vals):
         # Am I importing data?
         if 'import_file' in self.env.context:
-            if 'affiliate_uid' in vals:
-                affiliate = self.env['affiliation.affiliate'].search([('uid','=',vals['affiliate_uid'])])
+            if 'import_uid' in vals:
+                affiliate = self.env['affiliation.affiliate'].search([('uid','=',vals['import_uid'])])
                 if len(affiliate.ids):
                     vals['partner_id'] = affiliate[0].partner_id.id
+                    vals.pop('import_uid')  # Remove after use
                 else:
-                    raise ValidationError(_('There is not an affiliate with that uid %s' % (vals['affiliate_uid'])))
+                    raise ValidationError(_('There is not an affiliate with that uid %s' % (vals['import_uid'])))
         
         if 'state' not in vals:
             vals.update({'state': 'requested'})
