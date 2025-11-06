@@ -33,6 +33,7 @@ class BenefitRequest(models.Model):
     state = fields.Selection(
         selection=[
             ('new', 'New'),
+            ('draft', 'Draft'),
             ('requested', 'Requested'),
             ('authorized', 'Authorized'),
             ('rejected', 'Rejected'),
@@ -40,7 +41,7 @@ class BenefitRequest(models.Model):
             ('canceled', 'Canceled')
         ],
         string='State',
-        default='requested',
+        default='draft',
     )
     request_date = fields.Date(
         string='Request date', required=True, default=fields.Date.today())
@@ -96,6 +97,18 @@ class BenefitRequest(models.Model):
         self.hide_amounts = False if 'Importes' in _groups else True
         self.hide_school_benefits = False if 'Bolsones' in _groups else True
 
+    def request(self):
+        self._compute_hides()
+        if self.hide_amounts == False:  
+            if self.requested_amount <= 0:
+                raise ValidationError(
+                    _('Requested amount must be major to zero')) #traducir
+        if self.hide_school_benefits == False: 
+            if len(self.school_benefit_ids) < 1:
+                raise ValidationError(
+                    _('There must be at least one school benefit')) #traducir
+        self.state = 'requested'
+
     def authorize(self):
         self._compute_hides()
         if self.hide_amounts == False:  
@@ -124,6 +137,14 @@ class BenefitRequest(models.Model):
 
     def cancel(self):
         self.state = 'canceled'
+
+    def set_to_draft(self):
+        # Check if user has admin permissions for finalized or canceled states
+        if self.state in ['finalized', 'canceled']:
+            if not self.env.user.has_group('union_benefit_request.group_benefit_request_admin'):
+                raise ValidationError(
+                    _('Only users with admin permissions can return finalized or canceled requests to draft state'))
+        self.state = 'draft'
 
     def _register_change_state(self, vals):
         vals.update({
@@ -161,7 +182,7 @@ class BenefitRequest(models.Model):
                     raise ValidationError(_('There is not an affiliate with that uid %s' % (vals['import_uid'])))
         
         if 'state' not in vals:
-            vals.update({'state': 'requested'})
+            vals.update({'state': 'draft'})
         res = super(BenefitRequest, self).create(vals)
         if 'partner_id' in vals:
             res.message_subscribe([vals['partner_id']])
