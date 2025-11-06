@@ -493,6 +493,11 @@ msgid "Request"
 msgstr "Solicitud"
 
 #. module: union_benefit_request
+#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_form
+msgid "Submit Request"
+msgstr "Solicitar"
+
+#. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__request_date
 #: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_search
 msgid "Request date"

@@ -6,7 +6,7 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button string="Request" class="btn btn-primary" type="object" name="request" states="new,draft" />
+                        <button string="Submit Request" class="btn btn-primary" type="object" name="request" states="new,draft" />
                         <button string="Authorize" class="btn btn-primary" type="object" name="authorize" states="requested" groups="union_benefit_request.group_benefit_request_admin" />
                         <button string="Reject" class="btn btn-primary" type="object" name="reject" states="requested" groups="union_benefit_request.group_benefit_request_admin" />
                         <button string="Finalize" class="btn btn-secondary" type="object" name="finalize" states="authorized" />
