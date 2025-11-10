@@ -133,7 +133,7 @@ class BenefitRequest(models.Model):
             if self.paid_amount <= 0 or self.paid_amount > self.authorized_amount:
                 raise ValidationError(
                     _('The paid amount must be major to 0 and minor to authorized amount'))
-        if not self.full_doc:
+        if self.request_type_id.require_full_doc and not self.full_doc:
             raise ValidationError(_('The documentation must be completed'))
         self.state = 'finalized'
 

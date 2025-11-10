@@ -32,6 +32,11 @@ class RequestType(models.Model):
         column1='request_type_id',
         column2='request_group_id'
     )
+    require_full_doc = fields.Boolean(
+        string='Require full documentation',
+        default=True,
+        help='If checked, full documentation will be required to finalize requests of this type'
+    )
 
     def meet_reqs(self, affiliate):
         if self.who_apply == 'everybody':
