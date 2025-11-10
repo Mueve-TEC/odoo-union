@@ -383,11 +383,6 @@ msgstr "Mensajes"
 msgid "Name"
 msgstr "Nombre"
 
-#. module: union_benefit_request
-#: model:ir.model.fields.selection,name:union_benefit_request.selection__benefit_request_benefit_request__state__new
-#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_search
-msgid "New"
-msgstr "Nuevo"
 
 #. module: union_benefit_request
 #: model:ir.model.fields.selection,name:union_benefit_request.selection__benefit_request_benefit_request__state__draft

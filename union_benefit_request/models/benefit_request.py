@@ -32,7 +32,6 @@ class BenefitRequest(models.Model):
     
     state = fields.Selection(
         selection=[
-            ('new', 'New'),
             ('draft', 'Draft'),
             ('requested', 'Requested'),
             ('authorized', 'Authorized'),
@@ -157,7 +156,6 @@ class BenefitRequest(models.Model):
         
         # Log state change in chatter
         state_labels = {
-            'new': _('New'),
             'draft': _('Draft'),
             'requested': _('Requested'),
             'authorized': _('Authorized'),
