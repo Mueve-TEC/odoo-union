@@ -7,6 +7,7 @@ from odoo.exceptions import ValidationError
 class AffiliateContributionCode(models.Model):
     _name = 'contribution.affiliate_contribution_code'
     _description = 'Union affiliates contribution code entity'
+    _rec_name = 'code'
 
     code = fields.Char(string='Code', required=True)
     name = fields.Char(string='Name', required=True)

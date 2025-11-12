@@ -965,7 +965,7 @@ msgstr "Yo"
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__seniority
 msgid "Seniority"
-msgstr "Antigüedad"
+msgstr "Fecha de ingreso"
 
 #. module: union_affiliation
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__civil_status__separated

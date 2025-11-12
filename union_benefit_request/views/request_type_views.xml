@@ -16,6 +16,9 @@
                             <group string="Related to">
                                 <field name="request_group_ids" widget="many2many_tags" options="{'no_create': True}"/>
                             </group>
+                            <group string="Documentation">
+                                <field name="require_full_doc"/>
+                            </group>
                         </group>
                     </sheet>
                 </form>
@@ -32,6 +35,7 @@
                     <field name="state_ids" widget="many2many_tags"/>
                     <field name="quote" />
                     <field name="request_group_ids" widget="many2many_tags" />
+                    <field name="require_full_doc" />
                 </tree>
             </field>
         </record>

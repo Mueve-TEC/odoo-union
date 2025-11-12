@@ -77,9 +77,9 @@ msgid "Dedication"
 msgstr "Dedicación"
 
 #. module: union_school_position
-#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__dependency_id
-msgid "Dependency"
-msgstr "Dependencia"
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__workplace_id
+msgid "Workplace"
+msgstr "Lugar de trabajo"
 
 #. module: union_school_position
 #: model:ir.model,name:union_school_position.model_school_position_dependency

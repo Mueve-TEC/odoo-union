@@ -25,10 +25,11 @@ class Position(models.Model):
         string='Character',
         ondelete='restrict'
     )
-    dependency_id = fields.Many2one(
-        comodel_name='school_position.dependency',
-        string='Dependency',
-        ondelete='restrict'
+    workplace_id = fields.Many2one(
+        comodel_name='union.workplace',
+        string='Lugar de trabajo',
+        ondelete='restrict',
+        help='Lugar de trabajo donde se desempeña el cargo'
     )
     tag_ids = fields.Many2many(
         comodel_name='school_position.tag',

@@ -144,6 +144,17 @@ msgid "Canceled"
 msgstr "Cancelado"
 
 #. module: union_benefit_request
+#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_form
+msgid "Return to Draft"
+msgstr "Volver a borrador"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Only users with admin permissions can return finalized or canceled requests to draft state"
+msgstr "Solo los usuarios con permisos de administrador pueden volver a borrador las solicitudes finalizadas o canceladas"
+
+#. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_school_benefit__affiliate_child_id
 msgid "Child"
 msgstr "Hijo/a"
@@ -349,7 +360,7 @@ msgstr "Último cambio de estado"
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__last_state
 msgid "Last state"
-msgstr "Último estado"
+msgstr "Estado anterior"
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__message_main_attachment_id
@@ -372,11 +383,12 @@ msgstr "Mensajes"
 msgid "Name"
 msgstr "Nombre"
 
+
 #. module: union_benefit_request
-#: model:ir.model.fields.selection,name:union_benefit_request.selection__benefit_request_benefit_request__state__new
+#: model:ir.model.fields.selection,name:union_benefit_request.selection__benefit_request_benefit_request__state__draft
 #: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_search
-msgid "New"
-msgstr "Nuevo"
+msgid "Draft"
+msgstr "Borrador"
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__activity_date_deadline
@@ -474,6 +486,11 @@ msgstr "Relacionado con"
 #: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_form
 msgid "Request"
 msgstr "Solicitud"
+
+#. module: union_benefit_request
+#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_form
+msgid "Submit Request"
+msgstr "Solicitar"
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__request_date
@@ -708,6 +725,12 @@ msgstr "Solicitado"
 #. module: union_benefit_request
 #: code:addons/union_benefit_request/models/benefit_request.py:0
 #, python-format
+msgid "draft"
+msgstr "Borrador"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
 msgid "authorized"
 msgstr "Autorizado"
 
@@ -728,3 +751,192 @@ msgstr "Finalizado"
 #, python-format
 msgid "canceled"
 msgstr "Cancelado"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "State changed from <b>%s</b> to <b>%s</b>"
+msgstr "Cambio de estado de <b>%s</b> a <b>%s</b>"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Not set"
+msgstr "No"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Yes"
+msgstr "Sí"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "No"
+msgstr "No"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "<b>%s</b> changed from \"%s\" to \"%s\""
+msgstr "<b>%s</b> se cambió de \"%s\" a \"%s\""
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "<b>School Benefit</b> added"
+msgstr "<b>Bolsón Escolar</b> agregado"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "<b>School Benefit</b> \"%s\" updated"
+msgstr "<b>Bolsón Escolar</b> \"%s\" actualizado"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "<b>School Benefit</b> \"%s\" removed"
+msgstr "<b>Bolsón Escolar</b> \"%s\" eliminado"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "<b>School Benefit</b> \"%s\" unlinked"
+msgstr "<b>Bolsón Escolar</b> \"%s\" desvinculado"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "<b>All School Benefits</b> removed"
+msgstr "<b>Todos los Bolsones Escolares</b> eliminados"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "<b>School Benefits</b> list replaced"
+msgstr "Lista de <b>Bolsones Escolares</b> reemplazada"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Type"
+msgstr "Tipo"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Applicant"
+msgstr "Solicitante"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Request date"
+msgstr "Fecha de solicitud"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Full documentation"
+msgstr "Documentación completa"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Expedient/resolution"
+msgstr "Expediente/resolución"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Observations"
+msgstr "Observaciones"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Notes"
+msgstr "Notas"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Responsible"
+msgstr "Responsable"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Requested amount"
+msgstr "Importe solicitado"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Authorized amount"
+msgstr "Importe autorizado"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Paid amount"
+msgstr "Importe pagado"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "New"
+msgstr "Nuevo"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Requested"
+msgstr "Solicitado"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Authorized"
+msgstr "Autorizado"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Rejected"
+msgstr "Rechazado"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Finalized"
+msgstr "Finalizado"
+
+#. module: union_benefit_request
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#, python-format
+msgid "Canceled"
+msgstr "Cancelado"
+
+#. module: union_benefit_request
+#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_request_type__require_full_doc
+msgid "Require full documentation"
+msgstr "Exigir documentación completa"
+
+#. module: union_benefit_request
+#: model:ir.model.fields,help:union_benefit_request.field_benefit_request_request_type__require_full_doc
+msgid "If checked, full documentation will be required to finalize requests of this type"
+msgstr "Si está marcado, se requerirá documentación completa para finalizar solicitudes de este tipo"
+
+#. module: union_benefit_request
+#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_type_form
+msgid "Documentation"
+msgstr "Documentación"
