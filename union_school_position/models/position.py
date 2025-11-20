@@ -31,6 +31,14 @@ class Position(models.Model):
         ondelete='restrict',
         help='Workplace where the position is held'
     )
+    date_from = fields.Date(
+        string='From',
+        help='Position start date'
+    )
+    date_to = fields.Date(
+        string='To',
+        help='Position end date (if applicable)'
+    )
     tag_ids = fields.Many2many(
         comodel_name='school_position.tag',
         relation='school_position_tag_affiliate_rel',
@@ -46,6 +54,13 @@ class Position(models.Model):
     # Related fields for filters
     uid = fields.Char(related='affiliate_id.uid', store=False)
     personal_id = fields.Char(related='affiliate_id.personal_id', store=False)
+
+    @api.constrains('date_from', 'date_to')
+    def _check_dates(self):
+        for record in self:
+            if record.date_from and record.date_to:
+                if record.date_to <= record.date_from:
+                    raise ValidationError(_('The end date must be later than the start date.'))
 
     def name_get(self):
         result = []
