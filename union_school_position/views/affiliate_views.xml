@@ -13,7 +13,6 @@
                                 <field name="position_number"/>
                                 <field name="hs_amount"/>
                                 <field name="character_id"/>
-                                <field name="dependency_id"/>
                                 <field name="registration_date"/>
                             </tree>
                             <!-- <form>
@@ -23,7 +22,6 @@
                                         <field name="position_number"/>
                                         <field name="hs_amount"/>
                                         <field name="character_id"/>
-                                        <field name="dependency_id"/>
                                         <field name="registration_date"/>
                                     </group>
                                 </sheet>

@@ -22,7 +22,6 @@ Características
 - Gestión de cargos.
 - Configuración de tipos cargos.
 - Configuración de caracteres de cargos.
-- Configuración de dependencias de cargos.
 - Importación de cargos desde archivos csv.
 
 Instalación
@@ -49,8 +48,7 @@ Uso
 
 1. Navega a **Sindicato > Cargos > Tipos de Cargos** para configurar los tipos de cargos.
 2. Navega a **Sindicato > Cargos > Caracteres de Cargos** para configurar los caracteres de cargos.
-3. Navega a **Sindicato > Cargos > Dependencias de Cargos** para configurar las dependencias de cargos.
-4. Navega a **Sindicato > Cargos > Lista de Cargos** para gestionar los cargos.
+3. Navega a **Sindicato > Cargos > Lista de Cargos** para gestionar los cargos.
 
 Créditos
 ========
