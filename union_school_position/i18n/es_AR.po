@@ -80,8 +80,34 @@ msgstr "Creado en"
 
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_type__dedication
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__dedication
 msgid "Dedication"
 msgstr "Dedicación"
+
+#. module: union_school_position
+#: model:ir.model.fields,help:union_school_position.field_school_position_position__dedication
+msgid "Dedication of the position type"
+msgstr "Dedicación del tipo de cargo"
+
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__type_code
+msgid "Type code"
+msgstr "Código"
+
+#. module: union_school_position
+#: model:ir.model.fields,help:union_school_position.field_school_position_position__type_code
+msgid "Code of the position type"
+msgstr "Código del tipo de cargo"
+
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__type_description
+msgid "Type description"
+msgstr "Descripción"
+
+#. module: union_school_position
+#: model:ir.model.fields,help:union_school_position.field_school_position_position__type_description
+msgid "Description of the position type"
+msgstr "Descripción del tipo de cargo"
 
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__workplace_id

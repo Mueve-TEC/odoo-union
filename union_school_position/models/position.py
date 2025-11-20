@@ -51,6 +51,27 @@ class Position(models.Model):
     # Related fields for filters
     uid = fields.Char(related='affiliate_id.uid', store=False)
     personal_id = fields.Char(related='affiliate_id.personal_id', store=False)
+    dedication = fields.Char(
+        related='type_id.dedication', 
+        string='Dedication', 
+        store=False, 
+        readonly=True,
+        help='Dedication of the position type'
+    )
+    type_description = fields.Char(
+        related='type_id.name', 
+        string='Type description', 
+        store=False, 
+        readonly=True,
+        help='Description of the position type'
+    )
+    type_code = fields.Char(
+        related='type_id.code', 
+        string='Type code', 
+        store=False, 
+        readonly=True,
+        help='Code of the position type'
+    )
 
     @api.constrains('date_from', 'date_to')
     def _check_dates(self):
