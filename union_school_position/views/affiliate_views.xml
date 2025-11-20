@@ -1,32 +1,32 @@
 <odoo>
     <data>
+        <!-- Vista tree especial para cargos dentro del formulario de afiliado -->
+        <record model="ir.ui.view" id="union_school_position_affiliate_tree">
+            <field name="name">union_school_position.affiliate.tree</field>
+            <field name="model">school_position.position</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="type_description"/>
+                    <field name="type_code"/>
+                    <field name="character_id"/>
+                    <field name="workplace_id"/>
+                    <field name="dedication"/>
+                    <field name="hs_amount"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="registration_date"/>
+                </tree>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="union_school_position_affiliation_affiliate_form">
             <field name="name">union_school_position.affiliation.affiliate.form</field>
             <field name="model">affiliation.affiliate</field>
             <field name="inherit_id" ref="union_affiliation.union_affiliation_affiliate_form" />
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/notebook" position="inside">
-                    <page string="Positions">
-                        <field name="position_ids">
-                            <tree>
-                                <field name="type_id"/>
-                                <field name="position_number"/>
-                                <field name="hs_amount"/>
-                                <field name="character_id"/>
-                                <field name="registration_date"/>
-                            </tree>
-                            <!-- <form>
-                                <sheet>
-                                    <group>
-                                        <field name="type_id"/>
-                                        <field name="position_number"/>
-                                        <field name="hs_amount"/>
-                                        <field name="character_id"/>
-                                        <field name="registration_date"/>
-                                    </group>
-                                </sheet>
-                            </form> -->
-                        </field>
+                    <page name="positions" string="Cargos">
+                        <field name="position_ids" readonly="True" context="{'tree_view_ref': 'union_school_position.union_school_position_affiliate_tree'}"/>
                     </page>
                 </xpath>
             </field>
