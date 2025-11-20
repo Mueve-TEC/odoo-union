@@ -14,6 +14,7 @@
                                 <field name="hs_amount"/>
                                 <field name="character_id"/>
                                 <field name="dependency_id"/>
+                                <field name="registration_date"/>
                             </tree>
                             <!-- <form>
                                 <sheet>
@@ -23,6 +24,7 @@
                                         <field name="hs_amount"/>
                                         <field name="character_id"/>
                                         <field name="dependency_id"/>
+                                        <field name="registration_date"/>
                                     </group>
                                 </sheet>
                             </form> -->

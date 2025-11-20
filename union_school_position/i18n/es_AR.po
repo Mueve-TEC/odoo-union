@@ -43,6 +43,12 @@ msgid "The end date must be later than the start date."
 msgstr "La fecha de vencimiento del cargo debe ser posterior a la fecha de alta."
 
 #. module: union_school_position
+#: code:addons/union_school_position/models/position.py:0
+#, python-format
+msgid "The registration date cannot be in the future."
+msgstr "La fecha de registro no puede ser posterior a la fecha actual."
+
+#. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__character_id
 msgid "Character"
 msgstr "Carácter"
@@ -109,6 +115,16 @@ msgstr "Hasta"
 #: model:ir.model.fields,help:union_school_position.field_school_position_position__date_to
 msgid "Position end date (if applicable)"
 msgstr "Fecha de vencimiento del cargo (si corresponde)"
+
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__registration_date
+msgid "Registration date"
+msgstr "Fecha de registro"
+
+#. module: union_school_position
+#: model:ir.model.fields,help:union_school_position.field_school_position_position__registration_date
+msgid "Position information date."
+msgstr "Fecha de cuando se obtuvo la información del cargo."
 
 #. module: union_school_position
 #: model:ir.model,name:union_school_position.model_school_position_dependency

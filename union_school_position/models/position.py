@@ -39,6 +39,10 @@ class Position(models.Model):
         string='To',
         help='Position end date (if applicable)'
     )
+    registration_date = fields.Date(
+        string='Registration date',
+        help='Position information date.'
+    )
     # The next field are to manage the importation process
     # It is needed be stored, because are necessary for the import process
     import_uid = fields.Char(string='Import UID')
@@ -54,6 +58,13 @@ class Position(models.Model):
             if record.date_from and record.date_to:
                 if record.date_to <= record.date_from:
                     raise ValidationError(_('The end date must be later than the start date.'))
+
+    @api.constrains('registration_date')
+    def _check_registration_date(self):
+        for record in self:
+            if record.registration_date:
+                if record.registration_date > fields.Date.today():
+                    raise ValidationError(_('The registration date cannot be in the future.'))
 
     def name_get(self):
         result = []

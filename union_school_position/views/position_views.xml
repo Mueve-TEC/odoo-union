@@ -15,6 +15,7 @@
                             <field name="workplace_id" />
                             <field name="date_from" />
                             <field name="date_to" />
+                            <field name="registration_date" />
                         </group>
                     </sheet>
                 </form>
@@ -34,6 +35,7 @@
                     <field name="workplace_id" />
                     <field name="date_from" />
                     <field name="date_to" />
+                    <field name="registration_date" />
                 </tree>
             </field>
         </record>
