@@ -1281,3 +1281,126 @@ msgstr "La secuencia next_affiliation_number_seq no está definida."
 #, python-format
 msgid "Affiliation number cannot be 0."
 msgstr "El número de afiliación no puede ser 0."
+
+#. module: union_affiliation
+#: model:ir.model,name:union_affiliation.model_union_workplace
+msgid "Workplace"
+msgstr "Lugar de trabajo"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_union_workplace__name
+msgid "Workplace name"
+msgstr "Nombre del lugar de trabajo"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__code
+msgid "Code"
+msgstr "Código"
+
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_union_workplace__code
+msgid "Unique workplace code"
+msgstr "Código único del lugar de trabajo"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__parent_id
+msgid "Parent Workplace"
+msgstr "Dependencia superior"
+
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_union_workplace__parent_id
+msgid "Parent workplace in the hierarchy"
+msgstr "Lugar de trabajo padre en la jerarquía"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__level
+msgid "Level"
+msgstr "Nivel"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__child_ids
+msgid "Child Workplaces"
+msgstr "Dependencias inferiores"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__complete_name
+msgid "Complete Name"
+msgstr "Nombre completo"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__affiliate_ids
+msgid "Affiliates"
+msgstr "Afiliados"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__main_affiliate_ids
+msgid "Main Affiliates"
+msgstr "Afiliados principales"
+
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_union_workplace__main_affiliate_ids
+msgid "Affiliates that have this workplace as main"
+msgstr "Afiliados que tienen este lugar como principal"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__affiliate_count
+msgid "Affiliate Count"
+msgstr "Cantidad de afiliados"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__main_affiliate_count
+msgid "Main Affiliate Count"
+msgstr "Afiliados principales"
+
+#. module: union_affiliation
+#: code:addons/union_affiliation/models/workplace.py:0
+#, python-format
+msgid "You cannot create a recursive workplace hierarchy."
+msgstr "No puede crear una jerarquía recursiva de lugares de trabajo."
+
+#. module: union_affiliation
+#: code:addons/union_affiliation/models/workplace.py:0
+#, python-format
+msgid "The name \"%s\" already exists in another workplace."
+msgstr "El nombre \"%s\" ya existe en otro lugar de trabajo."
+
+#. module: union_affiliation
+#: code:addons/union_affiliation/models/workplace.py:0
+#, python-format
+msgid "The code \"%s\" already exists in another workplace."
+msgstr "El código \"%s\" ya existe en otro lugar de trabajo."
+
+#. module: union_affiliation
+#: code:addons/union_affiliation/models/workplace.py:0
+#, python-format
+msgid "Please select only one workplace to delete."
+msgstr "Por favor, seleccione un solo lugar de trabajo para eliminar."
+
+#. module: union_affiliation
+#: code:addons/union_affiliation/models/workplace.py:0
+#, python-format
+msgid "Confirm Deletion"
+msgstr "Confirmar eliminación"
+
+#. module: union_affiliation
+#: code:addons/union_affiliation/models/workplace.py:0
+#, python-format
+msgid "To delete this workplace and its descendants, use the \"Delete\" button from the form view."
+msgstr "Para eliminar este lugar de trabajo y sus descendientes, use el botón \"Eliminar\" desde la vista formulario."
+
+#. module: union_affiliation
+#: code:addons/union_affiliation/models/workplace.py:0
+#, python-format
+msgid "Cannot delete this workplace because it has associated affiliates. Use the \"Delete\" button from the form view."
+msgstr "No se puede eliminar este lugar de trabajo porque tiene afiliados asociados. Use el botón \"Eliminar\" desde la vista formulario."
+
