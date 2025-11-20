@@ -27,9 +27,9 @@ class Position(models.Model):
     )
     workplace_id = fields.Many2one(
         comodel_name='union.workplace',
-        string='Lugar de trabajo',
+        string='Workplace',
         ondelete='restrict',
-        help='Lugar de trabajo donde se desempeña el cargo'
+        help='Workplace where the position is held'
     )
     tag_ids = fields.Many2many(
         comodel_name='school_position.tag',

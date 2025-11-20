@@ -82,6 +82,11 @@ msgid "Workplace"
 msgstr "Lugar de trabajo"
 
 #. module: union_school_position
+#: model:ir.model.fields,help:union_school_position.field_school_position_position__workplace_id
+msgid "Workplace where the position is held"
+msgstr "Lugar de trabajo donde se desempeña el cargo"
+
+#. module: union_school_position
 #: model:ir.model,name:union_school_position.model_school_position_dependency
 msgid "Dependency of school position"
 msgstr "Dependencia del cargo"
