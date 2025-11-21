@@ -419,3 +419,15 @@ class Affiliate(models.Model):
             raise UserError(
                 _("Admin affiliation permission is required to unarchive records."))
         return super().action_unarchive()
+
+    def action_view_partner(self):
+        """Open the form view of the associated partner"""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Partner'),
+            'res_model': 'res.partner',
+            'res_id': self.partner_id.id,
+            'view_mode': 'form',
+            'target': 'current',
+        }

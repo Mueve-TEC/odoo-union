@@ -6,96 +6,125 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button string="Affiliate" class="btn btn-primary" type="object" name="affiliate_" states="disaffiliated,historical,not_affiliated,new" groups="union_affiliation.group_affiliation_change_state"/>
-                        <button string="Set Contributor" class="btn btn-primary" type="object" name="set_contributor" states="affiliated" groups="union_affiliation.group_affiliation_change_quote"/>
-                        <button string="Confirm affiliation" class="btn btn-secondary" type="object" name="confirm_affiliation_" states="pending_suscribe" groups="union_affiliation.group_affiliation_change_state"/>
-                        <button string="Disaffiliate" class="btn btn-secondary" type="object" name="disaffiliate_" states="affiliated" groups="union_affiliation.group_affiliation_change_state"/>
-                        <button string="Confirm dissafiliation" class="btn btn-secondary" type="object" name="confirm_dissafiliation_" states="pending_unsuscribe" groups="union_affiliation.group_affiliation_change_state"/>
-                        <button string="Archive" class="btn btn-secondary" type="object" name="archive_" states="affiliated" groups="union_affiliation.group_affiliation_change_state"/>
+                        <button string="Affiliate" class="btn btn-primary" type="object"
+                            name="affiliate_" states="disaffiliated,historical,not_affiliated,new"
+                            groups="union_affiliation.group_affiliation_change_state" />
+                        <button string="Set Contributor" class="btn btn-primary" type="object"
+                            name="set_contributor" states="affiliated"
+                            groups="union_affiliation.group_affiliation_change_quote" />
+                        <button string="Confirm affiliation" class="btn btn-secondary" type="object"
+                            name="confirm_affiliation_" states="pending_suscribe"
+                            groups="union_affiliation.group_affiliation_change_state" />
+                        <button string="Disaffiliate" class="btn btn-secondary" type="object"
+                            name="disaffiliate_" states="affiliated"
+                            groups="union_affiliation.group_affiliation_change_state" />
+                        <button string="Confirm dissafiliation" class="btn btn-secondary"
+                            type="object" name="confirm_dissafiliation_" states="pending_unsuscribe"
+                            groups="union_affiliation.group_affiliation_change_state" />
+                        <button string="Archive" class="btn btn-secondary" type="object"
+                            name="archive_" states="affiliated"
+                            groups="union_affiliation.group_affiliation_change_state" />
                         <field name="state" widget="statusbar" />
                     </header>
                     <sheet>
-                        <h2>
-                            <field name="name"/>
-                        </h2>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_partner" type="object" class="oe_stat_button"
+                                icon="fa-address-card" string="View Partner" />
+                        </div>
+                        <div class="oe_title mb-0 flex-grow-1" style="min-width: 0;">
+                            <h2 class="text-truncate">
+                                <field name="name" />
+                            </h2>
+                        </div>
+
                         <group>
                             <group string="Employment infomation" name="personal_information">
-                                <field name="uid" attrs="{'readonly': [('state','in',['pending_suscribe','affiliated','pending_unsuscribe','disaffiliated','historical'])]}"/>
-                                <field name="affiliate_type_id"/>
-                                <field name="main_workplace_id" 
-                                       string="Lugar de trabajo principal" 
-                                       domain="[('id', 'in', workplace_ids)]"
-                                       options="{'no_create': True, 'no_quick_create': True}"/>
-                                <field name="seniority"/>"
-                                <separator string="Personal information"/>
-                                <field name="personal_id_type"/>
-                                <field name="personal_id"/>
-                                <field name="vat" string="CUIL"/>
-                                <field name="gender"/>
-                                <field name="civil_status"/>
-                                <field name="birth_date"/>
-                                <field name="birth_country"/>
+                                <field name="uid"
+                                    attrs="{'readonly': [('state','in',['pending_suscribe','affiliated','pending_unsuscribe','disaffiliated','historical'])]}" />
+                                <field
+                                    name="affiliate_type_id" />
+                                <field name="main_workplace_id"
+                                    string="Lugar de trabajo principal"
+                                    domain="[('id', 'in', workplace_ids)]"
+                                    options="{'no_create': True, 'no_quick_create': True}" />
+                                <field
+                                    name="seniority" />" <separator string="Personal information" />
+                                <field
+                                    name="personal_id_type" />
+                                <field name="personal_id" />
+                                <field
+                                    name="vat" string="CUIL" />
+                                <field name="gender" />
+                                <field
+                                    name="civil_status" />
+                                <field name="birth_date" />
+                                <field
+                                    name="birth_country" />
                             </group>
                             <group string="Contact information" name="contact_information">
-                                <field name="email"/>
-                                <field name="email2"/>
-                                <field name="phone"/>
-                                <field name="mobile"/>
-                                <field name="street"/>
-                                <field name="city"/>
-                                <field name="state_id"/>
-                                <field name="country_id"/>
-                                <field name="category_id" widget="many2many_tags"/>
-                                <field name="category_bis_id" widget="many2many_tags"/>
+                                <field name="email" />
+                                <field name="email2" />
+                                <field name="phone" />
+                                <field name="mobile" />
+                                <field name="street" />
+                                <field name="city" />
+                                <field name="state_id" />
+                                <field name="country_id" />
+                                <field name="category_id" widget="many2many_tags" />
+                                <field name="category_bis_id" widget="many2many_tags" />
                             </group>
                         </group>
                         <notebook>
                             <page string="Affiliation" name="Affiliation">
                                 <group>
-                                    <field name="affiliation_number" readonly="1"/>
+                                    <field name="affiliation_number" readonly="1" />
                                     <field name="quote" readonly="1" />
                                     <field name="affiliation_date" readonly="1" />
-                                    <field name="disaffiliation_date" readonly="1"/>
+                                    <field name="disaffiliation_date" readonly="1" />
                                 </group>
                             </page>
                             <page string="Lugares de trabajo" name="workplaces">
                                 <group>
-                                  <group string="Lugar de trabajo principal">
-                                    <field name="main_workplace_id" 
-                                           domain="[('id', 'in', workplace_ids)]"
-                                           options="{'no_create': True, 'no_quick_create': True}"
-                                           context="{'tree_view_ref': 'union_affiliation.union_workplace_tree'}"/>
-                                  </group>
+                                    <group string="Lugar de trabajo principal">
+                                        <field name="main_workplace_id"
+                                            domain="[('id', 'in', workplace_ids)]"
+                                            options="{'no_create': True, 'no_quick_create': True}"
+                                            context="{'tree_view_ref': 'union_affiliation.union_workplace_tree'}" />
+                                    </group>
                                 </group>
-                                <separator string="Todos los lugares de trabajo"/>
-                                <field name="workplace_ids" widget="many2many" options="{'no_create': True, 'no_quick_create': True}" context="{'tree_view_ref': 'union_affiliation.union_workplace_tree'}">
+                                <separator string="Todos los lugares de trabajo" />
+                                <field name="workplace_ids" widget="many2many"
+                                    options="{'no_create': True, 'no_quick_create': True}"
+                                    context="{'tree_view_ref': 'union_affiliation.union_workplace_tree'}">
                                     <tree>
-                                      <field name="name"/>
-                                      <field name="complete_name"/>
-                                      <field name="code"/>
+                                        <field name="name" />
+                                        <field name="complete_name" />
+                                        <field name="code" />
                                     </tree>
                                 </field>
-                                <div class="alert alert-info mt-2" role="alert" attrs="{'invisible': [('main_workplace_id', '!=', False)]}">
+                                <div class="alert alert-info mt-2" role="alert"
+                                    attrs="{'invisible': [('main_workplace_id', '!=', False)]}">
                                     <strong>Instrucciones:</strong>
                                     <ul class="mb-0">
-                                        <li>Primero agregue los lugares de trabajo usando el botón "Agregar una línea"</li>
+                                        <li>Primero agregue los lugares de trabajo usando el botón
+                                            "Agregar una línea"</li>
                                         <li>Luego seleccione uno como lugar de trabajo principal</li>
                                     </ul>
                                 </div>
                             </page>
                             <page string="Affiliate logs" name="Affiliation_logs">
-                                <field name="log" readonly="1"/>
+                                <field name="log" readonly="1" />
                             </page>
                             <page string="Childs" name="Childs">
-                                <field name="affiliate_child_ids"/>
+                                <field name="affiliate_child_ids" />
                             </page>
                         </notebook>
                     </sheet>
 
                     <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="activity_ids" widget="mail_activity"/>
-                        <field name="message_ids" widget="mail_thread"/>
+                        <field name="message_follower_ids" widget="mail_followers" />
+                        <field name="activity_ids" widget="mail_activity" />
+                        <field name="message_ids" widget="mail_thread" />
                     </div>
 
                 </form>
@@ -123,40 +152,58 @@
             <field name="model">affiliation.affiliate</field>
             <field name="arch" type="xml">
                 <search string="Affiliate filters">
-                    <field name="name" filter_domain="[('name', 'ilike', self)]"/>
-                    <field name="uid" filter_domain="[('uid', 'ilike', self)]"/>
-                    <field name="personal_id" filter_domain="[('personal_id', 'ilike', self)]"/>
-                    <field name="category_bis_id" filter_domain="[('category_bis_id', 'ilike', self)]"/>
-                    <field name="main_workplace_id"/>
-                    <field name="workplace_ids"/>
+                    <field name="name" filter_domain="[('name', 'ilike', self)]" />
+                    <field name="uid" filter_domain="[('uid', 'ilike', self)]" />
+                    <field name="personal_id" filter_domain="[('personal_id', 'ilike', self)]" />
+                    <field name="category_bis_id"
+                        filter_domain="[('category_bis_id', 'ilike', self)]" />
+                    <field name="main_workplace_id" />
+                    <field name="workplace_ids" />
 
-                    <filter string="New" name="state_new" domain="[('state', '=', 'new')]"/>
-                    <filter string="Not affiliated" name="state_not_affiliated" domain="[('state', '=', 'not_affiliated')]"/>
-                    <filter string="Pending suscribe" name="state_pending_suscribe" domain="[('state', '=', 'pending_suscribe')]"/>
-                    <filter string="Affiliated" name="state_affiliated" domain="[('state', '=', 'affiliated')]"/>
-                    <filter string="Pending unsuscribe" name="state_pending_unsuscribe" domain="[('state', '=', 'pending_unsuscribe')]"/>
-                    <filter string="Disaffiliated" name="state_disaffiliated" domain="[('state', '=', 'disaffiliated')]"/>
-                    <filter string="Historical" name="state_historical" domain="[('state', '=', 'historical')]"/>
+                    <filter string="New" name="state_new" domain="[('state', '=', 'new')]" />
+                    <filter string="Not affiliated" name="state_not_affiliated"
+                        domain="[('state', '=', 'not_affiliated')]" />
+                    <filter string="Pending suscribe" name="state_pending_suscribe"
+                        domain="[('state', '=', 'pending_suscribe')]" />
+                    <filter string="Affiliated" name="state_affiliated"
+                        domain="[('state', '=', 'affiliated')]" />
+                    <filter string="Pending unsuscribe" name="state_pending_unsuscribe"
+                        domain="[('state', '=', 'pending_unsuscribe')]" />
+                    <filter string="Disaffiliated" name="state_disaffiliated"
+                        domain="[('state', '=', 'disaffiliated')]" />
+                    <filter string="Historical" name="state_historical"
+                        domain="[('state', '=', 'historical')]" />
                     <field name="state" />
-                    <separator/>
-                    <filter string="Contributors" name="contributors" domain="[('quote', '=', True)]"/>
-                    <filter string="Not Contributors" name="not_contributors" domain="[('quote', '=', False)]"/>
+                    <separator />
+                    <filter string="Contributors" name="contributors"
+                        domain="[('quote', '=', True)]" />
+                    <filter string="Not Contributors" name="not_contributors"
+                        domain="[('quote', '=', False)]" />
                     <field name="quote" />
-                    <separator/>
+                    <separator />
 
                     <group expand="1" string="Group By">
-                        <filter string="Contributors" name='contributors' context="{'group_by':'quote'}"/>
-                        <filter string="State" name='contributors' context="{'group_by':'state'}"/>
-                        <filter string="Tipo de relacion laboral" name="type" context="{'group_by':'affiliate_type_id'}"/>
-                        <filter string="Lugar de trabajo principal" name="main_workplace" context="{'group_by':'main_workplace_id'}"/>
-                        <filter string="Affiliation date" name="affiliation_date" context="{'group_by':'affiliation_date'}"/>
-                        <separator/>
-                        <filter string="Lugares de trabajo" name="workplaces" context="{'group_by':'workplace_ids', 'orderby':'workplace_ids.complete_name'}"/>
-                        <filter string="1° Lugar de trabajo principal" name="main_workplace_level1" context="{'group_by':'main_workplace_level1'}"/>
-                        <filter string="2° Lugar de trabajo principal" name="main_workplace_level2" context="{'group_by':'main_workplace_level2'}"/>  
-                        <filter string="3° Lugar de trabajo principal" name="main_workplace_level3" context="{'group_by':'main_workplace_level3'}"/>
-                        <separator/>
-                        <filter string="Disafilliation date" name="disaffiliation_date" context="{'group_by':'disaffiliation_date'}"/>
+                        <filter string="Contributors" name='contributors'
+                            context="{'group_by':'quote'}" />
+                        <filter string="State" name='contributors' context="{'group_by':'state'}" />
+                        <filter string="Tipo de relacion laboral" name="type"
+                            context="{'group_by':'affiliate_type_id'}" />
+                        <filter string="Lugar de trabajo principal" name="main_workplace"
+                            context="{'group_by':'main_workplace_id'}" />
+                        <filter string="Affiliation date" name="affiliation_date"
+                            context="{'group_by':'affiliation_date'}" />
+                        <separator />
+                        <filter string="Lugares de trabajo" name="workplaces"
+                            context="{'group_by':'workplace_ids', 'orderby':'workplace_ids.complete_name'}" />
+                        <filter string="1° Lugar de trabajo principal" name="main_workplace_level1"
+                            context="{'group_by':'main_workplace_level1'}" />
+                        <filter string="2° Lugar de trabajo principal" name="main_workplace_level2"
+                            context="{'group_by':'main_workplace_level2'}" />
+                        <filter string="3° Lugar de trabajo principal" name="main_workplace_level3"
+                            context="{'group_by':'main_workplace_level3'}" />
+                        <separator />
+                        <filter string="Disafilliation date" name="disaffiliation_date"
+                            context="{'group_by':'disaffiliation_date'}" />
                     </group>
                 </search>
             </field>

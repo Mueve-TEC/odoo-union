@@ -1404,3 +1404,12 @@ msgstr "Para eliminar este lugar de trabajo y sus descendientes, use el botón \
 msgid "Cannot delete this workplace because it has associated affiliates. Use the \"Delete\" button from the form view."
 msgstr "No se puede eliminar este lugar de trabajo porque tiene afiliados asociados. Use el botón \"Eliminar\" desde la vista formulario."
 
+#. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
+msgid "View Partner"
+msgstr "Ver contacto"
+
+#. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_view_partner_form
+msgid "View Affiliate"
+msgstr "Ver afiliación"
