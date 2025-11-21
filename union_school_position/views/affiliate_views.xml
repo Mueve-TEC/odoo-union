@@ -32,5 +32,18 @@
                 </xpath>
             </field>
         </record>
+
+        <record model="ir.ui.view" id="union_school_position_affiliation_affiliate_search">
+            <field name="name">union_school_position.affiliation.affiliate.search</field>
+            <field name="model">affiliation.affiliate</field>
+            <field name="inherit_id" ref="union_affiliation.union_affiliation_affiliate_search" />
+            <field name="arch" type="xml">
+                <xpath expr="//search//group" position="inside">
+                    <separator />
+                    <filter string="Position Type Code" name="position_types"
+                        context="{'group_by':'position_type_ids'}" />
+                </xpath>
+            </field>
+        </record>
     </data>
 </odoo>

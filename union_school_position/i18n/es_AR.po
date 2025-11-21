@@ -284,3 +284,8 @@ msgstr "Lectura de cargos"
 msgid "School position write"
 msgstr "Escritura de cargos"
 
+#. module: union_school_position
+#: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_affiliation_affiliate_search
+msgid "Position Type"
+msgstr "Tipo de cargo"
+
