@@ -43,6 +43,10 @@ class Position(models.Model):
         string='Registration date',
         help='Position information date.'
     )
+    notes = fields.Text(
+        string='Notes',
+        help='Additional notes or observations about the position'
+    )
     # The next field are to manage the importation process
     # It is needed be stored, because are necessary for the import process
     import_uid = fields.Char(string='Import UID')

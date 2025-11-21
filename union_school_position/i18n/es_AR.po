@@ -216,6 +216,22 @@ msgid "Personal ID"
 msgstr "Nro de documento"
 
 #. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__notes
+#: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_form
+msgid "Notes"
+msgstr "Notas"
+
+#. module: union_school_position
+#: model:ir.model.fields,help:union_school_position.field_school_position_position__notes
+msgid "Additional notes or observations about the position"
+msgstr "Notas u observaciones adicionales sobre el cargo"
+
+#. module: union_school_position
+#: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_form
+msgid "Additional notes or observations..."
+msgstr "Notas u observaciones adicionales..."
+
+#. module: union_school_position
 #: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_search
 msgid "Position filters"
 msgstr "Filtro de cargos"
