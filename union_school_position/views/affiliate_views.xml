@@ -6,15 +6,15 @@
             <field name="model">school_position.position</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="type_description"/>
-                    <field name="type_code"/>
-                    <field name="character_id"/>
-                    <field name="workplace_id"/>
-                    <field name="dedication"/>
-                    <field name="hs_amount"/>
-                    <field name="date_from"/>
-                    <field name="date_to"/>
-                    <field name="registration_date"/>
+                    <field name="type_code" />
+                    <field name="type_description" />
+                    <field name="character_id" />
+                    <field name="workplace_id" />
+                    <field name="dedication" />
+                    <field name="hs_amount" />
+                    <field name="date_from" />
+                    <field name="date_to" />
+                    <field name="registration_date" />
                 </tree>
             </field>
         </record>
@@ -26,7 +26,8 @@
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/notebook" position="inside">
                     <page name="positions" string="Cargos">
-                        <field name="position_ids" readonly="True" context="{'tree_view_ref': 'union_school_position.union_school_position_affiliate_tree'}"/>
+                        <field name="position_ids" readonly="True"
+                            context="{'tree_view_ref': 'union_school_position.union_school_position_affiliate_tree'}" />
                     </page>
                 </xpath>
             </field>
