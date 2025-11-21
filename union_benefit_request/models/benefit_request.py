@@ -305,7 +305,7 @@ class BenefitRequest(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            name = '%s, %s, %s' % (record.request_date.strftime("%Y-%m-%d"),record.request_type_id.name, record.partner_id.name)        
+            name = '%s - %s' % (record.request_type_id.name, record.partner_id.name)        
             result.append((record.id, _("%s")%(name)))
         return result
 
