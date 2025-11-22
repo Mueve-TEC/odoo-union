@@ -13,7 +13,8 @@ class Affiliate(models.Model):
         comodel_name='school_position.type',
         string='Position Types',
         compute='_compute_position_types',
-        store=True
+        store=True,
+        readonly=True
     )
     
     @api.depends('position_ids', 'position_ids.type_id')
