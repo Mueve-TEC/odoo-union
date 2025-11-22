@@ -40,7 +40,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//search//group" position="inside">
                     <separator />
-                    <filter string="Position Type Code" name="position_types"
+                    <filter string="Position Type" name="position_types"
                         context="{'group_by':'position_type_ids'}" />
                 </xpath>
             </field>
