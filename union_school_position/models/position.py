@@ -47,8 +47,8 @@ class Position(models.Model):
         string='Notes',
         help='Additional notes or observations about the position'
     )
-    # The next field are to manage the importation process
-    # It is needed be stored, because are necessary for the import process
+    # The next fields are to manage the importation process
+    # It needs to be stored because it is necessary for the import process
     import_uid = fields.Char(string='Import UID')
     import_personal_id = fields.Char(string='Import Personal ID')
 
