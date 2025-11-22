@@ -7,7 +7,7 @@
     'website': "https://github.com/Mueve-TEC",
     'category': 'Union',
     "license": "GPL-3",
-    'version': '16.0.1.1.2',
+    'version': '16.0.1.1.3',
     'depends': ['base', 'union_affiliation'],
     'data': [
         'security/school_position_security.xml',
@@ -15,6 +15,7 @@
         'views/position_views.xml',
         'views/position_type_views.xml',
         'views/position_character_views.xml',
+        'views/affiliate_views.xml',
         'views/menu.xml',
     ],
     'demo': [

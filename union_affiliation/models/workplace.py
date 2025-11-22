@@ -6,33 +6,33 @@ from odoo.exceptions import ValidationError, UserError
 
 class UnionWorkplace(models.Model):
     _name = 'union.workplace'
-    _description = 'Lugar de trabajo'
+    _description = 'Workplace'
     _order = 'complete_name'
     _parent_store = True
     _rec_name = 'complete_name'
 
     name = fields.Char(
-        string='Nombre',
+        string='Name',
         required=True,
-        help='Nombre del lugar de trabajo'
+        help='Workplace name'
     )
 
     code = fields.Char(
-        string='Código',
+        string='Code',
         required=True,
-        help='Código único del lugar de trabajo'
+        help='Unique workplace code'
     )
 
     parent_id = fields.Many2one(
         'union.workplace',
-        string='Dependencia superior',
+        string='Parent Workplace',
         index=True,
         ondelete='cascade',
-        help='Lugar de trabajo padre en la jerarquía'
+        help='Parent workplace in the hierarchy'
     )
 
     level = fields.Integer(
-        string='Nivel',
+        string='Level',
         compute='_compute_level',
         store=True
     )
@@ -40,48 +40,48 @@ class UnionWorkplace(models.Model):
     child_ids = fields.One2many(
         'union.workplace',
         'parent_id',
-        string='Dependencias inferiores'
+        string='Child Workplaces'
     )
 
-    # campo de odoo para jerarquías
+    # Odoo field for hierarchies
     parent_path = fields.Char(index=True)
 
     complete_name = fields.Char(
-        string='Nombre completo',
+        string='Complete Name',
         compute='_compute_complete_name',
         recursive=True,
         store=True
     )
 
     active = fields.Boolean(
-        string='Activo',
+        string='Active',
         default=True
     )
 
-    # Relación con afiliados
+    # Relationship with affiliates
     affiliate_ids = fields.Many2many(
         'affiliation.affiliate',
         relation='affiliate_workplace_rel',
         column1='workplace_id',
         column2='affiliate_id',
-        string='Afiliados'
+        string='Affiliates'
     )
 
     main_affiliate_ids = fields.One2many(
         'affiliation.affiliate',
         'main_workplace_id',
-        string='Afiliados principales',
-        help='Afiliados que tienen este lugar como principal'
+        string='Main Affiliates',
+        help='Affiliates that have this workplace as main'
     )
 
-    # Campos estadísticos
+    # Statistical fields
     affiliate_count = fields.Integer(
-        string='Cantidad de afiliados',
+        string='Affiliate Count',
         compute='_compute_affiliate_count'
     )
 
     main_affiliate_count = fields.Integer(
-        string='Afiliados pincipales',
+        string='Main Affiliate Count',
         compute='_compute_main_affiliate_count'
     )
 
@@ -113,14 +113,14 @@ class UnionWorkplace(models.Model):
 
     @api.constrains('parent_id')
     def _check_parent_id(self):
-        """Evita ciclos en la jerarquía"""
+        """Prevents cycles in the hierarchy"""
         if not self._check_recursion():
             raise ValidationError(
-                'No puede crear una jerarquía recursiva de lugares de trabajo.')
+                _('You cannot create a recursive workplace hierarchy.'))
 
     @api.constrains('name')
     def _check_unique_name(self):
-        """El nombre debe ser único"""
+        """Name must be unique"""
         for workplace in self:
             if workplace.name:
                 existing = self.search([
@@ -129,11 +129,11 @@ class UnionWorkplace(models.Model):
                 ])
                 if existing:
                     raise ValidationError(
-                        f'El nombre "{workplace.name}" ya existe en otro lugar de trabajo.')
+                        _('The name "%s" already exists in another workplace.') % workplace.name)
 
     @api.constrains('code')
     def _check_unique_code(self):
-        """El código debe ser único"""
+        """Code must be unique"""
         for workplace in self:
             if workplace.code:
                 existing = self.search([
@@ -142,11 +142,11 @@ class UnionWorkplace(models.Model):
                 ])
                 if existing:
                     raise ValidationError(
-                        f'El código "{workplace.code}" ya existe en otro lugar de trabajo.')
+                        _('The code "%s" already exists in another workplace.') % workplace.code)
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
-        """Permite buscar por código o nombre"""
+        """Allows searching by code or name"""
         args = args or []
         domain = []
         if name:
@@ -161,15 +161,15 @@ class UnionWorkplace(models.Model):
 
     def get_main_affiliates_for_reports(self):
         """
-        Método para obtener afiliados principales para padrones.
-        Evita duplicados usando solo el lugar de trabajo principal.
+        Method to get main affiliates for reports.
+        Avoids duplicates by using only the main workplace.
         """
         return self.main_affiliate_ids.filtered(lambda a: a.state == 'affiliated')
 
     def _get_all_descendants(self):
         """
-        Obtiene todos los descendientes (hijos, nietos, etc.) de forma recursiva.
-        Retorna un recordset con todos los descendientes.
+        Gets all descendants (children, grandchildren, etc.) recursively.
+        Returns a recordset with all descendants.
         """
         descendants = self.env['union.workplace']
 
@@ -184,17 +184,17 @@ class UnionWorkplace(models.Model):
 
     def action_delete_with_confirmation(self):
         """
-        Acción personalizada para eliminar con el wizard de confirmación
+        Custom action to delete with confirmation wizard
         """
         if len(self) != 1:
             raise UserError(
-                "Por favor, seleccione un solo lugar de trabajo para eliminar.")
+                _("Please select only one workplace to delete."))
 
         workplace = self[0]
 
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Confirmar eliminación',
+            'name': _('Confirm Deletion'),
             'res_model': 'union.workplace.delete.wizard',
             'view_mode': 'form',
             'target': 'new',
@@ -206,57 +206,57 @@ class UnionWorkplace(models.Model):
 
     def unlink(self):
         """
-        Override del método unlink para limpiar correctamente las relaciones Many2many
-        antes de eliminar el lugar de trabajo.
+        Override the unlink method to properly clean Many2many relationships
+        before deleting the workplace.
         """
-        # Obtener todos los lugares que van a ser eliminados (incluyendo descendientes)
+        # Get all workplaces that will be deleted (including descendants)
         all_workplaces_to_delete = self.env['union.workplace']
 
         for workplace in self:
             all_workplaces_to_delete |= workplace
             all_workplaces_to_delete |= workplace._get_all_descendants()
 
-        # Limpiar las relaciones Many2many con los afiliados para todos los lugares que se eliminarán
+        # Clean Many2many relationships with affiliates for all workplaces to be deleted
         if all_workplaces_to_delete and self.env.context.get('from_delete_wizard'):
             affected_affiliates = self.env['affiliation.affiliate'].search([
                 ('workplace_ids', 'in', all_workplaces_to_delete.ids)
             ])
 
-            # Remover estos lugares de trabajo de los afiliados con contexto especial
+            # Remove these workplaces from affiliates with special context
             ctx = dict(self.env.context, skip_workplace_validation=True)
             for affiliate in affected_affiliates:
                 affiliate.with_context(
                     ctx).workplace_ids = affiliate.workplace_ids - all_workplaces_to_delete
 
-                # Si el lugar principal está siendo eliminado, verificar que tenga otro lugar principal válido
+                # If main workplace is being deleted, verify it has another valid main workplace
                 if affiliate.main_workplace_id and affiliate.main_workplace_id in all_workplaces_to_delete:
-                    # Si aún tiene otros lugares de trabajo, sugerir el primero como principal
+                    # If it still has other workplaces, suggest the first one as main
                     if affiliate.workplace_ids:
                         affiliate.with_context(
                             ctx).main_workplace_id = affiliate.workplace_ids[0]
-                    # Si no tiene otros lugares, main_workplace_id se pondrá en NULL automáticamente por ondelete='set null'
+                    # If it has no other workplaces, main_workplace_id will be set to NULL automatically by ondelete='set null'
 
-        # Continuar con la eliminación normal
+        # Continue with normal deletion
         return super().unlink()
 
     @api.ondelete(at_uninstall=False)
     def _checks_before_delete(self):
 
-        # Permitir eliminación desde el wizard
+        # Allow deletion from wizard
         if self.env.context.get('from_delete_wizard'):
             return
 
-        # Para eliminaciones desde interfaz, redirigir al wizard si hay hijos o afiliados asociados al lugar de trabajo
+        # For deletions from interface, redirect to wizard if there are children or affiliates associated with the workplace
         for workplace in self:
             all_descendants = workplace._get_all_descendants()
             if all_descendants:
                 raise ValidationError(_(
-                    'Para eliminar este lugar de trabajo y sus descendientes, '
-                    'Use el botón "Eliminar" desde la vista formulario.'
+                    'To delete this workplace and its descendants, '
+                    'use the "Delete" button from the form view.'
                 ))
 
             if workplace.affiliate_ids:
                 raise ValidationError(_(
-                    'No se puede eliminar este lugar de trabajo porque tiene afiliados asociados. '
-                    'Use el botón "Eliminar" desde la vista formulario.'
+                    'Cannot delete this workplace because it has associated affiliates. '
+                    'Use the "Delete" button from the form view.'
                 ))

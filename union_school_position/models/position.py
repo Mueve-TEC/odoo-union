@@ -27,25 +27,69 @@ class Position(models.Model):
     )
     workplace_id = fields.Many2one(
         comodel_name='union.workplace',
-        string='Lugar de trabajo',
+        string='Workplace',
         ondelete='restrict',
-        help='Lugar de trabajo donde se desempeña el cargo'
+        help='Workplace where the position is held'
     )
-    tag_ids = fields.Many2many(
-        comodel_name='school_position.tag',
-        relation='school_position_tag_affiliate_rel',
-        column1='position_id',
-        column2='tag_id',
-        string='Tags'
+    date_from = fields.Date(
+        string='From',
+        help='Position start date'
     )
-    # The next field are to manage the importation process
-    # It is needed be stored, because are necessary for the import process
+    date_to = fields.Date(
+        string='To',
+        help='Position end date (if applicable)'
+    )
+    registration_date = fields.Date(
+        string='Registration date',
+        help='Position information date.'
+    )
+    notes = fields.Text(
+        string='Notes',
+        help='Additional notes or observations about the position'
+    )
+    # The next fields are to manage the importation process
+    # It needs to be stored because it is necessary for the import process
     import_uid = fields.Char(string='Import UID')
     import_personal_id = fields.Char(string='Import Personal ID')
 
     # Related fields for filters
     uid = fields.Char(related='affiliate_id.uid', store=False)
     personal_id = fields.Char(related='affiliate_id.personal_id', store=False)
+    dedication = fields.Char(
+        related='type_id.dedication', 
+        string='Dedication', 
+        store=False, 
+        readonly=True,
+        help='Dedication of the position type'
+    )
+    type_description = fields.Char(
+        related='type_id.name', 
+        string='Type description', 
+        store=False, 
+        readonly=True,
+        help='Description of the position type'
+    )
+    type_code = fields.Char(
+        related='type_id.code', 
+        string='Type code', 
+        store=False, 
+        readonly=True,
+        help='Code of the position type'
+    )
+
+    @api.constrains('date_from', 'date_to')
+    def _check_dates(self):
+        for record in self:
+            if record.date_from and record.date_to:
+                if record.date_to <= record.date_from:
+                    raise ValidationError(_('The end date must be later than the start date.'))
+
+    @api.constrains('registration_date')
+    def _check_registration_date(self):
+        for record in self:
+            if record.registration_date:
+                if record.registration_date > fields.Date.today():
+                    raise ValidationError(_('The registration date cannot be in the future.'))
 
     def name_get(self):
         result = []
@@ -70,8 +114,6 @@ class Position(models.Model):
                 vals['affiliate_id'] = affiliate[0].id
             else:
                 raise ValidationError(_('Affiliate doesn\'t exist!.'))
-            if 'tag_ids' in vals:
-                vals['tag_ids'] = self._get_tag_for_import(vals['tag_ids'])
             self._clean_affiliate_data(vals)
         res = super(Position, self).create(vals)
         return res
@@ -80,9 +122,6 @@ class Position(models.Model):
 
         res = super(Position, self).write(vals)
         return res
-
-    def _get_tag_for_import(self,tags):
-        return tags[0][2]
 
     def _clean_affiliate_data(self, vals):
         vals.pop('import_uid') if 'import_uid' in vals else None

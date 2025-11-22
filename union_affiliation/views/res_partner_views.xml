@@ -5,13 +5,18 @@
         <record id="union_affiliation_view_partner_form" model="ir.ui.view">
             <field name="name">res.partner.form.affiliation</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="inherit_id" ref="base.view_partner_form" />
             <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_affiliate" type="object" class="oe_stat_button"
+                        icon="fa-id-card" string="View Affiliate"
+                        attrs="{'invisible': [('is_affiliate', '=', False)]}" />
+                </xpath>
                 <xpath expr="//form/sheet/group/group/field[@name='website']" position="before">
-                    <field name="email2"/>
+                    <field name="email2" />
+                    <field name="is_affiliate" invisible="1" />
                 </xpath>
             </field>
         </record>
-        
     </data>
 </odoo>

@@ -13,8 +13,16 @@
                             <field name="hs_amount" />
                             <field name="character_id" />
                             <field name="workplace_id" />
-                            <field name="tag_ids" widget="many2many_tags" />
+                            <field name="date_from" />
+                            <field name="date_to" />
+                            <field name="registration_date" />
                         </group>
+                        <notebook>
+                            <page string="Notes">
+                                <field name="notes"
+                                    placeholder="Additional notes or observations..." />
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
@@ -31,6 +39,9 @@
                     <field name="hs_amount" />
                     <field name="character_id" />
                     <field name="workplace_id" />
+                    <field name="date_from" />
+                    <field name="date_to" />
+                    <field name="registration_date" />
                 </tree>
             </field>
         </record>
@@ -40,11 +51,14 @@
             <field name="model">school_position.position</field>
             <field name="arch" type="xml">
                 <search string="Position filters">
-                    <field name="affiliate_id" filter_domain="['|','|',('affiliate_id.name', 'ilike', self),('affiliate_id.uid', 'ilike', self),('affiliate_id.personal_id', 'ilike', self)]"/>
-                    <field name="type_id" filter_domain="['|',('type_id.name', 'ilike', self),('type_id.code', 'ilike', self)]"/>
-                    <field name="workplace_id" filter_domain="['|','|',('workplace_id.name', 'ilike', self),('workplace_id.code', 'ilike', self),('workplace_id.complete_name', 'ilike', self)]"/>
-                    <field name="character_id" filter_domain="['|',('character_id.name', 'ilike', self),('character_id.code', 'ilike', self)]"/>
-                    <field name="tag_ids" filter_domain="[('tag_ids.name', 'ilike', self)]"/>
+                    <field name="affiliate_id"
+                        filter_domain="['|','|',('affiliate_id.name', 'ilike', self),('affiliate_id.uid', 'ilike', self),('affiliate_id.personal_id', 'ilike', self)]" />
+                    <field name="type_id"
+                        filter_domain="['|',('type_id.name', 'ilike', self),('type_id.code', 'ilike', self)]" />
+                    <field name="workplace_id"
+                        filter_domain="['|','|',('workplace_id.name', 'ilike', self),('workplace_id.code', 'ilike', self),('workplace_id.complete_name', 'ilike', self)]" />
+                    <field name="character_id"
+                        filter_domain="['|',('character_id.name', 'ilike', self),('character_id.code', 'ilike', self)]" />
                 </search>
             </field>
         </record>
