@@ -6,7 +6,7 @@ class Affiliate(models.Model):
     position_ids = fields.One2many(
         comodel_name='school_position.position',
         inverse_name='affiliate_id',
-        string='Positions'
+        string='Positions',
     )
     
     position_type_ids = fields.Many2many(
@@ -14,7 +14,7 @@ class Affiliate(models.Model):
         string='Position Types',
         compute='_compute_position_types',
         store=True,
-        readonly=True
+        readonly=True,
     )
     
     @api.depends('position_ids', 'position_ids.type_id')
