@@ -11,3 +11,7 @@ read_school_position_character,Read for school_position.character,model_school_p
 admin_school_position_tag,Admin for school_position.tag,model_school_position_tag,union_school_position.group_school_position_admin,1,1,1,1
 write_school_position_tag,Write for school_position.tag,model_school_position_tag,union_school_position.group_school_position_write,1,1,1,1
 read_school_position_tag,Read for school_position.tag,model_school_position_tag,union_school_position.group_school_position_read,1,0,0,0
+read_school_position_internal,Read school_position.position for internal users,model_school_position_position,base.group_user,1,0,0,0
+read_school_position_type_internal,Read school_position.type for internal users,model_school_position_type,base.group_user,1,0,0,0
+read_school_position_character_internal,Read school_position.character for internal users,model_school_position_character,base.group_user,1,0,0,0
+read_school_position_tag_internal,Read school_position.tag for internal users,model_school_position_tag,base.group_user,1,0,0,0

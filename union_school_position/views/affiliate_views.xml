@@ -25,9 +25,21 @@
             <field name="inherit_id" ref="union_affiliation.union_affiliation_affiliate_form" />
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/notebook" position="inside">
-                    <page name="positions" string="Cargos">
-                        <field name="position_ids" readonly="True"
-                            context="{'tree_view_ref': 'union_school_position.union_school_position_affiliate_tree'}" />
+                    <page name="positions" string="Cargos"
+                        groups="union_school_position.group_school_position_read">
+                        <field name="position_ids" readonly="True">
+                            <tree>
+                                <field name="type_code" />
+                                <field name="type_description" />
+                                <field name="character_id" />
+                                <field name="workplace_id" />
+                                <field name="dedication" />
+                                <field name="hs_amount" />
+                                <field name="date_from" />
+                                <field name="date_to" />
+                                <field name="registration_date" />
+                            </tree>
+                        </field>
                     </page>
                 </xpath>
             </field>
@@ -41,7 +53,8 @@
                 <xpath expr="//search//group" position="inside">
                     <separator />
                     <filter string="Position Type" name="position_types"
-                        context="{'group_by':'position_type_ids'}" />
+                        context="{'group_by':'position_type_ids'}"
+                        groups="union_school_position.group_school_position_read" />
                 </xpath>
             </field>
         </record>
