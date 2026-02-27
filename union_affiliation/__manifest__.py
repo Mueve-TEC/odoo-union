@@ -24,6 +24,7 @@
         'views/workplace_views.xml',
         'views/res_partner_views.xml',
         'views/menu.xml',
+        'data/default_home_action.xml',
     ],
     'demo': [
         'demo/demo.xml',
