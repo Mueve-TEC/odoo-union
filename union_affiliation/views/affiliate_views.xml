@@ -72,7 +72,8 @@
                                 <field name="state_id" />
                                 <field name="country_id" />
                                 <field name="category_id" widget="many2many_tags" />
-                                <field name="category_bis_id" widget="many2many_tags" />
+                                <field name="category_bis_id" widget="many2many_tags"
+                                    groups="union_affiliation.group_affiliation_admin" />
                             </group>
                         </group>
                         <notebook>
