@@ -157,7 +157,7 @@ class UnionWorkplace(models.Model):
                 ('complete_name', operator, name)
             ]
         workplaces = self.search(domain + args, limit=limit)
-        return workplaces.name_get()
+        return [(workplace.id, workplace.display_name) for workplace in workplaces.sudo()]
 
     def get_main_affiliates_for_reports(self):
         """
