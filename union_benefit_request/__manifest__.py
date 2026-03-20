@@ -6,7 +6,7 @@
     'author': "Mueve",
     'website': "https://github.com/Mueve-TEC",
     'category': 'Union',
-    'version': '16.0.1.2.2',
+    'version': '19.0.0.0.0',
     'license': "GPL-3",
     'depends': ['base', 'survey', 'mail', 'union_affiliation'],
     'data': [
