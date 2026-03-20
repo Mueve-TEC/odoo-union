@@ -20,11 +20,11 @@
             <field name="name">union_contribution.affiliate.contribution.code.tree</field>
             <field name="model">contribution.affiliate_contribution_code</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="code" />
                     <field name="name" />
                     <field name="enabled" />
-                </tree>
+                </list>
             </field>
         </record>
     </data>

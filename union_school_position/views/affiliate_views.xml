@@ -5,7 +5,7 @@
             <field name="name">union_school_position.affiliate.tree</field>
             <field name="model">school_position.position</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="type_code" />
                     <field name="type_description" />
                     <field name="character_id" />
@@ -15,7 +15,7 @@
                     <field name="date_from" />
                     <field name="date_to" />
                     <field name="registration_date" />
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -28,7 +28,7 @@
                     <page name="positions" string="Cargos"
                         groups="union_school_position.group_school_position_read">
                         <field name="position_ids" readonly="True">
-                            <tree>
+                            <list>
                                 <field name="type_code" />
                                 <field name="type_description" />
                                 <field name="character_id" />
@@ -38,7 +38,7 @@
                                 <field name="date_from" />
                                 <field name="date_to" />
                                 <field name="registration_date" />
-                            </tree>
+                            </list>
                         </field>
                     </page>
                 </xpath>

@@ -7,13 +7,13 @@
         <field name="model">union.workplace</field>
         <field name="arch" type="xml">
             <tree string="Lugares de trabajo">
-                <field name="name"/>
-                <field name="complete_name"/>
-                <field name="code"/>
+                <field name="name" />
+                <field name="complete_name" />
+                <field name="code" />
                 <!-- TODO: Agregar lógica para contabilizar segun el estado de los afiliados -->
                 <!-- <field name="affiliate_count"/>
                 <field name="main_affiliate_count"/> -->
-                <field name="active"/>
+                <field name="active" />
             </tree>
         </field>
     </record>
@@ -27,34 +27,37 @@
                 <sheet>
                     <!-- TODO: Agregar lógica para contabilizar segun el estado de los afiliados -->
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_delete_with_confirmation" type="object" class="oe_stat_button" icon="fa-trash" string="Eliminar"/>
+                        <button name="action_delete_with_confirmation" type="object"
+                            class="oe_stat_button" icon="fa-trash" string="Eliminar" />
                     </div>
-                    
-                    <widget name="web_ribbon" title="Inactivo" bg_color="bg-danger" invisible="active"/>
-                    
+
+                    <widget name="web_ribbon" title="Inactivo" bg_color="bg-danger"
+                        invisible="active" />
+
                     <group>
                         <group>
-                            <field name="name" placeholder="ej: Oficina Central"/>
-                            <field name="code" placeholder="ej: OFC-001"/>
-                            <field name="parent_id" options="{'no_create': True}"/>
-                            <field name="active"/>
+                            <field name="name" placeholder="ej: Oficina Central" />
+                            <field name="code" placeholder="ej: OFC-001" />
+                            <field name="parent_id" options="{'no_create': True}" />
+                            <field name="active" />
                         </group>
                         <group>
-                            <field name="complete_name" readonly="1"/>
+                            <field name="complete_name" readonly="1" />
                         </group>
                     </group>
-                    
+
                     <notebook>
                         <page string="Dependencias inferiores">
                             <field name="child_ids">
-                                <tree>
-                                    <field name="name"/>
-                                    <field name="code"/>
-                                    <!-- TODO: Agregar lógica para contabilizar segun el estado de los afiliados -->
+                                <list>
+                                    <field name="name" />
+                                    <field name="code" />
+                                    <!-- TODO: Agregar lógica para contabilizar segun el estado de
+                                    los afiliados -->
                                     <!-- <field name="affiliate_count"/>
                                     <field name="main_affiliate_count"/> -->
-                                    <field name="active"/>
-                                </tree>
+                                    <field name="active" />
+                                </list>
                             </field>
                         </page>
                     </notebook>

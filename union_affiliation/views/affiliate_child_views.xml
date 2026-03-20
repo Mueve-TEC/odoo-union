@@ -6,7 +6,9 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <h2><field name="name" placeholder="Child name"/></h2>
+                        <h2>
+                            <field name="name" placeholder="Child name" />
+                        </h2>
                         <group string="Personal information">
                             <field name="personal_id_type" />
                             <field name="personal_id" />
@@ -17,7 +19,7 @@
                         </group>
                         <notebook>
                             <page string="Parents" name="Parents">
-                                <field name="affiliate_ids"/>
+                                <field name="affiliate_ids" />
                             </page>
                         </notebook>
                     </sheet>
@@ -29,14 +31,14 @@
             <field name="name">union_affiliation.affiliate_child.tree</field>
             <field name="model">affiliation.affiliate_child</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="name" />
                     <field name="personal_id_type" />
                     <field name="personal_id" />
                     <field name="birth_date" />
                     <field name="handicapped" />
                     <field name="verified" />
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -45,8 +47,8 @@
             <field name="model">affiliation.affiliate_child</field>
             <field name="arch" type="xml">
                 <search string="Affiliate child filters">
-                    <field name="name" filter_domain="[('name', 'ilike', self)]"/>
-                    <field name="personal_id" filter_domain="[('personal_id', 'ilike', self)]"/>
+                    <field name="name" filter_domain="[('name', 'ilike', self)]" />
+                    <field name="personal_id" filter_domain="[('personal_id', 'ilike', self)]" />
                 </search>
             </field>
         </record>

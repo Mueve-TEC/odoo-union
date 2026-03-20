@@ -6,18 +6,21 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <field name="name" placeholder="Name"/>
+                        <field name="name" placeholder="Name" />
                         <group>
                             <group string="Acceptation">
-                                <field name="who_apply"/>
-                                <field name="state_ids" widget="many2many_tags" invisible="who_apply == 'everybody'" options="{'no_create': True}"/>
-                                <field name="quote" invisible="who_apply == 'everybody'"/>
+                                <field name="who_apply" />
+                                <field name="state_ids" widget="many2many_tags"
+                                    invisible="who_apply == 'everybody'"
+                                    options="{'no_create': True}" />
+                                <field name="quote" invisible="who_apply == 'everybody'" />
                             </group>
                             <group string="Related to">
-                                <field name="request_group_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                                <field name="request_group_ids" widget="many2many_tags"
+                                    options="{'no_create': True}" />
                             </group>
                             <group string="Documentation">
-                                <field name="require_full_doc"/>
+                                <field name="require_full_doc" />
                             </group>
                         </group>
                     </sheet>
@@ -29,14 +32,14 @@
             <field name="name">union_benefit_request_type_tree</field>
             <field name="model">benefit_request.request_type</field>
             <field name="arch" type="xml">
-                <tree>
-                    <field name="name"/>
-                    <field name="who_apply"/>
-                    <field name="state_ids" widget="many2many_tags"/>
-                    <field name="quote"/>
-                    <field name="request_group_ids" widget="many2many_tags"/>
-                    <field name="require_full_doc"/>
-                </tree>
+                <list>
+                    <field name="name" />
+                    <field name="who_apply" />
+                    <field name="state_ids" widget="many2many_tags" />
+                    <field name="quote" />
+                    <field name="request_group_ids" widget="many2many_tags" />
+                    <field name="require_full_doc" />
+                </list>
             </field>
         </record>
     </data>

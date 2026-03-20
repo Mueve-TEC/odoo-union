@@ -32,7 +32,7 @@
             <field name="name">School position tree</field>
             <field name="model">school_position.position</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="affiliate_id" />
                     <field name="type_id" />
                     <field name="position_number" />
@@ -42,7 +42,7 @@
                     <field name="date_from" />
                     <field name="date_to" />
                     <field name="registration_date" />
-                </tree>
+                </list>
             </field>
         </record>
 

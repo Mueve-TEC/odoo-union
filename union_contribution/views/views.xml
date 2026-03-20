@@ -1,7 +1,7 @@
 <odoo>
   <data>
     <!-- explicit list view definition -->
-<!--
+    <!--
     <record model="ir.ui.view" id="contribution.list">
       <field name="name">contribution list</field>
       <field name="model">contribution.contribution</field>
@@ -16,7 +16,7 @@
 -->
 
     <!-- actions opening views on models -->
-<!--
+    <!--
     <record model="ir.actions.act_window" id="contribution.action_window">
       <field name="name">contribution window</field>
       <field name="res_model">contribution.contribution</field>
@@ -25,7 +25,7 @@
 -->
 
     <!-- server action to the one above -->
-<!--
+    <!--
     <record model="ir.actions.server" id="contribution.action_server">
       <field name="name">contribution server</field>
       <field name="model_id" ref="model_contribution_contribution"/>
@@ -41,16 +41,16 @@
 -->
 
     <!-- Top menu item -->
-<!--
+    <!--
     <menuitem name="contribution" id="contribution.menu_root"/>
 -->
     <!-- menu categories -->
-<!--
+    <!--
     <menuitem name="Menu 1" id="contribution.menu_1" parent="contribution.menu_root"/>
     <menuitem name="Menu 2" id="contribution.menu_2" parent="contribution.menu_root"/>
 -->
     <!-- actions -->
-<!--
+    <!--
     <menuitem name="List" id="contribution.menu_1_list" parent="contribution.menu_1"
               action="contribution.action_window"/>
     <menuitem name="Server to list" id="contribution" parent="contribution.menu_2"

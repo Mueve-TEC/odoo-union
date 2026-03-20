@@ -4,12 +4,12 @@
             <field name="name">School position type tree</field>
             <field name="model">school_position.type</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="name" />
                     <field name="code" />
                     <field name="in_hours" />
                     <field name="dedication" />
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -26,7 +26,7 @@
                             <field name="dedication" />
                         </group>
                     </sheet>
-                </form>             
+                </form>
             </field>
         </record>
     </data>
