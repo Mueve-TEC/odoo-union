@@ -379,14 +379,45 @@ class Affiliate(models.Model):
         return False
 
     def _log_change_field(self, vals):
+        def _format_value(record, field_name, value):
+            field = record._fields.get(field_name)
+            if not field:
+                return str(value)
+
+            if field.type == 'selection' and isinstance(value, str):
+                selection = field._description_selection(record.env)
+                selection_map = dict(selection or [])
+                return _(selection_map.get(value, value))
+
+            if field.type == 'many2one':
+                if isinstance(value, models.BaseModel):
+                    return value.display_name or ''
+                if isinstance(value, int):
+                    return record.env[field.comodel_name].browse(value).display_name or ''
+
+            if isinstance(value, bool):
+                return _('True') if value else _('False')
+
+            if isinstance(value, str):
+                return _(value)
+
+            return str(value)
+
         _loggables = ['state', 'quote', 'affiliate_type_id',
                       'email', 'phone', 'affiliation_number']
         for record in self:
             _log = ''
             for field in vals:
                 if field in _loggables:
-                    _log = _('%s [%s] The field %s change from %s to %s \n') % (str(fields.Date.today(
-                    )), record.env.user.name, _(field), _(record[field]), _(str(vals[field]))) + _log
+                    old_value = _format_value(record, field, record[field])
+                    new_value = _format_value(record, field, vals[field])
+                    _log = _('%s [%s] The field %s changed from %s to %s') % (
+                        str(fields.Date.today()),
+                        record.env.user.name,
+                        record._fields[field].get_description(record.env)['string'],
+                        old_value,
+                        new_value,
+                    )  + '\n' + _log
             _log = _log + record.log if record.log else _log
             vals.update({'log': _log})
 

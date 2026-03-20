@@ -1158,8 +1158,8 @@ msgstr "Código Postal"
 #. module: union_affiliation
 #: code:addons/union_affiliation/models/affiliate.py:0
 #, python-format
-msgid "%s [%s] The field %s change from %s to %s \n"
-msgstr "%s [%s] El campo %s cambió de %s a %s \n"
+msgid "%s [%s] The field %s changed from %s to %s"
+msgstr "%s [%s] El campo %s cambió de %s a %s"
 
 #. module: union_affiliation
 #: code:addons/union_affiliation/models/affiliate.py:0
