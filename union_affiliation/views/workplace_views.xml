@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <odoo>
 
     <!-- Tree View -->
@@ -27,15 +27,10 @@
                 <sheet>
                     <!-- TODO: Agregar lógica para contabilizar segun el estado de los afiliados -->
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_delete_with_confirmation" 
-                                type="object" 
-                                class="oe_stat_button" 
-                                icon="fa-trash"
-                                string="Eliminar"/>
+                        <button name="action_delete_with_confirmation" type="object" class="oe_stat_button" icon="fa-trash" string="Eliminar"/>
                     </div>
                     
-                    <widget name="web_ribbon" title="Inactivo" bg_color="bg-danger" 
-                            attrs="{'invisible': [('active', '=', True)]}"/>
+                    <widget name="web_ribbon" title="Inactivo" bg_color="bg-danger" invisible="active"/>
                     
                     <group>
                         <group>

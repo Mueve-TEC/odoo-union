@@ -10,7 +10,7 @@
                         <group>
                             <field name="affiliate_id" readonly="1"/>
                             <field name="affiliation_number_edition" invisible="1"/>
-                            <field name="affiliation_number" attrs="{'readonly': [('affiliation_number_edition', '=', False)]}" />
+                            <field name="affiliation_number" readonly="not affiliation_number_edition"/>
                         </group>
                     </sheet>
                     <footer>

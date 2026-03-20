@@ -10,8 +10,8 @@
                         <group>
                             <group string="Acceptation">
                                 <field name="who_apply"/>
-                                <field name="state_ids" widget="many2many_tags" attrs="{'invisible':[('who_apply','=','everybody')]}" options="{'no_create': True}"/>
-                                <field name="quote" attrs="{'invisible':[('who_apply','=','everybody')]}"/>
+                                <field name="state_ids" widget="many2many_tags" invisible="who_apply == 'everybody'" options="{'no_create': True}"/>
+                                <field name="quote" invisible="who_apply == 'everybody'"/>
                             </group>
                             <group string="Related to">
                                 <field name="request_group_ids" widget="many2many_tags" options="{'no_create': True}"/>
@@ -30,12 +30,12 @@
             <field name="model">benefit_request.request_type</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="name" />
-                    <field name="who_apply" />
+                    <field name="name"/>
+                    <field name="who_apply"/>
                     <field name="state_ids" widget="many2many_tags"/>
-                    <field name="quote" />
-                    <field name="request_group_ids" widget="many2many_tags" />
-                    <field name="require_full_doc" />
+                    <field name="quote"/>
+                    <field name="request_group_ids" widget="many2many_tags"/>
+                    <field name="require_full_doc"/>
                 </tree>
             </field>
         </record>

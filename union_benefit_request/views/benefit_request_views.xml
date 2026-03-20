@@ -6,58 +6,69 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button string="Submit Request" class="btn btn-primary" type="object" name="request" states="new,draft" />
-                        <button string="Authorize" class="btn btn-primary" type="object" name="authorize" states="requested" groups="union_benefit_request.group_benefit_request_admin" />
-                        <button string="Reject" class="btn btn-primary" type="object" name="reject" states="requested" groups="union_benefit_request.group_benefit_request_admin" />
-                        <button string="Finalize" class="btn btn-primary" type="object" name="finalize" states="authorized" />
-                        <button string="Cancel" class="btn btn-secondary" type="object" name="cancel" states="draft,requested,authorized,finalized,new" />
-                        <button string="Return to Draft" class="btn btn-secondary" type="object" name="set_to_draft" 
-                            states="new,requested,authorized,rejected" />
-                        <button string="Return to Draft" class="btn btn-secondary" type="object" name="set_to_draft" 
-                            states="finalized,canceled" 
-                            groups="union_benefit_request.group_benefit_request_admin" />
-                        <field name="state" widget="statusbar" />
+                        <!--TODO: Result from converting "states='new,draft'" attribute into an 'invisible' attribute
+                             Manually combine states condition into any 'invisible' overrides in inheriting views as well-->
+                        <button string="Submit Request" class="btn btn-primary" type="object" name="request" invisible="state not in ['new', 'draft']"/>
+                        <!--TODO: Result from converting "states='requested'" attribute into an 'invisible' attribute
+                             Manually combine states condition into any 'invisible' overrides in inheriting views as well-->
+                        <button string="Authorize" class="btn btn-primary" type="object" name="authorize" invisible="state not in ['requested']" groups="union_benefit_request.group_benefit_request_admin"/>
+                        <!--TODO: Result from converting "states='requested'" attribute into an 'invisible' attribute
+                             Manually combine states condition into any 'invisible' overrides in inheriting views as well-->
+                        <button string="Reject" class="btn btn-primary" type="object" name="reject" invisible="state not in ['requested']" groups="union_benefit_request.group_benefit_request_admin"/>
+                        <!--TODO: Result from converting "states='authorized'" attribute into an 'invisible' attribute
+                             Manually combine states condition into any 'invisible' overrides in inheriting views as well-->
+                        <button string="Finalize" class="btn btn-primary" type="object" name="finalize" invisible="state not in ['authorized']"/>
+                        <!--TODO: Result from converting "states='draft,requested,authorized,finalized,new'" attribute into an 'invisible' attribute
+                             Manually combine states condition into any 'invisible' overrides in inheriting views as well-->
+                        <button string="Cancel" class="btn btn-secondary" type="object" name="cancel" invisible="state not in ['draft', 'requested', 'authorized', 'finalized', 'new']"/>
+                        <!--TODO: Result from converting "states='new,requested,authorized,rejected'" attribute into an 'invisible' attribute
+                             Manually combine states condition into any 'invisible' overrides in inheriting views as well-->
+                        <button string="Return to Draft" class="btn btn-secondary" type="object" name="set_to_draft" invisible="state not in ['new', 'requested', 'authorized', 'rejected']"/>
+                        <!--TODO: Result from converting "states='finalized,canceled'" attribute into an 'invisible' attribute
+                             Manually combine states condition into any 'invisible' overrides in inheriting views as well-->
+                        <button string="Return to Draft" class="btn btn-secondary" type="object" name="set_to_draft" invisible="state not in ['finalized', 'canceled']" groups="union_benefit_request.group_benefit_request_admin"/>
+                        <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
                         <group>
                             <group string="Request" name="request">
-                                <field name="request_type_id" attrs="{'readonly': [('state', 'not in', ['new','draft'])]}" domain="[('active','=',True)]"  options="{'no_create': True}"/>
-                                <field name="partner_id" attrs="{'readonly': [('state', 'not in', ['new','draft'])]}"/>
-                                <field name="expedient" attrs="{'readonly': [('state', 'not in', ['new','draft'])]}"/>
-                                <field name="full_doc" attrs="{'readonly': [('state', 'not in', ['new','draft','authorized'])]}"/>
-                                <field name="observations" attrs="{'readonly': [('state', 'not in', ['new','draft'])]}"/>
-                                <field name="hide_school_benefits" invisible="1" />
-                                <field name="hide_amounts" invisible="1" />
-                                <field name="hide_notes" invisible="1" />
+                                <field name="request_type_id" readonly="state not in ['new', 'draft']" domain="[('active','=',True)]" options="{'no_create': True}"/>
+                                <field name="partner_id" readonly="state not in ['new', 'draft']"/>
+                                <field name="expedient" readonly="state not in ['new', 'draft']"/>
+                                <field name="full_doc" readonly="state not in ['new', 'draft', 'authorized']"/>
+                                <field name="observations" readonly="state not in ['new', 'draft']"/>
+                                <field name="hide_school_benefits" invisible="1"/>
+                                <field name="hide_amounts" invisible="1"/>
+                                <field name="hide_notes" invisible="1"/>
                             </group>
                             <group string="Other information" name="other_information">
-                                <field name="responsible"  attrs="{'readonly': [('state', 'in', ['canceled','rejected'])]}" />
-                                <field name="request_date" readonly="1" />
-                                <field name="last_change_state" readonly="1" />
-                                <field name="last_state" readonly="1" />
+                                <field name="responsible" readonly="state in ['canceled', 'rejected']"/>
+                                <field name="request_date" readonly="1"/>
+                                <field name="last_change_state" readonly="1"/>
+                                <field name="last_state" readonly="1"/>
                                 <field name="survey_user_input_id" readonly="1"/>
                             </group>
                         </group>
                         <notebook>
-                            <page string="School benefits" name="school_benefits" attrs="{'invisible': [('hide_school_benefits','=',True)]}">
-                                <field name="school_benefit_ids" attrs="{'readonly': [('state', 'not in', ['new','draft', 'authorized'])]}" options="{'create': [('state', 'in', ['new','draft'])], 'delete': [('state', 'in', ['new','draft'])]}">
+                            <page string="School benefits" name="school_benefits" invisible="hide_school_benefits">
+                                <field name="school_benefit_ids" readonly="state not in ['new', 'draft', 'authorized']" options="{'create': [('state', 'in', ['new','draft'])], 'delete': [('state', 'in', ['new','draft'])]}">
                                     <tree editable="bottom">
                                         <field name="state" invisible="1"/>
-                                        <field name="school_benefit_type_id" attrs="{'readonly': [('state', 'in', ['authorized'])]}" />
-                                        <field name="affiliate_child_id" attrs="{'readonly': [('state', 'in', ['authorized'])]}"/>
-                                        <field name="delivered" />
+                                        <field name="school_benefit_type_id" readonly="state in ['authorized']"/>
+                                        <field name="affiliate_child_id" readonly="state in ['authorized']"/>
+                                        <field name="delivered"/>
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Amounts" name="amounts" attrs="{'invisible': [('hide_amounts','=',True)]}">
+                            <page string="Amounts" name="amounts" invisible="hide_amounts">
                                 <group>
-                                    <field name="requested_amount" attrs="{'readonly': [('state', 'not in', ['new','draft'])]}" />
-                                    <field name="authorized_amount" attrs="{'readonly': [('state', 'not in', ['new','requested'])]}"/>
-                                    <field name="paid_amount" attrs="{'readonly': [('state', '!=', 'authorized')]}"/>
+                                    <field name="requested_amount" readonly="state not in ['new', 'draft']"/>
+                                    <field name="authorized_amount" readonly="state not in ['new', 'requested']"/>
+                                    <field name="paid_amount" readonly="state != 'authorized'"/>
                                 </group>
                             </page>
-                            <page string="Notes" name="notes" attrs="{'invisible': [('hide_notes','=',True)]}">
-                                <field name="notes" attrs="{'readonly': [('state', 'not in', ['new','draft','requested','authorized'])]}" />
+                            <page string="Notes" name="notes" invisible="hide_notes">
+                                <field name="notes" readonly="state not in ['new', 'draft', 'requested', 'authorized']"/>
                             </page>
                         </notebook>
                     </sheet>
@@ -77,11 +88,11 @@
             <field name="model">benefit_request.benefit_request</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="request_date" />
-                    <field name="partner_id" />
-                    <field name="request_type_id" />
-                    <field name="expedient" />
-                    <field name="full_doc" />
+                    <field name="request_date"/>
+                    <field name="partner_id"/>
+                    <field name="request_type_id"/>
+                    <field name="expedient"/>
+                    <field name="full_doc"/>
                 </tree>
             </field>
         </record>
@@ -101,15 +112,15 @@
                     <filter string="Rejected" name="state_rejected" domain="[('state', '=', 'rejected')]"/>
                     <filter string="Finalized" name="state_finalized" domain="[('state', '=', 'finalized')]"/>
                     <filter string="Canceled" name="state_canceled" domain="[('state', '=', 'canceled')]"/>
-                    <field name="state" />
+                    <field name="state"/>
                     <separator/>
                     <filter string="Full documented" name="full_documented" domain="[('full_doc', '=', True)]"/>
                     <filter string="Not Full documented" name="not_full_documented" domain="[('full_doc', '=', False)]"/>
-                    <field name="full_doc" />
+                    <field name="full_doc"/>
 
                     <group expand="1" string="Group By">
-                        <filter string="Full documented" name='full_documented' context="{'group_by':'full_doc'}"/>
-                        <filter string="State" name='contributors' context="{'group_by':'state'}"/>
+                        <filter string="Full documented" name="full_documented" context="{'group_by':'full_doc'}"/>
+                        <filter string="State" name="contributors" context="{'group_by':'state'}"/>
                         <filter string="Type" name="type" context="{'group_by':'request_type_id'}"/>
                         <filter string="Request date" name="request_date" context="{'group_by':'request_date'}"/>
                     </group>
@@ -117,26 +128,9 @@
             </field>
         </record>
 
-        <act_window name="Send email to aplicants"
-            res_model="mail.compose.message"
-            binding_model="benefit_request.benefit_request"
-            binding_views="list"
-            view_mode="form"
-            target="new"
-            id="action_request_mass_mail"
-            context="{
-                'default_composition_mode': 'mass_mail'
-            }"
-        />
+        <act_window name="Send email to aplicants" res_model="mail.compose.message" binding_model="benefit_request.benefit_request" binding_views="list" view_mode="form" target="new" id="action_request_mass_mail" context="{                 'default_composition_mode': 'mass_mail'             }"/>
 
-        <act_window name="Send email"
-            res_model="mail.compose.message"
-            binding_model="benefit_request.benefit_request"
-            binding_views="form"
-            view_mode="form"
-            target="new"
-            id="action_benefit_request_mail_form" 
-        />
+        <act_window name="Send email" res_model="mail.compose.message" binding_model="benefit_request.benefit_request" binding_views="form" view_mode="form" target="new" id="action_benefit_request_mail_form"/>
 
     </data>
 </odoo>

@@ -7,12 +7,12 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="partner_id" />
+                            <field name="partner_id"/>
                             <field name="benefit_request_id" readonly="1"/>
                             <field name="state" readonly="1"/>
                             <field name="school_benefit_type_id" readonly="1"/>
                             <field name="affiliate_child_id" domain="[('verified','=',True)]" readonly="1"/>
-                            <field name="delivered" attrs="{'readonly': [('state', 'not in', ['new','requested', 'authorized'])]}" />
+                            <field name="delivered" readonly="state not in ['new', 'requested', 'authorized']"/>
                         </group>
                     </sheet>
                 </form>
@@ -24,11 +24,11 @@
             <field name="model">benefit_request.school_benefit</field>
             <field name="arch" type="xml">
                 <tree create="false" edit="false" delete="false">
-                    <field name="partner_id" />
-                    <field name="benefit_request_id" />
-                    <field name="affiliate_child_id" />
-                    <field name="school_benefit_type_id" />
-                    <field name="delivered" />
+                    <field name="partner_id"/>
+                    <field name="benefit_request_id"/>
+                    <field name="affiliate_child_id"/>
+                    <field name="school_benefit_type_id"/>
+                    <field name="delivered"/>
                 </tree>
             </field>
         </record>
