@@ -402,9 +402,31 @@ class Affiliate(models.Model):
             return self._search(args + domain, limit=limit)
         return super()._name_search(name, args, operator, limit)
 
-    def _message_get_suggested_recipients(self):
-        recipients = super(Affiliate, self)._message_get_suggested_recipients()
-        recipients[self.id].append((self.partner_id.id, self.name, 'Afiliado'))
+    def _message_get_suggested_recipients(
+        self,
+        reply_discussion=False,
+        reply_message=None,
+        no_create=True,
+        primary_email=False,
+        additional_partners=None,
+    ):
+        self.ensure_one()
+        recipients = super()._message_get_suggested_recipients(
+            reply_discussion=reply_discussion,
+            reply_message=reply_message,
+            no_create=no_create,
+            primary_email=primary_email,
+            additional_partners=additional_partners,
+        )
+
+        # Keep affiliate linked partner suggested when opening chatter thread.
+        if self.partner_id and self.partner_id.id not in [r.get('partner_id') for r in recipients]:
+            recipients.append({
+                'email': self.partner_id.email_normalized,
+                'name': self.partner_id.name,
+                'partner_id': self.partner_id.id,
+                'create_values': {},
+            })
         return recipients
 
     def action_archive(self):
