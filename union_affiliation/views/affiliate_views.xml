@@ -204,10 +204,10 @@
                     <field name="quote" />
                     <separator />
 
-                    <group expand="1" string="Group By">
-                        <filter string="Contributors" name="contributors"
+                    <group name="group_by">
+                        <filter string="Contributors" name="group_by_contributors"
                             context="{'group_by':'quote'}" />
-                        <filter string="State" name="contributors" context="{'group_by':'state'}" />
+                        <filter string="State" name="group_by_state" context="{'group_by':'state'}" />
                         <filter string="Tipo de relacion laboral" name="type"
                             context="{'group_by':'affiliate_type_id'}" />
                         <filter string="Lugar de trabajo principal" name="main_workplace"
