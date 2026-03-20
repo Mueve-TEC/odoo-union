@@ -6,11 +6,11 @@
       <field name="name">benefit_request list</field>
       <field name="model">benefit_request.benefit_request</field>
       <field name="arch" type="xml">
-        <tree>
+        <list>
           <field name="name"/>
           <field name="value"/>
           <field name="value2"/>
-        </tree>
+        </list>
       </field>
     </record>
 -->

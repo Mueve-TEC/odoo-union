@@ -19,7 +19,7 @@
             <field name="inherit_id" ref="survey.survey_user_input_view_tree" />
             <field name="arch" type="xml">
                 <xpath expr="//tree/field[@name='state']" position="after">
-                    <field name="benefit_request_id"/>
+                    <field name="benefit_request_id" />
                 </xpath>
             </field>
         </record>

@@ -58,6 +58,6 @@ class Query(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'Gestión de cambios',
             'res_model': 'inconsistencies.result',
-            'views': [[False, 'tree']],
+            'views': [[False, 'list']],
             'domain': [['description', "=", self.description]]
         }

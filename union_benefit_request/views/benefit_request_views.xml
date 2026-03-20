@@ -85,14 +85,14 @@
                                 <field name="school_benefit_ids"
                                     readonly="state not in ['new', 'draft', 'authorized']"
                                     options="{'create': [('state', 'in', ['new','draft'])], 'delete': [('state', 'in', ['new','draft'])]}">
-                                    <tree editable="bottom">
+                                    <list editable="bottom">
                                         <field name="state" invisible="1" />
                                         <field name="school_benefit_type_id"
                                             readonly="state in ['authorized']" />
                                         <field name="affiliate_child_id"
                                             readonly="state in ['authorized']" />
                                         <field name="delivered" />
-                                    </tree>
+                                    </list>
                                 </field>
                             </page>
                             <page string="Amounts" name="amounts" invisible="hide_amounts">

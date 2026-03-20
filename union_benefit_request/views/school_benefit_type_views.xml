@@ -4,10 +4,10 @@
             <field name="name">school_benefit_type_tree</field>
             <field name="model">benefit_request.school_benefit_type</field>
             <field name="arch" type="xml">
-                <tree editable="bottom" delete="false">
-                    <field name="name"/>
-                    <field name="active"/>
-                </tree>
+                <list editable="bottom" delete="false">
+                    <field name="name" />
+                    <field name="active" />
+                </list>
             </field>
         </record>
     </data>

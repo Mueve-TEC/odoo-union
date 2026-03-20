@@ -9,11 +9,11 @@
                     <page name="contribution" string="Contributions"
                         groups="union_contribution.group_contribution_read,union_contribution.group_contribution_write,union_contribution.group_contribution_admin">
                         <field name="contribution_ids" readonly="True">
-                            <tree default_order="date desc">
+                            <list default_order="date desc">
                                 <field name="date" />
                                 <field name="contrib_amount" />
                                 <field name="contribution_code_id" />
-                            </tree>
+                            </list>
                         </field>
                     </page>
                 </xpath>

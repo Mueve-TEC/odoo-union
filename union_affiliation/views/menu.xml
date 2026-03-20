@@ -13,7 +13,7 @@
         <field name="name">Affiliates list</field>
         <field name="res_model">affiliation.affiliate</field>
         <field name="view_id" ref="union_affiliation_affiliate_tree" />
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem name="Affiliates list"
@@ -26,7 +26,7 @@
         <field name="name">Affiliate emails</field>
         <field name="res_model">affiliation.affiliate</field>
         <field name="view_id" ref="union_affiliation_affiliate_emails_tree" />
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem name="Affiliate emails"
@@ -39,7 +39,7 @@
         <field name="name">Affiliate's childs</field>
         <field name="res_model">affiliation.affiliate_child</field>
         <field name="view_id" ref="union_affiliation_affiliate_child_tree" />
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem name="Affiliate's childs"
@@ -52,7 +52,7 @@
         <field name="name">Employment relationship types</field>
         <field name="res_model">affiliation.affiliate_type</field>
         <field name="view_id" ref="union_affiliation_affiliate_type_tree" />
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem name="Employment relationship types"
@@ -65,7 +65,7 @@
         <field name="name">Lugares de trabajo</field>
         <field name="res_model">union.workplace</field>
         <field name="view_id" ref="union_workplace_tree" />
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem name="Lugares de trabajo"

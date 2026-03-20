@@ -6,7 +6,7 @@
         <field name="name">union.workplace.tree</field>
         <field name="model">union.workplace</field>
         <field name="arch" type="xml">
-            <tree string="Lugares de trabajo">
+            <list string="Lugares de trabajo">
                 <field name="name" />
                 <field name="complete_name" />
                 <field name="code" />
@@ -14,7 +14,7 @@
                 <!-- <field name="affiliate_count"/>
                 <field name="main_affiliate_count"/> -->
                 <field name="active" />
-            </tree>
+            </list>
         </field>
     </record>
 

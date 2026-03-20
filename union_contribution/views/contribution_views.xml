@@ -1,6 +1,7 @@
 <odoo>
     <data>
-        <!-- <template id="assets_backend" name="contribution assets" inherit_id="web.assets_backend">
+        <!-- <template id="assets_backend" name="contribution assets"
+        inherit_id="web.assets_backend">
             <xpath expr="//script[last()]" position="after">
                 <script type="text/javascript" src="contribution/static/src/js/contribution.js"></script>
             </xpath>
@@ -27,16 +28,16 @@
             <field name="name">union_contribution.affiliate.contribution.tree</field>
             <field name="model">contribution.affiliate_contribution</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="affiliate_id" />
                     <field name="date" />
                     <field name="contrib_amount" />
                     <field name="contribution_code_id" />
-                    <field name="create_uid" groups="union_contribution.group_contribution_admin"/>
-                    <field name="create_date" groups="union_contribution.group_contribution_admin"/>
-                    <field name="write_uid" groups="union_contribution.group_contribution_admin"/>
-                    <field name="write_date" groups="union_contribution.group_contribution_admin"/>
-                </tree>
+                    <field name="create_uid" groups="union_contribution.group_contribution_admin" />
+                    <field name="create_date" groups="union_contribution.group_contribution_admin" />
+                    <field name="write_uid" groups="union_contribution.group_contribution_admin" />
+                    <field name="write_date" groups="union_contribution.group_contribution_admin" />
+                </list>
             </field>
         </record>
 
@@ -46,8 +47,10 @@
             <field name="model">contribution.affiliate_contribution</field>
             <field name="arch" type="xml">
                 <search string="Contribution filters">
-                    <field name="affiliate_id" filter_domain="['|','|',('affiliate_id.name', 'ilike', self),('affiliate_id.uid', 'ilike', self),('affiliate_id.personal_id', 'ilike', self)]"/>
-                    <field name="contribution_code_id" filter_domain="['|',('contribution_code_id.name', 'ilike', self),('contribution_code_id.code', 'ilike', self)]"/>
+                    <field name="affiliate_id"
+                        filter_domain="['|','|',('affiliate_id.name', 'ilike', self),('affiliate_id.uid', 'ilike', self),('affiliate_id.personal_id', 'ilike', self)]" />
+                    <field name="contribution_code_id"
+                        filter_domain="['|',('contribution_code_id.name', 'ilike', self),('contribution_code_id.code', 'ilike', self)]" />
                 </search>
             </field>
         </record>

@@ -8,7 +8,8 @@
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/group/group/field[@name='category']" position="after">
                     <field name="generate_benefit"/>
-                    <field name="request_type_id" attrs="{'invisible': [('generate_benefit','=',False)], 'required':[('generate_benefit','=',True)]}"/>
+                    <field name="request_type_id" attrs="{'invisible': [('generate_benefit','=',False)],
+        'required':[('generate_benefit','=',True)]}"/>
                 </xpath>
             </field>
         </record> -->
@@ -17,7 +18,7 @@
             <field name="name">Tree view for survey</field>
             <field name="model">survey.survey</field>
             <field name="arch" type="xml">
-                <tree string="Survey">
+                <list string="Survey">
                     <field name="active" invisible="1"/>
                     <field name="certificate" invisible="1"/>
                     <field name="title"/>
@@ -27,8 +28,9 @@
                     <field name="success_count"/>
                     <field name="success_ratio"/>
                     <field name="answer_score_avg"/>
-                    <button name="certificate" icon="fa-trophy" title="Certificate" aria-label="Certificate" attrs="{'invisible': [('certificate', '=', False)]}"/>
-                </tree>
+                    <button name="certificate" icon="fa-trophy" title="Certificate" aria-label="Certificate"
+        attrs="{'invisible': [('certificate', '=', False)]}"/>
+                </list>
             </field>
         </record> -->
     </data>

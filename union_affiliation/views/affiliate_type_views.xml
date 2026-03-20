@@ -19,10 +19,10 @@
             <field name="name">union_affiliation.affiliate_type.tree</field>
             <field name="model">affiliation.affiliate_type</field>
             <field name="arch" type="xml">
-                <tree editable="bottom">
+                <list editable="bottom">
                     <field name="name" />
                     <field name="enabled" />
-                </tree>
+                </list>
             </field>
         </record>
     </data>

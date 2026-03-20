@@ -2,47 +2,47 @@
 <odoo>
 
     <!-- School position section -->
-    <menuitem name="Positions" id="union_school_position.position_section" 
-        sequence="40" parent="union_affiliation.union" 
-        groups="group_school_position_read"/>
+    <menuitem name="Positions" id="union_school_position.position_section"
+        sequence="40" parent="union_affiliation.union"
+        groups="group_school_position_read" />
 
     <record model="ir.actions.act_window" id="union_school_position_list_action">
         <field name="name">Positions list</field>
         <field name="res_model">school_position.position</field>
-        <field name="view_id" ref="union_school_position_tree"/>
-        <field name="view_mode">tree,form</field> 
+        <field name="view_id" ref="union_school_position_tree" />
+        <field name="view_mode">list,form</field>
     </record>
 
-    <menuitem name="Positions list" 
-        id="union_school_position_position_list" 
-        sequence="10" parent="union_school_position.position_section" 
+    <menuitem name="Positions list"
+        id="union_school_position_position_list"
+        sequence="10" parent="union_school_position.position_section"
         action="union_school_position_list_action"
-        groups="group_school_position_read"/>
+        groups="group_school_position_read" />
 
     <record model="ir.actions.act_window" id="union_school_position_type_list_action">
         <field name="name">Position's type</field>
         <field name="res_model">school_position.type</field>
-        <field name="view_id" ref="union_school_position_type_tree"/>
-        <field name="view_mode">tree,form</field> 
+        <field name="view_id" ref="union_school_position_type_tree" />
+        <field name="view_mode">list,form</field>
     </record>
 
-    <menuitem name="Position's type" 
-        id="union_school_position_type_list" 
-        sequence="10" parent="union_school_position.position_section" 
+    <menuitem name="Position's type"
+        id="union_school_position_type_list"
+        sequence="10" parent="union_school_position.position_section"
         action="union_school_position_type_list_action"
-        groups="group_school_position_read"/>
+        groups="group_school_position_read" />
 
     <record model="ir.actions.act_window" id="union_school_position_character_list_action">
         <field name="name">Position's character</field>
         <field name="res_model">school_position.character</field>
-        <field name="view_id" ref="union_school_position_character_tree"/>
-        <field name="view_mode">tree,form</field> 
+        <field name="view_id" ref="union_school_position_character_tree" />
+        <field name="view_mode">list,form</field>
     </record>
 
-    <menuitem name="Position's character" 
-        id="union_school_position_character_list" 
-        sequence="10" parent="union_school_position.position_section" 
+    <menuitem name="Position's character"
+        id="union_school_position_character_list"
+        sequence="10" parent="union_school_position.position_section"
         action="union_school_position_character_list_action"
-        groups="group_school_position_read"/>
+        groups="group_school_position_read" />
 
 </odoo>
