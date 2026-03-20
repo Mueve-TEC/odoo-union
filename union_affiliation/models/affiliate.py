@@ -380,7 +380,7 @@ class Affiliate(models.Model):
 
     def _log_change_field(self, vals):
         _loggables = ['state', 'quote', 'affiliate_type_id',
-                      'email', 'phone', 'mobile', 'affiliation_number']
+                      'email', 'phone', 'affiliation_number']
         for record in self:
             _log = ''
             for field in vals:
