@@ -4,7 +4,8 @@ from . import controllers
 from . import models
 
 
-def _post_init_hook(cr, registry):
+def _post_init_hook(env):
+    cr = env.cr
     _map_state(cr)
     _translate_state(cr)
     _calculate_inconsistencies(cr)
