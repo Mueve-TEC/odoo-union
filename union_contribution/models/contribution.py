@@ -33,29 +33,11 @@ class AffiliateContribution(models.Model):
     uid = fields.Char(related='affiliate_id.uid', store=False)
     personal_id = fields.Char(related='affiliate_id.personal_id', store=False)
 
-    @api.model
-    def create(self, vals):
-        # Am I importing data?
-        if 'import_file' in self.env.context:
-            if 'import_uid' in vals:
-                affiliate = self.env['affiliation.affiliate'].search([('uid','=',vals['import_uid'])])
-                if len(affiliate.ids):
-                    affiliate = affiliate[0]
-                else:
-                    conf = self.env['affiliation.affiliation_configuration'].browse(1)
-                    if conf.create_user_from_contribution:
-                        affiliate = {'uid': vals['import_uid'], 'state': 'new'}
-                        # Name field should always come when creating the affiliate
-                        if 'import_name' in vals:
-                            affiliate.update({'name': vals['import_name']})
-                        if 'import_vat' in vals:
-                            affiliate.update({'vat': vals['import_vat']})
-                        if 'import_personal_id' in vals:
-                            affiliate.update({'personal_id': vals['import_personal_id']})
-                        affiliate = self.env['affiliation.affiliate'].create(affiliate)
-                vals['affiliate_id'] = affiliate.id
-                self._clean_data_affiliate(vals)
-        res = super(AffiliateContribution, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        if self.env.context.get('import_file'):
+            vals_list = [self._prepare_import_vals(vals) for vals in vals_list]
+        res = super(AffiliateContribution, self).create(vals_list)
         return res
 
     def write(self, vals):
@@ -91,3 +73,64 @@ class AffiliateContribution(models.Model):
         vals.pop('import_uid') if 'import_uid' in vals else None
         vals.pop('import_vat') if 'import_vat' in vals else None
         vals.pop('import_personal_id') if 'import_personal_id' in vals else None
+
+    def _prepare_import_vals(self, vals):
+        """Resolve or create affiliate during contribution import.
+
+        Expected import keys are: import_uid, import_name, import_vat, import_personal_id.
+        """
+        import_uid = vals.get('import_uid')
+        import_name = vals.get('import_name')
+        import_vat = vals.get('import_vat')
+        import_personal_id = vals.get('import_personal_id')
+
+        # If affiliate is already resolved by import mapping, just clear helper fields.
+        if vals.get('affiliate_id'):
+            self._clean_data_affiliate(vals)
+            return vals
+
+        affiliate_model = self.env['affiliation.affiliate']
+        affiliate = affiliate_model.browse()
+
+        if import_uid:
+            affiliate = affiliate_model.search([('uid', '=', import_uid)], limit=1)
+
+        if not affiliate and import_personal_id:
+            affiliate = affiliate_model.search([('personal_id', '=', import_personal_id)], limit=1)
+
+        if not affiliate and import_vat:
+            affiliate = affiliate_model.search([('vat', '=', import_vat)], limit=1)
+
+        if not affiliate and import_name:
+            affiliate = affiliate_model.search([('name', '=', import_name)], limit=1)
+
+        if not affiliate:
+            conf = self.env['affiliation.affiliation_configuration'].search([], limit=1)
+            can_create = bool(conf and conf.create_user_from_contribution)
+            if not can_create:
+                raise ValidationError(_(
+                    "Affiliate not found for contribution import. "
+                    "Enable 'Create user on contribution import' in affiliation configuration "
+                    "or import with an existing affiliate."
+                ))
+
+            if not import_uid:
+                raise ValidationError(_(
+                    "Missing import_uid. It is required to create affiliates from contributions import."
+                ))
+
+            affiliate_vals = {
+                'uid': import_uid,
+                'state': 'new',
+                'name': import_name or import_uid,
+            }
+            if import_vat:
+                affiliate_vals['vat'] = import_vat
+            if import_personal_id:
+                affiliate_vals['personal_id'] = import_personal_id
+
+            affiliate = affiliate_model.create(affiliate_vals)
+
+        vals['affiliate_id'] = affiliate.id
+        self._clean_data_affiliate(vals)
+        return vals
