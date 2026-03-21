@@ -157,8 +157,8 @@ class Affiliate(models.Model):
     def _check_affiliate_type_id(self):
         for record in self:
             if record.state not in ('new', 'not_affiliated') and not record.affiliate_type_id:
-                raise ValidationError(
-                    _("The field 'Employment relationship type' is required when state is not 'new' or 'not_affiliated'."))
+                msg = _('The field \'Employment relationship type\' is required when state is not \'new\' or \'not_affiliated\'.')
+                raise ValidationError(msg)
 
     @api.constrains('main_workplace_id', 'workplace_ids')
     def _check_main_workplace(self):
@@ -266,9 +266,8 @@ class Affiliate(models.Model):
         return res
 
     def unlink(self):
-        self.partner_id.unlink()
-        res = super(Affiliate, self).unlink()
-        return res
+        # In delegated inheritance (_inherits), parent cleanup is handled by ORM.
+        return super(Affiliate, self).unlink()
 
     def action_affiliate(self):
         return {
