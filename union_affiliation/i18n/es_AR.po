@@ -18,8 +18,8 @@ msgstr ""
 #. module: union_affiliation
 #. odoo-python
 #: code:addons/union_affiliation/models/affiliate.py:0
-msgid "%s [%s] The field %s changed from %s to %s"
-msgstr ""
+msgid "The field \"%(field)s\" changed from \"%(old)s\" to \"%(new)s\""
+msgstr "El campo \"%(field)s\" cambió de \"%(old)s\" a \"%(new)s\""
 
 #. module: union_affiliation
 #. odoo-python

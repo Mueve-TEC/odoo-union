@@ -381,6 +381,11 @@ class Affiliate(models.Model):
         return False
 
     def _log_change_field(self, vals):
+        """Track field changes for log field (legacy text-based logging)."""
+        # Define template for Odoo translation extraction
+        _change_msg = _('The field "%(field)s" changed from "%(old)s" to "%(new)s"')
+        date_str = str(fields.Date.today())
+        
         def _format_value(record, field_name, value):
             field = record._fields.get(field_name)
             if not field:
@@ -413,13 +418,22 @@ class Affiliate(models.Model):
                 if field in _loggables:
                     old_value = _format_value(record, field, record[field])
                     new_value = _format_value(record, field, vals[field])
-                    _log = _('%s [%s] The field %s changed from %s to %s') % (
-                        str(fields.Date.today()),
+                    if old_value == new_value:
+                        continue
+                    
+                    field_label = record._fields[field].get_description(record.env)['string']
+                    change = _change_msg % {
+                        'field': field_label,
+                        'old': old_value,
+                        'new': new_value,
+                    }
+                    log_entry = '%s [%s] %s' % (
+                        date_str,
                         record.env.user.name,
-                        record._fields[field].get_description(record.env)['string'],
-                        old_value,
-                        new_value,
-                    )  + '\n' + _log
+                        change,
+                    )
+                    _log = log_entry + '\n' + _log
+            
             _log = _log + record.log if record.log else _log
             vals.update({'log': _log})
 
