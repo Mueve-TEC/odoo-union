@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0\n"
+"Project-Id-Version: Odoo Server 18.0-20260324\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-07 02:37+0000\n"
-"PO-Revision-Date: 2023-04-07 02:37+0000\n"
+"POT-Creation-Date: 2026-03-31 15:44+0000\n"
+"PO-Revision-Date: 2026-03-31 15:44+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -27,6 +27,15 @@ msgid "Affiliate UID"
 msgstr "Legajo"
 
 #. module: union_contribution
+#. odoo-python
+#: code:addons/union_contribution/models/contribution.py:0
+msgid ""
+"Affiliate not found for contribution import. Enable 'Create user on "
+"contribution import' in affiliation configuration or import with an existing"
+" affiliate."
+msgstr "No se encontró el afiliado para la importación de aportes. Habilite 'Crear usuario al importar aportes' en la configuración de afiliación o importe para actualizar datos de un afiliado existente."
+
+#. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution__contrib_amount
 msgid "Amount"
 msgstr "Monto"
@@ -34,7 +43,7 @@ msgstr "Monto"
 #. module: union_contribution
 #: model:ir.model,name:union_contribution.model_base_import_import
 msgid "Base Import"
-msgstr "Importar Base"
+msgstr "Importación base"
 
 #. module: union_contribution
 #: model_terms:ir.ui.view,arch_db:union_contribution.inconsistencies_query_form
@@ -94,12 +103,6 @@ msgid "Contribution's configuration"
 msgstr "Configuración de aportes"
 
 #. module: union_contribution
-#: model:ir.actions.act_window,name:union_contribution.union_contribution_affiliate_contribution_import_logs_action
-#: model:ir.ui.menu,name:union_contribution.union_contribution_affiliate_contribution_import_log_list
-msgid "Contribution's import logs"
-msgstr "Registros de importación"
-
-#. module: union_contribution
 #: model:ir.ui.menu,name:union_contribution.contributions_section
 #: model_terms:ir.ui.view,arch_db:union_contribution.union_contribution_affiliation_affiliate_form
 msgid "Contributions"
@@ -143,7 +146,7 @@ msgstr "Fecha"
 msgid "Description"
 msgstr "Descripción"
 
-#. modules: contribution
+#. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution__display_name
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution_code__display_name
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_query__display_name
@@ -167,13 +170,13 @@ msgstr "Habilitado"
 msgid "From"
 msgstr "Desde"
 
-#. modules: contribution
+#. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution__id
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution_code__id
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_query__id
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_result__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution__import_name
@@ -196,12 +199,12 @@ msgid "Import vat"
 msgstr "CUIL (importacion)"
 
 #. module: union_contribution
-#: model:ir.model.fields,help:contribution.field_inconsistencies_query__contribute
+#: model:ir.model.fields,help:union_contribution.field_inconsistencies_query__contribute
 msgid "Include people who contributed and should not have contributed"
 msgstr "Incluir personas que aportaron y no deberían haber aportado"
 
 #. module: union_contribution
-#: model:ir.model.fields,help:contribution.field_inconsistencies_query__not_contribute
+#: model:ir.model.fields,help:union_contribution.field_inconsistencies_query__not_contribute
 msgid "Include people who didn't contribute and should have contributed"
 msgstr "Incluir personas que no aportaron y deberían haber aportado"
 
@@ -236,14 +239,6 @@ msgstr "Escritura de inconsistencias"
 msgid "Inconsistency"
 msgstr "Inconsistencia"
 
-#. modules: contribution
-#: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution____last_update
-#: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution_code____last_update
-#: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_query____last_update
-#: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_result____last_update
-msgid "Last Modified on"
-msgstr "Última modificación en"
-
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution__write_uid
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution_code__write_uid
@@ -259,6 +254,14 @@ msgstr "Última actualización por"
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_result__write_date
 msgid "Last Updated on"
 msgstr "Última actualización en"
+
+#. module: union_contribution
+#. odoo-python
+#: code:addons/union_contribution/models/contribution.py:0
+msgid ""
+"Missing import_uid. It is required to create affiliates from contributions "
+"import."
+msgstr "Falta el Legajo de importación. Es requerido para crear afiliados a partir de la importación de aportes."
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution_code__name
@@ -305,16 +308,16 @@ msgid "Situación"
 msgstr ""
 
 #. module: union_contribution
+#. odoo-python
 #: code:addons/union_contribution/models/query.py:0
-#, python-format
 msgid "There aren't inconsistencies between that dates"
-msgstr "No hay inconsistencias entre esas fechas"
+msgstr "No se encontraron inconsistencias entre esas fechas"
 
 #. module: union_contribution
+#. odoo-python
 #: code:addons/union_contribution/models/contribution.py:0
-#, python-format
 msgid "There were errors during importation. See the logs!"
-msgstr "Hubo errores durante la importación. ¡Revise los registros!"
+msgstr "Hubo errores durante la importación. Consulte los registros."
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_query__to_date
@@ -323,10 +326,10 @@ msgid "To"
 msgstr "Hasta"
 
 #. module: union_contribution
+#. odoo-python
 #: code:addons/union_contribution/models/query.py:0
-#, python-format
 msgid "To date should be major to from date"
-msgstr "La fecha \"Hasta\\' debe ser mayor a la fecha \"Desde\""
+msgstr "La fecha de \"Hasta\" debe ser posterior a la fecha de \"Desde\""
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_query__affiliate_type_id
@@ -336,7 +339,7 @@ msgstr "Tipo"
 #. module: union_contribution
 #: model:ir.model,name:union_contribution.model_affiliation_affiliate
 msgid "Union affiliate entity"
-msgstr "Entidad de afiliado sindical"
+msgstr "Entidad del afiliado/a sindical"
 
 #. module: union_contribution
 #: model:ir.model,name:union_contribution.model_contribution_affiliate_contribution_code
