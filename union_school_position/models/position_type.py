@@ -20,4 +20,4 @@ class PositionType(models.Model):
         if 'import_file' in self.env.context:
             domain = [('code', operator, name)]
         recs = self.search(domain + args, limit=limit)
-        return recs.name_get()
+        return [(r.id, r.display_name) for r in recs]
