@@ -18,8 +18,5 @@
         'views/affiliate_views.xml',
         'views/menu.xml',
     ],
-    'demo': [
-        'demo/demo.xml',
-    ],
     "installable": True,
 }

@@ -22,9 +22,6 @@
         'views/result_views.xml',
         'views/inconsistencies_menu.xml',
     ],
-    'demo': [
-        'demo/demo.xml',
-    ],
     'post_init_hook': '_post_init_hook',
     "installable": True,
 }
