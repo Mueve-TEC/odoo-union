@@ -1656,3 +1656,10 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_form
 msgid "ej: Oficina Central"
 msgstr ""
+
+#. module: union_affiliation
+#: model:ir.actions.act_window,name:union_affiliation.action_affiliate_mass_mail
+#: model:ir.actions.act_window,name:union_affiliation.action_affiliate_mass_mail_form
+msgid "Send email"
+msgstr "Enviar email"
+

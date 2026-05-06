@@ -940,3 +940,13 @@ msgstr "Si está marcado, se requerirá documentación completa para finalizar s
 #: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_type_form
 msgid "Documentation"
 msgstr "Documentación"
+
+#. module: union_benefit_request
+#: model:ir.actions.act_window,name:union_benefit_request.action_request_mass_mail
+#: model:ir.actions.act_window,name:union_benefit_request.action_benefit_request_mail_form
+msgid "Send email to aplicants"
+msgstr "Enviar email a solicitantes"
+
+msgid "Send email"
+msgstr "Enviar email"
+
