@@ -61,12 +61,10 @@ class AffiliateContribution(models.Model):
         self.env.user.notify_danger(message=(_('There were errors during importation. See the logs!')))
 
 
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for record in self:
             name = '%s,%s' % (record.affiliate_id.name, record.date.strftime("%Y-%m-%d"))        
-            result.append((record.id, _("%s")%(name)))
-        return result
+            record.display_name = _("%s")%(name)
 
     def _clean_data_affiliate(self, vals):
         vals.pop('import_name') if 'import_name' in vals else None

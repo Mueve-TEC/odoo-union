@@ -13,8 +13,6 @@ class AffiliateContributionCode(models.Model):
     name = fields.Char(string='Name', required=True)
     enabled = fields.Boolean(string='Enabled', default=True)
 
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for record in self:
-            result.append((record.id, record.code))
-        return result
+            record.display_name = record.code
