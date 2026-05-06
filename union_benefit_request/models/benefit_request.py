@@ -65,9 +65,9 @@ class BenefitRequest(models.Model):
     authorized_amount = fields.Float(string='Authorized amount')
     paid_amount = fields.Float(string='Paid amount')
 
-    hide_school_benefits = fields.Boolean(computed='_onchange_request_type')
-    hide_amounts = fields.Boolean(computed='_onchange_request_type')
-    hide_notes = fields.Boolean(computed='_onchange_request_type')
+    hide_school_benefits = fields.Boolean(compute='_onchange_request_type')
+    hide_amounts = fields.Boolean(compute='_onchange_request_type')
+    hide_notes = fields.Boolean(compute='_onchange_request_type')
     
     survey_user_input_id = fields.Many2one(
         comodel_name='survey.user_input'
