@@ -18,7 +18,7 @@
             <field name="model">survey.user_input</field>
             <field name="inherit_id" ref="survey.survey_user_input_view_tree" />
             <field name="arch" type="xml">
-                <xpath expr="//tree/field[@name='state']" position="after">
+                <xpath expr="//list/field[@name='state']" position="after">
                     <field name="benefit_request_id" />
                 </xpath>
             </field>
