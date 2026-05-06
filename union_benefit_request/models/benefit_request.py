@@ -13,7 +13,8 @@ class BenefitRequest(models.Model):
         comodel_name='benefit_request.request_type',
         string='Type',
         required=True,
-        ondelete='restrict'
+        ondelete='restrict',
+        tracking=True
     )
     
     # This is not related to the affiliate table because there are requests that can be made by people who are not affiliates.
@@ -21,7 +22,8 @@ class BenefitRequest(models.Model):
         comodel_name='res.partner',
         string='Applicant',
         required=True,
-        ondelete='restrict'
+        ondelete='restrict',
+        tracking=True
     )
     # The next two fields only will be used to filters
     affiliate_uid = fields.Char(string='Affiliate UID', compute='_compute_uid', store=True)
@@ -41,29 +43,32 @@ class BenefitRequest(models.Model):
         ],
         string='State',
         default='draft',
+        tracking=True
     )
     request_date = fields.Date(
-        string='Request date', required=True, default=fields.Date.today())
+        string='Request date', required=True, default=fields.Date.today(), tracking=True)
     last_change_state = fields.Date(string='Last change of state')
     last_state = fields.Char(string='Last state')
-    full_doc = fields.Boolean(string='Full documentation', default=False)
-    expedient = fields.Char(string='Expedient/resolution')
-    observations = fields.Text(string='Observations')
-    notes = fields.Text(string='Notes')
+    full_doc = fields.Boolean(string='Full documentation', default=False, tracking=True)
+    expedient = fields.Char(string='Expedient/resolution', tracking=True)
+    observations = fields.Text(string='Observations', tracking=True)
+    notes = fields.Text(string='Notes', tracking=True)
     responsible = fields.Many2one(
         comodel_name='res.users',
         string='Responsible',
         required=True,
-        default=lambda self: self.env.user
+        default=lambda self: self.env.user,
+        tracking=True
     )
     school_benefit_ids = fields.One2many(
         comodel_name='benefit_request.school_benefit',
         inverse_name='benefit_request_id',
-        string='School benefits'
+        string='School benefits',
+        tracking=True
     )
-    requested_amount = fields.Float(string='Requested amount')
-    authorized_amount = fields.Float(string='Authorized amount')
-    paid_amount = fields.Float(string='Paid amount')
+    requested_amount = fields.Float(string='Requested amount', tracking=True)
+    authorized_amount = fields.Float(string='Authorized amount', tracking=True)
+    paid_amount = fields.Float(string='Paid amount', tracking=True)
 
     hide_school_benefits = fields.Boolean(compute='_onchange_request_type')
     hide_amounts = fields.Boolean(compute='_onchange_request_type')
@@ -148,126 +153,12 @@ class BenefitRequest(models.Model):
                     _('Only users with admin permissions can return finalized or canceled requests to draft state'))
         self.state = 'draft'
 
-    def _register_change_state(self, vals):
-        vals.update({
-            'last_change_state': fields.Date.today(),
-            'last_state': _(self.state)
-        })
-        
-        # Log state change in chatter
-        state_labels = {
-            'draft': _('Draft'),
-            'requested': _('Requested'),
-            'authorized': _('Authorized'),
-            'rejected': _('Rejected'),
-            'finalized': _('Finalized'),
-            'canceled': _('Canceled')
-        }
-        
-        old_state = state_labels.get(self.state, self.state)
-        new_state = state_labels.get(vals['state'], vals['state'])
-        
-        message = _('State changed from <b>%s</b> to <b>%s</b>') % (old_state, new_state)
-        self.message_post(body=message, message_type='notification')
-    
-    def _get_field_display_value(self, field_name, value):
-        """Helper method to get display value for different field types"""
-        if value is None or value == False:
-            return _('Not set')
-        
-        field = self._fields.get(field_name)
-        
-        # Many2one fields
-        if field.type == 'many2one':
-            if isinstance(value, int):
-                record = self.env[field.comodel_name].browse(value)
-                return record.name if record else _('Not set')
-            return value.name if hasattr(value, 'name') else str(value)
-        
-        # Boolean fields
-        elif field.type == 'boolean':
-            return _('Yes') if value else _('No')
-        
-        # Date fields
-        elif field.type == 'date':
-            if isinstance(value, str):
-                return value
-            return value.strftime('%Y-%m-%d') if value else _('Not set')
-        
-        # Float fields
-        elif field.type == 'float':
-            return str(value)
-        
-        # Text and Char fields
-        else:
-            return str(value) if value else _('Not set')
-    
-    def _log_school_benefits_changes(self, commands):
-        """Log changes in school benefits (One2many)"""
-        for command in commands:
-            # Command format: (0, 0, {values}) = create, (1, id, {values}) = update, (2, id) = delete
-            if command[0] == 0:  # Create
-                message = _('<b>School Benefit</b> added')
-                self.message_post(body=message, message_type='notification')
-            elif command[0] == 1:  # Update
-                benefit_id = command[1]
-                benefit = self.env['benefit_request.school_benefit'].browse(benefit_id)
-                if benefit.exists():
-                    message = _('<b>School Benefit</b> "%s" updated') % benefit.display_name
-                    self.message_post(body=message, message_type='notification')
-            elif command[0] == 2:  # Delete
-                benefit_id = command[1]
-                benefit = self.env['benefit_request.school_benefit'].browse(benefit_id)
-                if benefit.exists():
-                    message = _('<b>School Benefit</b> "%s" removed') % benefit.display_name
-                    self.message_post(body=message, message_type='notification')
-            elif command[0] == 3:  # Unlink (remove relation but don't delete)
-                benefit_id = command[1]
-                benefit = self.env['benefit_request.school_benefit'].browse(benefit_id)
-                if benefit.exists():
-                    message = _('<b>School Benefit</b> "%s" unlinked') % benefit.display_name
-                    self.message_post(body=message, message_type='notification')
-            elif command[0] == 5:  # Unlink all
-                message = _('<b>All School Benefits</b> removed')
-                self.message_post(body=message, message_type='notification')
-            elif command[0] == 6:  # Replace with list
-                message = _('<b>School Benefits</b> list replaced')
-                self.message_post(body=message, message_type='notification')
-
     def write(self, vals):
-        # Track field changes for logging
-        tracked_fields = {
-            'request_type_id': _('Type'),
-            'partner_id': _('Applicant'),
-            'request_date': _('Request date'),
-            'full_doc': _('Full documentation'),
-            'expedient': _('Expedient/resolution'),
-            'observations': _('Observations'),
-            'notes': _('Notes'),
-            'responsible': _('Responsible'),
-            'requested_amount': _('Requested amount'),
-            'authorized_amount': _('Authorized amount'),
-            'paid_amount': _('Paid amount'),
-        }
-        
-        # Log changes for tracked fields
-        for field_name, field_label in tracked_fields.items():
-            if field_name in vals:
-                old_value = self._get_field_display_value(field_name, getattr(self, field_name))
-                new_value = self._get_field_display_value(field_name, vals[field_name])
-                
-                if old_value != new_value:
-                    message = _('<b>%s</b> changed from "%s" to "%s"') % (
-                        field_label, old_value, new_value
-                    )
-                    self.message_post(body=message, message_type='notification')
-        
-        # Track changes in school benefits (One2many)
-        if 'school_benefit_ids' in vals:
-            self._log_school_benefits_changes(vals['school_benefit_ids'])
-        
         if 'state' in vals:
-            self._register_change_state(vals)
+            vals.update({
+                'last_change_state': fields.Date.today(),
+                'last_state': _(self.state)
+            })
         if 'partner_id' in vals:
             self.message_unsubscribe([self.partner_id.id])
             self.message_subscribe([vals['partner_id']])
@@ -277,7 +168,6 @@ class BenefitRequest(models.Model):
             vals['hide_notes'] = False if 'Notas' in _groups else True
             vals['hide_amounts'] = False if 'Importes' in _groups else True
             vals['hide_school_benefits'] = False if 'Bolsones' in _groups else True
-
 
         res = super(BenefitRequest, self).write(vals)
         return res
