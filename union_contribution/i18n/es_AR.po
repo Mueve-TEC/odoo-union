@@ -345,8 +345,8 @@ msgstr "La fecha \"Hasta\\' debe ser mayor a la fecha \"Desde\""
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_query__affiliate_type_id
-msgid "Type"
-msgstr "Tipo"
+msgid "Employment relationship type"
+msgstr "Tipo de relación laboral"
 
 #. module: union_contribution
 #: model:ir.model,name:union_contribution.model_affiliation_affiliate

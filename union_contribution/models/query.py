@@ -24,7 +24,7 @@ class Query(models.Model):
     )
     affiliate_type_id = fields.Many2one(
         comodel_name='affiliation.affiliate_type',
-        string='Type'
+        string='Employment relationship type'
     )
 
     @api.depends('from_date', 'to_date')
