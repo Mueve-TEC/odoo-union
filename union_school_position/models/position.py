@@ -11,19 +11,22 @@ class Position(models.Model):
     affiliate_id = fields.Many2one(
         comodel_name='affiliation.affiliate',
         string='Affiliate',
-        ondelete='restrict'
+        ondelete='restrict',
+        required=True
     )
     type_id = fields.Many2one(
         comodel_name='school_position.type',
         string='Type',
-        ondelete='restrict'
+        ondelete='restrict',
+        required=True
     )
     position_number = fields.Char(string="Position number")
     hs_amount = fields.Integer(string="Hours amount")
     character_id = fields.Many2one(
         comodel_name='school_position.character',
         string='Character',
-        ondelete='restrict'
+        ondelete='restrict',
+        required=True
     )
     workplace_id = fields.Many2one(
         comodel_name='union.workplace',
@@ -76,6 +79,11 @@ class Position(models.Model):
         readonly=True,
         help='Code of the position type'
     )
+    type_id_in_hours = fields.Boolean(
+        related='type_id.in_hours',
+        string='In hours',
+        readonly=True
+    )
 
     @api.constrains('date_from', 'date_to')
     def _check_dates(self):
@@ -90,7 +98,13 @@ class Position(models.Model):
             if record.registration_date:
                 if record.registration_date > fields.Date.today():
                     raise ValidationError(_('The registration date cannot be in the future.'))
-
+    @api.constrains('hs_amount')
+    def _check_hs_amount(self):
+        for record in self:
+            if record.type_id.in_hours and (record.hs_amount is None or record.hs_amount <= 0):
+                raise ValidationError(_('The hours amount must be greater than zero for positions in hours.'))
+            if not record.type_id.in_hours and record.hs_amount:
+                raise ValidationError(_('The hours amount must be empty for positions that are not in hours.'))
     def name_get(self):
         result = []
         for record in self:

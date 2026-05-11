@@ -9,8 +9,9 @@
                         <group>
                             <field name="affiliate_id" />
                             <field name="type_id" />
+                            <field name="type_id_in_hours" invisible="1" />
                             <field name="position_number" />
-                            <field name="hs_amount" />
+                            <field name="hs_amount" attrs="{'invisible': [('type_id_in_hours', '=', False)], 'required': [('type_id_in_hours', '=', True)]}" />
                             <field name="character_id" />
                             <field name="workplace_id" />
                             <field name="date_from" />
