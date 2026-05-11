@@ -14,7 +14,7 @@
                 <form>
                     <sheet>
                         <group name="Information">
-                            <field name="affiliate_id" />
+                            <field name="affiliate_id" widget="many2one" />
                             <field name="date" />
                             <field name="contrib_amount" />
                             <field name="contribution_code_id" />
@@ -29,7 +29,7 @@
             <field name="model">contribution.affiliate_contribution</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="affiliate_id" />
+                    <field name="affiliate_id" widget="many2one" />
                     <field name="date" />
                     <field name="contrib_amount" />
                     <field name="contribution_code_id" />
@@ -41,8 +41,7 @@
             </field>
         </record>
 
-
-        <record id="union_contribution_affiliate_contribution_search" model="ir.ui.view">
+        <record model="ir.ui.view" id="union_contribution_affiliate_contribution_search">
             <field name="name">union_contribution.affiliate.contribution.search</field>
             <field name="model">contribution.affiliate_contribution</field>
             <field name="arch" type="xml">
@@ -51,6 +50,14 @@
                         filter_domain="['|','|',('affiliate_id.name', 'ilike', self),('affiliate_id.uid', 'ilike', self),('affiliate_id.personal_id', 'ilike', self)]" />
                     <field name="contribution_code_id"
                         filter_domain="['|',('contribution_code_id.description', 'ilike', self),('contribution_code_id.code', 'ilike', self)]" />
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Afiliado" name="group_by_affiliate"
+                            context="{'group_by': 'affiliate_id'}" />
+                        <filter string="Código de Aporte" name="group_by_code"
+                            context="{'group_by': 'contribution_code_id'}" />
+                        <filter string="Fecha" name="group_by_date"
+                            context="{'group_by': 'date'}" />
+                    </group>
                 </search>
             </field>
         </record>
