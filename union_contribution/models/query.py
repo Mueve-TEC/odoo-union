@@ -54,6 +54,16 @@ class Query(models.Model):
         if not result :
             raise ValidationError(_('There aren\'t inconsistencies between that dates'))
 
+        # Populate stored related fields bypassing the ORM cache sync gap
+        self.env.cr.execute("""
+            UPDATE inconsistencies_result ir
+            SET affiliate_type_id = a.affiliate_type_id,
+                affiliate_state = a.state
+            FROM affiliation_affiliate a
+            WHERE ir.affiliate_id = a.id
+            AND ir.description = %s
+        """, (self.description,))
+
         return {
             'type': 'ir.actions.act_window',
             'name': 'Gestión de cambios',

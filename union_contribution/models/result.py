@@ -19,3 +19,5 @@ class AffiliationConfiguration(models.Model):
         ondelete='cascade'
     )
     status = fields.Char(string='Situación', readonly=True)
+    affiliate_state = fields.Selection(related='affiliate_id.state', string='Estado de afiliación', store=True)
+    affiliate_type_id = fields.Many2one(related='affiliate_id.affiliate_type_id', string='Tipo de relación laboral', store=True)

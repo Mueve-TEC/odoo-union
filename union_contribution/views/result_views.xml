@@ -4,30 +4,33 @@
             <field name="name">inconsistencies.result.tree</field>
             <field name="model">inconsistencies.result</field>
             <field name="arch" type="xml">
-                <tree string="Inconsistencies" create="false" edit="false">
-                    <field name="affiliate_id"/>
-                    <field name="status"/>
-                    <field name="query_date"/>
-                    <field name="from_date"/>
-                    <field name="to_date"/>
-                    <field name="description"/>
+                <tree string="Inconsistencies" create="0" edit="0">
+                    <field name="affiliate_id" widget="many2one" />
+                    <field name="status" />
+                    <field name="affiliate_state" />
+                    <field name="affiliate_type_id" />
+                    <field name="query_date" />
+                    <field name="from_date" />
+                    <field name="to_date" />
+                    <field name="description" />
                 </tree>
             </field>
         </record>
-        
         <record model="ir.ui.view" id="inconsistencies_result_form">
             <field name="name">inconsistencies.result.form</field>
             <field name="model">inconsistencies.result</field>
             <field name="arch" type="xml">
-                <form string="Inconsistency" >
+                <form string="Inconsistency" create="0" edit="0">
                     <sheet>
                         <group>
-                            <field name="affiliate_id"/>
-                            <field name="status"/>
-                            <field name="query_date"/>
-                            <field name="from_date"/>
-                            <field name="to_date"/>
-                            <field name="description"/>
+                            <field name="affiliate_id" />
+                            <field name="status" />
+                            <field name="affiliate_state" />
+                            <field name="affiliate_type_id" />
+                            <field name="query_date" />
+                            <field name="from_date" />
+                            <field name="to_date" />
+                            <field name="description" />
                         </group>
                     </sheet>
                 </form>
