@@ -23,7 +23,7 @@
                 <form string="Inconsistency" create="0" edit="0">
                     <sheet>
                         <group>
-                            <field name="affiliate_id" />
+                            <field name="affiliate_id" widget="many2one" />
                             <field name="status" />
                             <field name="affiliate_state" />
                             <field name="affiliate_type_id" />

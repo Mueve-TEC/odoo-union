@@ -18,6 +18,6 @@ class AffiliationConfiguration(models.Model):
         required=True,
         ondelete='cascade'
     )
-    status = fields.Char(string='Situación', readonly=True)
-    affiliate_state = fields.Selection(related='affiliate_id.state', string='Estado de afiliación', store=True)
-    affiliate_type_id = fields.Many2one(related='affiliate_id.affiliate_type_id', string='Tipo de relación laboral', store=True)
+    status = fields.Char(string='Status', readonly=True)
+    affiliate_state = fields.Selection(related='affiliate_id.state', string='Affiliate State', store=True)
+    affiliate_type_id = fields.Many2one(related='affiliate_id.affiliate_type_id', string='Employment Type', store=True)

@@ -306,8 +306,18 @@ msgstr ""
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_result__status
-msgid "Situación"
-msgstr ""
+msgid "Status"
+msgstr "Situación"
+
+#. module: union_contribution
+#: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_result__affiliate_type_id
+msgid "Employment Type"
+msgstr "Tipo de relación laboral"
+
+#. module: union_contribution
+#: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_result__affiliate_state
+msgid "Affiliate State"
+msgstr "Estado de afiliación"
 
 #. module: union_contribution
 #: code:addons/union_contribution/models/query.py:0
