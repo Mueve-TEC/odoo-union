@@ -36,5 +36,19 @@
                 </form>
             </field>
         </record>
+        <record model="ir.ui.view" id="union_contribution_inconsistencies_result_filter">
+            <field name="name">inconsistencies.result.search</field>
+            <field name="model">inconsistencies.result</field>
+            <field name="arch" type="xml">
+                <search string="Resultados">
+                    <filter string="Agrupar por Descripción" name="group_description"
+                        context="{'group_by':'description'}" />
+                    <filter string="Agrupar por Situación" name="group_status"
+                        context="{'group_by':'status'}" />
+                    <filter string="Agrupar por Tipo de relación laboral"
+                        name="group_affiliate_type" context="{'group_by':'affiliate_type_id'}" />
+                </search>
+            </field>
+        </record>
     </data>
 </odoo>
