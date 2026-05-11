@@ -19,7 +19,7 @@
         <field name="name">Inconsistencies list</field>
         <field name="res_model">inconsistencies.result</field>
         <field name="view_id" ref="inconsistencies_result_tree" />
-        <field name="view_mode">tree</field>
+        <field name="view_mode">tree,form</field>
     </record>
 
     <menuitem name="Inconsistencies list"

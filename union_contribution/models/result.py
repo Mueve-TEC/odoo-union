@@ -21,3 +21,10 @@ class AffiliationConfiguration(models.Model):
     status = fields.Char(string='Status', readonly=True)
     affiliate_state = fields.Selection(related='affiliate_id.state', string='Affiliate State', store=True)
     affiliate_type_id = fields.Many2one(related='affiliate_id.affiliate_type_id', string='Employment Type', store=True)
+
+    def name_get(self):
+        result = []
+        for record in self:
+            name = _("Inconsistencia: %s") % (record.affiliate_id.name if record.affiliate_id else record.id)
+            result.append((record.id, name))
+        return result
