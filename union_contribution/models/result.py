@@ -21,6 +21,35 @@ class AffiliationConfiguration(models.Model):
     status = fields.Char(string='Status', readonly=True)
     affiliate_state = fields.Selection(related='affiliate_id.state', string='Affiliate State', store=True)
     affiliate_type_id = fields.Many2one(related='affiliate_id.affiliate_type_id', string='Employment Type', store=True)
+    quote = fields.Boolean(related='affiliate_id.quote', string='Cotizante', store=True)
+
+    def action_set_quote(self):
+        affiliates_processed = set()
+        for rec in self:
+            if rec.affiliate_id.id in affiliates_processed:
+                continue
+            affiliates_processed.add(rec.affiliate_id.id)
+            
+            if rec.affiliate_id.state != "affiliated":
+                raise ValidationError(_("Solo se puede cambiar el estado cotizante si el afiliado %s se encuentra en estado \"Afiliado\".") % rec.affiliate_id.name)
+            
+            if not rec.affiliate_id.quote:
+                rec.affiliate_id.write({"quote": True})
+                rec.affiliate_id.message_post(body=_("Estado cotizante cambiado a Cotizante desde Inconsistencias."))
+
+    def action_unset_quote(self):
+        affiliates_processed = set()
+        for rec in self:
+            if rec.affiliate_id.id in affiliates_processed:
+                continue
+            affiliates_processed.add(rec.affiliate_id.id)
+            
+            if rec.affiliate_id.state != "affiliated":
+                raise ValidationError(_("Solo se puede cambiar el estado cotizante si el afiliado %s se encuentra en estado \"Afiliado\".") % rec.affiliate_id.name)
+            
+            if rec.affiliate_id.quote:
+                rec.affiliate_id.write({"quote": False})
+                rec.affiliate_idmessage_post(body=_("Estado cotizante cambiado a No Cotizante desde Inconsistencias."))
 
     def name_get(self):
         result = []
@@ -28,3 +57,89 @@ class AffiliationConfiguration(models.Model):
             name = _("Inconsistencia: %s") % (record.affiliate_id.name if record.affiliate_id else record.id)
             result.append((record.id, name))
         return result
+
+
+class ChangeStateWizard(models.TransientModel):
+    _name = 'inconsistencies.change_state_wizard'
+    _description = 'Change Affiliate State Wizard'
+
+    inconsistency_ids = fields.Many2many('inconsistencies.result', string='Inconsistencias', required=True)
+    new_state = fields.Selection([
+        ('not_affiliated', 'No afiliado'),
+        ('new', 'New'),
+        ('pending_suscribe', 'Pendiente Suscripción'),
+        ('affiliated', 'Afiliado'),
+        ('pending_unsuscribe', 'Pendiente Baja'),
+        ('disaffiliated', 'Desafiliado'),
+        ('historical', 'Histórico')
+    ], string='Nuevo Estado', required=True)
+    change_date = fields.Date(string='Fecha Efectiva', default=fields.Date.context_today, required=True, readonly=True)
+    affiliate_type_id = fields.Many2one(
+        comodel_name='affiliation.affiliate_type',
+        string='Relación Laboral',
+        help='Seleccione el tipo de relación laboral. Requerido para cambiar a estados distintos de "No afiliado" o "New" si el afiliado no tiene uno asignado.'
+    )
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super(ChangeStateWizard, self).default_get(fields_list)
+        if self.env.context.get('active_model') == 'inconsistencies.result' and self.env.context.get('active_ids'):
+            res['inconsistency_ids'] = [(6, 0, self.env.context.get('active_ids'))]
+        return res
+
+    @api.constrains('new_state', 'inconsistency_ids')
+    def _check_new_state(self):
+        for rec in self:
+            for inc in rec.inconsistency_ids:
+                if inc.affiliate_id.state == rec.new_state:
+                    raise ValidationError(_("El afiliado %s ya se encuentra en el estado seleccionado.") % inc.affiliate_id.name)
+
+    def action_confirm(self):
+        self.ensure_one()
+        
+        new_state_selection = dict(self.fields_get(['new_state'])['new_state']['selection'])
+        new_state_str = new_state_selection.get(self.new_state, self.new_state)
+        date_str = self.change_date.strftime("%d/%m/%Y")
+        
+        affiliate_state_selection = dict(self.env['affiliation.affiliate'].fields_get(['state'])['state']['selection'])
+        affiliates_processed = set()
+        
+        for inc in self.inconsistency_ids:
+            affiliate = inc.affiliate_id
+            if affiliate.id in affiliates_processed:
+                continue
+            affiliates_processed.add(affiliate.id)
+            
+            current_state_str = affiliate_state_selection.get(affiliate.state, affiliate.state)
+            
+            body = _("Cambio de estado desde Inconsistencias: de %s a %s.") % (
+                current_state_str, new_state_str
+            )
+            affiliate.message_post(body=body)
+            
+            if self.affiliate_type_id:
+                affiliate.write({'affiliate_type_id': self.affiliate_type_id.id})
+
+            # Evitar problemas de caché con Secuencias (que se actualizan por DB directo)
+            self.env.invalidate_all()
+
+            if self.new_state == 'pending_suscribe':
+                action = affiliate.affiliate_()
+                if isinstance(action, dict) and action.get('res_model') == 'affiliation.affiliation_number':
+                    wiz = self.env[action['res_model']].browse(action.get('res_id'))
+                    wiz.with_context(**action.get('context', {})).confirm()
+            elif self.new_state == 'affiliated':
+                action = affiliate.confirm_affiliation_()
+                if isinstance(action, dict) and action.get('res_model') == 'affiliation.affiliation_number':
+                    wiz = self.env[action['res_model']].browse(action.get('res_id'))
+                    wiz.with_context(**action.get('context', {})).confirm()
+            elif self.new_state == 'pending_unsuscribe':
+                affiliate.disaffiliate_()
+            elif self.new_state == 'disaffiliated':
+                affiliate.confirm_dissafiliation_()
+            elif self.new_state == 'historical':
+                affiliate.archive_()
+            else:
+                affiliate.write({'state': self.new_state})
+            
+        return {'type': 'ir.actions.act_window_close'}

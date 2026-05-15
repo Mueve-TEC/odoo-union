@@ -138,8 +138,12 @@ msgid "Date"
 msgstr "Fecha"
 
 #. module: union_contribution
-#: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_query__description
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_result__description
+msgid "Query description"
+msgstr "Descripción de la consulta"
+
+#. module: union_contribution
+#: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_query__description
 msgid "Description"
 msgstr "Descripción"
 
