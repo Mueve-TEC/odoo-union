@@ -31,7 +31,7 @@ class AffiliationConfiguration(models.Model):
             affiliates_processed.add(rec.affiliate_id.id)
             
             if rec.affiliate_id.state != "affiliated":
-                raise ValidationError(_("Solo se puede cambiar el estado cotizante si el afiliado %s se encuentra en estado \"Afiliado\".") % rec.affiliate_id.name)
+                raise ValidationError(_("Solo se puede cambiar el estado cotizante si el/la afiliado/a %s se encuentra en estado \"Afiliado/a\".") % rec.affiliate_id.name)
             
             if not rec.affiliate_id.quote:
                 rec.affiliate_id.write({"quote": True})
@@ -45,11 +45,11 @@ class AffiliationConfiguration(models.Model):
             affiliates_processed.add(rec.affiliate_id.id)
             
             if rec.affiliate_id.state != "affiliated":
-                raise ValidationError(_("Solo se puede cambiar el estado cotizante si el afiliado %s se encuentra en estado \"Afiliado\".") % rec.affiliate_id.name)
+                raise ValidationError(_("Solo se puede cambiar el estado cotizante si el/la afiliado/a %s se encuentra en estado \"Afiliado/a\".") % rec.affiliate_id.name)
             
             if rec.affiliate_id.quote:
                 rec.affiliate_id.write({"quote": False})
-                rec.affiliate_idmessage_post(body=_("Estado cotizante cambiado a No Cotizante desde Inconsistencias."))
+                rec.affiliate_id.message_post(body=_("Estado cotizante cambiado a No Cotizante desde Inconsistencias."))
 
     def name_get(self):
         result = []
@@ -64,20 +64,22 @@ class ChangeStateWizard(models.TransientModel):
     _description = 'Change Affiliate State Wizard'
 
     inconsistency_ids = fields.Many2many('inconsistencies.result', string='Inconsistencias', required=True)
-    new_state = fields.Selection([
-        ('not_affiliated', 'No afiliado'),
-        ('new', 'New'),
-        ('pending_suscribe', 'Pendiente Suscripción'),
-        ('affiliated', 'Afiliado'),
-        ('pending_unsuscribe', 'Pendiente Baja'),
-        ('disaffiliated', 'Desafiliado'),
-        ('historical', 'Histórico')
-    ], string='Nuevo Estado', required=True)
+    
+    @api.model
+    def _get_new_state_selection(self):
+        schema = self.env['affiliation.affiliate'].fields_get(['state'])
+        return schema.get('state', {}).get('selection', [])
+
+    new_state = fields.Selection(
+        selection='_get_new_state_selection',
+        string='Nuevo Estado',
+        required=True
+    )
     change_date = fields.Date(string='Fecha Efectiva', default=fields.Date.context_today, required=True, readonly=True)
     affiliate_type_id = fields.Many2one(
         comodel_name='affiliation.affiliate_type',
-        string='Relación Laboral',
-        help='Seleccione el tipo de relación laboral. Requerido para cambiar a estados distintos de "No afiliado" o "New" si el afiliado no tiene uno asignado.'
+        string='Tipo de relación laboral',
+        help='Seleccione el tipo de relación laboral. Requerido para cambiar a estados distintos de "No afiliado/a" o "New" si el/la afiliado/a no tiene uno asignado.'
     )
 
     @api.model
@@ -92,7 +94,7 @@ class ChangeStateWizard(models.TransientModel):
         for rec in self:
             for inc in rec.inconsistency_ids:
                 if inc.affiliate_id.state == rec.new_state:
-                    raise ValidationError(_("El afiliado %s ya se encuentra en el estado seleccionado.") % inc.affiliate_id.name)
+                    raise ValidationError(_("El/La afiliado/a %s ya se encuentra en el estado seleccionado.") % inc.affiliate_id.name)
 
     def action_confirm(self):
         self.ensure_one()
