@@ -26,6 +26,7 @@ class Affiliate(models.Model):
         required=True
     )
     uid = fields.Char(string='Affiliate UID', required=True)
+    work_id = fields.Char(string='Work ID')
     personal_id_type = fields.Selection([
         ('dni', 'DNI'),
         ('du', 'DU'),
@@ -138,11 +139,14 @@ class Affiliate(models.Model):
 
     @api.constrains('uid')
     def _check_uid(self):
-        other = self.env['affiliation.affiliate'].search(
-            [('uid', '=', self.uid)])
-        if len(other.ids) > 1 or (len(other) == 1 and other[0].id != self.id):
-            raise ValidationError(
-                _('There is already exist an affiliate with the same uid!'))
+        for record in self:
+            if record.uid and not record.uid.isdigit():
+                raise ValidationError(_("El campo ID debe contener únicamente números."))
+            other = self.env['affiliation.affiliate'].search(
+                [('uid', '=', record.uid)])
+            if len(other.ids) > 1 or (len(other) == 1 and other[0].id != record.id):
+                raise ValidationError(
+                    _('There is already exist an affiliate with the same uid!'))
 
     @api.constrains('affiliation_number')
     def _check_affiliation_number(self):

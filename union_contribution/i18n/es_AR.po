@@ -24,7 +24,7 @@ msgstr "Afiliado/a"
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution__uid
 msgid "Affiliate UID"
-msgstr "Legajo"
+msgstr "ID"
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution__contrib_amount
@@ -192,7 +192,7 @@ msgstr "Nro documento (importacion)"
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution__import_uid
 msgid "Import uid"
-msgstr "Legajo (importacion)"
+msgstr "ID (importacion)"
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution__import_vat

@@ -82,6 +82,11 @@ msgstr "Estado del afiliado"
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__uid
 msgid "Affiliate UID"
+msgstr "ID"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__work_id
+msgid "Work ID"
 msgstr "Legajo"
 
 
@@ -1050,7 +1055,7 @@ msgstr "¡Ya existe un tipo con el mismo nombre!"
 #: code:addons/union_affiliation/models/affiliate.py:0
 #, python-format
 msgid "There is already exist an affiliate with the same uid!"
-msgstr "¡Ya existe un afiliado con el mismo legajo!"
+msgstr "¡Ya existe un afiliado con el mismo ID!"
 
 #. module: union_affiliation
 #: code:addons/union_affiliation/models/affiliate.py:0

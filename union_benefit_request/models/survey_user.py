@@ -30,11 +30,11 @@ class SurveyUserInput(models.Model):
 
     def _create_benefit_request(self):
         dni = self.user_input_line_ids.filtered(lambda a: a.question_id.title == 'DNI')
-        legajo = self.user_input_line_ids.filtered(lambda a: a.question_id.title == 'Legajo')
+        ID = self.user_input_line_ids.filtered(lambda a: a.question_id.title == 'ID')
         
         affiliate = self.env['affiliation.affiliate'].search([('personal_id','=',int(dni.value_number))])
         if not affiliate.id:
-            affiliate = self.env['affiliation.affiliate'].search([('uid','=',int(legajo.value_number))])
+            affiliate = self.env['affiliation.affiliate'].search([('uid','=',int(ID.value_number))])
             if not affiliate.id:
                 return None
         survey = self.survey_id

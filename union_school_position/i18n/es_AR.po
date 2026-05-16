@@ -28,7 +28,7 @@ msgstr "Tipo de cargo"
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__uid
 msgid "Affiliate UID"
-msgstr "Legajo"
+msgstr "ID"
 
 #. module: union_school_position
 #: code:addons/union_school_position/models/position.py:0
@@ -182,7 +182,7 @@ msgstr "Nro de documento (importacion)"
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__import_uid
 msgid "Import UID"
-msgstr "Legajo (importacion)"
+msgstr "ID (importacion)"
 
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_type__in_hours

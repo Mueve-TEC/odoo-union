@@ -42,6 +42,8 @@
                                 <field name="uid"
                                     attrs="{'readonly': [('state','in',['pending_suscribe','affiliated','pending_unsuscribe','disaffiliated','historical'])]}" />
                                 <field
+                                    name="work_id" />
+                                <field
                                     name="affiliate_type_id" />
                                 <field name="main_workplace_id"
                                     string="Lugar de trabajo principal"

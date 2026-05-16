@@ -55,7 +55,7 @@ Importación
 1. Navega a **Sindicato > Configuración > Configuración de afiliación** para seleccionar si crear nuevos afiliados o no al importar.
 2. Navega a **Sindicato > Aportes > Lista de aportes**, luego presiona en **Favoritos** y selecciona **Importar registros**.
 3. Sube el archivo csv con los aportes.
-4. Completa bien los campos de Odoo "Código", "Fecha", "Legajo (importación)", "Monto" y los necesarios para corresponder las columnas de tu archivo .csv de aportes.
+4. Completa bien los campos de Odoo "Código", "Fecha", "ID (importación)", "Monto" y los necesarios para corresponder las columnas de tu archivo .csv de aportes.
 5. Completa el formato de la fecha, separador de miles y de decimales utilizados en el .csv en la pestaña de la izquierda de **Formato**.
 6. Presiona **Prueba** para chequear que todo esté configurado correctamente.
 7. Presiona **Importar** para importar los aportes.

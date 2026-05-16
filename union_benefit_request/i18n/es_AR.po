@@ -54,7 +54,7 @@ msgstr "Estado de actividad"
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__affiliate_uid
 msgid "Affiliate UID"
-msgstr "Legajo"
+msgstr "ID"
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__partner_id
@@ -641,7 +641,7 @@ msgstr "El monto pagado debe ser mayor a 0 y menor a monto autorizado"
 #: code:addons/union_benefit_request/models/benefit_request.py:0
 #, python-format
 msgid "There is not an affiliate with that uid %s"
-msgstr "No hay ningún afiliado con ese legajo %s"
+msgstr "No hay ningún afiliado con ese ID %s"
 
 #. module: union_benefit_request
 #: code:addons/union_benefit_request/models/benefit_request.py:0
