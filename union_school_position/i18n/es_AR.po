@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20250909\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-18 14:50+0000\n"
-"PO-Revision-Date: 2026-05-18 14:50+0000\n"
+"POT-Creation-Date: 2026-05-18 22:47+0000\n"
+"PO-Revision-Date: 2026-05-18 22:47+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -38,10 +38,36 @@ msgstr "Legajo"
 #. module: union_school_position
 #. odoo-python
 #: code:addons/union_school_position/models/position.py:0
+#, python-format
+msgid ""
+"Affiliate does not exist in the database (UID: %s, Personal ID: %s), and the"
+" option to auto-create them during import is disabled in the configuration."
+msgstr "El/La afiliado/a no existe en la base de datos (UID: %s, Nro de documento: %s), y la opción para crearlos automáticamente durante la importación está deshabilitada en la configuración."
+
+#. module: union_school_position
+#. odoo-python
 #: code:addons/union_school_position/models/position.py:0
 #, python-format
 msgid "Affiliate doesn't exist!."
 msgstr "¡El afiliado no existe!"
+
+#. module: union_school_position
+#. odoo-python
+#: code:addons/union_school_position/models/position.py:0
+#, python-format
+msgid ""
+"Cannot create affiliate for position import. Legajo (import_uid) must be "
+"strictly numeric."
+msgstr "No se puede crear el/la afiliado/a para la importación del cargo. El legajo (import_uid) debe ser estrictamente numérico."
+
+#. module: union_school_position
+#. odoo-python
+#: code:addons/union_school_position/models/position.py:0
+#, python-format
+msgid ""
+"Cannot create affiliate for position import. Missing import_name or Legajo "
+"(import_uid). Please ensure the imported data includes both Name and Legajo."
+msgstr "No se puede crear el/la afiliado/a para la importación del cargo. Faltan import_name o Legajo (import_uid). Por favor, asegúrese de que los datos importados incluyan tanto el Nombre como el Legajo."
 
 #. module: union_school_position
 #: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_affiliation_affiliate_form
@@ -70,8 +96,19 @@ msgid "Code of the position type"
 msgstr "Código del tipo de cargo"
 
 #. module: union_school_position
+#: model:ir.model,name:union_school_position.model_affiliation_affiliation_configuration
+msgid "Configuration of Affiliaton module"
+msgstr "Configuración del módulo de afiliación"
+
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_affiliation_affiliation_configuration__create_user_from_position
+msgid "Create affiliate when importing positions"
+msgstr "Crear afiliado/a al importar cargos"
+
+#. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_character__create_uid
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__create_uid
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_registration_date__create_uid
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_tag__create_uid
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_type__create_uid
 msgid "Created by"
@@ -80,6 +117,7 @@ msgstr "Creado por"
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_character__create_date
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__create_date
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_registration_date__create_date
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_tag__create_date
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_type__create_date
 msgid "Created on"
@@ -110,6 +148,7 @@ msgstr "Descripción del tipo de cargo"
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_character__display_name
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__display_name
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_registration_date__display_name
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_tag__display_name
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_type__display_name
 msgid "Display Name"
@@ -120,6 +159,16 @@ msgstr "Nombre para mostrar"
 #: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_search
 msgid "Featured"
 msgstr "Destacado"
+
+#. module: union_school_position
+#: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_affiliation_affiliate_search
+msgid "Fecha de registro (Cargos)"
+msgstr "Fecha de registro (Cargos)"
+
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_affiliation_affiliate__position_registration_date_ids
+msgid "Fechas de registro de cargos"
+msgstr "Fechas de registro de cargos"
 
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__date_from
@@ -139,10 +188,16 @@ msgstr "Cantidad de horas"
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_character__id
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__id
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_registration_date__id
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_tag__id
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_type__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
+
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__import_name
+msgid "Import Name"
+msgstr "Nombre (importacion)"
 
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__import_personal_id
@@ -153,6 +208,11 @@ msgstr "Nro de documento (importacion)"
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__import_uid
 msgid "Import UID"
 msgstr "Legajo (importacion)"
+
+#. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__import_vat
+msgid "Import VAT"
+msgstr "CUIT (importacion)"
 
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__type_id_in_hours
@@ -167,6 +227,7 @@ msgstr "Está en horas"
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_character____last_update
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position____last_update
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_registration_date____last_update
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_tag____last_update
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_type____last_update
 msgid "Last Modified on"
@@ -175,6 +236,7 @@ msgstr "Última modificación en"
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_character__write_uid
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__write_uid
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_registration_date__write_uid
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_tag__write_uid
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_type__write_uid
 msgid "Last Updated by"
@@ -183,6 +245,7 @@ msgstr "Última actualización por"
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_character__write_date
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__write_date
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_registration_date__write_date
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_tag__write_date
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_type__write_date
 msgid "Last Updated on"
@@ -203,6 +266,11 @@ msgstr "Notas"
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__personal_id
 msgid "Personal ID"
 msgstr "Nro de documento"
+
+#. module: union_school_position
+#: model:ir.model,name:union_school_position.model_school_position_registration_date
+msgid "Position Registration Date"
+msgstr "Fecha de registro de cargo"
 
 #. module: union_school_position
 #: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_affiliation_affiliate_search
@@ -264,9 +332,19 @@ msgid "Positions list"
 msgstr "Lista de cargos"
 
 #. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_registration_date__date
+msgid "Registration Date"
+msgstr "Fecha de registro"
+
+#. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__registration_date
 msgid "Registration date"
 msgstr "Fecha de registro"
+
+#. module: union_school_position
+#: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_affiliation_configuration_form
+msgid "School Position's configuration"
+msgstr "Configuración de cargos"
 
 #. module: union_school_position
 #: model:ir.model,name:union_school_position.model_school_position_position
@@ -329,6 +407,13 @@ msgstr "La cantidad de horas debe ser mayor a cero para cargos en horas."
 #, python-format
 msgid "The registration date cannot be in the future."
 msgstr "La fecha de registro no puede ser posterior a la fecha actual."
+
+#. module: union_school_position
+#. odoo-python
+#: code:addons/union_school_position/models/position.py:0
+#, python-format
+msgid "There were errors during importation. See the logs!"
+msgstr "Hubo errores durante la importación. ¡Revisá los registros!"
 
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__date_to
