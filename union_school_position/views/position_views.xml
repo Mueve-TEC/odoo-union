@@ -65,7 +65,9 @@
                         filter_domain="['|',('character_id.name', 'ilike', self),('character_id.code', 'ilike', self)]" />
 
                     <group expand="1" string="Group By">
-                        <filter string="Featured" name='contributors'
+                        <filter string="Workplace" name='workplace_id'
+                            context="{'group_by':'workplace_id'}" />
+                        <filter string="Featured" name='featured'
                             context="{'group_by':'featured'}" />
                     </group>
                 </search>
