@@ -63,14 +63,13 @@ class AffiliationPeriod(models.Model):
             return True
         return False
 
-    @api.model
-    def create(self, vals):
-        _affiliate_id = self.affiliate_id.id | vals['affiliate_id']
-        if not _affiliate_id:
-            self.env.context['default_affiliate_id']
-        if self._are_any_open(_affiliate_id):
-            raise ValidationError(_('There is already an open period!'))
-        res = super(AffiliationPeriod, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            _affiliate_id = vals.get('affiliate_id') or self.env.context.get('default_affiliate_id')
+            if _affiliate_id and self._are_any_open(_affiliate_id):
+                raise ValidationError(_('There is already an open period!'))
+        res = super(AffiliationPeriod, self).create(vals_list)
         # affiliate = res.affiliate_id
         # affiliate.affiliate_()
         return res

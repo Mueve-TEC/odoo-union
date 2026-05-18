@@ -198,9 +198,9 @@ class Affiliate(models.Model):
             affiliate.main_workplace_level3 = workplace.name
 
     # This method is necessary for RPC importation
-    @api.model
-    def create(self, vals):
-        res = super(Affiliate, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        res = super(Affiliate, self).create(vals_list)
         return res
 
     def write(self, vals):

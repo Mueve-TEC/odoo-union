@@ -33,29 +33,30 @@ class AffiliateContribution(models.Model):
     uid = fields.Char(related='affiliate_id.uid', store=False)
     personal_id = fields.Char(related='affiliate_id.personal_id', store=False)
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         # Am I importing data?
         if 'import_file' in self.env.context:
-            if 'import_uid' in vals:
-                affiliate = self.env['affiliation.affiliate'].search([('uid','=',vals['import_uid'])])
-                if len(affiliate.ids):
-                    affiliate = affiliate[0]
-                else:
-                    conf = self.env['affiliation.affiliation_configuration'].browse(1)
-                    if conf.create_user_from_contribution:
-                        affiliate = {'uid': vals['import_uid'], 'state': 'new'}
-                        # Name field should always come when creating the affiliate
-                        if 'import_name' in vals:
-                            affiliate.update({'name': vals['import_name']})
-                        if 'import_vat' in vals:
-                            affiliate.update({'vat': vals['import_vat']})
-                        if 'import_personal_id' in vals:
-                            affiliate.update({'personal_id': vals['import_personal_id']})
-                        affiliate = self.env['affiliation.affiliate'].create(affiliate)
-                vals['affiliate_id'] = affiliate.id
-                self._clean_data_affiliate(vals)
-        res = super(AffiliateContribution, self).create(vals)
+            for vals in vals_list:
+                if 'import_uid' in vals:
+                    affiliate = self.env['affiliation.affiliate'].search([('uid','=',vals['import_uid'])])
+                    if len(affiliate.ids):
+                        affiliate = affiliate[0]
+                    else:
+                        conf = self.env['affiliation.affiliation_configuration'].browse(1)
+                        if conf.create_user_from_contribution:
+                            new_affiliate_data = {'uid': vals['import_uid'], 'state': 'new'}
+                            # Name field should always come when creating the affiliate
+                            if 'import_name' in vals:
+                                new_affiliate_data.update({'name': vals['import_name']})
+                            if 'import_vat' in vals:
+                                new_affiliate_data.update({'vat': vals['import_vat']})
+                            if 'import_personal_id' in vals:
+                                new_affiliate_data.update({'personal_id': vals['import_personal_id']})
+                            affiliate = self.env['affiliation.affiliate'].create(new_affiliate_data)
+                    vals['affiliate_id'] = affiliate.id
+                    self._clean_data_affiliate(vals)
+        res = super(AffiliateContribution, self).create(vals_list)
         return res
 
     def write(self, vals):

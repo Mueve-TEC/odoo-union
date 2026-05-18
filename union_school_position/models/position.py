@@ -121,54 +121,55 @@ class Position(models.Model):
             result.append((record.id, _("%s")%(name)))
         return result
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         # Am I importing data?
         if 'import_file' in self.env.context:
-            if not vals.get('affiliate_id'):
-                affiliate = False
-                if vals.get('import_uid'):
-                    affiliate = self.env['affiliation.affiliate'].search([('uid', '=', vals['import_uid'])], limit=1)
+            for vals in vals_list:
+                if not vals.get('affiliate_id'):
+                    affiliate = False
+                    if vals.get('import_uid'):
+                        affiliate = self.env['affiliation.affiliate'].search([('uid', '=', vals['import_uid'])], limit=1)
 
-                if affiliate:
-                    vals['affiliate_id'] = affiliate.id
-                else:
-                    conf = self.env['affiliation.affiliation_configuration'].browse(1)
-                    if conf.create_user_from_position:
-                        new_uid = vals.get('import_uid')
-                        import_name = vals.get('import_name')
-                        
-                        if not new_uid or not import_name:
-                            
-                            error_msg = _("Cannot create affiliate for position import. Missing import_name or Legajo (import_uid). "
-                                          "Please ensure the imported data includes both Name and Legajo.")
-                            raise ValidationError(error_msg)
-                            
-                        if not str(new_uid).isdigit():
-                            error_msg = _("Cannot create affiliate for position import. Legajo (import_uid) must be strictly numeric.")
-                            raise ValidationError(error_msg)
-                            
-                        new_affiliate_vals = {
-                            'state': 'new',
-                            'uid': new_uid,
-                            'name': import_name
-                        }
-                        
-                        if vals.get('import_personal_id'):
-                            new_affiliate_vals['personal_id'] = vals.get('import_personal_id')
-                        if vals.get('import_vat'):
-                            new_affiliate_vals['vat'] = vals.get('import_vat')
-                             
-                        new_affiliate = self.env['affiliation.affiliate'].create(new_affiliate_vals)
-                        vals['affiliate_id'] = new_affiliate.id
+                    if affiliate:
+                        vals['affiliate_id'] = affiliate.id
                     else:
-                        error_msg = _(
-                            "Affiliate does not exist in the database (UID: %s, Personal ID: %s), "
-                            "and the option to auto-create them during import is disabled in the configuration."
-                        ) % (vals.get('import_uid', 'N/A'), vals.get('import_personal_id', 'N/A'))
-                        raise ValidationError(error_msg)
-            self._clean_affiliate_data(vals)
-        res = super(Position, self).create(vals)
+                        conf = self.env['affiliation.affiliation_configuration'].browse(1)
+                        if conf.create_user_from_position:
+                            new_uid = vals.get('import_uid')
+                            import_name = vals.get('import_name')
+                            
+                            if not new_uid or not import_name:
+                                
+                                error_msg = _("Cannot create affiliate for position import. Missing import_name or Legajo (import_uid). "
+                                              "Please ensure the imported data includes both Name and Legajo.")
+                                raise ValidationError(error_msg)
+                                
+                            if not str(new_uid).isdigit():
+                                error_msg = _("Cannot create affiliate for position import. Legajo (import_uid) must be strictly numeric.")
+                                raise ValidationError(error_msg)
+                                
+                            new_affiliate_vals = {
+                                'state': 'new',
+                                'uid': new_uid,
+                                'name': import_name
+                            }
+                            
+                            if vals.get('import_personal_id'):
+                                new_affiliate_vals['personal_id'] = vals.get('import_personal_id')
+                            if vals.get('import_vat'):
+                                new_affiliate_vals['vat'] = vals.get('import_vat')
+                                 
+                            new_affiliate = self.env['affiliation.affiliate'].create(new_affiliate_vals)
+                            vals['affiliate_id'] = new_affiliate.id
+                        else:
+                            error_msg = _(
+                                "Affiliate does not exist in the database (UID: %s, Personal ID: %s), "
+                                "and the option to auto-create them during import is disabled in the configuration."
+                            ) % (vals.get('import_uid', 'N/A'), vals.get('import_personal_id', 'N/A'))
+                            raise ValidationError(error_msg)
+                self._clean_affiliate_data(vals)
+        res = super(Position, self).create(vals_list)
         return res
 
     def write(self,vals):

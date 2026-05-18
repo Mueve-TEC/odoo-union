@@ -282,23 +282,27 @@ class BenefitRequest(models.Model):
         res = super(BenefitRequest, self).write(vals)
         return res
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         # Am I importing data?
         if 'import_file' in self.env.context:
-            if 'import_uid' in vals:
-                affiliate = self.env['affiliation.affiliate'].search([('uid','=',vals['import_uid'])])
-                if len(affiliate.ids):
-                    vals['partner_id'] = affiliate[0].partner_id.id
-                    vals.pop('import_uid')  # Remove after use
-                else:
-                    raise ValidationError(_('There is not an affiliate with that uid %s' % (vals['import_uid'])))
+            for vals in vals_list:
+                if 'import_uid' in vals:
+                    affiliate = self.env['affiliation.affiliate'].search([('uid','=',vals['import_uid'])])
+                    if len(affiliate.ids):
+                        vals['partner_id'] = affiliate[0].partner_id.id
+                        vals.pop('import_uid')  # Remove after use
+                    else:
+                        raise ValidationError(_('There is not an affiliate with that uid %s' % (vals['import_uid'])))
         
-        if 'state' not in vals:
-            vals.update({'state': 'draft'})
-        res = super(BenefitRequest, self).create(vals)
-        if 'partner_id' in vals:
-            res.message_subscribe([vals['partner_id']])
+        for vals in vals_list:
+            if 'state' not in vals:
+                vals.update({'state': 'draft'})
+        
+        res = super(BenefitRequest, self).create(vals_list)
+        for record in res:
+            if record.partner_id:
+                record.message_subscribe([record.partner_id.id])
         res._compute_hides()
         return res
 
