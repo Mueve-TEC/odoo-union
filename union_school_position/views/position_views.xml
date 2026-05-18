@@ -44,6 +44,7 @@
                     <field name="workplace_id" />
                     <field name="date_from" />
                     <field name="date_to" />
+                    <field name="featured" />
                     <field name="registration_date" />
                 </tree>
             </field>
