@@ -45,9 +45,9 @@ class UnionWorkplaceDeleteWizard(models.TransientModel):
                     ('main_workplace_id', 'in', all_workplaces.ids)
                 ])
 
-                # Obtener afiliados asociados a estos lugares
+                # Obtener afiliados asociados a estos lugares como delegación
                 related_affiliates = self.env['affiliation.affiliate'].search([
-                    ('workplace_ids', 'in', all_workplaces.ids)
+                    ('delegation_id', 'in', all_workplaces.ids)
                 ])
 
                 # Construir mensaje
@@ -76,12 +76,12 @@ class UnionWorkplaceDeleteWizard(models.TransientModel):
                 if main_affiliates:
                     main_count = len(main_affiliates)
                     message_parts.append(
-                        f"• {main_count} afiliados perderán su lugar de trabajo principal")
+                        f"• {main_count} afiliados/as perderán su lugar de trabajo principal")
 
                 if related_affiliates:
                     related_count = len(related_affiliates)
                     message_parts.append(
-                        f"• {related_count} afiliados serán desvinculados de estos lugares")
+                        f"• {related_count} afiliados/as serán desvinculados/as de estas delegaciones")
 
                 if message_parts:
                     res['message'] = "Esta eliminación tendrá los siguientes efectos:\n\n" + \
@@ -99,10 +99,10 @@ class UnionWorkplaceDeleteWizard(models.TransientModel):
                             affiliate_details.append(
                                 f"... y {len(main_affiliates) - 10} más")
 
-                        res['affected_affiliates'] = "Afiliados que perderán su lugar principal:\n\n" + \
+                        res['affected_affiliates'] = "Afiliados/as que perderán su lugar principal:\n\n" + \
                             "\n".join(affiliate_details)
                 else:
-                    res['message'] = "¿Está seguro que desea eliminar este lugar de trabajo?\n\nNo hay afiliados asociados."
+                    res['message'] = "¿Está seguro que desea eliminar este lugar de trabajo?\n\nNo hay afiliados/as asociados/as."
 
         return res
 

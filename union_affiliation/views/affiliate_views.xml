@@ -47,7 +47,6 @@
                                     name="affiliate_type_id" />
                                 <field name="main_workplace_id"
                                     string="Lugar de trabajo principal"
-                                    domain="[('id', 'in', workplace_ids)]"
                                     options="{'no_create': True, 'no_quick_create': True}" />
                                 <field
                                     name="seniority" />
@@ -82,39 +81,11 @@
                             <page string="Affiliation" name="Affiliation">
                                 <group>
                                     <field name="affiliation_number" readonly="1" />
+                                    <field name="delegation_id" />
                                     <field name="quote" readonly="1" />
                                     <field name="affiliation_date" readonly="1" />
                                     <field name="disaffiliation_date" readonly="1" />
                                 </group>
-                            </page>
-                            <page string="Lugares de trabajo" name="workplaces">
-                                <group>
-                                    <group string="Lugar de trabajo principal">
-                                        <field name="main_workplace_id"
-                                            domain="[('id', 'in', workplace_ids)]"
-                                            options="{'no_create': True, 'no_quick_create': True}"
-                                            context="{'tree_view_ref': 'union_affiliation.union_workplace_tree'}" />
-                                    </group>
-                                </group>
-                                <separator string="Todos los lugares de trabajo" />
-                                <field name="workplace_ids" widget="many2many"
-                                    options="{'no_create': True, 'no_quick_create': True}"
-                                    context="{'tree_view_ref': 'union_affiliation.union_workplace_tree'}">
-                                    <tree>
-                                        <field name="name" />
-                                        <field name="complete_name" />
-                                        <field name="code" />
-                                    </tree>
-                                </field>
-                                <div class="alert alert-info mt-2" role="alert"
-                                    attrs="{'invisible': [('main_workplace_id', '!=', False)]}">
-                                    <strong>Instrucciones:</strong>
-                                    <ul class="mb-0">
-                                        <li>Primero agregue los lugares de trabajo usando el botón
-                                            "Agregar una línea"</li>
-                                        <li>Luego seleccione uno como lugar de trabajo principal</li>
-                                    </ul>
-                                </div>
                             </page>
                             <page string="Affiliate logs" name="Affiliation_logs">
                                 <field name="log" readonly="1" />
@@ -162,7 +133,6 @@
                     <field name="category_bis_id"
                         filter_domain="[('category_bis_id', 'ilike', self)]" />
                     <field name="main_workplace_id" />
-                    <field name="workplace_ids" />
 
                     <filter string="New" name="state_new" domain="[('state', '=', 'new')]" />
                     <filter string="Not affiliated" name="state_not_affiliated"
@@ -197,8 +167,6 @@
                         <filter string="Affiliation date" name="affiliation_date"
                             context="{'group_by':'affiliation_date'}" />
                         <separator />
-                        <filter string="Lugares de trabajo" name="workplaces"
-                            context="{'group_by':'workplace_ids', 'orderby':'workplace_ids.complete_name'}" />
                         <filter string="1° Lugar de trabajo principal" name="main_workplace_level1"
                             context="{'group_by':'main_workplace_level1'}" />
                         <filter string="2° Lugar de trabajo principal" name="main_workplace_level2"

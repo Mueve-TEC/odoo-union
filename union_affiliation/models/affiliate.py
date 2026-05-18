@@ -86,20 +86,16 @@ class Affiliate(models.Model):
         ondelete='restrict',
     )
 
-    workplace_ids = fields.Many2many(
+    delegation_id = fields.Many2one(
         comodel_name='union.workplace',
-        relation='affiliate_workplace_rel',
-        column1='affiliate_id',
-        column2='workplace_id',
-        string='Lugares de trabajo',
-        help='Todos los lugares de trabajo del afiliado'
+        string='Delegación'
     )
 
     main_workplace_id = fields.Many2one(
         comodel_name='union.workplace',
         string='Lugar de trabajo principal',
         ondelete='set null',
-        help='Lugar de trabajo principal para padrones (debe estar en la lista de lugares de trabajo)'
+        help='Lugar de trabajo principal'
     )
 
     main_workplace_level1 = fields.Char(
@@ -164,38 +160,6 @@ class Affiliate(models.Model):
                 raise ValidationError(
                     _("The field 'Employment relationship type' is required when state is not 'new' or 'not_affiliated'."))
 
-    @api.constrains('main_workplace_id', 'workplace_ids')
-    def _check_main_workplace(self):
-        """Valida que el lugar de trabajo principal esté entre los lugares asignados"""
-        # No validar durante eliminaciones de lugares de trabajo
-        if self.env.context.get('from_delete_wizard') or self.env.context.get('skip_workplace_validation'):
-            return
-
-        for record in self:
-            if record.main_workplace_id and record.main_workplace_id not in record.workplace_ids:
-                raise ValidationError(_(
-                    "El lugar de trabajo principal debe estar incluido en la lista de lugares de trabajo del afiliado."
-                ))
-
-    def _auto_assign_workplace_parents(self, workplace_ids):
-        """Asigna automáticamente los lugares padres jerarquía"""
-        if not workplace_ids:
-            return workplace_ids
-
-        all_workplaces = set(workplace_ids.ids if hasattr(
-            workplace_ids, 'ids') else workplace_ids)
-        workplaces_to_check = list(all_workplaces)
-
-        for workplace_id in workplaces_to_check:
-            workplace = self.env['union.workplace'].browse(workplace_id)
-            parent = workplace.parent_id
-            while parent:
-                if parent.id not in all_workplaces:
-                    all_workplaces.add(parent.id)
-                parent = parent.parent_id
-
-        return self.env['union.workplace'].browse(list(all_workplaces))
-
     @api.depends('main_workplace_id', 'main_workplace_id.level', 'main_workplace_id.parent_path')
     def _compute_main_workplace_levels(self):
         """Computa las agrupaciones jerárquicas por lugar de trabajo"""
@@ -236,35 +200,11 @@ class Affiliate(models.Model):
     # This method is necessary for RPC importation
     @api.model
     def create(self, vals):
-        # Auto-asignar lugares de trabajo padres si se crean afiliados con workplace_ids
-        if 'workplace_ids' in vals and not self.env.context.get('skip_workplace_validation'):
-            res = super(Affiliate, self).create(vals)
-
-            if res.workplace_ids:
-                expanded_workplaces = res._auto_assign_workplace_parents(
-                    res.workplace_ids.ids)
-                res.workplace_ids = expanded_workplaces
-            return res
-
         res = super(Affiliate, self).create(vals)
         return res
 
     def write(self, vals):
         self._log_change_field(vals)
-
-        # Auto-asignar lugares padres si se modifican los workplace_ids
-        if 'workplace_ids' in vals and not self.env.context.get('skip_workplace_validation'):
-            res = super(Affiliate, self).write(vals)
-
-            for record in self:
-                if record.workplace_ids:
-                    expanded_workplaces = record._auto_assign_workplace_parents(
-                        record.workplace_ids.ids)
-                    # Solo actualizar si hay cambios para evitar recursión
-                    if set(expanded_workplaces.ids) != set(record.workplace_ids.ids):
-                        record.with_context(
-                            skip_workplace_validation=True).workplace_ids = expanded_workplaces
-            return res
 
         res = super(Affiliate, self).write(vals)
         return res
