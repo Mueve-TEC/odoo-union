@@ -55,6 +55,9 @@
                     <filter string="Position Type" name="position_types"
                         context="{'group_by':'position_type_ids'}"
                         groups="union_school_position.group_school_position_read" />
+                    <filter string="Fecha de registro (Cargos)" name="position_registration_dates"
+                        context="{'group_by':'position_registration_date_ids'}"
+                        groups="union_school_position.group_school_position_read" />
                 </xpath>
             </field>
         </record>

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from . import position_registration_date
 from . import affiliate
 from . import position, position_type, position_character, position_tag
 from . import affiliation_configuration
