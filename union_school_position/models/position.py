@@ -3,6 +3,10 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
+import logging
+
+log = logging.getLogger(__name__)
+
 
 class Position(models.Model):
     _name = 'school_position.position'
@@ -54,6 +58,8 @@ class Position(models.Model):
     # It needs to be stored because it is necessary for the import process
     import_uid = fields.Char(string='Import UID')
     import_personal_id = fields.Char(string='Import Personal ID')
+    import_name = fields.Char(string='Import Name')
+    import_vat = fields.Char(string='Import VAT')
 
     # Related fields for filters
     uid = fields.Char(related='affiliate_id.uid', store=False)
@@ -119,18 +125,48 @@ class Position(models.Model):
     def create(self, vals):
         # Am I importing data?
         if 'import_file' in self.env.context:
-            affiliate = None
-            if 'import_uid' in vals:
-                affiliate = self.env['affiliation.affiliate'].search(
-                    [('uid', '=', vals['import_uid'])])
-            else:
-                if 'import_personal_id' in vals:
-                    affiliate = self.env['affiliation.affiliate'].search(
-                        [('personal_id', '=', vals['import_personal_id'])])
-            if len(affiliate.ids):
-                vals['affiliate_id'] = affiliate[0].id
-            else:
-                raise ValidationError(_('Affiliate doesn\'t exist!.'))
+            if not vals.get('affiliate_id'):
+                affiliate = False
+                if vals.get('import_uid'):
+                    affiliate = self.env['affiliation.affiliate'].search([('uid', '=', vals['import_uid'])], limit=1)
+
+                if affiliate:
+                    vals['affiliate_id'] = affiliate.id
+                else:
+                    conf = self.env['affiliation.affiliation_configuration'].browse(1)
+                    if conf.create_user_from_position:
+                        new_uid = vals.get('import_uid')
+                        import_name = vals.get('import_name')
+                        
+                        if not new_uid or not import_name:
+                            
+                            error_msg = _("Cannot create affiliate for position import. Missing import_name or Legajo (import_uid). "
+                                          "Please ensure the imported data includes both Name and Legajo.")
+                            raise ValidationError(error_msg)
+                            
+                        if not str(new_uid).isdigit():
+                            error_msg = _("Cannot create affiliate for position import. Legajo (import_uid) must be strictly numeric.")
+                            raise ValidationError(error_msg)
+                            
+                        new_affiliate_vals = {
+                            'state': 'new',
+                            'uid': new_uid,
+                            'name': import_name
+                        }
+                        
+                        if vals.get('import_personal_id'):
+                            new_affiliate_vals['personal_id'] = vals.get('import_personal_id')
+                        if vals.get('import_vat'):
+                            new_affiliate_vals['vat'] = vals.get('import_vat')
+                             
+                        new_affiliate = self.env['affiliation.affiliate'].create(new_affiliate_vals)
+                        vals['affiliate_id'] = new_affiliate.id
+                    else:
+                        error_msg = _(
+                            "Affiliate does not exist in the database (UID: %s, Personal ID: %s), "
+                            "and the option to auto-create them during import is disabled in the configuration."
+                        ) % (vals.get('import_uid', 'N/A'), vals.get('import_personal_id', 'N/A'))
+                        raise ValidationError(error_msg)
             self._clean_affiliate_data(vals)
         res = super(Position, self).create(vals)
         return res
@@ -141,8 +177,10 @@ class Position(models.Model):
         return res
 
     def _clean_affiliate_data(self, vals):
-        vals.pop('import_uid') if 'import_uid' in vals else None
-        vals.pop('import_personal_id') if 'personal_id' in vals else None
+        vals.pop('import_uid', None)
+        vals.pop('import_personal_id', None)
+        vals.pop('import_name', None)
+        vals.pop('import_vat', None)
             
     def action_set_featured(self):
         for record in self:
@@ -151,3 +189,19 @@ class Position(models.Model):
     def action_unset_featured(self):
         for record in self:
             record.featured = False
+
+    def on_import_error(self, line, error):
+        _message = {
+            'line': int(error['record']) + 1,
+            'record': str(line),
+            'error': error['message']
+        }
+        log = {
+            'user_id': self.env.user.id,
+            'date': str(fields.Datetime.now()),
+            'model_name': self._name,
+            'model_id': -1,
+            'type': 'import',
+            'message': str(_message)
+        }
+        self.env.user.notify_danger(message=(_('There were errors during importation. See the logs!')))

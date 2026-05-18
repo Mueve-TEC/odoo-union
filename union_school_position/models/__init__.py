@@ -2,3 +2,4 @@
 
 from . import affiliate
 from . import position, position_type, position_character, position_tag
+from . import affiliation_configuration

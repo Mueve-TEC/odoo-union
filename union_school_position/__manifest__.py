@@ -16,6 +16,7 @@
         'views/position_type_views.xml',
         'views/position_character_views.xml',
         'views/affiliate_views.xml',
+        'views/affiliation_configuration_view.xml',
         'views/menu.xml',
     ],
     'demo': [
