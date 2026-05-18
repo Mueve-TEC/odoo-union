@@ -84,6 +84,9 @@ class Position(models.Model):
         string='In hours',
         readonly=True
     )
+    featured = fields.Boolean(
+        string='Featured'
+    )
 
     @api.constrains('date_from', 'date_to')
     def _check_dates(self):
@@ -141,3 +144,10 @@ class Position(models.Model):
         vals.pop('import_uid') if 'import_uid' in vals else None
         vals.pop('import_personal_id') if 'personal_id' in vals else None
             
+    def action_set_featured(self):
+        for record in self:
+            record.featured = True
+            
+    def action_unset_featured(self):
+        for record in self:
+            record.featured = False

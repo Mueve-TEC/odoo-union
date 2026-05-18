@@ -11,11 +11,13 @@
                             <field name="type_id" />
                             <field name="type_id_in_hours" invisible="1" />
                             <field name="position_number" />
-                            <field name="hs_amount" attrs="{'invisible': [('type_id_in_hours', '=', False)], 'required': [('type_id_in_hours', '=', True)]}" />
+                            <field name="hs_amount"
+                                attrs="{'invisible': [('type_id_in_hours', '=', False)], 'required': [('type_id_in_hours', '=', True)]}" />
                             <field name="character_id" />
                             <field name="workplace_id" />
                             <field name="date_from" />
                             <field name="date_to" />
+                            <field name="featured" />
                             <field name="registration_date" />
                         </group>
                         <notebook>
@@ -33,7 +35,7 @@
             <field name="name">School position tree</field>
             <field name="model">school_position.position</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree decoration-info="featured">
                     <field name="affiliate_id" />
                     <field name="type_id" />
                     <field name="position_number" />
@@ -60,8 +62,35 @@
                         filter_domain="['|','|',('workplace_id.name', 'ilike', self),('workplace_id.code', 'ilike', self),('workplace_id.complete_name', 'ilike', self)]" />
                     <field name="character_id"
                         filter_domain="['|',('character_id.name', 'ilike', self),('character_id.code', 'ilike', self)]" />
+
+                    <group expand="1" string="Group By">
+                        <filter string="Featured" name='contributors'
+                            context="{'group_by':'featured'}" />
+                    </group>
                 </search>
             </field>
+        </record>
+
+        <record id="action_set_featured" model="ir.actions.server">
+            <field name="name">Set Featured</field>
+            <field name="model_id" ref="model_school_position_position" />
+            <field name="binding_model_id" ref="model_school_position_position" />
+            <field name="state">code</field>
+            <field name="code">
+                records.action_set_featured()
+            </field>
+
+        </record>
+
+        <record id="action_unset_featured" model="ir.actions.server">
+            <field name="name">Unset Featured</field>
+            <field name="model_id" ref="model_school_position_position" />
+            <field name="binding_model_id" ref="model_school_position_position" />
+            <field name="state">code</field>
+            <field name="code">
+                records.action_unset_featured()
+            </field>
+
         </record>
 
     </data>
