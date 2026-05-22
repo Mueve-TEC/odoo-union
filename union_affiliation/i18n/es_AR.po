@@ -451,7 +451,7 @@ msgstr "Fecha de desafiliación"
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
-msgid "Disafilliation date"
+msgid "Disaffiliation date"
 msgstr "Fecha de desafiliación"
 
 #. module: union_affiliation
