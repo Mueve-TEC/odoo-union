@@ -9,14 +9,6 @@ class Affiliate(models.Model):
         string='Positions',
     )
     
-    position_type_ids = fields.Many2many(
-        comodel_name='school_position.type',
-        string='Position Types',
-        compute='_compute_position_types',
-        store=True,
-        readonly=True,
-    )
-    
     position_registration_date_ids = fields.Many2many(
         comodel_name='school_position.registration.date',
         string='Fechas de registro de cargos',
@@ -45,7 +37,3 @@ class Affiliate(models.Model):
                 
             affiliate.position_registration_date_ids = date_records
     
-    @api.depends('position_ids', 'position_ids.type_id')
-    def _compute_position_types(self):
-        for affiliate in self:
-            affiliate.position_type_ids = affiliate.position_ids.mapped('type_id')
