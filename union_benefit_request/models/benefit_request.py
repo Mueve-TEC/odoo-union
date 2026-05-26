@@ -28,7 +28,7 @@ class BenefitRequest(models.Model):
     affiliate_personal_id = fields.Char(string='Personal ID', compute='_compute_personal_id', store=True)
     
     # Field for import process - maps to affiliate by UID
-    import_uid = fields.Char(string='ID')
+    import_uid = fields.Char(string='Import ID')
     
     state = fields.Selection(
         selection=[
