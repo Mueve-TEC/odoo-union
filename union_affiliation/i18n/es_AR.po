@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#
+# 	* union_affiliation
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0\n"
+"Project-Id-Version: Odoo Server 16.0-20250909\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-06 22:16+0000\n"
-"PO-Revision-Date: 2023-04-06 22:16+0000\n"
+"POT-Creation-Date: 2026-05-27 16:02+0000\n"
+"PO-Revision-Date: 2026-05-27 16:02+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,10 +16,50 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliate.py:0
+#: code:addons/union_affiliation/models/affiliate.py:0
+#, python-format
+msgid "%s [%s] The field %s change from %s to %s \n"
+msgstr "%s [%s] El campo %s cambió de %s a %s \n"
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliation_period.py:0
 #: code:addons/union_affiliation/models/affiliation_period.py:0
 #, python-format
 msgid "'From date' is major to 'to date'!"
 msgstr "¡'Fecha desde' es mayor a 'Fecha hasta'!"
+
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__type
+msgid ""
+"- Contact: Use this to organize the contact details of employees of a given company (e.g. CEO, CFO, ...).\n"
+"- Invoice Address : Preferred address for all invoices. Selected by default when you invoice an order that belongs to this company.\n"
+"- Delivery Address : Preferred address for all deliveries. Selected by default when you deliver an order that belongs to this company.\n"
+"- Private: Private addresses are only visible by authorized users and contain sensitive data (employee home addresses, ...).\n"
+"- Other: Other address for the company (e.g. subsidiary, ...)"
+msgstr ""
+
+#. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
+msgid "1° Lugar de trabajo principal"
+msgstr ""
+
+#. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
+msgid "2° Lugar de trabajo principal"
+msgstr ""
+
+#. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
+msgid "3° Lugar de trabajo principal"
+msgstr "Lugar de trabajo principal"
+
+#. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_delete_wizard_form
+msgid "<strong>¡Atención!</strong>"
+msgstr ""
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__message_needaction
@@ -28,6 +68,7 @@ msgstr "Accion necesaria"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__active
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__active
 msgid "Active"
 msgstr "Activo"
 
@@ -52,26 +93,51 @@ msgid "Activity State"
 msgstr "Estado de actividad"
 
 #. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Icono de tipo de actividad"
+
+#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__type
 msgid "Address Type"
 msgstr "Tipo de dirección"
 
 #. module: union_affiliation
-#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
-msgid "Affiliate"
-msgstr "Afiliar"
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliate.py:0
+#: code:addons/union_affiliation/models/affiliate.py:0
+#, python-format
+msgid "Admin affiliation permission is required to archive records."
+msgstr ""
+"Necesitas permiso de administración de afiliados para archivar registros."
 
 #. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliate.py:0
+#: code:addons/union_affiliation/models/affiliate.py:0
+#, python-format
+msgid "Admin affiliation permission is required to unarchive records."
+msgstr ""
+"Necesitas permiso de administración de afiliados para desarchivar registros."
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/res_partner.py:0
+#: code:addons/union_affiliation/models/res_partner.py:0
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__affiliate_id
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_number__affiliate_id
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_period__affiliate_id
+#: model:ir.model.fields,field_description:union_affiliation.field_res_partner__affiliate_id
+#: model:ir.model.fields,field_description:union_affiliation.field_res_users__affiliate_id
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
+#, python-format
 msgid "Affiliate"
 msgstr "Afiliado/a"
 
 #. module: union_affiliation
-#: model:ir.ui.view,name:union_affiliation.affiliation_affiliation_number_form
-#: model_terms:ir.ui.view,arch_db:union_affiliation.affiliation_affiliation_number_form
-msgid "Confirm"
-msgstr "Confirmar"
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__affiliate_count
+msgid "Affiliate Count"
+msgstr "Cantidad de afiliados"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__state
@@ -83,12 +149,6 @@ msgstr "Estado del afiliado"
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__uid
 msgid "Affiliate UID"
 msgstr "ID"
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__work_id
-msgid "Work ID"
-msgstr "Legajo"
-
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_child_search
@@ -118,18 +178,13 @@ msgid "Affiliate's childs"
 msgstr "Hijos de afiliados"
 
 #. module: union_affiliation
-#: model:ir.actions.act_window,name:union_affiliation.union_affiliation_affiliate_type_list_action
-#: model:ir.ui.menu,name:union_affiliation.union_affiliation_affiliate_type_list
-msgid "Employment relationship type"
-msgstr "Tipos de relación laboral"
-
-#. module: union_affiliation
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__state__affiliated
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
 msgid "Affiliated"
 msgstr "Afiliado"
 
 #. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__affiliate_ids
 #: model:ir.ui.menu,name:union_affiliation.affiliates_section
 msgid "Affiliates"
 msgstr "Afiliados"
@@ -141,7 +196,12 @@ msgid "Affiliates list"
 msgstr "Lista de afiliados"
 
 #. module: union_affiliation
-#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliation_number_form
+#: model:ir.model.fields,help:union_affiliation.field_union_workplace__main_affiliate_ids
+msgid "Affiliates that have this workplace as main"
+msgstr "Afiliados que tienen este lugar como principal"
+
+#. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
 msgid "Affiliation"
 msgstr "Afiliación"
 
@@ -151,19 +211,14 @@ msgid "Affiliation admin"
 msgstr "Administrador de afiliación"
 
 #. module: union_affiliation
-#: model:res.groups,name:union_affiliation.group_affiliation_change_state
-msgid "Affiliation change state"
-msgstr "Cambio de estado de afiliación"
-
-#. module: union_affiliation
 #: model:res.groups,name:union_affiliation.group_affiliation_change_quote
 msgid "Affiliation change quote"
 msgstr "Cambio de estado cotizante"
 
 #. module: union_affiliation
-#: model:res.groups,name:union_affiliation.group_affiliation_emails
-msgid "Affiliation emails"
-msgstr "Correos electrónicos de afiliados"
+#: model:res.groups,name:union_affiliation.group_affiliation_change_state
+msgid "Affiliation change state"
+msgstr "Cambio de estado de afiliación"
 
 #. module: union_affiliation
 #: model:ir.actions.act_window,name:union_affiliation.union_affiliation_affiliation_configuration_form_action
@@ -177,11 +232,29 @@ msgid "Affiliation date"
 msgstr "Fecha de afiliación"
 
 #. module: union_affiliation
+#: model:res.groups,name:union_affiliation.group_affiliation_emails
+msgid "Affiliation emails"
+msgstr "Correos electrónicos de afiliados"
+
+#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__affiliation_number
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_number__affiliation_number
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_period__affiliation_number
 msgid "Affiliation number"
 msgstr "Número de afiliación"
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/wizards/affiliation_number.py:0
+#: code:addons/union_affiliation/wizards/affiliation_number.py:0
+#, python-format
+msgid "Affiliation number cannot be 0."
+msgstr "El número de afiliación no puede ser 0."
+
+#. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliation_configuration_form
+msgid "Affiliation number configuration"
+msgstr "Configuración de número de afiliación"
 
 #. module: union_affiliation
 #: model:ir.model,name:union_affiliation.model_affiliation_affiliation_period
@@ -209,19 +282,47 @@ msgid "Affiliation's configuration"
 msgstr "Configuración de afiliación"
 
 #. module: union_affiliation
-#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliation_configuration_form
-msgid "Affiliation number configuration"
-msgstr "Configuración de número de afiliación"
-
-#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__affiliation_date
 msgid "Affiliation's date"
 msgstr "Fecha de afiliación"
 
 #. module: union_affiliation
-#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
-msgid "Affiliation"
-msgstr "Afiliación"
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace_delete_wizard__affected_affiliates
+msgid "Afiliados afectados"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__main_workplace_level1
+msgid "Agrupación Nivel 1"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__main_workplace_level2
+msgid "Agrupación Nivel 2"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__main_workplace_level3
+msgid "Agrupación Nivel 3"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__lang
+msgid ""
+"All the emails and documents sent to this contact will be translated in this"
+" language."
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_number__affiliation_number_edition
+msgid "Allow editing affiliation number"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_configuration__affiliation_number_edition
+msgid "Allow editing affiliation number on start affiliation view."
+msgstr ""
+"Permitir la edición del número de afiliación en la ventana de afiliación."
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
@@ -234,9 +335,39 @@ msgid "Attachment Count"
 msgstr "Recuento de archivos adjuntos"
 
 #. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__avatar_1920
+msgid "Avatar"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__avatar_1024
+msgid "Avatar 1024"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__avatar_128
+msgid "Avatar 128"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__avatar_256
+msgid "Avatar 256"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__avatar_512
+msgid "Avatar 512"
+msgstr ""
+
+#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__bank_ids
 msgid "Banks"
 msgstr "Bancos"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__barcode
+msgid "Barcode"
+msgstr "Código de barras"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__birth_country
@@ -263,7 +394,29 @@ msgstr "Rebotar"
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__personal_id_type__ci
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate_child__personal_id_type__ci
 msgid "CI"
-msgstr "CI"
+msgstr ""
+
+#. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
+msgid "CUIL"
+msgstr ""
+
+#. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_delete_wizard_form
+msgid "Cancelar"
+msgstr ""
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/workplace.py:0
+#: code:addons/union_affiliation/models/workplace.py:0
+#, python-format
+msgid ""
+"Cannot delete this workplace because it has associated affiliates. Use the "
+"\"Delete\" button from the form view."
+msgstr ""
+"No se puede eliminar este lugar de trabajo porque tiene afiliados asociados."
+" Use el botón \"Eliminar\" desde la vista formulario."
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__channel_ids
@@ -271,14 +424,19 @@ msgid "Channels"
 msgstr "Canales"
 
 #. module: union_affiliation
-#: model:ir.model.fields,help:union_affiliation.field_union_affiliation_affiliate__is_company
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__is_company
 msgid "Check if the contact is a company, otherwise it is a person"
-msgstr "Comprueba si el contacto es una empresa, de lo contrario es una persona"
+msgstr "Marque si el contacto es una empresa, de lo contrario es una persona"
 
 #. module: union_affiliation
-#: model:ir.model.fields,help:union_affiliation.field_union_affiliation_affiliate__employee
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__employee
 msgid "Check this box if this contact is an Employee."
 msgstr "Marque esta casilla si este contacto es un empleado."
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__child_ids
+msgid "Child Workplaces"
+msgstr "Dependencias inferiores"
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_child_form
@@ -302,6 +460,11 @@ msgid "Closed"
 msgstr "Cerrado"
 
 #. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__code
+msgid "Code"
+msgstr "Código"
+
+#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__color
 msgid "Color Index"
 msgstr "Indice de color"
@@ -317,6 +480,11 @@ msgid "Company"
 msgstr "Empresa"
 
 #. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__company_registry
+msgid "Company ID"
+msgstr ""
+
+#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__company_name
 msgid "Company Name"
 msgstr "Nombre de empresa"
@@ -324,7 +492,7 @@ msgstr "Nombre de empresa"
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__commercial_company_name
 msgid "Company Name Entity"
-msgstr ""
+msgstr "Nombre de la empresa entidad"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__company_type
@@ -334,7 +502,12 @@ msgstr "Tipo de compañía"
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__contact_address
 msgid "Complete Address"
-msgstr ""
+msgstr "Dirección completa"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__complete_name
+msgid "Complete Name"
+msgstr "Nombre completo"
 
 #. module: union_affiliation
 #: model:ir.ui.menu,name:union_affiliation.configuration_section
@@ -347,9 +520,17 @@ msgid "Configuration of Affiliaton module"
 msgstr "Configuración del módulo de afiliación"
 
 #. module: union_affiliation
-#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliation_number_form
+#: model_terms:ir.ui.view,arch_db:union_affiliation.affiliation_affiliation_number_form
 msgid "Confirm"
 msgstr "Confirmar"
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/workplace.py:0
+#: code:addons/union_affiliation/models/workplace.py:0
+#, python-format
+msgid "Confirm Deletion"
+msgstr "Confirmar eliminación"
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
@@ -362,10 +543,20 @@ msgid "Confirm dissafiliation"
 msgstr "Confirmar desafiliación"
 
 #. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.affiliation_affiliation_number_form
+msgid "Confirmación de Afiliación"
+msgstr ""
+
+#. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_delete_wizard_form
+msgid "Confirmar Eliminación"
+msgstr ""
+
+#. module: union_affiliation
 #: model:ir.model,name:union_affiliation.model_res_partner
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__child_ids
 msgid "Contact"
-msgstr "Contacto" 
+msgstr "Contacto"
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
@@ -383,14 +574,19 @@ msgid "Contributors"
 msgstr "Cotizantes"
 
 #. module: union_affiliation
-#: model:ir.model.fields,help:union_affiliation.field_union_affiliation_affiliate__message_bounce
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__message_bounce
 msgid "Counter of the number of bounced emails for this contact"
-msgstr "Contador de la cantidad de correos electrónicos devueltos para este contacto"
+msgstr ""
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__country_id
 msgid "Country"
 msgstr "País"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__country_code
+msgid "Country Code"
+msgstr "Código de país"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__create_uid
@@ -399,6 +595,8 @@ msgstr "País"
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_configuration__create_uid
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_number__create_uid
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_period__create_uid
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__create_uid
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace_delete_wizard__create_uid
 msgid "Created by"
 msgstr "Creado por"
 
@@ -409,29 +607,41 @@ msgstr "Creado por"
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_configuration__create_date
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_number__create_date
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_period__create_date
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__create_date
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace_delete_wizard__create_date
 msgid "Created on"
 msgstr "Creado en"
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__credit_limit
-msgid "Credit Limit"
-msgstr "Límite de crédito"
 
 #. module: union_affiliation
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__personal_id_type__dni
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate_child__personal_id_type__dni
 msgid "DNI"
-msgstr "DNI"
+msgstr ""
 
 #. module: union_affiliation
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__personal_id_type__du
 msgid "DU"
-msgstr "DU"
+msgstr ""
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__date
 msgid "Date"
 msgstr "Fecha"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__delegation_id
+msgid "Delegación"
+msgstr ""
+
+#. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_form
+msgid "Dependencias inferiores"
+msgstr ""
+
+#. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_delete_wizard_form
+msgid "Detalles de afiliados afectados"
+msgstr ""
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
@@ -445,13 +655,13 @@ msgid "Disaffiliated"
 msgstr "Desafiliado"
 
 #. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__disaffiliation_date
-msgid "Disaffiliation's date"
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
+msgid "Disaffiliation date"
 msgstr "Fecha de desafiliación"
 
 #. module: union_affiliation
-#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
-msgid "Disaffiliation date"
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__disaffiliation_date
+msgid "Disaffiliation's date"
 msgstr "Fecha de desafiliación"
 
 #. module: union_affiliation
@@ -461,6 +671,8 @@ msgstr "Fecha de desafiliación"
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_configuration__display_name
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_number__display_name
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_period__display_name
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__display_name
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace_delete_wizard__display_name
 msgid "Display Name"
 msgstr "Nombre para mostrar"
 
@@ -469,11 +681,46 @@ msgstr "Nombre para mostrar"
 msgid "Divorced"
 msgstr "Divorciado/a"
 
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__partner_share
+msgid ""
+"Either customer (not a user), either shared user. Indicated the current "
+"partner is a customer without access or with a limited access created for "
+"sharing data."
+msgstr ""
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliate.py:0
+#, python-format
+msgid "El campo ID debe contener únicamente números."
+msgstr ""
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliate.py:0
+#, python-format
+msgid "El campo ID no puede comenzar con cero."
+msgstr ""
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliate.py:0
+#, python-format
+msgid ""
+"El lugar de trabajo principal debe estar incluido en la lista de lugares de "
+"trabajo del afiliado."
+msgstr ""
+
+#. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_form
+msgid "Eliminar"
+msgstr ""
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__email
 msgid "Email"
-msgstr "Email"
+msgstr "Correo electrónico"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__employee
@@ -481,14 +728,41 @@ msgid "Employee"
 msgstr "Empleado"
 
 #. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
+msgid "Employment infomation"
+msgstr "Información laboral"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__affiliate_type_id
+msgid "Employment relationship type"
+msgstr "Tipo de relación laboral"
+
+#. module: union_affiliation
+#: model:ir.actions.act_window,name:union_affiliation.union_affiliation_affiliate_type_list_action
+#: model:ir.ui.menu,name:union_affiliation.union_affiliation_affiliate_type_list
+msgid "Employment relationship types"
+msgstr "Tipos de relación laboral"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_configuration__enable_affiliation_number_sequence
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_number__enable_affiliation_number_sequence
+msgid "Enable affiliation number sequence"
+msgstr "Habilitar número de afiliación automático."
+
+#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate_type__enabled
 msgid "Enabled"
 msgstr "Habilitado"
 
 #. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_delete_wizard_form
+msgid "Esta acción no se puede deshacer."
+msgstr ""
+
+#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__category_bis_id
 msgid "Etiqueta BIS"
-msgstr "Etiqueta BIS"
+msgstr ""
 
 #. module: union_affiliation
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__gender__female
@@ -501,19 +775,19 @@ msgid "Followers"
 msgstr "Seguidores"
 
 #. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__message_channel_ids
-msgid "Followers (Channels)"
-msgstr "Seguidores (canales)"
-
-#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Seguidores (socios)"
 
 #. module: union_affiliation
-#: model:ir.model.fields,help:union_affiliation.field_union_affiliation_affiliate__email_formatted
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__email_formatted
 msgid "Format email address \"Name <email@domain>\""
-msgstr "Dar formato a la dirección de correo electrónico \" Nombre <correo electrónico @ dominio> \""
+msgstr ""
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__email_formatted
@@ -551,6 +825,11 @@ msgid "Handicapped"
 msgstr "Discapacitado"
 
 #. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__has_message
+msgid "Has Message"
+msgstr "Tiene mensaje"
+
+#. module: union_affiliation
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__state__historical
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
 msgid "Historical"
@@ -563,6 +842,8 @@ msgstr "Histórico"
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_configuration__id
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_number__id
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_period__id
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__id
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace_delete_wizard__id
 msgid "ID"
 msgstr "ID"
 
@@ -577,20 +858,26 @@ msgid "Icon"
 msgstr "Icono"
 
 #. module: union_affiliation
-#: model:ir.model.fields,help:union_affiliation.field_union_affiliation_affiliate__activity_exception_icon
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr "Icono para indicar una actividad de excepción."
+msgstr ""
 
 #. module: union_affiliation
-#: model:ir.model.fields,help:union_affiliation.field_union_affiliation_affiliate__message_needaction
-#: model:ir.model.fields,help:union_affiliation.field_union_affiliation_affiliate__message_unread
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Si está seleccionada, los mensajes nuevos requieren su atención."
+msgstr "Si está marcado, los nuevos mensajes requieren su atención."
 
 #. module: union_affiliation
-#: model:ir.model.fields,help:union_affiliation.field_union_affiliation_affiliate__message_has_error
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__message_has_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Si se marca, algunos mensajes tienen un error de entrega."
+msgstr "Si está marcado, algunos mensajes tienen un error de entrega."
+
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__is_blacklisted
+msgid ""
+"If the email address is on the blacklist, the contact won't receive mass "
+"mailing anymore, from any list"
+msgstr ""
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__image_1920
@@ -618,14 +905,31 @@ msgid "Image 512"
 msgstr "Imagen 512"
 
 #. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_form
+msgid "Inactivo"
+msgstr ""
+
+#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__industry_id
 msgid "Industry"
 msgstr "Industria"
 
 #. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__is_affiliate
+#: model:ir.model.fields,field_description:union_affiliation.field_res_partner__is_affiliate
+#: model:ir.model.fields,field_description:union_affiliation.field_res_users__is_affiliate
+msgid "Is Affiliate"
+msgstr "Es afiliado"
+
+#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__message_is_follower
 msgid "Is Follower"
 msgstr "Es seguidor"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__is_public
+msgid "Is Public"
+msgstr "Es público"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__is_company
@@ -641,13 +945,13 @@ msgstr "Puesto de trabajo"
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__personal_id_type__lc
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate_child__personal_id_type__lc
 msgid "LC"
-msgstr "LC"
+msgstr ""
 
 #. module: union_affiliation
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__personal_id_type__le
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate_child__personal_id_type__le
 msgid "LE"
-msgstr "LE"
+msgstr ""
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__lang
@@ -661,6 +965,8 @@ msgstr "Idioma"
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_configuration____last_update
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_number____last_update
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_period____last_update
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace____last_update
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace_delete_wizard____last_update
 msgid "Last Modified on"
 msgstr "Última modificación el"
 
@@ -671,6 +977,8 @@ msgstr "Última modificación el"
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_configuration__write_uid
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_number__write_uid
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_period__write_uid
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__write_uid
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace_delete_wizard__write_uid
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
@@ -681,13 +989,50 @@ msgstr "Última actualización por"
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_configuration__write_date
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_number__write_date
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_period__write_date
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__write_date
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace_delete_wizard__write_date
 msgid "Last Updated on"
 msgstr "Ultima actualización en"
 
 #. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__level
+msgid "Level"
+msgstr "Nivel"
+
+#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__log
 msgid "Log"
-msgstr "Log"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace_delete_wizard__workplace_id
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_form
+msgid "Lugar de trabajo"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__main_workplace_id
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__main_workplace_id
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
+msgid "Lugar de trabajo principal"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.actions.act_window,name:union_affiliation.union_workplace_list_action
+#: model:ir.ui.menu,name:union_affiliation.union_workplace_list
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_tree
+msgid "Lugares de trabajo"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__main_affiliate_count
+msgid "Main Affiliate Count"
+msgstr "Afiliados principales"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__main_affiliate_ids
+msgid "Main Affiliates"
+msgstr "Afiliados principales"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__message_main_attachment_id
@@ -710,6 +1055,11 @@ msgid "Married"
 msgstr "Casado/a"
 
 #. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace_delete_wizard__message
+msgid "Mensaje de confirmación"
+msgstr ""
+
+#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__message_has_error
 msgid "Message Delivery error"
 msgstr "Error en la entrega del mensaje"
@@ -730,9 +1080,16 @@ msgid "Model for Affiliation Number wizard"
 msgstr "Asistente para el modelo de número de afiliación"
 
 #. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Fecha límite para mi actividad"
+
+#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__name
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate_child__name
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate_type__name
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_configuration__name
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__name
 msgid "Name"
 msgstr "Nombre"
 
@@ -761,16 +1118,6 @@ msgstr "Siguiente tipo de actividad"
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_configuration__next_affiliation_number
 msgid "Next affiliation number on sequence"
 msgstr "Siguiente número de afiliación en la secuencia."
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_configuration__enable_affiliation_number_sequence
-msgid "Enable affiliation number sequence"
-msgstr "Habilitar número de afiliación automático."
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_configuration__affiliation_number_edition
-msgid "Allow editing affiliation number on start affiliation view."
-msgstr "Permitir la edición del número de afiliación en la ventana de afiliación."
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__email_normalized
@@ -810,19 +1157,14 @@ msgid "Number of errors"
 msgstr "Número de errores"
 
 #. module: union_affiliation
-#: model:ir.model.fields,help:union_affiliation.field_union_affiliation_affiliate__message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr "Número de mensajes que requieren una acción"
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Número de mensajes que requieren acción"
 
 #. module: union_affiliation
-#: model:ir.model.fields,help:union_affiliation.field_union_affiliation_affiliate__message_has_error_counter
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "Número de mensajes con error de entrega"
-
-#. module: union_affiliation
-#: model:ir.model.fields,help:union_affiliation.field_union_affiliation_affiliate__message_unread_counter
-msgid "Number of unread messages"
-msgstr "Número de mensajes no leídos"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__observations
@@ -866,12 +1208,27 @@ msgstr "Otro correo electrónico"
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__personal_id_type__pasaporte
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate_child__personal_id_type__pasaporte
 msgid "PASAPORTE"
-msgstr "PASAPORTE"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__parent_path
+msgid "Parent Path"
+msgstr "Ruta del padre"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__parent_id
+msgid "Parent Workplace"
+msgstr "Dependencia superior"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__parent_name
 msgid "Parent name"
 msgstr "Nombre del padre"
+
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_union_workplace__parent_id
+msgid "Parent workplace in the hierarchy"
+msgstr "Lugar de trabajo padre en la jerarquía"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate_child__affiliate_ids
@@ -880,9 +1237,18 @@ msgid "Parents"
 msgstr "Padres"
 
 #. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliate.py:0
+#: code:addons/union_affiliation/models/affiliate.py:0
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__partner_id
+#, python-format
 msgid "Partner"
 msgstr "Socio"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__same_company_registry_partner_id
+msgid "Partner with same Company Registry"
+msgstr "Partner con el mismo registro de empresa"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__same_vat_partner_id
@@ -902,12 +1268,16 @@ msgid "Pending unsuscribe"
 msgstr "Pendiente de baja"
 
 #. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliation_period.py:0
 #: code:addons/union_affiliation/models/affiliation_period.py:0
 #, python-format
 msgid "Period's end overlapped with other!"
 msgstr "¡El final del período se superpuso con otro!"
 
 #. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliation_period.py:0
 #: code:addons/union_affiliation/models/affiliation_period.py:0
 #, python-format
 msgid "Period's init overlapped with other!"
@@ -932,15 +1302,17 @@ msgid "Personal information"
 msgstr "Información personal"
 
 #. module: union_affiliation
-#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_child_form
-#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
-msgid "Employment infomation"
-msgstr "Información laboral"
-
-#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__phone
 msgid "Phone"
 msgstr "Teléfono"
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/workplace.py:0
+#: code:addons/union_affiliation/models/workplace.py:0
+#, python-format
+msgid "Please select only one workplace to delete."
+msgstr "Por favor, seleccione un solo lugar de trabajo para eliminar."
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__ref
@@ -968,9 +1340,20 @@ msgid "Self"
 msgstr "Yo"
 
 #. module: union_affiliation
+#: model:ir.actions.act_window,name:union_affiliation.action_affiliate_mass_mail
+#: model:ir.actions.act_window,name:union_affiliation.action_affiliate_mass_mail_form
+msgid "Send email"
+msgstr "Enviar correo electrónico"
+
+#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__seniority
 msgid "Seniority"
 msgstr "Fecha de ingreso"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__seniority_years
+msgid "Seniority in years"
+msgstr "Años de antigüedad"
 
 #. module: union_affiliation
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__civil_status__separated
@@ -998,6 +1381,31 @@ msgid "Share Partner"
 msgstr "Compartir socio"
 
 #. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__signup_expiration
+msgid "Signup Expiration"
+msgstr "Vencimiento del registro"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__signup_token
+msgid "Signup Token"
+msgstr "Token de registro"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__signup_type
+msgid "Signup Token Type"
+msgstr "Tipo de token de registro"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__signup_valid
+msgid "Signup Token is Valid"
+msgstr "El token de registro es válido"
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__signup_url
+msgid "Signup URL"
+msgstr "URL de registro"
+
+#. module: union_affiliation
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__civil_status__single
 msgid "Single"
 msgstr "Soltero/a"
@@ -1007,6 +1415,15 @@ msgstr "Soltero/a"
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
 msgid "State"
 msgstr "Estado"
+
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__street
@@ -1019,6 +1436,11 @@ msgid "Street2"
 msgstr "Calle # 2"
 
 #. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_delete_wizard_form
+msgid "Sí, eliminar"
+msgstr ""
+
+#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__category_id
 msgid "Tags"
 msgstr "Etiquetas"
@@ -1029,39 +1451,112 @@ msgid "Tax ID"
 msgstr "Identificación del impuesto"
 
 #. module: union_affiliation
-#: model:ir.model.fields,help:union_affiliation.field_union_affiliation_affiliate__user_id
-msgid "The internal user in charge of this contact."
-msgstr "El usuario interno a cargo de este contacto."
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
 
 #. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__vat
+msgid ""
+"The Tax Identification Number. Values here will be validated based on the "
+"country format. You can use '/' to indicate that the partner is not subject "
+"to tax."
+msgstr ""
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/workplace.py:0
+#: code:addons/union_affiliation/models/workplace.py:0
+#, python-format
+msgid "The code \"%s\" already exists in another workplace."
+msgstr "El código \"%s\" ya existe en otro lugar de trabajo."
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliate.py:0
+#: code:addons/union_affiliation/models/affiliate.py:0
+#, python-format
+msgid ""
+"The field 'Employment relationship type' is required when state is not 'new'"
+" or 'not_affiliated'."
+msgstr "El 'Tipo de relación laboral' tiene que estar completo."
+
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__user_id
+msgid "The internal user in charge of this contact."
+msgstr ""
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/workplace.py:0
+#: code:addons/union_affiliation/models/workplace.py:0
+#, python-format
+msgid "The name \"%s\" already exists in another workplace."
+msgstr "El nombre \"%s\" ya existe en otro lugar de trabajo."
+
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__company_registry
+msgid ""
+"The registry number of the company. Use it if it is different from the Tax "
+"ID. It must be unique across all partners of a same country"
+msgstr ""
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliate.py:0
+#: code:addons/union_affiliation/models/affiliate.py:0
+#, python-format
+msgid "The sequence next_affiliation_number_seq is not defined."
+msgstr "La secuencia next_affiliation_number_seq no está definida."
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliation_period.py:0
 #: code:addons/union_affiliation/models/affiliation_period.py:0
 #, python-format
 msgid "There is already an open period!"
 msgstr "¡Ya hay un período abierto!"
 
 #. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliation_period.py:0
 #: code:addons/union_affiliation/models/affiliation_period.py:0
 #, python-format
 msgid "There is already exist a period with the same affiliation number!"
 msgstr "¡Ya existe un período con el mismo número de afiliación!"
 
 #. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliate_type.py:0
 #: code:addons/union_affiliation/models/affiliate_type.py:0
 #, python-format
 msgid "There is already exist a type with the same name!"
 msgstr "¡Ya existe un tipo con el mismo nombre!"
 
 #. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliate.py:0
 #: code:addons/union_affiliation/models/affiliate.py:0
 #, python-format
 msgid "There is already exist an affiliate with the same uid!"
 msgstr "¡Ya existe un afiliado con el mismo ID!"
 
 #. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliate.py:0
 #: code:addons/union_affiliation/models/affiliate.py:0
 #, python-format
-msgid "The field 'Employment relationship type' is required when state is not 'new' or 'not_affiliated'."
-msgstr "El 'Tipo de relación laboral' tiene que estar completo."
+msgid "There is already exist an affiliated with the same affiliation number!"
+msgstr "¡Existe un afiliado con el mismo número de afiliación!"
+
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__email_normalized
+msgid ""
+"This field is used to search on email address as the primary email field can"
+" contain more than strictly an email address."
+msgstr ""
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__tz
@@ -1074,6 +1569,11 @@ msgid "Timezone offset"
 msgstr "Desplazamiento de zona horaria"
 
 #. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
+msgid "Tipo de relacion laboral"
+msgstr ""
+
+#. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__title
 msgid "Title"
 msgstr "Título"
@@ -1084,15 +1584,26 @@ msgid "To"
 msgstr "A"
 
 #. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__affiliate_type_id
-#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
-msgid "Employment relationship types"
-msgstr "Tipo de relación laboral"
+#. odoo-python
+#: code:addons/union_affiliation/models/workplace.py:0
+#: code:addons/union_affiliation/models/workplace.py:0
+#, python-format
+msgid ""
+"To delete this workplace and its descendants, use the \"Delete\" button from"
+" the form view."
+msgstr ""
+"Para eliminar este lugar de trabajo y sus descendientes, use el botón "
+"\"Eliminar\" desde la vista formulario."
 
 #. module: union_affiliation
-#: model:ir.model.fields,help:union_affiliation.field_union_affiliation_affiliate__activity_exception_decoration
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__translated_display_name
+msgid "Translated Display Name"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr "Tipo de actividad de excepción registrada."
+msgstr ""
 
 #. module: union_affiliation
 #: model:ir.ui.menu,name:union_affiliation.union
@@ -1115,19 +1626,19 @@ msgid "Union affiliate's type entity"
 msgstr "Entidad de tipo de afiliado/a sindical"
 
 #. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_union_workplace__code
+msgid "Unique workplace code"
+msgstr "Código único del lugar de trabajo"
+
+#. module: union_affiliation
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__civil_status__united
 msgid "United"
 msgstr "Unido/a"
 
 #. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__message_unread
-msgid "Unread Messages"
-msgstr "Mensajes no leídos"
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr "Contador de mensajes no leídos"
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__barcode
+msgid "Use a barcode to identify this contact."
+msgstr ""
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__user_ids
@@ -1140,274 +1651,9 @@ msgid "Verified"
 msgstr "Verificado"
 
 #. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__website
-msgid "Website Link"
-msgstr "Enlace de página web"
-
-#. module: union_affiliation
-#: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__civil_status__widowed
-msgid "Widowed"
-msgstr "Viudo/a"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliation_period.py:0
-#, python-format
-msgid "You can't edit a closed period!"
-msgstr "¡No se puede editar un período cerrado!"
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__zip
-msgid "Zip"
-msgstr "Código Postal"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "%s [%s] The field %s change from %s to %s \n"
-msgstr "%s [%s] El campo %s cambió de %s a %s \n"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "quote"
-msgstr "Cotizante"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "False"
-msgstr "Falso"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "state"
-msgstr "Estado"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "affiliate_type_id"
-msgstr "Tipo de afiliado"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "email"
-msgstr "Email"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "phone"
-msgstr "Teléfono"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "mobile"
-msgstr "Movil"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "affiliation_number"
-msgstr "Nro de afiliación"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "not_affiliated"
-msgstr "No afiliado"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "new"
-msgstr "Nuevo"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "pending_suscribe"
-msgstr "Pendiente de alta"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "affiliated"
-msgstr "Afiliado"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "pending_unsuscribe"
-msgstr "Pendiente de baja"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "disaffiliated"
-msgstr "Desafiliado"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "historical"
-msgstr "Historico"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "Admin affiliation permission is required to archive records."
-msgstr "Necesitas permiso de administración de afiliados para archivar registros."
-
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "Admin affiliation permission is required to unarchive records."
-msgstr "Necesitas permiso de administración de afiliados para desarchivar registros."
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "There is already exist an affiliated with the same affiliation number!"
-msgstr "¡Existe un afiliado con el mismo número de afiliación!"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/affiliate.py:0
-#, python-format
-msgid "The sequence next_affiliation_number_seq is not defined."
-msgstr "La secuencia next_affiliation_number_seq no está definida."
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/wizards/affiliation_number.py:0
-#, python-format
-msgid "Affiliation number cannot be 0."
-msgstr "El número de afiliación no puede ser 0."
-
-#. module: union_affiliation
-#: model:ir.model,name:union_affiliation.model_union_workplace
-msgid "Workplace"
-msgstr "Lugar de trabajo"
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__name
-msgid "Name"
-msgstr "Nombre"
-
-#. module: union_affiliation
-#: model:ir.model.fields,help:union_affiliation.field_union_workplace__name
-msgid "Workplace name"
-msgstr "Nombre del lugar de trabajo"
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__code
-msgid "Code"
-msgstr "Código"
-
-#. module: union_affiliation
-#: model:ir.model.fields,help:union_affiliation.field_union_workplace__code
-msgid "Unique workplace code"
-msgstr "Código único del lugar de trabajo"
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__parent_id
-msgid "Parent Workplace"
-msgstr "Dependencia superior"
-
-#. module: union_affiliation
-#: model:ir.model.fields,help:union_affiliation.field_union_workplace__parent_id
-msgid "Parent workplace in the hierarchy"
-msgstr "Lugar de trabajo padre en la jerarquía"
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__level
-msgid "Level"
-msgstr "Nivel"
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__child_ids
-msgid "Child Workplaces"
-msgstr "Dependencias inferiores"
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__complete_name
-msgid "Complete Name"
-msgstr "Nombre completo"
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__active
-msgid "Active"
-msgstr "Activo"
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__affiliate_ids
-msgid "Affiliates"
-msgstr "Afiliados"
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__main_affiliate_ids
-msgid "Main Affiliates"
-msgstr "Afiliados principales"
-
-#. module: union_affiliation
-#: model:ir.model.fields,help:union_affiliation.field_union_workplace__main_affiliate_ids
-msgid "Affiliates that have this workplace as main"
-msgstr "Afiliados que tienen este lugar como principal"
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__affiliate_count
-msgid "Affiliate Count"
-msgstr "Cantidad de afiliados"
-
-#. module: union_affiliation
-#: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__main_affiliate_count
-msgid "Main Affiliate Count"
-msgstr "Afiliados principales"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/workplace.py:0
-#, python-format
-msgid "You cannot create a recursive workplace hierarchy."
-msgstr "No puede crear una jerarquía recursiva de lugares de trabajo."
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/workplace.py:0
-#, python-format
-msgid "The name \"%s\" already exists in another workplace."
-msgstr "El nombre \"%s\" ya existe en otro lugar de trabajo."
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/workplace.py:0
-#, python-format
-msgid "The code \"%s\" already exists in another workplace."
-msgstr "El código \"%s\" ya existe en otro lugar de trabajo."
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/workplace.py:0
-#, python-format
-msgid "Please select only one workplace to delete."
-msgstr "Por favor, seleccione un solo lugar de trabajo para eliminar."
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/workplace.py:0
-#, python-format
-msgid "Confirm Deletion"
-msgstr "Confirmar eliminación"
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/workplace.py:0
-#, python-format
-msgid "To delete this workplace and its descendants, use the \"Delete\" button from the form view."
-msgstr "Para eliminar este lugar de trabajo y sus descendientes, use el botón \"Eliminar\" desde la vista formulario."
-
-#. module: union_affiliation
-#: code:addons/union_affiliation/models/workplace.py:0
-#, python-format
-msgid "Cannot delete this workplace because it has associated affiliates. Use the \"Delete\" button from the form view."
-msgstr "No se puede eliminar este lugar de trabajo porque tiene afiliados asociados. Use el botón \"Eliminar\" desde la vista formulario."
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_view_partner_form
+msgid "View Affiliate"
+msgstr "Ver afiliación"
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
@@ -1415,6 +1661,70 @@ msgid "View Partner"
 msgstr "Ver contacto"
 
 #. module: union_affiliation
-#: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_view_partner_form
-msgid "View Affiliate"
-msgstr "Ver afiliación"
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__website
+msgid "Website Link"
+msgstr "Enlace de página web"
+
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__tz
+msgid ""
+"When printing documents and exporting/importing data, time values are computed according to this timezone.\n"
+"If the timezone is not set, UTC (Coordinated Universal Time) is used.\n"
+"Anywhere else, time values are computed according to the time offset of your web client."
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__civil_status__widowed
+msgid "Widowed"
+msgstr "Viudo/a"
+
+#. module: union_affiliation
+#: model:ir.model,name:union_affiliation.model_union_workplace_delete_wizard
+msgid "Wizard para confirmar eliminación de lugar de trabajo"
+msgstr ""
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__work_id
+msgid "Work ID"
+msgstr "Legajo"
+
+#. module: union_affiliation
+#: model:ir.model,name:union_affiliation.model_union_workplace
+msgid "Workplace"
+msgstr "Lugar de trabajo"
+
+#. module: union_affiliation
+#: model:ir.model.fields,help:union_affiliation.field_union_workplace__name
+msgid "Workplace name"
+msgstr "Nombre del lugar de trabajo"
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliation_period.py:0
+#: code:addons/union_affiliation/models/affiliation_period.py:0
+#, python-format
+msgid "You can't edit a closed period!"
+msgstr "¡No se puede editar un período cerrado!"
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/workplace.py:0
+#: code:addons/union_affiliation/models/workplace.py:0
+#, python-format
+msgid "You cannot create a recursive workplace hierarchy."
+msgstr "No puede crear una jerarquía recursiva de lugares de trabajo."
+
+#. module: union_affiliation
+#: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__zip
+msgid "Zip"
+msgstr "Código Postal"
+
+#. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_form
+msgid "ej: OFC-001"
+msgstr ""
+
+#. module: union_affiliation
+#: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_form
+msgid "ej: Oficina Central"
+msgstr ""

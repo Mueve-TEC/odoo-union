@@ -124,7 +124,7 @@ class Affiliate(models.Model):
     disaffiliation_date = fields.Date(string='Disaffiliation\'s date')
     seniority = fields.Date(string='Seniority')
     seniority_years = fields.Integer(
-        string='Antigüedad (años)',
+        string='Seniority in years',
         compute='_compute_seniority_years'
     )
 
