@@ -477,17 +477,17 @@ msgstr "Lugar de trabajo"
 #. module: union_school_position
 #: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_search
 msgid "Workplace Level 1"
-msgstr "1° nivel de agrupación del lugar de trabajo"
+msgstr "1° Nivel de agrupación del lugar de trabajo"
 
 #. module: union_school_position
 #: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_search
 msgid "Workplace Level 2"
-msgstr "2° nivel de agrupación del lugar de trabajo"
+msgstr "2° Nivel de agrupación del lugar de trabajo"
 
 #. module: union_school_position
 #: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_search
 msgid "Workplace Level 3"
-msgstr "3° nivel de agrupación del lugar de trabajo"
+msgstr "3° Nivel de agrupación del lugar de trabajo"
 
 #. module: union_school_position
 #: model:ir.model.fields,help:union_school_position.field_school_position_position__workplace_id
