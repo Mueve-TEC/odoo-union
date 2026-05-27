@@ -218,31 +218,14 @@ class Affiliate(models.Model):
     # This method is necessary for RPC importation
     @api.model_create_multi
     def create(self, vals_list):
-        # for vals in vals_list:
-        #     if 'uid' in vals:
-        #         vals['uid'] = self._normalize_uid_value(vals.get('uid'))
         return super(Affiliate, self).create(vals_list)
         
 
     def write(self, vals):
-        # Normalize uid before writing to keep DB values consistent
-        # if 'uid' in vals:
-        #     vals['uid'] = self._normalize_uid_value(vals.get('uid'))
-
         self._log_change_field(vals)
 
         res = super(Affiliate, self).write(vals)
         return res
-
-    # def _normalize_uid_value(self, raw):
-    #     """Normalize UID: remove non-digits and strip leading zeros.
-
-    #     Returns a string with only digits or None if empty.
-    #     """
-    #     if raw is None:
-    #         return None
-    #     s = str(raw).lstrip('0')
-    #     return s or None
 
     def unlink(self):
         self.partner_id.unlink()
