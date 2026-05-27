@@ -17,6 +17,19 @@ class Affiliate(models.Model):
         readonly=True,
     )
     
+    has_featured_position = fields.Boolean(
+        string='Has featured position',
+        default=False,
+        compute='_compute_has_featured_position',
+        store=True,
+        readonly=True,
+    )
+    
+    @api.depends('position_ids', 'position_ids.featured') 
+    def _compute_has_featured_position(self):
+        for affiliate in self:
+            affiliate.has_featured_position = any(affiliate.position_ids.mapped('featured'))
+    
     @api.depends('position_ids', 'position_ids.registration_date')
     def _compute_position_registration_dates(self):
         date_model = self.env['school_position.registration.date'].sudo()

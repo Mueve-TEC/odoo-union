@@ -51,6 +51,9 @@
             <field name="inherit_id" ref="union_affiliation.union_affiliation_affiliate_search" />
             <field name="arch" type="xml">
                 <xpath expr="//search//group" position="inside">
+                    <filter string="Has featured position" name="has_featured_position"
+                        domain="[('has_featured_position', '=', True)]"
+                        groups="union_school_position.group_school_position_read" />
                     <separator />
                     <filter string="Fecha de registro (Cargos)" name="position_registration_dates"
                         context="{'group_by':'position_registration_date_ids'}"
