@@ -123,6 +123,10 @@ class Affiliate(models.Model):
     affiliation_date = fields.Date(string='Affiliation\'s date')
     disaffiliation_date = fields.Date(string='Disaffiliation\'s date')
     seniority = fields.Date(string='Seniority')
+    seniority_years = fields.Integer(
+        string='Antigüedad (años)',
+        compute='_compute_seniority_years'
+    )
 
     # EtiquetaBis
     category_bis_id = fields.Many2many(
@@ -138,6 +142,8 @@ class Affiliate(models.Model):
         for record in self:
             if record.uid and not record.uid.isdigit():
                 raise ValidationError(_("El campo ID debe contener únicamente números."))
+            if record.uid[0] == '0':
+                raise ValidationError(_("El campo ID no puede comenzar con cero."))
             other = self.env['affiliation.affiliate'].search(
                 [('uid', '=', record.uid)])
             if len(other.ids) > 1 or (len(other) == 1 and other[0].id != record.id):
@@ -159,6 +165,18 @@ class Affiliate(models.Model):
             if record.state not in ('new', 'not_affiliated') and not record.affiliate_type_id:
                 raise ValidationError(
                     _("The field 'Employment relationship type' is required when state is not 'new' or 'not_affiliated'."))
+
+    @api.depends('seniority')
+    def _compute_seniority_years(self):
+        """Computa la antigüedad en años desde la fecha de seniority hasta hoy"""
+        from datetime import datetime
+        today = datetime.now().date()
+        for affiliate in self:
+            if affiliate.seniority:
+                years = (today - affiliate.seniority).days // 365
+                affiliate.seniority_years = years
+            else:
+                affiliate.seniority_years = 0
 
     @api.depends('main_workplace_id', 'main_workplace_id.level', 'main_workplace_id.parent_path')
     def _compute_main_workplace_levels(self):
@@ -200,14 +218,31 @@ class Affiliate(models.Model):
     # This method is necessary for RPC importation
     @api.model_create_multi
     def create(self, vals_list):
-        res = super(Affiliate, self).create(vals_list)
-        return res
+        # for vals in vals_list:
+        #     if 'uid' in vals:
+        #         vals['uid'] = self._normalize_uid_value(vals.get('uid'))
+        return super(Affiliate, self).create(vals_list)
+        
 
     def write(self, vals):
+        # Normalize uid before writing to keep DB values consistent
+        # if 'uid' in vals:
+        #     vals['uid'] = self._normalize_uid_value(vals.get('uid'))
+
         self._log_change_field(vals)
 
         res = super(Affiliate, self).write(vals)
         return res
+
+    # def _normalize_uid_value(self, raw):
+    #     """Normalize UID: remove non-digits and strip leading zeros.
+
+    #     Returns a string with only digits or None if empty.
+    #     """
+    #     if raw is None:
+    #         return None
+    #     s = str(raw).lstrip('0')
+    #     return s or None
 
     def unlink(self):
         self.partner_id.unlink()

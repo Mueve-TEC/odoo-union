@@ -50,6 +50,8 @@
                                     options="{'no_create': True, 'no_quick_create': True}" />
                                 <field
                                     name="seniority" />
+                                <field
+                                    name="seniority_years" readonly="1" />
                                 <separator string="Personal information" />
                                 <field
                                     name="personal_id_type" />
