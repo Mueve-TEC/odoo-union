@@ -24,7 +24,7 @@ class BenefitRequest(models.Model):
         ondelete='restrict'
     )
     # The next two fields only will be used to filters
-    affiliate_uid = fields.Char(string='Affiliate UID', compute='_compute_uid', store=True)
+    affiliate_uid = fields.Integer(string='Affiliate UID', compute='_compute_uid', store=True)
     affiliate_personal_id = fields.Char(string='Personal ID', compute='_compute_personal_id', store=True)
     
     # Field for import process - maps to affiliate by UID
@@ -288,7 +288,11 @@ class BenefitRequest(models.Model):
         if 'import_file' in self.env.context:
             for vals in vals_list:
                 if 'import_uid' in vals:
-                    affiliate = self.env['affiliation.affiliate'].search([('uid','=',vals['import_uid'])])
+                    try:
+                        search_uid = int(vals['import_uid'])
+                    except (ValueError, TypeError):
+                        raise ValidationError(_('Import UID must be numeric'))
+                    affiliate = self.env['affiliation.affiliate'].search([('uid','=',search_uid)])
                     if len(affiliate.ids):
                         vals['partner_id'] = affiliate[0].partner_id.id
                         vals.pop('import_uid')  # Remove after use

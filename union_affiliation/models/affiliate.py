@@ -25,7 +25,7 @@ class Affiliate(models.Model):
         ondelete='cascade',
         required=True
     )
-    uid = fields.Char(string='Affiliate UID', required=True)
+    uid = fields.Integer(string='Affiliate UID', required=True)
     work_id = fields.Char(string='Work ID')
     personal_id_type = fields.Selection([
         ('dni', 'DNI'),
@@ -136,10 +136,15 @@ class Affiliate(models.Model):
     @api.constrains('uid')
     def _check_uid(self):
         for record in self:
-            if record.uid and not record.uid.isdigit():
+            if record.uid is None:
+                continue
+            try:
+                # ensure value can be interpreted as integer
+                int_val = int(record.uid)
+            except (ValueError, TypeError):
                 raise ValidationError(_("El campo ID debe contener únicamente números."))
             other = self.env['affiliation.affiliate'].search(
-                [('uid', '=', record.uid)])
+                [('uid', '=', int_val)])
             if len(other.ids) > 1 or (len(other) == 1 and other[0].id != record.id):
                 raise ValidationError(
                     _('There is already exist an affiliate with the same uid!'))
@@ -338,11 +343,17 @@ class Affiliate(models.Model):
     def _name_search(self, name, args=None, operator='ilike', limit=100):
         args = args or []
         if name:
-            domain = ['|', '|',
-                      ('personal_id', operator, name),
-                      ('uid', operator, name),
-                      ('name', operator, name)]
-            # Buscar directamente con el dominio personalizado
+            # For numeric search terms, match uid exactly (integer field)
+            if str(name).isdigit():
+                domain = ['|', '|',
+                          ('personal_id', operator, name),
+                          ('uid', '=', int(name)),
+                          ('name', operator, name)]
+            else:
+                domain = ['|', '|',
+                          ('personal_id', operator, name),
+                          ('uid', operator, name),
+                          ('name', operator, name)]
             return self._search(args + domain, limit=limit)
         return super()._name_search(name, args, operator, limit)
 

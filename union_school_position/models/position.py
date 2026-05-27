@@ -62,7 +62,7 @@ class Position(models.Model):
     import_vat = fields.Char(string='Import VAT')
 
     # Related fields for filters
-    uid = fields.Char(related='affiliate_id.uid', store=False)
+    uid = fields.Integer(related='affiliate_id.uid', store=False)
     personal_id = fields.Char(related='affiliate_id.personal_id', store=False)
     dedication = fields.Char(
         related='type_id.dedication', 
@@ -129,7 +129,14 @@ class Position(models.Model):
                 if not vals.get('affiliate_id'):
                     affiliate = False
                     if vals.get('import_uid'):
-                        affiliate = self.env['affiliation.affiliate'].search([('uid', '=', vals['import_uid'])], limit=1)
+                        try:
+                            search_uid = int(vals['import_uid'])
+                        except (ValueError, TypeError):
+                            search_uid = None
+                        if search_uid is not None:
+                            affiliate = self.env['affiliation.affiliate'].search([('uid', '=', search_uid)], limit=1)
+                        else:
+                            affiliate = False
 
                     if affiliate:
                         vals['affiliate_id'] = affiliate.id
@@ -151,7 +158,7 @@ class Position(models.Model):
                                 
                             new_affiliate_vals = {
                                 'state': 'new',
-                                'uid': new_uid,
+                                'uid': int(new_uid),
                                 'name': import_name
                             }
                             

@@ -128,7 +128,7 @@
             <field name="arch" type="xml">
                 <search string="Affiliate filters">
                     <field name="name" filter_domain="[('name', 'ilike', self)]" />
-                    <field name="uid" filter_domain="[('uid', 'ilike', self)]" />
+                    <field name="uid" filter_domain="[('uid', '=', self)]" />
                     <field name="personal_id" filter_domain="[('personal_id', 'ilike', self)]" />
                     <field name="category_bis_id"
                         filter_domain="[('category_bis_id', 'ilike', self)]" />

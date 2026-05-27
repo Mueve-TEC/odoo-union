@@ -47,7 +47,7 @@
             <field name="arch" type="xml">
                 <search string="Contribution filters">
                     <field name="affiliate_id"
-                        filter_domain="['|','|',('affiliate_id.name', 'ilike', self),('affiliate_id.uid', 'ilike', self),('affiliate_id.personal_id', 'ilike', self)]" />
+                        filter_domain="['|','|',('affiliate_id.name', 'ilike', self),('affiliate_id.uid', '=', self),('affiliate_id.personal_id', 'ilike', self)]" />
                     <field name="contribution_code_id"
                         filter_domain="['|',('contribution_code_id.description', 'ilike', self),('contribution_code_id.code', 'ilike', self)]" />
                     <group expand="0" string="Agrupar por">

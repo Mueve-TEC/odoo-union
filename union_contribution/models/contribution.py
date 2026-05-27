@@ -30,7 +30,7 @@ class AffiliateContribution(models.Model):
     import_vat = fields.Char(string='Import vat')
     import_personal_id = fields.Char(string='Import personal ID')
 
-    uid = fields.Char(related='affiliate_id.uid', store=False)
+    uid = fields.Integer(related='affiliate_id.uid', store=False)
     personal_id = fields.Char(related='affiliate_id.personal_id', store=False)
 
     @api.model_create_multi
@@ -39,13 +39,17 @@ class AffiliateContribution(models.Model):
         if 'import_file' in self.env.context:
             for vals in vals_list:
                 if 'import_uid' in vals:
-                    affiliate = self.env['affiliation.affiliate'].search([('uid','=',vals['import_uid'])])
+                    try:
+                        search_uid = int(vals['import_uid'])
+                    except (ValueError, TypeError):
+                        raise ValidationError(_('Import uid must be numeric'))
+                    affiliate = self.env['affiliation.affiliate'].search([('uid','=',search_uid)])
                     if len(affiliate.ids):
                         affiliate = affiliate[0]
                     else:
                         conf = self.env['affiliation.affiliation_configuration'].browse(1)
                         if conf.create_user_from_contribution:
-                            new_affiliate_data = {'uid': vals['import_uid'], 'state': 'new'}
+                            new_affiliate_data = {'uid': int(vals['import_uid']), 'state': 'new'}
                             # Name field should always come when creating the affiliate
                             if 'import_name' in vals:
                                 new_affiliate_data.update({'name': vals['import_name']})

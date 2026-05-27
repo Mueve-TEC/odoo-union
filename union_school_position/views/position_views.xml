@@ -56,7 +56,7 @@
             <field name="arch" type="xml">
                 <search string="Position filters">
                     <field name="affiliate_id"
-                        filter_domain="['|','|',('affiliate_id.name', 'ilike', self),('affiliate_id.uid', 'ilike', self),('affiliate_id.personal_id', 'ilike', self)]" />
+                        filter_domain="['|','|',('affiliate_id.name', 'ilike', self),('affiliate_id.uid', '=', self),('affiliate_id.personal_id', 'ilike', self)]" />
                     <field name="type_id"
                         filter_domain="['|',('type_id.name', 'ilike', self),('type_id.code', 'ilike', self)]" />
                     <field name="workplace_id"
