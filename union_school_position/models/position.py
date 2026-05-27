@@ -93,6 +93,66 @@ class Position(models.Model):
     featured = fields.Boolean(
         string='Featured'
     )
+    affiliate_state = fields.Selection(
+        related='affiliate_id.state',
+        string='Affiliate State',
+        store=True
+    )
+
+    workplace_level1 = fields.Char(
+        string='Workplace Level 1',
+        compute='_compute_workplace_levels',
+        store=True
+    )
+
+    workplace_level2 = fields.Char(
+        string='Workplace Level 1',
+        compute='_compute_workplace_levels',
+        store=True
+    )
+
+    workplace_level3 = fields.Char(
+        string='Workplace Level 3',
+        compute='_compute_workplace_levels',
+        store=True
+    )
+
+    @api.depends('workplace_id', 'workplace_id.level', 'workplace_id.parent_path')
+    def _compute_workplace_levels(self):
+        """Computa las agrupaciones jerárquicas por lugar de trabajo"""
+        for position in self:
+            if not position.workplace_id:
+                position.workplace_level1 = 'Sin lugar de trabajo'
+                position.workplace_level2 = 'Sin lugar de trabajo'
+                position.workplace_level3 = 'Sin lugar de trabajo'
+                continue
+
+            workplace = position.workplace_id
+
+            parent_ids = []
+            if workplace.parent_path:
+                parent_ids = [int(x)
+                              for x in workplace.parent_path.split('/') if x]
+            else:
+                parent_ids = [workplace.id]
+
+            # Ordenar los lugares padres por nivel
+            parent_workplaces = self.env['union.workplace'].browse(
+                parent_ids).sorted('level')
+
+            level1_workplace = parent_workplaces.filtered(
+                lambda w: w.level == 1)
+            position.workplace_level1 = level1_workplace[
+                0].name if level1_workplace else workplace.name
+
+            level2_workplace = parent_workplaces.filtered(
+                lambda w: w.level == 2)
+            position.workplace_level2 = (
+                level2_workplace[0].name if level2_workplace
+                else position.workplace_level1
+            )
+
+            position.workplace_level3 = workplace.name
 
     @api.constrains('date_from', 'date_to')
     def _check_dates(self):
