@@ -44,7 +44,7 @@ class UnionWorkplace(models.Model):
     )
 
     # Odoo field for hierarchies
-    parent_path = fields.Char(index=True)
+    parent_path = fields.Char(index=True, unaccent=False)
 
     complete_name = fields.Char(
         string='Complete Name',
