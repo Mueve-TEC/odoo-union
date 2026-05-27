@@ -54,7 +54,7 @@ msgstr ""
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
 msgid "3° Lugar de trabajo principal"
-msgstr "Lugar de trabajo principal"
+msgstr ""
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_delete_wizard_form
