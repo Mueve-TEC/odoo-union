@@ -45,6 +45,12 @@ class AffiliateContribution(models.Model):
                     else:
                         conf = self.env['affiliation.affiliation_configuration'].browse(1)
                         if conf.create_user_from_contribution:
+                            new_uid = vals.get('import_uid')
+                            if not str(new_uid).isdigit():
+                                raise ValidationError(_("El campo ID debe contener únicamente números."))
+                            if str(new_uid)[0] == '0':
+                                raise ValidationError(_("El campo ID no puede comenzar con cero."))
+
                             new_affiliate_data = {'uid': vals['import_uid'], 'state': 'new'}
                             # Name field should always come when creating the affiliate
                             if 'import_name' in vals:

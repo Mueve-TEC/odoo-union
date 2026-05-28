@@ -193,6 +193,7 @@ class Position(models.Model):
 
                     if affiliate:
                         vals['affiliate_id'] = affiliate.id
+                        
                     else:
                         conf = self.env['affiliation.affiliation_configuration'].browse(1)
                         if conf.create_user_from_position:
@@ -200,14 +201,14 @@ class Position(models.Model):
                             import_name = vals.get('import_name')
                             
                             if not new_uid or not import_name:
-                                
-                                error_msg = _("Cannot create affiliate for position import. Missing import_name or Legajo (import_uid). "
-                                              "Please ensure the imported data includes both Name and Legajo.")
+                                error_msg = _("Cannot create affiliate for position import. Missing import_name or ID (import_uid). "
+                                              "Please ensure the imported data includes both Name and ID.")
                                 raise ValidationError(error_msg)
                                 
                             if not str(new_uid).isdigit():
-                                error_msg = _("Cannot create affiliate for position import. Legajo (import_uid) must be strictly numeric.")
-                                raise ValidationError(error_msg)
+                                raise ValidationError(_("El campo ID debe contener únicamente números."))
+                            if str(new_uid)[0] == '0':
+                                raise ValidationError(_("El campo ID no puede comenzar con cero."))
                                 
                             new_affiliate_vals = {
                                 'state': 'new',

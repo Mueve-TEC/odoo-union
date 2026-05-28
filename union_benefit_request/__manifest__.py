@@ -21,6 +21,7 @@
         'views/school_benefit_type_views.xml',
         'views/school_benefit_views.xml',
         'views/affiliate_views.xml',
+        'views/affiliation_configuration_view.xml',
         'views/survey_survey_views.xml',
         'views/menu.xml',
     ],

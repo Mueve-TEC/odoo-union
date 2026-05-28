@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20250909\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-27 18:51+0000\n"
-"PO-Revision-Date: 2026-05-27 18:51+0000\n"
+"POT-Creation-Date: 2026-05-28 02:28+0000\n"
+"PO-Revision-Date: 2026-05-28 02:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -65,21 +65,9 @@ msgstr "¡El afiliado no existe!"
 #: code:addons/union_school_position/models/position.py:0
 #, python-format
 msgid ""
-"Cannot create affiliate for position import. Legajo (import_uid) must be "
-"strictly numeric."
-msgstr ""
-"No se puede crear el/la afiliado/a para la importación del cargo. El legajo "
-"(import_uid) debe ser estrictamente numérico."
-
-#. module: union_school_position
-#. odoo-python
-#: code:addons/union_school_position/models/position.py:0
-#, python-format
-msgid ""
-"Cannot create affiliate for position import. Missing import_name or Legajo "
-"(import_uid). Please ensure the imported data includes both Name and Legajo."
-msgstr ""
-"No se puede crear el/la afiliado/a para la importación del cargo. Faltan "
+"Cannot create affiliate for position import. Missing import_name or ID "
+"(import_uid). Please ensure the imported data includes both Name and ID."
+msgstr "No se puede crear el/la afiliado/a para la importación del cargo. Faltan "
 "import_name o Legajo (import_uid). Por favor, asegúrese de que los datos "
 "importados incluyan tanto el Nombre como el Legajo."
 
@@ -118,7 +106,7 @@ msgstr "Configuración del módulo de afiliación"
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_affiliation_affiliation_configuration__create_user_from_position
 msgid "Create affiliate when importing positions"
-msgstr "Crear afiliado/a al importar cargos"
+msgstr "Crear afiliado/a al importar cargos."
 
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_character__create_uid
@@ -168,6 +156,29 @@ msgstr "Descripción del tipo de cargo"
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_type__display_name
 msgid "Display Name"
 msgstr "Nombre para mostrar"
+
+#. module: union_school_position
+#. odoo-python
+#: code:addons/union_school_position/models/position.py:0
+#, python-format
+msgid ""
+"El ID %s ya existe. No se creará un nuevo afiliado a partir de los datos de "
+"importación, se utilizará el existente."
+msgstr ""
+
+#. module: union_school_position
+#. odoo-python
+#: code:addons/union_school_position/models/position.py:0
+#, python-format
+msgid "El campo ID debe contener únicamente números."
+msgstr ""
+
+#. module: union_school_position
+#. odoo-python
+#: code:addons/union_school_position/models/position.py:0
+#, python-format
+msgid "El campo ID no puede comenzar con cero."
+msgstr ""
 
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__featured
@@ -461,7 +472,7 @@ msgstr "Tipo de cargo"
 #. module: union_school_position
 #: model:ir.model,name:union_school_position.model_affiliation_affiliate
 msgid "Union affiliate entity"
-msgstr "Entidad del afiliado/a sindical"
+msgstr "Entidad de afiliado sindical"
 
 #. module: union_school_position
 #: model:ir.actions.server,name:union_school_position.action_unset_featured
@@ -475,6 +486,8 @@ msgid "Workplace"
 msgstr "Lugar de trabajo"
 
 #. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__workplace_level1
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__workplace_level2
 #: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_search
 msgid "Workplace Level 1"
 msgstr "1° Nivel de agrupación del lugar de trabajo"
@@ -485,6 +498,7 @@ msgid "Workplace Level 2"
 msgstr "2° Nivel de agrupación del lugar de trabajo"
 
 #. module: union_school_position
+#: model:ir.model.fields,field_description:union_school_position.field_school_position_position__workplace_level3
 #: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_search
 msgid "Workplace Level 3"
 msgstr "3° Nivel de agrupación del lugar de trabajo"
