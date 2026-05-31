@@ -2,7 +2,6 @@
 
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
-from datetime import datetime
 
 
 class AffiliateContribution(models.Model):
@@ -74,14 +73,6 @@ class AffiliateContribution(models.Model):
             'line': int(error['record']) + 1,
             'record': str(line),
             'error': error['message']
-        }
-        log = {
-            'user_id': self.env.user.id,
-            'date': str(fields.Datetime.now()),
-            'model_name': self._name,
-            'model_id': -1,
-            'type': 'import',
-            'message': str(_message)
         }
         self.env.user.notify_danger(message=(_('There were errors during importation. See the logs!')))
 

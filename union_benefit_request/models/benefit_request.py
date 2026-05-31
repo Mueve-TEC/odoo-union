@@ -101,11 +101,11 @@ class BenefitRequest(models.Model):
 
     def request(self):
         self._compute_hides()
-        if self.hide_amounts == False:  
+        if not self.hide_amounts:
             if self.requested_amount <= 0:
                 raise ValidationError(
                     _('Requested amount must be major to zero')) #traducir
-        if self.hide_school_benefits == False: 
+        if not self.hide_school_benefits:
             if len(self.school_benefit_ids) < 1:
                 raise ValidationError(
                     _('There must be at least one school benefit')) #traducir
@@ -116,11 +116,11 @@ class BenefitRequest(models.Model):
 
     def authorize(self):
         self._compute_hides()
-        if self.hide_amounts == False:  
+        if not self.hide_amounts:
             if self.authorized_amount <= 0:
                 raise ValidationError(
                     _('Authorized amount must be major to zero'))
-        if self.hide_school_benefits == False: 
+        if not self.hide_school_benefits:
             if len(self.school_benefit_ids) < 1:
                 raise ValidationError(
                     _('There must be at least one school benefit'))
@@ -132,7 +132,7 @@ class BenefitRequest(models.Model):
 
     def finalize(self):
         self._compute_hides()
-        if self.hide_amounts == False:
+        if not self.hide_amounts:
             if self.paid_amount <= 0 or self.paid_amount > self.authorized_amount:
                 raise ValidationError(
                     _('The paid amount must be major to 0 and minor to authorized amount'))
@@ -175,7 +175,7 @@ class BenefitRequest(models.Model):
     
     def _get_field_display_value(self, field_name, value):
         """Helper method to get display value for different field types"""
-        if value is None or value == False:
+        if not value:
             return _('Not set')
         
         field = self._fields.get(field_name)

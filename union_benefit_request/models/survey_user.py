@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
+from odoo import models, fields
 
 class SurveyUserInput(models.Model):
     _inherit = "survey.user_input"
@@ -68,7 +67,7 @@ class SurveyUserInput(models.Model):
 
             school_benefit_type =  self.env['benefit_request.school_benefit_type'].search([('name','=',answer_solicitud.value_suggested.value)])
             
-            school_benef = self.env['benefit_request.school_benefit'].create({
+            self.env['benefit_request.school_benefit'].create({
                 'benefit_request_id': self.benefit_request_id.id,
                 'school_benefit_type_id': school_benefit_type.id,
                 'affiliate_child_id': child.id

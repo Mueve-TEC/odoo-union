@@ -70,7 +70,8 @@ class Query(models.Model):
                   )
             """
             self.env.cr.execute(sql1, [status_str] + base_params + [self.from_date, self.to_date] + code_params)
-            if self.env.cr.rowcount > 0: result = True
+            if self.env.cr.rowcount > 0:
+                result = True
 
         if self.contribute:
             # No cotizante con aportes
@@ -87,7 +88,8 @@ class Query(models.Model):
                   )
             """
             self.env.cr.execute(sql2, [status_str] + base_params + [self.from_date, self.to_date] + code_params)
-            if self.env.cr.rowcount > 0: result = True
+            if self.env.cr.rowcount > 0:
+                result = True
 
         # Inconsistencies of state vs quote
         sql3 = f"""
@@ -97,7 +99,8 @@ class Query(models.Model):
             WHERE a.quote = TRUE AND a.state != 'affiliated' {type_filter}
         """
         self.env.cr.execute(sql3, base_params)
-        if self.env.cr.rowcount > 0: result = True
+        if self.env.cr.rowcount > 0:
+            result = True
 
         sql4 = f"""
             INSERT INTO inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description)
@@ -106,7 +109,8 @@ class Query(models.Model):
             WHERE a.quote = FALSE AND a.state = 'affiliated' {type_filter}
         """
         self.env.cr.execute(sql4, base_params)
-        if self.env.cr.rowcount > 0: result = True
+        if self.env.cr.rowcount > 0:
+            result = True
 
         if not result:
             raise ValidationError(_('There aren\'t inconsistencies between that dates'))

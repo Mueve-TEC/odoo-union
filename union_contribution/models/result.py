@@ -101,7 +101,6 @@ class ChangeStateWizard(models.TransientModel):
         
         new_state_selection = dict(self.fields_get(['new_state'])['new_state']['selection'])
         new_state_str = new_state_selection.get(self.new_state, self.new_state)
-        date_str = self.change_date.strftime("%d/%m/%Y")
         
         affiliate_state_selection = dict(self.env['affiliation.affiliate'].fields_get(['state'])['state']['selection'])
         affiliates_processed = set()
