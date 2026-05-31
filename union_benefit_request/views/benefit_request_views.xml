@@ -7,7 +7,7 @@
                 <form>
                     <header>
                         <button string="Submit Request" class="btn btn-primary" type="object"
-                            name="request" states="new,draft" />
+                            name="request" states="draft" />
                         <button string="Authorize" class="btn btn-primary" type="object"
                             name="authorize" states="requested"
                             groups="union_benefit_request.group_benefit_request_admin" />
@@ -17,10 +17,10 @@
                         <button string="Finalize" class="btn btn-primary" type="object"
                             name="finalize" states="authorized" />
                         <button string="Cancel" class="btn btn-secondary" type="object"
-                            name="cancel" states="draft,requested,authorized,finalized,new" />
+                            name="cancel" states="draft,requested,authorized,finalized" />
                         <button string="Return to Draft" class="btn btn-secondary" type="object"
                             name="set_to_draft"
-                            states="new,requested,authorized,rejected" />
+                            states="requested,authorized,rejected" />
                         <button string="Return to Draft" class="btn btn-secondary" type="object"
                             name="set_to_draft"
                             states="finalized,canceled"
@@ -31,16 +31,16 @@
                         <group>
                             <group string="Request" name="request">
                                 <field name="request_type_id"
-                                    attrs="{'readonly': [('state', 'not in', ['new','draft'])]}"
+                                    attrs="{'readonly': [('state', 'not in', ['draft'])]}"
                                     domain="[('active','=',True)]" options="{'no_create': True}" />
                                 <field name="partner_id"
-                                    attrs="{'readonly': [('state', 'not in', ['new','draft'])]}" />
+                                    attrs="{'readonly': [('state', 'not in', ['draft'])]}" />
                                 <field name="expedient"
-                                    attrs="{'readonly': [('state', 'not in', ['new','draft'])]}" />
+                                    attrs="{'readonly': [('state', 'not in', ['draft'])]}" />
                                 <field name="full_doc"
-                                    attrs="{'readonly': [('state', 'not in', ['new','draft','authorized'])]}" />
+                                    attrs="{'readonly': [('state', 'not in', ['draft','authorized'])]}" />
                                 <field name="observations"
-                                    attrs="{'readonly': [('state', 'not in', ['new','draft'])]}" />
+                                    attrs="{'readonly': [('state', 'not in', ['draft'])]}" />
                                 <field name="hide_school_benefits" invisible="1" />
                                 <field name="hide_amounts" invisible="1" />
                                 <field name="hide_notes" invisible="1" />
@@ -58,8 +58,8 @@
                             <page string="School benefits" name="school_benefits"
                                 attrs="{'invisible': [('hide_school_benefits','=',True)]}">
                                 <field name="school_benefit_ids"
-                                    attrs="{'readonly': [('state', 'not in', ['new','draft', 'authorized'])]}"
-                                    options="{'create': [('state', 'in', ['new','draft'])], 'delete': [('state', 'in', ['new','draft'])]}">
+                                    attrs="{'readonly': [('state', 'not in', ['draft', 'authorized'])]}"
+                                    options="{'create': [('state', 'in', ['draft'])], 'delete': [('state', 'in', ['draft'])]}">
                                     <tree editable="bottom">
                                         <field name="state" invisible="1" />
                                         <field name="school_benefit_type_id"
@@ -74,9 +74,9 @@
                                 attrs="{'invisible': [('hide_amounts','=',True)]}">
                                 <group>
                                     <field name="requested_amount"
-                                        attrs="{'readonly': [('state', 'not in', ['new','draft'])]}" />
+                                        attrs="{'readonly': [('state', 'not in', ['draft'])]}" />
                                     <field name="authorized_amount"
-                                        attrs="{'readonly': [('state', 'not in', ['new','requested'])]}" />
+                                        attrs="{'readonly': [('state', 'not in', ['requested'])]}" />
                                     <field name="paid_amount"
                                         attrs="{'readonly': [('state', '!=', 'authorized')]}" />
                                 </group>
@@ -84,7 +84,7 @@
                             <page string="Notes" name="notes"
                                 attrs="{'invisible': [('hide_notes','=',True)]}">
                                 <field name="notes"
-                                    attrs="{'readonly': [('state', 'not in', ['new','draft','requested','authorized'])]}" />
+                                    attrs="{'readonly': [('state', 'not in', ['draft','requested','authorized'])]}" />
                             </page>
                         </notebook>
                     </sheet>
@@ -122,7 +122,6 @@
                     <field name="request_type_id"
                         filter_domain="[('request_type_id.name', 'ilike', self)]" />
 
-                    <filter string="New" name="state_new" domain="[('state', '=', 'new')]" />
                     <filter string="Draft" name="state_draft" domain="[('state', '=', 'draft')]" />
                     <filter string="Requested" name="state_requested"
                         domain="[('state', '=', 'requested')]" />
