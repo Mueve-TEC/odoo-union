@@ -28,7 +28,7 @@ class AffiliationPeriod(models.Model):
     @api.constrains('affiliation_number')
     def _check_affiliation_number(self):
         other = self.env['affiliation.affiliation_period'].search([('affiliation_number','=',self.affiliation_number)])
-        if len(other.ids) > 1 or (other[0].id != self.id):
+        if other and (len(other.ids) > 1 or other[0].id != self.id):
             raise ValidationError(_('There is already exist a period with the same affiliation number!'))
 
     @api.constrains('from_date')
