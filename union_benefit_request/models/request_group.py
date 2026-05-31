@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields
 
 class RequestGroup(models.Model):
     _name = 'benefit_request.request_group'
