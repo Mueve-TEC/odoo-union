@@ -106,7 +106,7 @@ class Position(models.Model):
     )
 
     workplace_level2 = fields.Char(
-        string='Workplace Level 1',
+        string='Workplace Level 2',
         compute='_compute_workplace_levels',
         store=True
     )
