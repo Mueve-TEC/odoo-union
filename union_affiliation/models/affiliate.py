@@ -227,6 +227,7 @@ class Affiliate(models.Model):
         res = super(Affiliate, self).write(vals)
         return res
 
+    # TODO: In delegated inheritance (_inherits), parent cleanup is handled by ORM.
     def unlink(self):
         self.partner_id.unlink()
         res = super(Affiliate, self).unlink()
