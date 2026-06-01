@@ -26,6 +26,7 @@ class Affiliate(models.Model):
         required=True
     )
     uid = fields.Char(string='Affiliate UID', required=True)
+    work_id = fields.Char(string='Work ID')
     personal_id_type = fields.Selection([
         ('dni', 'DNI'),
         ('du', 'DU'),
@@ -85,6 +86,11 @@ class Affiliate(models.Model):
         ondelete='restrict',
     )
 
+    delegation_id = fields.Many2one(
+        comodel_name='union.workplace',
+        string='Delegación'
+    )
+
     workplace_ids = fields.Many2many(
         comodel_name='union.workplace',
         relation='affiliate_workplace_rel',
@@ -126,6 +132,10 @@ class Affiliate(models.Model):
     affiliation_date = fields.Date(string='Affiliation\'s date')
     disaffiliation_date = fields.Date(string='Disaffiliation\'s date')
     seniority = fields.Date(string='Seniority')
+    seniority_years = fields.Integer(
+        string='Seniority in years',
+        compute='_compute_seniority_years'
+    )
 
     # EtiquetaBis
     category_bis_id = fields.Many2many(
@@ -138,11 +148,16 @@ class Affiliate(models.Model):
 
     @api.constrains('uid')
     def _check_uid(self):
-        other = self.env['affiliation.affiliate'].search(
-            [('uid', '=', self.uid)])
-        if len(other.ids) > 1 or (len(other) == 1 and other[0].id != self.id):
-            raise ValidationError(
-                _('There is already exist an affiliate with the same uid!'))
+        for record in self:
+            if record.uid and not record.uid.isdigit():
+                raise ValidationError(_("El campo ID debe contener únicamente números."))
+            if record.uid and record.uid[0] == '0':
+                raise ValidationError(_("El campo ID no puede comenzar con cero."))
+            other = self.env['affiliation.affiliate'].search(
+                [('uid', '=', record.uid)])
+            if len(other.ids) > 1 or (len(other) == 1 and other[0].id != record.id):
+                raise ValidationError(
+                    _('There is already exist an affiliate with the same uid!'))
 
     @api.constrains('affiliation_number')
     def _check_affiliation_number(self):
@@ -228,6 +243,19 @@ class Affiliate(models.Model):
             )
 
             affiliate.main_workplace_level3 = workplace.name
+
+    @api.depends('seniority')
+    def _compute_seniority_years(self):
+        """Computa la antigüedad en años desde la fecha de seniority hasta hoy"""
+        from datetime import datetime
+
+        today = datetime.now().date()
+        for affiliate in self:
+            if affiliate.seniority:
+                years = (today - affiliate.seniority).days // 365
+                affiliate.seniority_years = years
+            else:
+                affiliate.seniority_years = 0
 
     # This method is necessary for RPC importation
     @api.model_create_multi

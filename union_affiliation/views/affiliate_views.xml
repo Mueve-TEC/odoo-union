@@ -69,11 +69,13 @@
                             <group string="Employment infomation" name="personal_information">
                                 <field name="uid"
                                     readonly="state in ['pending_suscribe', 'affiliated', 'pending_unsuscribe', 'disaffiliated', 'historical']" />
+                                <field name="work_id" />
                                 <field name="affiliate_type_id" />
                                 <field name="main_workplace_id" string="Lugar de trabajo principal"
                                     domain="[('id', 'in', workplace_ids)]"
                                     options="{'no_create': True, 'no_quick_create': True}" />
                                 <field name="seniority" />
+                                <field name="seniority_years" readonly="1" />
                                 <separator string="Personal information" />
                                 <field name="personal_id_type" />
                                 <field name="personal_id" />
@@ -100,6 +102,7 @@
                             <page string="Affiliation" name="Affiliation">
                                 <group>
                                     <field name="affiliation_number" readonly="1" />
+                                    <field name="delegation_id" />
                                     <field name="quote" readonly="1" />
                                     <field name="affiliation_date" readonly="1" />
                                     <field name="disaffiliation_date" readonly="1" />
