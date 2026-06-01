@@ -28,7 +28,7 @@ class AffiliationPeriod(models.Model):
     @api.constrains('affiliation_number')
     def _check_affiliation_number(self):
         other = self.env['affiliation.affiliation_period'].search([('affiliation_number','=',self.affiliation_number)])
-        if len(other.ids) > 1 or (other[0].id != self.id):
+        if other and (len(other.ids) > 1 or other[0].id != self.id):
             raise ValidationError(_('There is already exist a period with the same affiliation number!'))
 
     @api.constrains('from_date')
@@ -66,14 +66,14 @@ class AffiliationPeriod(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            affiliate_id = vals.get('affiliate_id') or self.env.context.get('default_affiliate_id')
-            if affiliate_id and self._are_any_open(affiliate_id):
+            _affiliate_id = vals.get('affiliate_id') or self.env.context.get('default_affiliate_id')
+            if _affiliate_id and self._are_any_open(_affiliate_id):
                 raise ValidationError(_('There is already an open period!'))
 
-        records = super(AffiliationPeriod, self).create(vals_list)
-        # affiliate = records.affiliate_id
+        res = super(AffiliationPeriod, self).create(vals_list)
+        # affiliate = res.affiliate_id
         # affiliate.affiliate_()
-        return records
+        return res
 
     def write(self, vals) :
         if self.closed:

@@ -3,6 +3,10 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
+import logging
+
+log = logging.getLogger(__name__)
+
 
 class Position(models.Model):
     _name = 'school_position.position'
@@ -19,7 +23,6 @@ class Position(models.Model):
         string='Type',
         ondelete='restrict',
         required=True
-
     )
     position_number = fields.Char(string="Position number")
     hs_amount = fields.Integer(string="Hours amount")
@@ -37,8 +40,7 @@ class Position(models.Model):
     )
     date_from = fields.Date(
         string='From',
-        help='Position start date',
-        required=True
+        help='Position start date'
     )
     date_to = fields.Date(
         string='To',
@@ -46,40 +48,37 @@ class Position(models.Model):
     )
     registration_date = fields.Date(
         string='Registration date',
-        help='Position information date.',
-        required=True
+        help='Position information date.'
     )
-    
     notes = fields.Text(
         string='Notes',
         help='Additional notes or observations about the position'
     )
-    # The next fields are to manage the importation process
-    # It needs to be stored because it is necessary for the import process
     import_uid = fields.Char(string='Import UID')
     import_personal_id = fields.Char(string='Import Personal ID')
+    import_name = fields.Char(string='Import Name')
+    import_vat = fields.Char(string='Import VAT')
 
-    # Related fields for filters
     uid = fields.Char(related='affiliate_id.uid', store=False)
     personal_id = fields.Char(related='affiliate_id.personal_id', store=False)
     dedication = fields.Char(
-        related='type_id.dedication', 
-        string='Dedication', 
-        store=False, 
+        related='type_id.dedication',
+        string='Dedication',
+        store=False,
         readonly=True,
         help='Dedication of the position type'
     )
     type_description = fields.Char(
-        related='type_id.name', 
-        string='Type description', 
-        store=False, 
+        related='type_id.name',
+        string='Type description',
+        store=False,
         readonly=True,
         help='Description of the position type'
     )
     type_code = fields.Char(
-        related='type_id.code', 
-        string='Type code', 
-        store=False, 
+        related='type_id.code',
+        string='Type code',
+        store=False,
         readonly=True,
         help='Code of the position type'
     )
@@ -88,6 +87,68 @@ class Position(models.Model):
         string='In hours',
         readonly=True
     )
+    featured = fields.Boolean(
+        string='Featured'
+    )
+    affiliate_state = fields.Selection(
+        related='affiliate_id.state',
+        string='Affiliate State',
+        store=True
+    )
+
+    workplace_level1 = fields.Char(
+        string='Workplace Level 1',
+        compute='_compute_workplace_levels',
+        store=True
+    )
+
+    workplace_level2 = fields.Char(
+        string='Workplace Level 1',
+        compute='_compute_workplace_levels',
+        store=True
+    )
+
+    workplace_level3 = fields.Char(
+        string='Workplace Level 3',
+        compute='_compute_workplace_levels',
+        store=True
+    )
+
+    @api.depends('workplace_id', 'workplace_id.level', 'workplace_id.parent_path')
+    def _compute_workplace_levels(self):
+        """Computa las agrupaciones jerárquicas por lugar de trabajo"""
+        for position in self:
+            if not position.workplace_id:
+                position.workplace_level1 = 'Sin lugar de trabajo'
+                position.workplace_level2 = 'Sin lugar de trabajo'
+                position.workplace_level3 = 'Sin lugar de trabajo'
+                continue
+
+            workplace = position.workplace_id
+
+            parent_ids = []
+            if workplace.parent_path:
+                parent_ids = [int(x)
+                              for x in workplace.parent_path.split('/') if x]
+            else:
+                parent_ids = [workplace.id]
+
+            parent_workplaces = self.env['union.workplace'].browse(
+                parent_ids).sorted('level')
+
+            level1_workplace = parent_workplaces.filtered(
+                lambda w: w.level == 1)
+            position.workplace_level1 = level1_workplace[
+                0].name if level1_workplace else workplace.name
+
+            level2_workplace = parent_workplaces.filtered(
+                lambda w: w.level == 2)
+            position.workplace_level2 = (
+                level2_workplace[0].name if level2_workplace
+                else position.workplace_level1
+            )
+
+            position.workplace_level3 = workplace.name
 
     @api.constrains('date_from', 'date_to')
     def _check_dates(self):
@@ -102,7 +163,7 @@ class Position(models.Model):
             if record.registration_date:
                 if record.registration_date > fields.Date.today():
                     raise ValidationError(_('The registration date cannot be in the future.'))
-                
+
     @api.constrains('hs_amount')
     def _check_hs_amount(self):
         for record in self:
@@ -116,32 +177,81 @@ class Position(models.Model):
             name = '%s,%s' % (record.type_id.name, record.affiliate_id.name)        
             record.display_name = _("%s")%(name)
 
-    @api.model
-    def create(self, vals):
-        # Am I importing data?
+    @api.model_create_multi
+    def create(self, vals_list):
         if 'import_file' in self.env.context:
-            affiliate = None
-            if 'import_uid' in vals:
-                affiliate = self.env['affiliation.affiliate'].search(
-                    [('uid', '=', vals['import_uid'])])
-            else:
-                if 'import_personal_id' in vals:
-                    affiliate = self.env['affiliation.affiliate'].search(
-                        [('personal_id', '=', vals['import_personal_id'])])
-            if len(affiliate.ids):
-                vals['affiliate_id'] = affiliate[0].id
-            else:
-                raise ValidationError(_('Affiliate doesn\'t exist!.'))
-            self._clean_affiliate_data(vals)
-        res = super(Position, self).create(vals)
+            for vals in vals_list:
+                if not vals.get('affiliate_id'):
+                    affiliate = False
+                    if vals.get('import_uid'):
+                        affiliate = self.env['affiliation.affiliate'].search([('uid', '=', vals['import_uid'])], limit=1)
+
+                    if affiliate:
+                        vals['affiliate_id'] = affiliate.id
+                    else:
+                        conf = self.env['affiliation.affiliation_configuration'].browse(1)
+                        if conf.create_user_from_position:
+                            new_uid = vals.get('import_uid')
+                            import_name = vals.get('import_name')
+
+                            if not new_uid or not import_name:
+                                error_msg = _(
+                                    "Cannot create affiliate for position import. Missing import_name or ID (import_uid). "
+                                    "Please ensure the imported data includes both Name and ID."
+                                )
+                                raise ValidationError(error_msg)
+
+                            if not str(new_uid).isdigit():
+                                raise ValidationError(_("El campo ID debe contener únicamente números."))
+                            if str(new_uid)[0] == '0':
+                                raise ValidationError(_("El campo ID no puede comenzar con cero."))
+
+                            new_affiliate_vals = {
+                                'state': 'new',
+                                'uid': new_uid,
+                                'name': import_name
+                            }
+
+                            if vals.get('import_personal_id'):
+                                new_affiliate_vals['personal_id'] = vals.get('import_personal_id')
+                            if vals.get('import_vat'):
+                                new_affiliate_vals['vat'] = vals.get('import_vat')
+
+                            new_affiliate = self.env['affiliation.affiliate'].create(new_affiliate_vals)
+                            vals['affiliate_id'] = new_affiliate.id
+                        else:
+                            error_msg = _(
+                                "Affiliate does not exist in the database (UID: %s, Personal ID: %s), "
+                                "and the option to auto-create them during import is disabled in the configuration."
+                            ) % (vals.get('import_uid', 'N/A'), vals.get('import_personal_id', 'N/A'))
+                            raise ValidationError(error_msg)
+                self._clean_affiliate_data(vals)
+        res = super(Position, self).create(vals_list)
         return res
 
-    def write(self,vals):
-
+    def write(self, vals):
         res = super(Position, self).write(vals)
         return res
 
     def _clean_affiliate_data(self, vals):
-        vals.pop('import_uid') if 'import_uid' in vals else None
-        vals.pop('import_personal_id') if 'personal_id' in vals else None
+        vals.pop('import_uid', None)
+        vals.pop('import_personal_id', None)
+        vals.pop('import_name', None)
+        vals.pop('import_vat', None)
+
+    def action_set_featured(self):
+        for record in self:
+            record.featured = True
+
+    def action_unset_featured(self):
+        for record in self:
+            record.featured = False
+
+    def on_import_error(self, line, error):
+        _message = {
+            'line': int(error['record']) + 1,
+            'record': str(line),
+            'error': error['message']
+        }
+        self.env.user.notify_danger(message=(_('There were errors during importation. See the logs!')))
             

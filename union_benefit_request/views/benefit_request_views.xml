@@ -131,7 +131,7 @@
                         domain="[('full_doc', '=', False)]" />
                     <field name="full_doc" />
 
-                    <group expand="1" string="Group By">
+                    <group name=" ">
                         <filter string="Full documented" name="full_documented"
                             context="{'group_by':'full_doc'}" />
                         <filter string="State" name="contributors" context="{'group_by':'state'}" />

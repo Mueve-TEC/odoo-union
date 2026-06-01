@@ -44,7 +44,7 @@ class UnionWorkplace(models.Model):
     )
 
     # Odoo field for hierarchies
-    parent_path = fields.Char(index=True)
+    parent_path = fields.Char(index=True, unaccent=False)
 
     complete_name = fields.Char(
         string='Complete Name',
@@ -204,40 +204,6 @@ class UnionWorkplace(models.Model):
             }
         }
 
-    def unlink(self):
-        """
-        Override the unlink method to properly clean Many2many relationships
-        before deleting the workplace.
-        """
-        # Get all workplaces that will be deleted (including descendants)
-        all_workplaces_to_delete = self.env['union.workplace']
-
-        for workplace in self:
-            all_workplaces_to_delete |= workplace
-            all_workplaces_to_delete |= workplace._get_all_descendants()
-
-        # Clean Many2many relationships with affiliates for all workplaces to be deleted
-        if all_workplaces_to_delete and self.env.context.get('from_delete_wizard'):
-            affected_affiliates = self.env['affiliation.affiliate'].search([
-                ('workplace_ids', 'in', all_workplaces_to_delete.ids)
-            ])
-
-            # Remove these workplaces from affiliates with special context
-            ctx = dict(self.env.context, skip_workplace_validation=True)
-            for affiliate in affected_affiliates:
-                affiliate.with_context(
-                    ctx).workplace_ids = affiliate.workplace_ids - all_workplaces_to_delete
-
-                # If main workplace is being deleted, verify it has another valid main workplace
-                if affiliate.main_workplace_id and affiliate.main_workplace_id in all_workplaces_to_delete:
-                    # If it still has other workplaces, suggest the first one as main
-                    if affiliate.workplace_ids:
-                        affiliate.with_context(
-                            ctx).main_workplace_id = affiliate.workplace_ids[0]
-                    # If it has no other workplaces, main_workplace_id will be set to NULL automatically by ondelete='set null'
-
-        # Continue with normal deletion
-        return super().unlink()
 
     @api.ondelete(at_uninstall=False)
     def _checks_before_delete(self):

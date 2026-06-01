@@ -31,6 +31,9 @@ class BenefitRequest(models.Model):
     
     # Field for import process - maps to affiliate by UID
     import_uid = fields.Char(string='Legajo')
+    import_name = fields.Char(string='Import Name')
+    import_vat = fields.Char(string='Import VAT')
+    import_personal_id = fields.Char(string='Import Personal ID')
     
     state = fields.Selection(
         selection=[
@@ -153,6 +156,7 @@ class BenefitRequest(models.Model):
                     _('Only users with admin permissions can return finalized or canceled requests to draft state'))
         self.state = 'draft'
 
+    
     def write(self, vals):
         if 'state' in vals:
             vals.update({
@@ -169,31 +173,65 @@ class BenefitRequest(models.Model):
             vals['hide_amounts'] = False if 'Importes' in _groups else True
             vals['hide_school_benefits'] = False if 'Bolsones' in _groups else True
 
-        res = super(BenefitRequest, self).write(vals)
-        return res
+        return super(BenefitRequest, self).write(vals)
 
     @api.model_create_multi
     def create(self, vals_list):
-        for vals in vals_list:
-            # Am I importing data?
-            if 'import_file' in self.env.context:
+        if 'import_file' in self.env.context:
+            for vals in vals_list:
                 if 'import_uid' in vals:
-                    affiliate = self.env['affiliation.affiliate'].search([('uid','=',vals['import_uid'])])
+                    affiliate = self.env['affiliation.affiliate'].search([('uid', '=', vals['import_uid'])])
                     if len(affiliate.ids):
-                        vals['partner_id'] = affiliate[0].partner_id.id
-                        vals.pop('import_uid')  # Remove after use
+                        affiliate = affiliate[0]
                     else:
-                        raise ValidationError(_('There is not an affiliate with that uid %s' % (vals['import_uid'])))
-            
+                        conf = self.env['affiliation.affiliation_configuration'].browse(1)
+                        if conf.create_user_from_request:
+                            new_uid = vals.get('import_uid')
+                            import_name = vals.get('import_name')
+
+                            if not new_uid or not import_name:
+                                error_msg = _(
+                                    "Cannot create affiliate for request import. Missing import_name or ID (import_uid). "
+                                    "Please ensure the imported data includes both affiliate Name and ID."
+                                )
+                                raise ValidationError(error_msg)
+                            if not str(new_uid).isdigit():
+                                raise ValidationError(_("El campo ID debe contener únicamente números."))
+                            if str(new_uid)[0] == '0':
+                                raise ValidationError(_("El campo ID no puede comenzar con cero."))
+
+                            new_affiliate_data = {
+                                'uid': new_uid,
+                                'name': import_name,
+                                'state': 'new'
+                            }
+                            if 'import_vat' in vals:
+                                new_affiliate_data.update({'vat': vals['import_vat']})
+                            if 'import_personal_id' in vals:
+                                new_affiliate_data.update({'personal_id': vals['import_personal_id']})
+
+                            affiliate = self.env['affiliation.affiliate'].create(new_affiliate_data)
+                        else:
+                            error_msg = _(
+                                "Affiliate does not exist in the database (UID: %s, Personal ID: %s), "
+                                "and the option to auto-create them during import is disabled in the configuration."
+                            ) % (vals.get('import_uid', 'N/A'), vals.get('import_personal_id', 'N/A'))
+                            raise ValidationError(error_msg)
+
+                    vals['partner_id'] = affiliate.partner_id.id
+                    vals.pop('import_name') if 'import_name' in vals else None
+                    vals.pop('import_uid') if 'import_uid' in vals else None
+                    vals.pop('import_vat') if 'import_vat' in vals else None
+                    vals.pop('import_personal_id') if 'import_personal_id' in vals else None
+
+        for vals in vals_list:
             if 'state' not in vals:
                 vals.update({'state': 'draft'})
-        
+
         res = super(BenefitRequest, self).create(vals_list)
         for record in res:
-            vals = vals_list[res.ids.index(record.id)] if res.ids else {}
-            if 'partner_id' in vals or record.partner_id:
-                partner_id = vals.get('partner_id') or record.partner_id.id
-                record.message_subscribe([partner_id])
+            if record.partner_id:
+                record.message_subscribe([record.partner_id.id])
         res._compute_hides()
         return res
 
