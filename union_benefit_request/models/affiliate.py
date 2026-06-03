@@ -4,6 +4,6 @@ from odoo import models, fields
 
 
 class Affiliate(models.Model):
-    _inherit = 'affiliation.affiliate'
-    
-    benefit_request_ids = fields.One2many(related='partner_id.benefit_request_ids')
+    _inherit = "affiliation.affiliate"
+
+    benefit_request_ids = fields.One2many(related="partner_id.benefit_request_ids")

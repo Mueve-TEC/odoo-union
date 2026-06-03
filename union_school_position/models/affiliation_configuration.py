@@ -2,10 +2,10 @@
 
 from odoo import models, fields
 
+
 class AffiliationConfiguration(models.Model):
-    _inherit = 'affiliation.affiliation_configuration'
+    _inherit = "affiliation.affiliation_configuration"
 
     create_user_from_position = fields.Boolean(
-        string='Create affiliate when importing positions',
-        default=False
+        string="Create affiliate when importing positions", default=False
     )

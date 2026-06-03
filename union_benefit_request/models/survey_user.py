@@ -2,12 +2,12 @@
 
 from odoo import models, fields
 
+
 class SurveyUserInput(models.Model):
     _inherit = "survey.user_input"
 
     benefit_request_id = fields.Many2one(
-        comodel_name='benefit_request.benefit_request',
-        ondelete='set null'
+        comodel_name="benefit_request.benefit_request", ondelete="set null"
     )
 
     # @api.model
@@ -28,12 +28,16 @@ class SurveyUserInput(models.Model):
         return
 
     def _create_benefit_request(self):
-        dni = self.user_input_line_ids.filtered(lambda a: a.question_id.title == 'DNI')
-        ID = self.user_input_line_ids.filtered(lambda a: a.question_id.title == 'ID')
-        
-        affiliate = self.env['affiliation.affiliate'].search([('personal_id','=',int(dni.value_number))])
+        dni = self.user_input_line_ids.filtered(lambda a: a.question_id.title == "DNI")
+        ID = self.user_input_line_ids.filtered(lambda a: a.question_id.title == "ID")
+
+        affiliate = self.env["affiliation.affiliate"].search(
+            [("personal_id", "=", int(dni.value_number))]
+        )
         if not affiliate.id:
-            affiliate = self.env['affiliation.affiliate'].search([('uid','=',int(ID.value_number))])
+            affiliate = self.env["affiliation.affiliate"].search(
+                [("uid", "=", int(ID.value_number))]
+            )
             if not affiliate.id:
                 return None
         survey = self.survey_id
@@ -41,45 +45,67 @@ class SurveyUserInput(models.Model):
         self._clean_old_requests(affiliate, survey)
 
         values = {
-            'request_type_id': survey.request_type_id.id if survey.request_type_id.id else None,
-            'responsible': 2,
-            'partner_id': affiliate.partner_id.id
+            "request_type_id": survey.request_type_id.id
+            if survey.request_type_id.id
+            else None,
+            "responsible": 2,
+            "partner_id": affiliate.partner_id.id,
         }
-        return self.env['benefit_request.benefit_request'].create(values)
+        return self.env["benefit_request.benefit_request"].create(values)
 
     def _clean_old_requests(self, affiliate, survey):
-        benefits = self.env['benefit_request.benefit_request'].search([('partner_id','=',affiliate.partner_id.id)])
-        benefits = benefits.filtered(lambda b: b.survey_user_input_id.survey_id.id == survey.id)
+        benefits = self.env["benefit_request.benefit_request"].search(
+            [("partner_id", "=", affiliate.partner_id.id)]
+        )
+        benefits = benefits.filtered(
+            lambda b: b.survey_user_input_id.survey_id.id == survey.id
+        )
         for bnf in benefits:
             bnf.unlink()
 
     def _create_school_benefits_from_answers(self):
-        for n in range(1,4):
-            answer_dni = self.user_input_line_ids.filtered(lambda a: a.question_id.title == 'DNI hijo '+ str(n))
-            answer_solicitud = self.user_input_line_ids.filtered(lambda a: a.question_id.title == 'Solicitud '+ str(n))
-        
+        for n in range(1, 4):
+            answer_dni = self.user_input_line_ids.filtered(
+                lambda a: a.question_id.title == "DNI hijo " + str(n)
+            )
+            answer_solicitud = self.user_input_line_ids.filtered(
+                lambda a: a.question_id.title == "Solicitud " + str(n)
+            )
+
             if not answer_dni.value_number:
                 continue
 
-            child = self.env['affiliation.affiliate_child'].search([('personal_id','=',int(answer_dni.value_number))])
+            child = self.env["affiliation.affiliate_child"].search(
+                [("personal_id", "=", int(answer_dni.value_number))]
+            )
             if not child.id:
                 child = self._create_default_child(int(answer_dni.value_number))
 
-            school_benefit_type =  self.env['benefit_request.school_benefit_type'].search([('name','=',answer_solicitud.value_suggested.value)])
-            
-            self.env['benefit_request.school_benefit'].create({
-                'benefit_request_id': self.benefit_request_id.id,
-                'school_benefit_type_id': school_benefit_type.id,
-                'affiliate_child_id': child.id
-            })
+            school_benefit_type = self.env[
+                "benefit_request.school_benefit_type"
+            ].search([("name", "=", answer_solicitud.value_suggested.value)])
+
+            self.env["benefit_request.school_benefit"].create(
+                {
+                    "benefit_request_id": self.benefit_request_id.id,
+                    "school_benefit_type_id": school_benefit_type.id,
+                    "affiliate_child_id": child.id,
+                }
+            )
 
     def _create_default_child(self, dni):
-        parent = self.env['affiliation.affiliate'].search([('partner_id','=',self.benefit_request_id.partner_id.id)])
-        return self.env['affiliation.affiliate_child'].create({
-            'name': 'Sin nombre',
-            'personal_id': dni,
-            'affiliate_ids': [(6, 0, [parent.id])]
-        })
+        parent = self.env["affiliation.affiliate"].search(
+            [("partner_id", "=", self.benefit_request_id.partner_id.id)]
+        )
+        return self.env["affiliation.affiliate_child"].create(
+            {
+                "name": "Sin nombre",
+                "personal_id": dni,
+                "affiliate_ids": [(6, 0, [parent.id])],
+            }
+        )
+
+
 # class SurveyUserInputLine(models.Model):
 #     _inherit = 'survey.user_input_line'
 
