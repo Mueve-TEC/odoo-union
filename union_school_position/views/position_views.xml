@@ -15,6 +15,7 @@
                                 attrs="{'invisible': [('type_id_in_hours', '=', False)], 'required': [('type_id_in_hours', '=', True)]}" />
                             <field name="character_id" />
                             <field name="workplace_id" />
+                            <field name="sector" />
                             <field name="date_from" />
                             <field name="date_to" />
                             <field name="featured" />
@@ -42,6 +43,7 @@
                     <field name="hs_amount" />
                     <field name="character_id" />
                     <field name="workplace_id" />
+                    <field name="sector" />
                     <field name="date_from" />
                     <field name="date_to" />
                     <field name="featured" />

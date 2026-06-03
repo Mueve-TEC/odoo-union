@@ -38,6 +38,9 @@ class Position(models.Model):
         ondelete='restrict',
         help='Workplace where the position is held'
     )
+    
+    sector = fields.Char(string='Sector')
+    
     date_from = fields.Date(
         string='From',
         help='Position start date'
