@@ -21,20 +21,18 @@ class AffiliationPeriod(models.Model):
     )
     affiliate_state = fields.Selection(related="affiliate_id.state", store=False)
 
+    _sql_constraints = [
+        (
+            "unique_affiliation_number",
+            "unique(affiliation_number)",
+            "There is already exist a period with the same affiliation number!",
+        ),
+    ]
+
     @api.constrains("from_date", "to_date")
     def _check_dates(self):
         if self.from_date and self.to_date and self.from_date >= self.to_date:
             raise ValidationError(_("'From date' is major to 'to date'!"))
-
-    @api.constrains("affiliation_number")
-    def _check_affiliation_number(self):
-        other = self.env["affiliation.affiliation_period"].search(
-            [("affiliation_number", "=", self.affiliation_number)]
-        )
-        if other and (len(other.ids) > 1 or other[0].id != self.id):
-            raise ValidationError(
-                _("There is already exist a period with the same affiliation number!")
-            )
 
     @api.constrains("from_date")
     def _check_from_date(self):

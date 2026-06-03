@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0-20250909\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-28 02:18+0000\n"
-"PO-Revision-Date: 2026-05-28 02:18+0000\n"
+"POT-Creation-Date: 2026-06-03 22:54+0000\n"
+"PO-Revision-Date: 2026-06-03 22:54+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgstr ""
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
 msgid "3° Lugar de trabajo principal"
-msgstr ""
+msgstr "3° Lugar de trabajo principal"
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_delete_wizard_form
@@ -720,7 +720,7 @@ msgstr ""
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__email
 msgid "Email"
-msgstr "Correo electrónico"
+msgstr ""
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__employee
@@ -1468,10 +1468,14 @@ msgstr ""
 #. module: union_affiliation
 #. odoo-python
 #: code:addons/union_affiliation/models/workplace.py:0
-#: code:addons/union_affiliation/models/workplace.py:0
 #, python-format
 msgid "The code \"%s\" already exists in another workplace."
 msgstr "El código \"%s\" ya existe en otro lugar de trabajo."
+
+#. module: union_affiliation
+#: model:ir.model.constraint,message:union_affiliation.constraint_union_workplace_unique_code
+msgid "The code selected already exists in another workplace."
+msgstr "El código seleccionado ya existe en otro lugar de trabajo."
 
 #. module: union_affiliation
 #. odoo-python
@@ -1491,10 +1495,14 @@ msgstr ""
 #. module: union_affiliation
 #. odoo-python
 #: code:addons/union_affiliation/models/workplace.py:0
-#: code:addons/union_affiliation/models/workplace.py:0
 #, python-format
 msgid "The name \"%s\" already exists in another workplace."
 msgstr "El nombre \"%s\" ya existe en otro lugar de trabajo."
+
+#. module: union_affiliation
+#: model:ir.model.constraint,message:union_affiliation.constraint_union_workplace_unique_name
+msgid "The name selected already exists in another workplace."
+msgstr "El nombre seleccionado ya existe en otro lugar de trabajo."
 
 #. module: union_affiliation
 #: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__company_registry
@@ -1522,7 +1530,7 @@ msgstr "¡Ya hay un período abierto!"
 #. module: union_affiliation
 #. odoo-python
 #: code:addons/union_affiliation/models/affiliation_period.py:0
-#: code:addons/union_affiliation/models/affiliation_period.py:0
+#: model:ir.model.constraint,message:union_affiliation.constraint_affiliation_affiliation_period_unique_affiliation_number
 #, python-format
 msgid "There is already exist a period with the same affiliation number!"
 msgstr "¡Ya existe un período con el mismo número de afiliación!"
@@ -1530,7 +1538,7 @@ msgstr "¡Ya existe un período con el mismo número de afiliación!"
 #. module: union_affiliation
 #. odoo-python
 #: code:addons/union_affiliation/models/affiliate_type.py:0
-#: code:addons/union_affiliation/models/affiliate_type.py:0
+#: model:ir.model.constraint,message:union_affiliation.constraint_affiliation_affiliate_type_unique_name
 #, python-format
 msgid "There is already exist a type with the same name!"
 msgstr "¡Ya existe un tipo con el mismo nombre!"
@@ -1538,15 +1546,19 @@ msgstr "¡Ya existe un tipo con el mismo nombre!"
 #. module: union_affiliation
 #. odoo-python
 #: code:addons/union_affiliation/models/affiliate.py:0
-#: code:addons/union_affiliation/models/affiliate.py:0
 #, python-format
 msgid "There is already exist an affiliate with the same uid!"
 msgstr "¡Ya existe un afiliado con el mismo ID!"
 
 #. module: union_affiliation
+#: model:ir.model.constraint,message:union_affiliation.constraint_affiliation_affiliate_uid_unique
+msgid "There is already exist an affiliated with the same affiliate UID!"
+msgstr "Ya existe un afiliado/a con el mismo ID!"
+
+#. module: union_affiliation
 #. odoo-python
 #: code:addons/union_affiliation/models/affiliate.py:0
-#: code:addons/union_affiliation/models/affiliate.py:0
+#: model:ir.model.constraint,message:union_affiliation.constraint_affiliation_affiliate_unique_affiliation_number
 #, python-format
 msgid "There is already exist an affiliated with the same affiliation number!"
 msgstr "¡Existe un afiliado con el mismo número de afiliación!"
@@ -1613,7 +1625,7 @@ msgstr "Sindicato"
 #. module: union_affiliation
 #: model:ir.model,name:union_affiliation.model_affiliation_affiliate
 msgid "Union affiliate entity"
-msgstr "Entidad de afiliado/a sindical"
+msgstr "Entidad del afiliado/a sindical"
 
 #. module: union_affiliation
 #: model:ir.model,name:union_affiliation.model_affiliation_affiliate_child

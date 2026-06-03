@@ -7,169 +7,178 @@ import logging
 log = logging.getLogger(__name__)
 
 
-AFFILIATE_STR_TO_INT = {
-    'active': 0,
-    'retired': 1
-}
+AFFILIATE_STR_TO_INT = {"active": 0, "retired": 1}
 
 
 class Affiliate(models.Model):
-    _name = 'affiliation.affiliate'
-    _inherits = {'res.partner': 'partner_id'}
-    _description = 'Union affiliate entity'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _name = "affiliation.affiliate"
+    _inherits = {"res.partner": "partner_id"}
+    _description = "Union affiliate entity"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
+
+    _sql_constraints = [
+        (
+            "uid_unique",
+            "unique(uid)",
+            "There is already exist an affiliated with the same affiliate UID!",
+        ),
+        (
+            "unique_affiliation_number",
+            "unique(affiliation_number)",
+            "There is already exist an affiliated with the same affiliation number!",
+        ),
+    ]
 
     partner_id = fields.Many2one(
-        comodel_name='res.partner',
-        string='Partner',
-        ondelete='cascade',
-        required=True
+        comodel_name="res.partner", string="Partner", ondelete="cascade", required=True
     )
-    uid = fields.Char(string='Affiliate UID', required=True)
-    work_id = fields.Char(string='Work ID')
-    personal_id_type = fields.Selection([
-        ('dni', 'DNI'),
-        ('du', 'DU'),
-        ('lc', 'LC'),
-        ('le', 'LE'),
-        ('pasaporte', 'PASAPORTE'),
-        ('ci', 'CI')],
-        string='Personal ID type', default='dni')
-    personal_id = fields.Char(string='Personal ID')
-    gender = fields.Selection([
-        ('female', 'Female'),
-        ('male', 'Male'),
-        ('other', 'Other'),
-        ('not_report', 'Not report')],
-        string='Gender', default='not_report')
-    civil_status = fields.Selection([
-        ('single', 'Single'),
-        ('married', 'Married'),
-        ('united', 'United'),
-        ('separated', 'Separated'),
-        ('divorced', 'Divorced'),
-        ('widowed', 'Widowed'),
-        ('not_report', 'Not report')],
-        string='Marital status', default='not_report')
-    birth_date = fields.Date(string='Birth date')
-    birth_country = fields.Many2one(
-        comodel_name='res.country', string='Birth country')
+    uid = fields.Char(string="Affiliate UID", required=True, index=True)
+    work_id = fields.Char(string="Work ID")
+    personal_id_type = fields.Selection(
+        [
+            ("dni", "DNI"),
+            ("du", "DU"),
+            ("lc", "LC"),
+            ("le", "LE"),
+            ("pasaporte", "PASAPORTE"),
+            ("ci", "CI"),
+        ],
+        string="Personal ID type",
+        default="dni",
+    )
+    personal_id = fields.Char(string="Personal ID")
+    gender = fields.Selection(
+        [
+            ("female", "Female"),
+            ("male", "Male"),
+            ("other", "Other"),
+            ("not_report", "Not report"),
+        ],
+        string="Gender",
+        default="not_report",
+    )
+    civil_status = fields.Selection(
+        [
+            ("single", "Single"),
+            ("married", "Married"),
+            ("united", "United"),
+            ("separated", "Separated"),
+            ("divorced", "Divorced"),
+            ("widowed", "Widowed"),
+            ("not_report", "Not report"),
+        ],
+        string="Marital status",
+        default="not_report",
+    )
+    birth_date = fields.Date(string="Birth date")
+    birth_country = fields.Many2one(comodel_name="res.country", string="Birth country")
     affiliate_child_ids = fields.Many2many(
-        comodel_name='affiliation.affiliate_child',
-        relation='affiliate_affiliate_child',
-        column1='affiliate_id',
-        column2='affiliate_child_id',
-        string='Childs'
+        comodel_name="affiliation.affiliate_child",
+        relation="affiliate_affiliate_child",
+        column1="affiliate_id",
+        column2="affiliate_child_id",
+        string="Childs",
     )
     state = fields.Selection(
         selection=[
-            ('not_affiliated', 'Not affiliated'),
-            ('new', 'New'),
-            ('pending_suscribe', 'Pending suscribe'),
-            ('affiliated', 'Affiliated'),
-            ('pending_unsuscribe', 'Pending unsuscribe'),
-            ('disaffiliated', 'Disaffiliated'),
-            ('historical', 'Historical'),
+            ("not_affiliated", "Not affiliated"),
+            ("new", "New"),
+            ("pending_suscribe", "Pending suscribe"),
+            ("affiliated", "Affiliated"),
+            ("pending_unsuscribe", "Pending unsuscribe"),
+            ("disaffiliated", "Disaffiliated"),
+            ("historical", "Historical"),
         ],
-        string='Affiliate State',
-        default='not_affiliated'
+        string="Affiliate State",
+        default="not_affiliated",
     )
     affiliation_period_ids = fields.One2many(
-        comodel_name='affiliation.affiliation_period',
-        inverse_name='affiliate_id',
-        string='Affiliation periods'
+        comodel_name="affiliation.affiliation_period",
+        inverse_name="affiliate_id",
+        string="Affiliation periods",
     )
     affiliate_type_id = fields.Many2one(
-        comodel_name='affiliation.affiliate_type',
-        string='Employment relationship type',
+        comodel_name="affiliation.affiliate_type",
+        string="Employment relationship type",
         domain="[('enabled', '=', True)]",
-        ondelete='restrict',
+        ondelete="restrict",
     )
 
-    delegation_id = fields.Many2one(
-        comodel_name='union.workplace',
-        string='Delegación'
-    )
+    delegation_id = fields.Many2one(comodel_name="union.workplace", string="Delegación")
 
     main_workplace_id = fields.Many2one(
-        comodel_name='union.workplace',
-        string='Lugar de trabajo principal',
-        ondelete='set null',
-        help='Lugar de trabajo principal'
+        comodel_name="union.workplace",
+        string="Lugar de trabajo principal",
+        ondelete="set null",
+        help="Lugar de trabajo principal",
     )
 
     main_workplace_level1 = fields.Char(
-        string='Agrupación Nivel 1',
-        compute='_compute_main_workplace_levels',
-        store=True
+        string="Agrupación Nivel 1",
+        compute="_compute_main_workplace_levels",
+        store=True,
     )
 
     main_workplace_level2 = fields.Char(
-        string='Agrupación Nivel 2',
-        compute='_compute_main_workplace_levels',
-        store=True
+        string="Agrupación Nivel 2",
+        compute="_compute_main_workplace_levels",
+        store=True,
     )
 
     main_workplace_level3 = fields.Char(
-        string='Agrupación Nivel 3',
-        compute='_compute_main_workplace_levels',
-        store=True
+        string="Agrupación Nivel 3",
+        compute="_compute_main_workplace_levels",
+        store=True,
     )
 
-    observations = fields.Text(string='Observations')
-    quote = fields.Boolean(string='Contributor', default=False)
-    log = fields.Text(string='Log')
-    affiliation_number = fields.Integer(string='Affiliation number')
-    affiliation_date = fields.Date(string='Affiliation\'s date')
-    disaffiliation_date = fields.Date(string='Disaffiliation\'s date')
-    seniority = fields.Date(string='Seniority')
+    observations = fields.Text(string="Observations")
+    quote = fields.Boolean(string="Contributor", default=False)
+    log = fields.Text(string="Log")
+    affiliation_number = fields.Integer(string="Affiliation number", index=True)
+    affiliation_date = fields.Date(string="Affiliation's date")
+    disaffiliation_date = fields.Date(string="Disaffiliation's date")
+    seniority = fields.Date(string="Seniority")
     seniority_years = fields.Integer(
-        string='Seniority in years',
-        compute='_compute_seniority_years'
+        string="Seniority in years", compute="_compute_seniority_years"
     )
 
     # EtiquetaBis
     category_bis_id = fields.Many2many(
-        comodel_name='res.partner.category',
-        relation='affiliate_category_bis_rel',
-        column1='affiliate_id',
-        column2='category_id',
-        string='Etiqueta BIS'
+        comodel_name="res.partner.category",
+        relation="affiliate_category_bis_rel",
+        column1="affiliate_id",
+        column2="category_id",
+        string="Etiqueta BIS",
     )
 
-    @api.constrains('uid')
+    @api.constrains("uid")
     def _check_uid(self):
         for record in self:
             if record.uid and not record.uid.isdigit():
-                raise ValidationError(_("El campo ID debe contener únicamente números."))
-            if record.uid[0] == '0':
+                raise ValidationError(
+                    _("El campo ID debe contener únicamente números.")
+                )
+            if record.uid[0] == "0":
                 raise ValidationError(_("El campo ID no puede comenzar con cero."))
-            other = self.env['affiliation.affiliate'].search(
-                [('uid', '=', record.uid)])
-            if len(other.ids) > 1 or (len(other) == 1 and other[0].id != record.id):
-                raise ValidationError(
-                    _('There is already exist an affiliate with the same uid!'))
 
-    @api.constrains('affiliation_number')
-    def _check_affiliation_number(self):
-        if self.affiliation_number:
-            other = self.env['affiliation.affiliate'].search(
-                [('affiliation_number', '=', self.affiliation_number)])
-            if len(other.ids) > 1 or (len(other) == 1 and other[0].id != self.id):
-                raise ValidationError(
-                    _("There is already exist an affiliated with the same affiliation number!"))
-
-    @api.constrains('state', 'affiliate_type_id')
+    @api.constrains("state", "affiliate_type_id")
     def _check_affiliate_type_id(self):
         for record in self:
-            if record.state not in ('new', 'not_affiliated') and not record.affiliate_type_id:
+            if (
+                record.state not in ("new", "not_affiliated")
+                and not record.affiliate_type_id
+            ):
                 raise ValidationError(
-                    _("The field 'Employment relationship type' is required when state is not 'new' or 'not_affiliated'."))
+                    _(
+                        "The field 'Employment relationship type' is required when state is not 'new' or 'not_affiliated'."
+                    )
+                )
 
-    @api.depends('seniority')
+    @api.depends("seniority")
     def _compute_seniority_years(self):
         """Computa la antigüedad en años desde la fecha de seniority hasta hoy"""
         from datetime import datetime
+
         today = datetime.now().date()
         for affiliate in self:
             if affiliate.seniority:
@@ -178,38 +187,40 @@ class Affiliate(models.Model):
             else:
                 affiliate.seniority_years = 0
 
-    @api.depends('main_workplace_id', 'main_workplace_id.level', 'main_workplace_id.parent_path')
+    @api.depends(
+        "main_workplace_id", "main_workplace_id.level", "main_workplace_id.parent_path"
+    )
     def _compute_main_workplace_levels(self):
         """Computa las agrupaciones jerárquicas por lugar de trabajo"""
         for affiliate in self:
             if not affiliate.main_workplace_id:
-                affiliate.main_workplace_level1 = 'Sin lugar de trabajo principal'
-                affiliate.main_workplace_level2 = 'Sin lugar de trabajo principal'
-                affiliate.main_workplace_level3 = 'Sin lugar de trabajo principal'
+                affiliate.main_workplace_level1 = "Sin lugar de trabajo principal"
+                affiliate.main_workplace_level2 = "Sin lugar de trabajo principal"
+                affiliate.main_workplace_level3 = "Sin lugar de trabajo principal"
                 continue
 
             workplace = affiliate.main_workplace_id
 
             parent_ids = []
             if workplace.parent_path:
-                parent_ids = [int(x)
-                              for x in workplace.parent_path.split('/') if x]
+                parent_ids = [int(x) for x in workplace.parent_path.split("/") if x]
             else:
                 parent_ids = [workplace.id]
 
             # Ordenar los lugares padres por nivel
-            parent_workplaces = self.env['union.workplace'].browse(
-                parent_ids).sorted('level')
+            parent_workplaces = (
+                self.env["union.workplace"].browse(parent_ids).sorted("level")
+            )
 
-            level1_workplace = parent_workplaces.filtered(
-                lambda w: w.level == 1)
-            affiliate.main_workplace_level1 = level1_workplace[
-                0].name if level1_workplace else workplace.name
+            level1_workplace = parent_workplaces.filtered(lambda w: w.level == 1)
+            affiliate.main_workplace_level1 = (
+                level1_workplace[0].name if level1_workplace else workplace.name
+            )
 
-            level2_workplace = parent_workplaces.filtered(
-                lambda w: w.level == 2)
+            level2_workplace = parent_workplaces.filtered(lambda w: w.level == 2)
             affiliate.main_workplace_level2 = (
-                level2_workplace[0].name if level2_workplace
+                level2_workplace[0].name
+                if level2_workplace
                 else affiliate.main_workplace_level1
             )
 
@@ -219,7 +230,6 @@ class Affiliate(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         return super(Affiliate, self).create(vals_list)
-        
 
     def write(self, vals):
         self._log_change_field(vals)
@@ -235,106 +245,115 @@ class Affiliate(models.Model):
 
     def action_affiliate(self):
         return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'affiliation.affiliation_period',
-            'views': [[False, 'form']],
-            'target': 'new',
-            'context': {
-                'default_affiliate_id': self.id,
-            }
+            "type": "ir.actions.act_window",
+            "res_model": "affiliation.affiliation_period",
+            "views": [[False, "form"]],
+            "target": "new",
+            "context": {
+                "default_affiliate_id": self.id,
+            },
         }
 
     def action_disaffiliate(self):
         return {
-            'name': 'Period',
-            'type': 'ir.actions.act_window',
-            'res_model': 'affiliation.affiliation_period',
-            'view_id': self.env.ref('affiliation.affiliation_affiliation_period_form').id,
-            'view_mode': 'form',
-            'res_id': self._get_current_period().id,
-            'target': 'new',
+            "name": "Period",
+            "type": "ir.actions.act_window",
+            "res_model": "affiliation.affiliation_period",
+            "view_id": self.env.ref(
+                "affiliation.affiliation_affiliation_period_form"
+            ).id,
+            "view_mode": "form",
+            "res_id": self._get_current_period().id,
+            "target": "new",
         }
 
     def affiliate_(self):
-        _config = self.env['affiliation.affiliation_configuration'].browse(1)
-        _to_write = {'state': 'pending_suscribe'}
+        _config = self.env["affiliation.affiliation_configuration"].browse(1)
+        _to_write = {"state": "pending_suscribe"}
         if self.quote:
-            _to_write.update({'quote': False})
-        if _config.affiliation_start == 'on_affiliate':
+            _to_write.update({"quote": False})
+        if _config.affiliation_start == "on_affiliate":
             return self.start_affiliation_(_to_write, _config)
         else:
             self.write(_to_write)
 
     def confirm_affiliation_(self):
-        _config = self.env['affiliation.affiliation_configuration'].browse(1)
-        _to_write = {'state': 'affiliated'}
+        _config = self.env["affiliation.affiliation_configuration"].browse(1)
+        _to_write = {"state": "affiliated"}
         if not self.quote:
-            _to_write.update({'quote': True})
+            _to_write.update({"quote": True})
 
-        if _config.affiliation_start == 'on_confirm':
+        if _config.affiliation_start == "on_confirm":
             return self.start_affiliation_(_to_write, _config)
         else:
             self.write(_to_write)
 
     def start_affiliation_(self, _to_write, _config):
 
-        _to_write.update({'affiliation_date': fields.Date.today()})
+        _to_write.update({"affiliation_date": fields.Date.today()})
 
         suggested_affiliation_number = None
         if _config.enable_affiliation_number_sequence:
-            suggested_affiliation_number = self.env['ir.sequence'].search(
-                [('code', '=', 'next_affiliation_number_seq')], limit=1).number_next_actual
+            suggested_affiliation_number = (
+                self.env["ir.sequence"]
+                .search([("code", "=", "next_affiliation_number_seq")], limit=1)
+                .number_next_actual
+            )
             if not suggested_affiliation_number:
                 raise UserError(
-                    _("The sequence next_affiliation_number_seq is not defined."))
+                    _("The sequence next_affiliation_number_seq is not defined.")
+                )
 
         # TODO: find a way to delete the unconfirmed affiliations from database records
-        _data = self.env['affiliation.affiliation_number'].create(
-            {'affiliate_id': self.id,
-             'affiliation_number': suggested_affiliation_number,
-             'affiliation_number_edition': _config.affiliation_number_edition,
-             'enable_affiliation_number_sequence': _config.enable_affiliation_number_sequence})
+        _data = self.env["affiliation.affiliation_number"].create(
+            {
+                "affiliate_id": self.id,
+                "affiliation_number": suggested_affiliation_number,
+                "affiliation_number_edition": _config.affiliation_number_edition,
+                "enable_affiliation_number_sequence": _config.enable_affiliation_number_sequence,
+            }
+        )
 
         return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'affiliation.affiliation_number',
-            'views': [[False, 'form']],
-            'target': 'new',
-            'res_id': _data.id,
-            'context': _to_write
+            "type": "ir.actions.act_window",
+            "res_model": "affiliation.affiliation_number",
+            "views": [[False, "form"]],
+            "target": "new",
+            "res_id": _data.id,
+            "context": _to_write,
         }
 
     def disaffiliate_(self):
-        _config = self.env['affiliation.affiliation_configuration'].browse(1)
-        _to_write = {'state': 'pending_unsuscribe'}
-        if _config.set_disaffiliation_date == 'on_disaffiliate':
-            _to_write.update({'disaffiliation_date': fields.Date.today()})
+        _config = self.env["affiliation.affiliation_configuration"].browse(1)
+        _to_write = {"state": "pending_unsuscribe"}
+        if _config.set_disaffiliation_date == "on_disaffiliate":
+            _to_write.update({"disaffiliation_date": fields.Date.today()})
 
         self.write(_to_write)
 
     def confirm_dissafiliation_(self):
-        _config = self.env['affiliation.affiliation_configuration'].browse(1)
-        _to_write = {'state': 'disaffiliated'}
-        if _config.set_disaffiliation_date == 'on_confirm':
-            _to_write.update({'disaffiliation_date': fields.Date.today()})
+        _config = self.env["affiliation.affiliation_configuration"].browse(1)
+        _to_write = {"state": "disaffiliated"}
+        if _config.set_disaffiliation_date == "on_confirm":
+            _to_write.update({"disaffiliation_date": fields.Date.today()})
         if self.quote:
-            _to_write.update({'quote': False})
+            _to_write.update({"quote": False})
 
         self.write(_to_write)
 
     def archive_(self):
-        self.state = 'historical'
+        self.state = "historical"
         if self.quote:
             self.set_contributor()
 
     def set_contributor(self):
         if not self.quote:
-            self.write({'quote': True})
+            self.write({"quote": True})
         else:
-            self.write({'quote': False})
+            self.write({"quote": False})
 
     def _get_current_period(self):
-        _period = self.affiliation_period_ids.sorted(key='id', reverse=True)
+        _period = self.affiliation_period_ids.sorted(key="id", reverse=True)
         if len(_period) > 1:
             _period = _period[0]
         if not _period.closed:
@@ -342,55 +361,76 @@ class Affiliate(models.Model):
         return False
 
     def _log_change_field(self, vals):
-        _loggables = ['state', 'quote', 'affiliate_type_id',
-                      'email', 'phone', 'mobile', 'affiliation_number']
+        _loggables = [
+            "state",
+            "quote",
+            "affiliate_type_id",
+            "email",
+            "phone",
+            "mobile",
+            "affiliation_number",
+        ]
         for record in self:
-            _log = ''
+            _log = ""
             for field in vals:
                 if field in _loggables:
-                    _log = _('%s [%s] The field %s change from %s to %s \n') % (str(fields.Date.today(
-                    )), record.env.user.name, _(field), _(record[field]), _(str(vals[field]))) + _log
+                    _log = (
+                        _("%s [%s] The field %s change from %s to %s \n")
+                        % (
+                            str(fields.Date.today()),
+                            record.env.user.name,
+                            _(field),
+                            _(record[field]),
+                            _(str(vals[field])),
+                        )
+                        + _log
+                    )
             _log = _log + record.log if record.log else _log
-            vals.update({'log': _log})
+            vals.update({"log": _log})
 
     @api.model
-    def _name_search(self, name, args=None, operator='ilike', limit=100):
+    def _name_search(self, name, args=None, operator="ilike", limit=100):
         args = args or []
         if name:
-            domain = ['|', '|',
-                      ('personal_id', operator, name),
-                      ('uid', operator, name),
-                      ('name', operator, name)]
+            domain = [
+                "|",
+                "|",
+                ("personal_id", operator, name),
+                ("uid", operator, name),
+                ("name", operator, name),
+            ]
             # Buscar directamente con el dominio personalizado
             return self._search(args + domain, limit=limit)
         return super()._name_search(name, args, operator, limit)
 
     def _message_get_suggested_recipients(self):
         recipients = super(Affiliate, self)._message_get_suggested_recipients()
-        recipients[self.id].append((self.partner_id.id, self.name, 'Afiliado'))
+        recipients[self.id].append((self.partner_id.id, self.name, "Afiliado"))
         return recipients
 
     def action_archive(self):
         log.info(self.env.user.groups_id)
-        if not self.env.user.has_group('affiliation.group_affiliation_admin'):
+        if not self.env.user.has_group("affiliation.group_affiliation_admin"):
             raise UserError(
-                _("Admin affiliation permission is required to archive records."))
+                _("Admin affiliation permission is required to archive records.")
+            )
         return super().action_archive()
 
     def action_unarchive(self):
-        if not self.env.user.has_group('affiliation.group_affiliation_admin'):
+        if not self.env.user.has_group("affiliation.group_affiliation_admin"):
             raise UserError(
-                _("Admin affiliation permission is required to unarchive records."))
+                _("Admin affiliation permission is required to unarchive records.")
+            )
         return super().action_unarchive()
 
     def action_view_partner(self):
         """Open the form view of the associated partner"""
         self.ensure_one()
         return {
-            'type': 'ir.actions.act_window',
-            'name': _('Partner'),
-            'res_model': 'res.partner',
-            'res_id': self.partner_id.id,
-            'view_mode': 'form',
-            'target': 'current',
+            "type": "ir.actions.act_window",
+            "name": _("Partner"),
+            "res_model": "res.partner",
+            "res_id": self.partner_id.id,
+            "view_mode": "form",
+            "target": "current",
         }

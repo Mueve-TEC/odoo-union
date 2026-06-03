@@ -66,6 +66,19 @@ class UnionWorkplace(models.Model):
         string="Main Affiliate Count", compute="_compute_main_affiliate_count"
     )
 
+    _sql_constraints = [
+        (
+            "unique_name",
+            "unique(name)",
+            "The name selected already exists in another workplace.",
+        ),
+        (
+            "unique_code",
+            "unique(code)",
+            "The code selected already exists in another workplace.",
+        ),
+    ]
+
     @api.depends("parent_id")
     def _compute_level(self):
         for workplace in self:
@@ -101,34 +114,6 @@ class UnionWorkplace(models.Model):
             raise ValidationError(
                 _("You cannot create a recursive workplace hierarchy.")
             )
-
-    @api.constrains("name")
-    def _check_unique_name(self):
-        """Name must be unique"""
-        for workplace in self:
-            if workplace.name:
-                existing = self.search(
-                    [("name", "=", workplace.name), ("id", "!=", workplace.id)]
-                )
-                if existing:
-                    raise ValidationError(
-                        _('The name "%s" already exists in another workplace.')
-                        % workplace.name
-                    )
-
-    @api.constrains("code")
-    def _check_unique_code(self):
-        """Code must be unique"""
-        for workplace in self:
-            if workplace.code:
-                existing = self.search(
-                    [("code", "=", workplace.code), ("id", "!=", workplace.id)]
-                )
-                if existing:
-                    raise ValidationError(
-                        _('The code "%s" already exists in another workplace.')
-                        % workplace.code
-                    )
 
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
