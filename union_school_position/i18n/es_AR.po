@@ -39,7 +39,7 @@ msgstr "Estado de afiliación"
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__uid
 msgid "Affiliate UID"
-msgstr "Legajo"
+msgstr "ID del afiliado/a"
 
 #. module: union_school_position
 #. odoo-python
@@ -68,8 +68,8 @@ msgid ""
 "Cannot create affiliate for position import. Missing import_name or ID "
 "(import_uid). Please ensure the imported data includes both Name and ID."
 msgstr "No se puede crear el/la afiliado/a para la importación del cargo. Faltan "
-"import_name o Legajo (import_uid). Por favor, asegúrese de que los datos "
-"importados incluyan tanto el Nombre como el Legajo."
+"import_name o ID de afiliado/a (import_uid). Por favor, asegúrese de que los datos "
+"importados incluyan tanto el Nombre como el ID."
 
 #. module: union_school_position
 #: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_affiliation_affiliate_form
@@ -239,7 +239,7 @@ msgstr "Nro de documento (importacion)"
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__import_uid
 msgid "Import UID"
-msgstr "Legajo (importacion)"
+msgstr "ID del afiliado/a (importacion)"
 
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__import_vat
