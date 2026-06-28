@@ -5,81 +5,75 @@ from odoo.exceptions import UserError, ValidationError
 
 
 class UnionWorkplace(models.Model):
-    _name = "union.workplace"
-    _description = "Workplace"
-    _order = "complete_name"
+    _name = 'union.workplace'
+    _description = 'Workplace'
+    _order = 'complete_name'
     _parent_store = True
-    _rec_name = "complete_name"
+    _rec_name = 'complete_name'
 
-    name = fields.Char(string="Name", required=True, help="Workplace name")
+    name = fields.Char(string='Name', required=True, help='Workplace name')
 
-    code = fields.Char(string="Code", required=True, help="Unique workplace code")
+    code = fields.Char(string='Code', required=True, help='Unique workplace code')
 
     parent_id = fields.Many2one(
-        "union.workplace",
-        string="Parent Workplace",
+        'union.workplace',
+        string='Parent Workplace',
         index=True,
-        ondelete="cascade",
-        help="Parent workplace in the hierarchy",
+        ondelete='cascade',
+        help='Parent workplace in the hierarchy',
     )
 
-    level = fields.Integer(string="Level", compute="_compute_level", store=True)
+    level = fields.Integer(string='Level', compute='_compute_level', store=True)
 
-    child_ids = fields.One2many(
-        "union.workplace", "parent_id", string="Child Workplaces"
-    )
+    child_ids = fields.One2many('union.workplace', 'parent_id', string='Child Workplaces')
 
     # Odoo field for hierarchies
     parent_path = fields.Char(index=True, unaccent=False)
 
     complete_name = fields.Char(
-        string="Complete Name",
-        compute="_compute_complete_name",
+        string='Complete Name',
+        compute='_compute_complete_name',
         recursive=True,
         store=True,
     )
 
-    active = fields.Boolean(string="Active", default=True)
+    active = fields.Boolean(string='Active', default=True)
 
     # Relationship with affiliates
     affiliate_ids = fields.Many2many(
-        "affiliation.affiliate",
-        relation="affiliate_workplace_rel",
-        column1="workplace_id",
-        column2="affiliate_id",
-        string="Affiliates",
+        'affiliation.affiliate',
+        relation='affiliate_workplace_rel',
+        column1='workplace_id',
+        column2='affiliate_id',
+        string='Affiliates',
     )
 
     main_affiliate_ids = fields.One2many(
-        "affiliation.affiliate",
-        "main_workplace_id",
-        string="Main Affiliates",
-        help="Affiliates that have this workplace as main",
+        'affiliation.affiliate',
+        'main_workplace_id',
+        string='Main Affiliates',
+        help='Affiliates that have this workplace as main',
     )
 
     # Statistical fields
-    affiliate_count = fields.Integer(
-        string="Affiliate Count", compute="_compute_affiliate_count"
-    )
+    affiliate_count = fields.Integer(string='Affiliate Count', compute='_compute_affiliate_count')
 
-    main_affiliate_count = fields.Integer(
-        string="Main Affiliate Count", compute="_compute_main_affiliate_count"
-    )
+    main_affiliate_count = fields.Integer(string='Main Affiliate Count', compute='_compute_main_affiliate_count')
 
     _sql_constraints = [
         (
-            "unique_name",
-            "unique(name)",
-            "The name selected already exists in another workplace.",
+            'unique_name',
+            'unique(name)',
+            'The name selected already exists in another workplace.',
         ),
         (
-            "unique_code",
-            "unique(code)",
-            "The code selected already exists in another workplace.",
+            'unique_code',
+            'unique(code)',
+            'The code selected already exists in another workplace.',
         ),
     ]
 
-    @api.depends("parent_id")
+    @api.depends('parent_id')
     def _compute_level(self):
         for workplace in self:
             if workplace.parent_id:
@@ -87,46 +81,42 @@ class UnionWorkplace(models.Model):
             else:
                 workplace.level = 1
 
-    @api.depends("name", "parent_id.complete_name")
+    @api.depends('name', 'parent_id.complete_name')
     def _compute_complete_name(self):
         for workplace in self:
             if workplace.parent_id:
-                workplace.complete_name = (
-                    f"{workplace.parent_id.complete_name} / {workplace.name}"
-                )
+                workplace.complete_name = f'{workplace.parent_id.complete_name} / {workplace.name}'
             else:
                 workplace.complete_name = workplace.name
 
-    @api.depends("affiliate_ids")
+    @api.depends('affiliate_ids')
     def _compute_affiliate_count(self):
         for workplace in self:
             workplace.affiliate_count = len(workplace.affiliate_ids)
 
-    @api.depends("main_affiliate_ids")
+    @api.depends('main_affiliate_ids')
     def _compute_main_affiliate_count(self):
         for workplace in self:
             workplace.main_affiliate_count = len(workplace.main_affiliate_ids)
 
-    @api.constrains("parent_id")
+    @api.constrains('parent_id')
     def _check_parent_id(self):
         """Prevents cycles in the hierarchy"""
         if not self._check_recursion():
-            raise ValidationError(
-                _("You cannot create a recursive workplace hierarchy.")
-            )
+            raise ValidationError(_('You cannot create a recursive workplace hierarchy.'))
 
     @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100):
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
         """Allows searching by code or name"""
         args = args or []
         domain = []
         if name:
             domain = [
-                "|",
-                "|",
-                ("name", operator, name),
-                ("code", operator, name),
-                ("complete_name", operator, name),
+                '|',
+                '|',
+                ('name', operator, name),
+                ('code', operator, name),
+                ('complete_name', operator, name),
             ]
         workplaces = self.search(domain + args, limit=limit)
         return workplaces.name_get()
@@ -136,14 +126,14 @@ class UnionWorkplace(models.Model):
         Method to get main affiliates for reports.
         Avoids duplicates by using only the main workplace.
         """
-        return self.main_affiliate_ids.filtered(lambda a: a.state == "affiliated")
+        return self.main_affiliate_ids.filtered(lambda a: a.state == 'affiliated')
 
     def _get_all_descendants(self):
         """
         Gets all descendants (children, grandchildren, etc.) recursively.
         Returns a recordset with all descendants.
         """
-        descendants = self.env["union.workplace"]
+        descendants = self.env['union.workplace']
 
         if not self.child_ids:
             return descendants
@@ -159,19 +149,19 @@ class UnionWorkplace(models.Model):
         Custom action to delete with confirmation wizard
         """
         if len(self) != 1:
-            raise UserError(_("Please select only one workplace to delete."))
+            raise UserError(_('Please select only one workplace to delete.'))
 
         workplace = self[0]
 
         return {
-            "type": "ir.actions.act_window",
-            "name": _("Confirm Deletion"),
-            "res_model": "union.workplace.delete.wizard",
-            "view_mode": "form",
-            "target": "new",
-            "context": {
-                "workplace_id": workplace.id,
-                "from_delete_wizard": True,
+            'type': 'ir.actions.act_window',
+            'name': _('Confirm Deletion'),
+            'res_model': 'union.workplace.delete.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'workplace_id': workplace.id,
+                'from_delete_wizard': True,
             },
         }
 
@@ -179,7 +169,7 @@ class UnionWorkplace(models.Model):
     def _checks_before_delete(self):
 
         # Allow deletion from wizard
-        if self.env.context.get("from_delete_wizard"):
+        if self.env.context.get('from_delete_wizard'):
             return
 
         # For deletions from interface, redirect to wizard if there are children or affiliates associated with the workplace
@@ -187,16 +177,13 @@ class UnionWorkplace(models.Model):
             all_descendants = workplace._get_all_descendants()
             if all_descendants:
                 raise ValidationError(
-                    _(
-                        "To delete this workplace and its descendants, "
-                        'use the "Delete" button from the form view.'
-                    )
+                    _('To delete this workplace and its descendants, use the "Delete" button from the form view.')
                 )
 
             if workplace.affiliate_ids:
                 raise ValidationError(
                     _(
-                        "Cannot delete this workplace because it has associated affiliates. "
+                        'Cannot delete this workplace because it has associated affiliates. '
                         'Use the "Delete" button from the form view.'
                     )
                 )

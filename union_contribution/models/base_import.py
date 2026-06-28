@@ -4,8 +4,8 @@ from odoo import models
 
 
 class Import(models.TransientModel):
-    _inherit = "base_import.import"
-    _description = "Base Import"
+    _inherit = 'base_import.import'
+    _description = 'Base Import'
 
     def do(self, fields, columns, options, dryrun=False):
         # Clean logs
