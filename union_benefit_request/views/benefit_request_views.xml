@@ -109,6 +109,7 @@
                     <field name="request_type_id" />
                     <field name="expedient" />
                     <field name="full_doc" />
+                    <field name="state" />
                 </tree>
             </field>
         </record>
