@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from . import (
-    contribution,
-    contribution_code,
+    affiliate,
     affiliation_configuration,
     base_import,
-    affiliate,
+    contribution,
+    contribution_code,
     query,
     result,
 )

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields
+from odoo import fields, models
 
 
 class AffiliateContributionCode(models.Model):
@@ -13,7 +13,4 @@ class AffiliateContributionCode(models.Model):
     enabled = fields.Boolean(string="Enabled", default=True)
 
     def name_get(self):
-        result = []
-        for record in self:
-            result.append((record.id, record.description))
-        return result
+        return [(record.id, record.description) for record in self]

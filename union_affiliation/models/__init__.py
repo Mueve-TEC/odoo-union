@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from . import (
-    res_partner,
-    affiliate_type,
     affiliate,
     affiliate_child,
+    affiliate_type,
+    affiliation_configuration,
     affiliation_period,
+    res_partner,
+    workplace,
 )
-from . import affiliation_configuration, workplace

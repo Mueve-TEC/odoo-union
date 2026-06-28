@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 
 class UnionWorkplaceDeleteWizard(models.TransientModel):
@@ -90,12 +90,10 @@ class UnionWorkplaceDeleteWizard(models.TransientModel):
 
                     # Detalles de afiliados afectados
                     if main_affiliates:
-                        affiliate_details = []
-                        # Mostrar solo los primeros 10
-                        for affiliate in main_affiliates[:10]:
-                            affiliate_details.append(
-                                f"• {affiliate.name} ({affiliate.uid})"
-                            )
+                        affiliate_details = [
+                            f"• {affiliate.name} ({affiliate.uid})"
+                            for affiliate in main_affiliates[:10]
+                        ]
 
                         if len(main_affiliates) > 10:
                             affiliate_details.append(

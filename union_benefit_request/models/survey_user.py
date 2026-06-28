@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields
+from odoo import fields, models
 
 
 class SurveyUserInput(models.Model):
@@ -65,11 +65,13 @@ class SurveyUserInput(models.Model):
 
     def _create_school_benefits_from_answers(self):
         for n in range(1, 4):
+            dni_title = "DNI hijo %s" % n
+            solicitud_title = "Solicitud %s" % n
             answer_dni = self.user_input_line_ids.filtered(
-                lambda a: a.question_id.title == "DNI hijo " + str(n)
+                lambda a, _t=dni_title: a.question_id.title == _t
             )
             answer_solicitud = self.user_input_line_ids.filtered(
-                lambda a: a.question_id.title == "Solicitud " + str(n)
+                lambda a, _t=solicitud_title: a.question_id.title == _t
             )
 
             if not answer_dni.value_number:

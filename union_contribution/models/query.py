@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -56,20 +56,28 @@ class Query(models.Model):
 
         base_params = [self.from_date, self.to_date, self.description] + type_params
 
+        # type_filter and code_filter are static SQL fragments (not user input).
+        # All user-supplied values are passed as parameterized %s placeholders.
         if self.not_contribute:
             # Cotizante sin aportes
             status_str = "Cotizante sin aportes"
-            sql1 = f"""
+            sql1 = (
+                """
                 INSERT INTO inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description)
                 SELECT a.id, %s, %s, %s, now(), %s
                 FROM affiliation_affiliate a
-                WHERE a.quote = TRUE {type_filter}
+                WHERE a.quote = TRUE"""
+                + type_filter
+                + """
                   AND a.id NOT IN (
                       SELECT DISTINCT(c.affiliate_id)
                       FROM contribution_affiliate_contribution c
-                      WHERE c.date BETWEEN %s AND %s {code_filter}
+                      WHERE c.date BETWEEN %s AND %s"""
+                + code_filter
+                + """
                   )
             """
+            )
             self.env.cr.execute(
                 sql1,
                 [status_str]
@@ -83,17 +91,23 @@ class Query(models.Model):
         if self.contribute:
             # No cotizante con aportes
             status_str = "No cotizante con aportes"
-            sql2 = f"""
+            sql2 = (
+                """
                 INSERT INTO inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description)
                 SELECT a.id, %s, %s, %s, now(), %s
                 FROM affiliation_affiliate a
-                WHERE a.quote = FALSE {type_filter}
+                WHERE a.quote = FALSE"""
+                + type_filter
+                + """
                   AND a.id IN (
                       SELECT DISTINCT(c.affiliate_id)
                       FROM contribution_affiliate_contribution c
-                      WHERE c.date BETWEEN %s AND %s {code_filter}
+                      WHERE c.date BETWEEN %s AND %s"""
+                + code_filter
+                + """
                   )
             """
+            )
             self.env.cr.execute(
                 sql2,
                 [status_str]
@@ -105,22 +119,26 @@ class Query(models.Model):
                 result = True
 
         # Inconsistencies of state vs quote
-        sql3 = f"""
+        sql3 = (
+            """
             INSERT INTO inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description)
             SELECT a.id, 'Cotizante - ' || COALESCE(translateState(a.state), a.state), %s, %s, now(), %s
-            FROM affiliation_affiliate a  
-            WHERE a.quote = TRUE AND a.state != 'affiliated' {type_filter}
-        """
+            FROM affiliation_affiliate a
+            WHERE a.quote = TRUE AND a.state != 'affiliated'"""
+            + type_filter
+        )
         self.env.cr.execute(sql3, base_params)
         if self.env.cr.rowcount > 0:
             result = True
 
-        sql4 = f"""
+        sql4 = (
+            """
             INSERT INTO inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description)
             SELECT a.id, 'No Cotizante - Afiliado', %s, %s, now(), %s
-            FROM affiliation_affiliate a  
-            WHERE a.quote = FALSE AND a.state = 'affiliated' {type_filter}
-        """
+            FROM affiliation_affiliate a
+            WHERE a.quote = FALSE AND a.state = 'affiliated'"""
+            + type_filter
+        )
         self.env.cr.execute(sql4, base_params)
         if self.env.cr.rowcount > 0:
             result = True

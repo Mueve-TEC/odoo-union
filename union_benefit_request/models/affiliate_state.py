@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields
+from odoo import fields, models
 
 es_AR_state_names = {
     "not_affiliated": "No afiliado",

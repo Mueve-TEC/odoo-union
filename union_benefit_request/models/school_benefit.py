@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -38,11 +38,7 @@ class SchoolBenefit(models.Model):
         _affiliated = self.env["affiliation.affiliate"].search(
             [("partner_id", "=", self.partner_id.id)]
         )
-        _child_ids = []
-        if _affiliated:
-            __childs = _affiliated.affiliate_child_ids
-            for _child in __childs:
-                _child_ids.append(_child.id)
+        _child_ids = _affiliated.affiliate_child_ids.ids
         res = {
             "domain": {
                 "affiliate_child_id": [("id", "in", _child_ids)],

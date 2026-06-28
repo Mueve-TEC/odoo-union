@@ -1,6 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from . import benefit_request, affiliate_state, request_group, request_type
-from . import school_benefit_type, school_benefit
-from . import survey_survey, survey_user, res_partner, affiliate
-from . import affiliation_configuration
+from . import (
+    affiliate,
+    affiliate_state,
+    affiliation_configuration,
+    benefit_request,
+    request_group,
+    request_type,
+    res_partner,
+    school_benefit,
+    school_benefit_type,
+    survey_survey,
+    survey_user,
+)
