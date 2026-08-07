@@ -4,7 +4,7 @@
     'summary': """
         Módulo para gestionar los cargos.""",
     'author': "Mueve",
-    'website': "https://github.com/Mueve-TEC",
+    "website": "https://mueve.org.ar/",
     'category': 'Union',
     "license": "GPL-3",
     'version': '19.0.0.0.0',

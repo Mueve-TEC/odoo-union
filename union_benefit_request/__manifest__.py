@@ -4,7 +4,7 @@
     'summary': """
         Módulo para la gestion de solicitudes y beneficios gremiales.""",
     'author': "Mueve",
-    'website': "https://github.com/Mueve-TEC",
+    "website": "https://mueve.org.ar/",
     'category': 'Union',
     'version': '19.0.0.0.0',
     'license': "GPL-3",

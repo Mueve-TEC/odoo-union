@@ -4,7 +4,7 @@
     'summary': """
         Módulo de gestion de gremial de afiliados.""",
     'author': "Mueve",
-    'website': "https://github.com/Mueve-TEC",
+    "website": "https://mueve.org.ar/",
     'category': 'Union',
     'version': '19.0.0.0.0',
     "license": "AGPL-3",
