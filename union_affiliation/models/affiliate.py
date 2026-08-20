@@ -230,20 +230,23 @@ class Affiliate(models.Model):
             affiliate.main_workplace_level3 = workplace.name
 
     # This method is necessary for RPC importation
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super(Affiliate, self).create(vals_list)
+
         # Auto-asignar lugares de trabajo padres si se crean afiliados con workplace_ids
-        if 'workplace_ids' in vals and not self.env.context.get('skip_workplace_validation'):
-            res = super(Affiliate, self).create(vals)
+        if self.env.context.get('skip_workplace_validation'):
+            return records
 
-            if res.workplace_ids:
-                expanded_workplaces = res._auto_assign_workplace_parents(
-                    res.workplace_ids.ids)
-                res.workplace_ids = expanded_workplaces
-            return res
+        for record, vals in zip(records, vals_list):
+            if 'workplace_ids' in vals and record.workplace_ids:
+                expanded_workplaces = record._auto_assign_workplace_parents(
+                    record.workplace_ids.ids)
+                if set(expanded_workplaces.ids) != set(record.workplace_ids.ids):
+                    record.with_context(
+                        skip_workplace_validation=True).workplace_ids = expanded_workplaces
 
-        res = super(Affiliate, self).create(vals)
-        return res
+        return records
 
     def write(self, vals):
         self._log_change_field(vals)
