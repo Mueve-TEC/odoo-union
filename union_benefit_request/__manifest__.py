@@ -21,11 +21,7 @@
         'views/school_benefit_type_views.xml',
         'views/school_benefit_views.xml',
         'views/affiliate_views.xml',
-        'views/survey_survey_views.xml',
         'views/menu.xml',
-    ],
-    'demo': [
-        'demo/demo.xml',
     ],
     "installable": True,
 }

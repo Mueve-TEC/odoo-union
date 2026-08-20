@@ -26,8 +26,5 @@
         'views/menu.xml',
         'data/default_home_action.xml',
     ],
-    'demo': [
-        'demo/demo.xml',
-    ],
     "installable": True,
 }
