@@ -176,14 +176,24 @@
             </field>
         </record>
 
-        <act_window name="Send email to aplicants" res_model="mail.compose.message"
-            binding_model="benefit_request.benefit_request" binding_views="list" view_mode="form"
-            target="new" id="action_request_mass_mail"
-            context="{                 'default_composition_mode': 'mass_mail'             }" />
+        <record id="action_request_mass_mail" model="ir.actions.act_window">
+            <field name="name">Send email to aplicants</field>
+            <field name="res_model">mail.compose.message</field>
+            <field name="binding_model_id" ref="model_benefit_request_benefit_request" />
+            <field name="binding_view_types">list</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'default_composition_mode': 'mass_mail'}</field>
+        </record>
 
-        <act_window name="Send email" res_model="mail.compose.message"
-            binding_model="benefit_request.benefit_request" binding_views="form" view_mode="form"
-            target="new" id="action_benefit_request_mail_form" />
+        <record id="action_benefit_request_mail_form" model="ir.actions.act_window">
+            <field name="name">Send email</field>
+            <field name="res_model">mail.compose.message</field>
+            <field name="binding_model_id" ref="model_benefit_request_benefit_request" />
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
 
     </data>
 </odoo>
