@@ -91,12 +91,10 @@ class Position(models.Model):
                 if record.registration_date > fields.Date.today():
                     raise ValidationError(_('The registration date cannot be in the future.'))
 
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for record in self:
             name = '%s,%s' % (record.type_id.name, record.affiliate_id.name)        
-            result.append((record.id, _("%s")%(name)))
-        return result
+            record.display_name = _("%s")%(name)
 
     @api.model
     def create(self, vals):
