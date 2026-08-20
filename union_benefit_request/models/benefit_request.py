@@ -282,23 +282,28 @@ class BenefitRequest(models.Model):
         res = super(BenefitRequest, self).write(vals)
         return res
 
-    @api.model
-    def create(self, vals):
-        # Am I importing data?
-        if 'import_file' in self.env.context:
-            if 'import_uid' in vals:
-                affiliate = self.env['affiliation.affiliate'].search([('uid','=',vals['import_uid'])])
-                if len(affiliate.ids):
-                    vals['partner_id'] = affiliate[0].partner_id.id
-                    vals.pop('import_uid')  # Remove after use
-                else:
-                    raise ValidationError(_('There is not an affiliate with that uid %s' % (vals['import_uid'])))
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            # Am I importing data?
+            if 'import_file' in self.env.context:
+                if 'import_uid' in vals:
+                    affiliate = self.env['affiliation.affiliate'].search([('uid','=',vals['import_uid'])])
+                    if len(affiliate.ids):
+                        vals['partner_id'] = affiliate[0].partner_id.id
+                        vals.pop('import_uid')  # Remove after use
+                    else:
+                        raise ValidationError(_('There is not an affiliate with that uid %s' % (vals['import_uid'])))
+            
+            if 'state' not in vals:
+                vals.update({'state': 'draft'})
         
-        if 'state' not in vals:
-            vals.update({'state': 'draft'})
-        res = super(BenefitRequest, self).create(vals)
-        if 'partner_id' in vals:
-            res.message_subscribe([vals['partner_id']])
+        res = super(BenefitRequest, self).create(vals_list)
+        for record in res:
+            vals = vals_list[res.ids.index(record.id)] if res.ids else {}
+            if 'partner_id' in vals or record.partner_id:
+                partner_id = vals.get('partner_id') or record.partner_id.id
+                record.message_subscribe([partner_id])
         res._compute_hides()
         return res
 
