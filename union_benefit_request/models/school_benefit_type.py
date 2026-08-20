@@ -14,4 +14,4 @@ class SchoolBenefitType(models.Model):
         args = args or []
         domain = [('name', operator, name)]
         recs = self.search(domain + args, limit=limit)
-        return recs.name_get()
+        return [(r.id, r.display_name) for r in recs]

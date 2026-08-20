@@ -213,19 +213,19 @@ class BenefitRequest(models.Model):
                 benefit_id = command[1]
                 benefit = self.env['benefit_request.school_benefit'].browse(benefit_id)
                 if benefit.exists():
-                    message = _('<b>School Benefit</b> "%s" updated') % benefit.name_get()[0][1]
+                    message = _('<b>School Benefit</b> "%s" updated') % benefit.display_name
                     self.message_post(body=message, message_type='notification')
             elif command[0] == 2:  # Delete
                 benefit_id = command[1]
                 benefit = self.env['benefit_request.school_benefit'].browse(benefit_id)
                 if benefit.exists():
-                    message = _('<b>School Benefit</b> "%s" removed') % benefit.name_get()[0][1]
+                    message = _('<b>School Benefit</b> "%s" removed') % benefit.display_name
                     self.message_post(body=message, message_type='notification')
             elif command[0] == 3:  # Unlink (remove relation but don't delete)
                 benefit_id = command[1]
                 benefit = self.env['benefit_request.school_benefit'].browse(benefit_id)
                 if benefit.exists():
-                    message = _('<b>School Benefit</b> "%s" unlinked') % benefit.name_get()[0][1]
+                    message = _('<b>School Benefit</b> "%s" unlinked') % benefit.display_name
                     self.message_post(body=message, message_type='notification')
             elif command[0] == 5:  # Unlink all
                 message = _('<b>All School Benefits</b> removed')
@@ -302,12 +302,10 @@ class BenefitRequest(models.Model):
         res._compute_hides()
         return res
 
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for record in self:
             name = '%s - %s' % (record.request_type_id.name, record.partner_id.name)        
-            result.append((record.id, _("%s")%(name)))
-        return result
+            record.display_name = _("%s")%(name)
 
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
@@ -325,7 +323,7 @@ class BenefitRequest(models.Model):
                 domain = ['|', domain[0], ('partner_id', '=', partner[0].id)]
 
         recs = self.search(domain + args, limit=limit)
-        return recs.name_get()
+        return [(r.id, r.display_name) for r in recs]
 
     @api.depends('partner_id')
     def _compute_uid(self):

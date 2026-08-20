@@ -21,5 +21,6 @@ class AffiliateState(models.Model):
     value = fields.Char(string='value', required=True)
 
 # TODO: find a better way to translate affiliate states
-    def name_get(self):
-        return [(state.id, es_AR_state_names[state.value]) for state in self]
+    def _compute_display_name(self):
+        for state in self:
+            state.display_name = es_AR_state_names[state.value]

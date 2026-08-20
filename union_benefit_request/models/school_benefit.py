@@ -57,11 +57,9 @@ class SchoolBenefit(models.Model):
                 break
             raise ValidationError(_('The children of school benefit is not child of affiliated')) 
 
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for record in self:
             name = '%s,%s' % (record.partner_id.name, record.school_benefit_type_id.name)        
-            result.append((record.id, _("%s")%(name)))
-        return result
+            record.display_name = _("%s")%(name)
 
 
