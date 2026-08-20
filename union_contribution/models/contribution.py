@@ -78,6 +78,11 @@ class AffiliateContribution(models.Model):
         Expected import keys are: import_uid, import_name, import_vat, import_personal_id.
         """
         import_uid = vals.get('import_uid')
+        if not str(import_uid).isdigit():
+            raise ValidationError(_("El campo ID debe contener únicamente números."))
+        if str(import_uid)[0] == '0':
+            raise ValidationError(_("El campo ID no puede comenzar con cero."))
+
         import_name = vals.get('import_name')
         import_vat = vals.get('import_vat')
         import_personal_id = vals.get('import_personal_id')

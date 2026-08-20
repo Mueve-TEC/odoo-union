@@ -29,6 +29,9 @@ class BenefitRequest(models.Model):
     
     # Field for import process - maps to affiliate by UID
     import_uid = fields.Char(string='Legajo')
+    import_name = fields.Char(string='Import Name')
+    import_vat = fields.Char(string='Import VAT')
+    import_personal_id = fields.Char(string='Import Personal ID')
     
     state = fields.Selection(
         selection=[
@@ -148,91 +151,6 @@ class BenefitRequest(models.Model):
                     _('Only users with admin permissions can return finalized or canceled requests to draft state'))
         self.state = 'draft'
 
-    def _register_change_state(self, vals):
-        vals.update({
-            'last_change_state': fields.Date.today(),
-            'last_state': _(self.state)
-        })
-        
-        # Log state change in chatter
-        state_labels = {
-            'draft': _('Draft'),
-            'requested': _('Requested'),
-            'authorized': _('Authorized'),
-            'rejected': _('Rejected'),
-            'finalized': _('Finalized'),
-            'canceled': _('Canceled')
-        }
-        
-        old_state = state_labels.get(self.state, self.state)
-        new_state = state_labels.get(vals['state'], vals['state'])
-        
-        message = _('State changed from <b>%s</b> to <b>%s</b>') % (old_state, new_state)
-        self.message_post(body=message, message_type='notification')
-    
-    def _get_field_display_value(self, field_name, value):
-        """Helper method to get display value for different field types"""
-        if value is None or value == False:
-            return _('Not set')
-        
-        field = self._fields.get(field_name)
-        
-        # Many2one fields
-        if field.type == 'many2one':
-            if isinstance(value, int):
-                record = self.env[field.comodel_name].browse(value)
-                return record.name if record else _('Not set')
-            return value.name if hasattr(value, 'name') else str(value)
-        
-        # Boolean fields
-        elif field.type == 'boolean':
-            return _('Yes') if value else _('No')
-        
-        # Date fields
-        elif field.type == 'date':
-            if isinstance(value, str):
-                return value
-            return value.strftime('%Y-%m-%d') if value else _('Not set')
-        
-        # Float fields
-        elif field.type == 'float':
-            return str(value)
-        
-        # Text and Char fields
-        else:
-            return str(value) if value else _('Not set')
-    
-    def _log_school_benefits_changes(self, commands):
-        """Log changes in school benefits (One2many)"""
-        for command in commands:
-            # Command format: (0, 0, {values}) = create, (1, id, {values}) = update, (2, id) = delete
-            if command[0] == 0:  # Create
-                message = _('<b>School Benefit</b> added')
-                self.message_post(body=message, message_type='notification')
-            elif command[0] == 1:  # Update
-                benefit_id = command[1]
-                benefit = self.env['benefit_request.school_benefit'].browse(benefit_id)
-                if benefit.exists():
-                    message = _('<b>School Benefit</b> "%s" updated') % benefit.display_name
-                    self.message_post(body=message, message_type='notification')
-            elif command[0] == 2:  # Delete
-                benefit_id = command[1]
-                benefit = self.env['benefit_request.school_benefit'].browse(benefit_id)
-                if benefit.exists():
-                    message = _('<b>School Benefit</b> "%s" removed') % benefit.display_name
-                    self.message_post(body=message, message_type='notification')
-            elif command[0] == 3:  # Unlink (remove relation but don't delete)
-                benefit_id = command[1]
-                benefit = self.env['benefit_request.school_benefit'].browse(benefit_id)
-                if benefit.exists():
-                    message = _('<b>School Benefit</b> "%s" unlinked') % benefit.display_name
-                    self.message_post(body=message, message_type='notification')
-            elif command[0] == 5:  # Unlink all
-                message = _('<b>All School Benefits</b> removed')
-                self.message_post(body=message, message_type='notification')
-            elif command[0] == 6:  # Replace with list
-                message = _('<b>School Benefits</b> list replaced')
-                self.message_post(body=message, message_type='notification')
 
     def write(self, vals):
         # Track field changes for logging
@@ -278,32 +196,65 @@ class BenefitRequest(models.Model):
             vals['hide_amounts'] = False if 'Importes' in _groups else True
             vals['hide_school_benefits'] = False if 'Bolsones' in _groups else True
 
-
-        res = super(BenefitRequest, self).write(vals)
-        return res
+        return super(BenefitRequest, self).write(vals)
 
     @api.model_create_multi
     def create(self, vals_list):
-        for vals in vals_list:
-            # Am I importing data?
-            if 'import_file' in self.env.context:
+        if 'import_file' in self.env.context:
+            for vals in vals_list:
                 if 'import_uid' in vals:
-                    affiliate = self.env['affiliation.affiliate'].search([('uid','=',vals['import_uid'])])
+                    affiliate = self.env['affiliation.affiliate'].search([('uid', '=', vals['import_uid'])])
                     if len(affiliate.ids):
-                        vals['partner_id'] = affiliate[0].partner_id.id
-                        vals.pop('import_uid')  # Remove after use
+                        affiliate = affiliate[0]
                     else:
-                        raise ValidationError(_('There is not an affiliate with that uid %s' % (vals['import_uid'])))
-            
+                        conf = self.env['affiliation.affiliation_configuration'].browse(1)
+                        if conf.create_user_from_request:
+                            new_uid = vals.get('import_uid')
+                            import_name = vals.get('import_name')
+
+                            if not new_uid or not import_name:
+                                error_msg = _(
+                                    "Cannot create affiliate for request import. Missing import_name or ID (import_uid). "
+                                    "Please ensure the imported data includes both affiliate Name and ID."
+                                )
+                                raise ValidationError(error_msg)
+                            if not str(new_uid).isdigit():
+                                raise ValidationError(_("El campo ID debe contener únicamente números."))
+                            if str(new_uid)[0] == '0':
+                                raise ValidationError(_("El campo ID no puede comenzar con cero."))
+
+                            new_affiliate_data = {
+                                'uid': new_uid,
+                                'name': import_name,
+                                'state': 'new'
+                            }
+                            if 'import_vat' in vals:
+                                new_affiliate_data.update({'vat': vals['import_vat']})
+                            if 'import_personal_id' in vals:
+                                new_affiliate_data.update({'personal_id': vals['import_personal_id']})
+
+                            affiliate = self.env['affiliation.affiliate'].create(new_affiliate_data)
+                        else:
+                            error_msg = _(
+                                "Affiliate does not exist in the database (UID: %s, Personal ID: %s), "
+                                "and the option to auto-create them during import is disabled in the configuration."
+                            ) % (vals.get('import_uid', 'N/A'), vals.get('import_personal_id', 'N/A'))
+                            raise ValidationError(error_msg)
+
+                    vals['partner_id'] = affiliate.partner_id.id
+                    vals.pop('import_name') if 'import_name' in vals else None
+                    vals.pop('import_uid') if 'import_uid' in vals else None
+                    vals.pop('import_vat') if 'import_vat' in vals else None
+                    vals.pop('import_personal_id') if 'import_personal_id' in vals else None
+
+        for vals in vals_list:
             if 'state' not in vals:
                 vals.update({'state': 'draft'})
-        
+
         res = super(BenefitRequest, self).create(vals_list)
         for record in res:
-            vals = vals_list[res.ids.index(record.id)] if res.ids else {}
-            if 'partner_id' in vals or record.partner_id:
-                partner_id = vals.get('partner_id') or record.partner_id.id
-                record.message_subscribe([partner_id])
+            if record.partner_id:
+                record.message_subscribe([record.partner_id.id])
         res._compute_hides()
         return res
 

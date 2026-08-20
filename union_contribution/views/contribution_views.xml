@@ -50,7 +50,7 @@
                     <field name="affiliate_id"
                         filter_domain="['|','|',('affiliate_id.name', 'ilike', self),('affiliate_id.uid', 'ilike', self),('affiliate_id.personal_id', 'ilike', self)]" />
                     <field name="contribution_code_id"
-                        filter_domain="['|',('contribution_code_id.name', 'ilike', self),('contribution_code_id.code', 'ilike', self)]" />
+                        filter_domain="['|',('contribution_code_id.description', 'ilike', self),('contribution_code_id.code', 'ilike', self)]" />
                 </search>
             </field>
         </record>
