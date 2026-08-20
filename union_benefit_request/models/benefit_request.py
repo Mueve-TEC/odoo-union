@@ -347,6 +347,23 @@ class BenefitRequest(models.Model):
                     record.affiliate_personal_id = affiliate[0].personal_id
 
     def _message_get_suggested_recipients(self):
-        recipients = super(BenefitRequest, self)._message_get_suggested_recipients()
-        recipients[self.id].append((self.partner_id.id, self.partner_id.name, 'Solicitante'))
+        self.ensure_one()
+        recipients = super()._message_get_suggested_recipients()
+
+        if not self.partner_id:
+            return recipients
+
+        already_present = any(
+            r.get('partner_id') == self.partner_id.id
+            for r in recipients
+        )
+
+        if not already_present:
+            recipients.append({
+                'partner_id': self.partner_id.id,
+                'name': self.partner_id.name,
+                'email': self.partner_id.email_normalized,
+                'create_values': {},
+            })
+
         return recipients
