@@ -51,12 +51,9 @@ class AffiliationConfiguration(models.Model):
                 rec.affiliate_id.write({"quote": False})
                 rec.affiliate_id.message_post(body=_("Estado cotizante cambiado a No Cotizante desde Inconsistencias."))
 
-    def display_name(self):
-        result = []
+    def _compute_display_name(self):
         for record in self:
-            name = _("Inconsistencia: %s") % (record.affiliate_id.name if record.affiliate_id else record.id)
-            result.append((record.id, name))
-        return result
+            record.display_name = _("Inconsistencia: %s") % (record.affiliate_id.name if record.affiliate_id else record.id)
 
 
 class ChangeStateWizard(models.TransientModel):

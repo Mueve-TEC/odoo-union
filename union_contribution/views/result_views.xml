@@ -85,8 +85,6 @@
             <field name="target">new</field>
             <field name="binding_model_id" ref="model_inconsistencies_result" />
             <field name="binding_view_types">form,list</field>
-            <field name="groups_id"
-                eval="[(6, 0, [ref('union_affiliation.group_affiliation_change_state')])]" />
         </record>
 
         <record id="action_set_quote_server" model="ir.actions.server">
@@ -98,8 +96,6 @@
             <field name="code">
                 records.action_set_quote()
             </field>
-            <field name="groups_id"
-                eval="[(6, 0, [ref('union_affiliation.group_affiliation_change_quote')])]" />
         </record>
 
         <record id="action_unset_quote_server" model="ir.actions.server">
@@ -111,8 +107,6 @@
             <field name="code">
                 records.action_unset_quote()
             </field>
-            <field name="groups_id"
-                eval="[(6, 0, [ref('union_affiliation.group_affiliation_change_quote')])]" />
         </record>
 
     </data>
