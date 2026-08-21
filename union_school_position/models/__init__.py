@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from . import affiliate
-from . import position, position_type, position_character, position_tag
+from . import (
+    affiliate,
+    affiliation_configuration,
+    position,
+    position_character,
+    position_registration_date,
+    position_tag,
+    position_type,
+)
