@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields
+
 
 class RequestGroup(models.Model):
-    _name = 'benefit_request.request_group'
-    _description = 'Groups for benefit\'s type'
+    _name = "benefit_request.request_group"
+    _description = "Groups for benefit's type"
 
-    name = fields.Char(string='name', required=True)
+    name = fields.Char(string="name", required=True)

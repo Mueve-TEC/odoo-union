@@ -114,6 +114,7 @@ def _calculate_inconsistencies(cr):
     """
     cr.execute(_sql)
 
+
 def _calc_inconsistencies_by_type(cr):
     _sql = """
         CREATE or REPLACE FUNCTION calcInconsByType(contrib_state varchar, date_from date, date_to date, description varchar, type_id integer)  RETURNS integer AS $$

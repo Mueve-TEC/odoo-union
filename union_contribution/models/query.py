@@ -5,39 +5,40 @@ from odoo.exceptions import ValidationError
 
 
 class Query(models.Model):
-    _name = 'inconsistencies.query'
-    _description = 'Query of inconsistency of Affiliate\'s state'
+    _name = "inconsistencies.query"
+    _description = "Query of inconsistency of Affiliate's state"
 
-    from_date = fields.Date(string='From', required=True)
-    to_date = fields.Date(string='To', required=True)
-    query_date = fields.Date(string='Query date', readonly=True, required=True, default=fields.Date.today())
-    description = fields.Char(string='Description', required=True)
+    from_date = fields.Date(string="From", required=True)
+    to_date = fields.Date(string="To", required=True)
+    query_date = fields.Date(
+        string="Query date", readonly=True, required=True, default=fields.Date.today()
+    )
+    description = fields.Char(string="Description", required=True)
     contribute = fields.Boolean(
-        string='Contribute',
+        string="Contribute",
         help="Include people who contributed and should not have contributed",
-        required=True
+        required=True,
     )
     not_contribute = fields.Boolean(
-        string='Doesn\'t contribute',
+        string="Doesn't contribute",
         help="Include people who didn't contribute and should have contributed",
-        required=True
+        required=True,
     )
     affiliate_type_ids = fields.Many2many(
-        comodel_name='affiliation.affiliate_type',
-        string='Tipos de relación laboral'
+        comodel_name="affiliation.affiliate_type", string="Tipos de relación laboral"
     )
     contribution_code_ids = fields.Many2many(
-        comodel_name='contribution.affiliate_contribution_code',
-        relation='inc_query_contrib_code_rel',
-        column1='query_id',
-        column2='code_id',
-        string='Códigos de aportes'
+        comodel_name="contribution.affiliate_contribution_code",
+        relation="inc_query_contrib_code_rel",
+        column1="query_id",
+        column2="code_id",
+        string="Códigos de aportes",
     )
 
-    @api.depends('from_date', 'to_date')
+    @api.depends("from_date", "to_date")
     def query_inconsistencies(self):
         if self.from_date >= self.to_date:
-            raise ValidationError(_('To date should be major to from date'))
+            raise ValidationError(_("To date should be major to from date"))
 
         result = False
 
@@ -68,7 +69,13 @@ class Query(models.Model):
                       WHERE c.date BETWEEN %s AND %s {code_filter}
                   )
             """
-            self.env.cr.execute(sql1, [status_str] + base_params + [self.from_date, self.to_date] + code_params)
+            self.env.cr.execute(
+                sql1,
+                [status_str]
+                + base_params
+                + [self.from_date, self.to_date]
+                + code_params,
+            )
             if self.env.cr.rowcount > 0:
                 result = True
 
@@ -85,7 +92,13 @@ class Query(models.Model):
                       WHERE c.date BETWEEN %s AND %s {code_filter}
                   )
             """
-            self.env.cr.execute(sql2, [status_str] + base_params + [self.from_date, self.to_date] + code_params)
+            self.env.cr.execute(
+                sql2,
+                [status_str]
+                + base_params
+                + [self.from_date, self.to_date]
+                + code_params,
+            )
             if self.env.cr.rowcount > 0:
                 result = True
 
@@ -110,21 +123,24 @@ class Query(models.Model):
             result = True
 
         if not result:
-            raise ValidationError(_('There aren\'t inconsistencies between that dates'))
+            raise ValidationError(_("There aren't inconsistencies between that dates"))
 
-        self.env.cr.execute("""
+        self.env.cr.execute(
+            """
             UPDATE inconsistencies_result ir
             SET affiliate_type_id = a.affiliate_type_id,
                 affiliate_state = a.state
             FROM affiliation_affiliate a
             WHERE ir.affiliate_id = a.id
             AND ir.description = %s
-        """, (self.description,))
+        """,
+            (self.description,),
+        )
 
         return {
-            'type': 'ir.actions.act_window',
-            'name': 'Gestión de cambios',
-            'res_model': 'inconsistencies.result',
-            'views': [[False, 'list']],
-            'domain': [['description', "=", self.description]]
+            "type": "ir.actions.act_window",
+            "name": "Gestión de cambios",
+            "res_model": "inconsistencies.result",
+            "views": [[False, "list"]],
+            "domain": [["description", "=", self.description]],
         }

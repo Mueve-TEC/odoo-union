@@ -4,24 +4,16 @@ from odoo import models, fields, api
 
 
 class UnionWorkplaceDeleteWizard(models.TransientModel):
-    _name = 'union.workplace.delete.wizard'
-    _description = 'Wizard para confirmar eliminación de lugar de trabajo'
+    _name = "union.workplace.delete.wizard"
+    _description = "Wizard para confirmar eliminación de lugar de trabajo"
 
     workplace_id = fields.Many2one(
-        'union.workplace',
-        string='Lugar de trabajo',
-        required=True
+        "union.workplace", string="Lugar de trabajo", required=True
     )
 
-    message = fields.Text(
-        string='Mensaje de confirmación',
-        readonly=True
-    )
+    message = fields.Text(string="Mensaje de confirmación", readonly=True)
 
-    affected_affiliates = fields.Text(
-        string='Afiliados afectados',
-        readonly=True
-    )
+    affected_affiliates = fields.Text(string="Afiliados afectados", readonly=True)
 
     @api.model
     def default_get(self, fields):
@@ -29,26 +21,26 @@ class UnionWorkplaceDeleteWizard(models.TransientModel):
         Preparar información detallada sobre la eliminación
         """
         res = super().default_get(fields)
-        if 'workplace_id' in self._context:
-            workplace_id = self._context['workplace_id']
-            workplace = self.env['union.workplace'].browse(workplace_id)
+        if "workplace_id" in self._context:
+            workplace_id = self._context["workplace_id"]
+            workplace = self.env["union.workplace"].browse(workplace_id)
 
             if workplace:
-                res['workplace_id'] = workplace_id
+                res["workplace_id"] = workplace_id
 
                 # Obtener todos los descendientes
                 descendants = workplace._get_all_descendants()
                 all_workplaces = workplace | descendants
 
                 # Obtener afiliados que usan estos lugares como principal
-                main_affiliates = self.env['affiliation.affiliate'].search([
-                    ('main_workplace_id', 'in', all_workplaces.ids)
-                ])
+                main_affiliates = self.env["affiliation.affiliate"].search(
+                    [("main_workplace_id", "in", all_workplaces.ids)]
+                )
 
                 # Obtener afiliados asociados a estos lugares como delegación
-                related_affiliates = self.env['affiliation.affiliate'].search([
-                    ('delegation_id', 'in', all_workplaces.ids)
-                ])
+                related_affiliates = self.env["affiliation.affiliate"].search(
+                    [("delegation_id", "in", all_workplaces.ids)]
+                )
 
                 # Construir mensaje
                 message_parts = []
@@ -56,36 +48,45 @@ class UnionWorkplaceDeleteWizard(models.TransientModel):
                     descendant_count = len(descendants)
                     # Mostrar detalles de lugares descendientes
                     sorted_descendants = descendants.sorted(
-                        lambda x: x.parent_path or '')
-                    descendant_names = sorted_descendants.mapped(
-                        'complete_name')
+                        lambda x: x.parent_path or ""
+                    )
+                    descendant_names = sorted_descendants.mapped("complete_name")
 
                     if descendant_count == 1:
                         message_parts.append(
-                            f"• Se eliminará 1 lugar de trabajo dependiente: {descendant_names[0]}")
+                            f"• Se eliminará 1 lugar de trabajo dependiente: {descendant_names[0]}"
+                        )
                     else:
                         display_limit = 5
-                        descendant_list = '\n  - '.join(
-                            descendant_names[:display_limit])
+                        descendant_list = "\n  - ".join(
+                            descendant_names[:display_limit]
+                        )
                         if descendant_count > display_limit:
-                            descendant_list += f'\n  - ... y {descendant_count - display_limit} más'
+                            descendant_list += (
+                                f"\n  - ... y {descendant_count - display_limit} más"
+                            )
 
                         message_parts.append(
-                            f"• Se eliminarán {descendant_count} lugares de trabajo dependientes:\n  - {descendant_list}")
+                            f"• Se eliminarán {descendant_count} lugares de trabajo dependientes:\n  - {descendant_list}"
+                        )
 
                 if main_affiliates:
                     main_count = len(main_affiliates)
                     message_parts.append(
-                        f"• {main_count} afiliados/as perderán su lugar de trabajo principal")
+                        f"• {main_count} afiliados/as perderán su lugar de trabajo principal"
+                    )
 
                 if related_affiliates:
                     related_count = len(related_affiliates)
                     message_parts.append(
-                        f"• {related_count} afiliados/as serán desvinculados/as de estas delegaciones")
+                        f"• {related_count} afiliados/as serán desvinculados/as de estas delegaciones"
+                    )
 
                 if message_parts:
-                    res['message'] = "Esta eliminación tendrá los siguientes efectos:\n\n" + \
-                        "\n".join(message_parts)
+                    res["message"] = (
+                        "Esta eliminación tendrá los siguientes efectos:\n\n"
+                        + "\n".join(message_parts)
+                    )
 
                     # Detalles de afiliados afectados
                     if main_affiliates:
@@ -93,16 +94,22 @@ class UnionWorkplaceDeleteWizard(models.TransientModel):
                         # Mostrar solo los primeros 10
                         for affiliate in main_affiliates[:10]:
                             affiliate_details.append(
-                                f"• {affiliate.name} ({affiliate.uid})")
+                                f"• {affiliate.name} ({affiliate.uid})"
+                            )
 
                         if len(main_affiliates) > 10:
                             affiliate_details.append(
-                                f"... y {len(main_affiliates) - 10} más")
+                                f"... y {len(main_affiliates) - 10} más"
+                            )
 
-                        res['affected_affiliates'] = "Afiliados/as que perderán su lugar principal:\n\n" + \
-                            "\n".join(affiliate_details)
+                        res["affected_affiliates"] = (
+                            "Afiliados/as que perderán su lugar principal:\n\n"
+                            + "\n".join(affiliate_details)
+                        )
                 else:
-                    res['message'] = "¿Está seguro que desea eliminar este lugar de trabajo?\n\nNo hay afiliados/as asociados/as."
+                    res["message"] = (
+                        "¿Está seguro que desea eliminar este lugar de trabajo?\n\nNo hay afiliados/as asociados/as."
+                    )
 
         return res
 
@@ -112,22 +119,26 @@ class UnionWorkplaceDeleteWizard(models.TransientModel):
         """
         if self.workplace_id:
             # Usar contexto especial para permitir eliminación y pasar a las validaciones de afiliados
-            ctx = dict(self.env.context, from_delete_wizard=True,
-                       skip_workplace_validation=True)
+            ctx = dict(
+                self.env.context,
+                from_delete_wizard=True,
+                skip_workplace_validation=True,
+            )
             self.workplace_id.with_context(ctx).unlink()
 
         # Redirigir usando la acción del menú
-        action_ref = self.env.ref(
-            'union_affiliation.union_workplace_list_action')
+        action_ref = self.env.ref("union_affiliation.union_workplace_list_action")
         action = action_ref.read()[0] if action_ref else {}
 
-        action.update({
-            'target': 'main',
-            'context': {
-                'search_default_filter_active': 1,
-            },
-            'flags': {'clear_breadcrumbs': True}
-        })
+        action.update(
+            {
+                "target": "main",
+                "context": {
+                    "search_default_filter_active": 1,
+                },
+                "flags": {"clear_breadcrumbs": True},
+            }
+        )
 
         return action
 
@@ -135,4 +146,4 @@ class UnionWorkplaceDeleteWizard(models.TransientModel):
         """
         Cancela la eliminación
         """
-        return {'type': 'ir.actions.act_window_close'}
+        return {"type": "ir.actions.act_window_close"}
