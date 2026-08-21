@@ -14,6 +14,7 @@ class BenefitRequest(models.Model):
         string="Type",
         required=True,
         ondelete="restrict",
+        tracking=True,
     )
 
     # This is not related to the affiliate table because there are requests that can be made by people who are not affiliates.
@@ -22,6 +23,7 @@ class BenefitRequest(models.Model):
         string="Applicant",
         required=True,
         ondelete="restrict",
+        tracking=True,
     )
     # The next two fields only will be used to filters
     affiliate_uid = fields.Char(
@@ -48,30 +50,32 @@ class BenefitRequest(models.Model):
         ],
         string="State",
         default="draft",
+        tracking=True,
     )
     request_date = fields.Date(
-        string="Request date", required=True, default=fields.Date.today()
+        string="Request date", required=True, default=fields.Date.today(), tracking=True
     )
     last_change_state = fields.Date(string="Last change of state")
     last_state = fields.Char(string="Last state")
-    full_doc = fields.Boolean(string="Full documentation", default=False)
-    expedient = fields.Char(string="Expedient/resolution")
-    observations = fields.Text(string="Observations")
-    notes = fields.Text(string="Notes")
+    full_doc = fields.Boolean(string="Full documentation", default=False, tracking=True)
+    expedient = fields.Char(string="Expedient/resolution", tracking=True)
+    observations = fields.Text(string="Observations", tracking=True)
+    notes = fields.Text(string="Notes", tracking=True)
     responsible = fields.Many2one(
         comodel_name="res.users",
         string="Responsible",
         required=True,
         default=lambda self: self.env.user,
+        tracking=True,
     )
     school_benefit_ids = fields.One2many(
         comodel_name="benefit_request.school_benefit",
         inverse_name="benefit_request_id",
         string="School benefits",
     )
-    requested_amount = fields.Float(string="Requested amount")
-    authorized_amount = fields.Float(string="Authorized amount")
-    paid_amount = fields.Float(string="Paid amount")
+    requested_amount = fields.Float(string="Requested amount", tracking=True)
+    authorized_amount = fields.Float(string="Authorized amount", tracking=True)
+    paid_amount = fields.Float(string="Paid amount", tracking=True)
 
     hide_school_benefits = fields.Boolean(compute="_onchange_request_type")
     hide_amounts = fields.Boolean(compute="_onchange_request_type")
@@ -163,43 +167,16 @@ class BenefitRequest(models.Model):
         self.state = "draft"
 
     def write(self, vals):
-        # Track field changes for logging
-        tracked_fields = {
-            "request_type_id": _("Type"),
-            "partner_id": _("Applicant"),
-            "request_date": _("Request date"),
-            "full_doc": _("Full documentation"),
-            "expedient": _("Expedient/resolution"),
-            "observations": _("Observations"),
-            "notes": _("Notes"),
-            "responsible": _("Responsible"),
-            "requested_amount": _("Requested amount"),
-            "authorized_amount": _("Authorized amount"),
-            "paid_amount": _("Paid amount"),
-        }
-
-        # Log changes for tracked fields
-        for field_name, field_label in tracked_fields.items():
-            if field_name in vals:
-                old_value = self._get_field_display_value(
-                    field_name, getattr(self, field_name)
-                )
-                new_value = self._get_field_display_value(field_name, vals[field_name])
-
-                if old_value != new_value:
-                    message = _('<b>%s</b> changed from "%s" to "%s"') % (
-                        field_label,
-                        old_value,
-                        new_value,
-                    )
-                    self.message_post(body=message, message_type="notification")
-
-        # Track changes in school benefits (One2many)
-        if "school_benefit_ids" in vals:
-            self._log_school_benefits_changes(vals["school_benefit_ids"])
-
         if "state" in vals:
-            self._register_change_state(vals)
+            state_selection = dict(
+                self._fields["state"]._description_selection(self.env)
+            )
+            for record in self:
+                vals.setdefault(
+                    "last_state", state_selection.get(record.state, record.state)
+                )
+                vals.setdefault("last_change_state", fields.Date.today())
+
         if "partner_id" in vals:
             self.message_unsubscribe([self.partner_id.id])
             self.message_subscribe([vals["partner_id"]])
