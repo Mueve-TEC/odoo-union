@@ -7,7 +7,15 @@
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/notebook" position="inside">
                     <page name="benefit" string="Benefit requests">
-                        <field name="benefit_request_ids" readonly="True" />
+                        <field name="benefit_request_ids" readonly="True">
+                            <list>
+                                <field name="request_date" />
+                                <field name="request_type_id" />
+                                <field name="expedient" />
+                                <field name="full_doc" />
+                                <field name="state" />
+                            </list>
+                        </field>
                     </page>
                 </xpath>
             </field>

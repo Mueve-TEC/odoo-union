@@ -171,28 +171,25 @@
                         domain="[('quote', '=', False)]" />
                     <field name="quote" />
                     <separator />
-
-                    <group name="group_by">
-                        <filter string="Contributors" name="group_by_contributors"
-                            context="{'group_by':'quote'}" />
-                        <filter string="State" name="group_by_state" context="{'group_by':'state'}" />
-                        <filter string="Tipo de relacion laboral" name="type"
-                            context="{'group_by':'affiliate_type_id'}" />
-                        <filter string="Lugar de trabajo principal" name="main_workplace"
-                            context="{'group_by':'main_workplace_id'}" />
-                        <filter string="Affiliation date" name="affiliation_date"
-                            context="{'group_by':'affiliation_date'}" />
-                        <separator />
-                        <filter string="1° Lugar de trabajo principal" name="main_workplace_level1"
-                            context="{'group_by':'main_workplace_level1'}" />
-                        <filter string="2° Lugar de trabajo principal" name="main_workplace_level2"
-                            context="{'group_by':'main_workplace_level2'}" />
-                        <filter string="3° Lugar de trabajo principal" name="main_workplace_level3"
-                            context="{'group_by':'main_workplace_level3'}" />
-                        <separator />
-                        <filter string="Disafilliation date" name="disaffiliation_date"
-                            context="{'group_by':'disaffiliation_date'}" />
-                    </group>
+                    <filter string="Contributors" name="group_by_contributors"
+                        context="{'group_by':'quote'}" />
+                    <filter string="State" name="group_by_state" context="{'group_by':'state'}" />
+                    <filter string="Tipo de relacion laboral" name="type"
+                        context="{'group_by':'affiliate_type_id'}" />
+                    <filter string="Lugar de trabajo principal" name="main_workplace"
+                        context="{'group_by':'main_workplace_id'}" />
+                    <filter string="Affiliation date" name="affiliation_date"
+                        context="{'group_by':'affiliation_date'}" />
+                    <separator />
+                    <filter string="1° Lugar de trabajo principal" name="main_workplace_level1"
+                        context="{'group_by':'main_workplace_level1'}" />
+                    <filter string="2° Lugar de trabajo principal" name="main_workplace_level2"
+                        context="{'group_by':'main_workplace_level2'}" />
+                    <filter string="3° Lugar de trabajo principal" name="main_workplace_level3"
+                        context="{'group_by':'main_workplace_level3'}" />
+                    <separator />
+                    <filter string="Disafilliation date" name="disaffiliation_date"
+                        context="{'group_by':'disaffiliation_date'}" />
                 </search>
             </field>
         </record>

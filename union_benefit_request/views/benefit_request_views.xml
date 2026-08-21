@@ -99,6 +99,7 @@
                     <field name="request_type_id" />
                     <field name="expedient" />
                     <field name="full_doc" />
+                    <field name="state" />
                 </list>
             </field>
         </record>
@@ -131,14 +132,13 @@
                         domain="[('full_doc', '=', False)]" />
                     <field name="full_doc" />
 
-                    <group name=" ">
-                        <filter string="Full documented" name="full_documented"
-                            context="{'group_by':'full_doc'}" />
-                        <filter string="State" name="contributors" context="{'group_by':'state'}" />
-                        <filter string="Type" name="type" context="{'group_by':'request_type_id'}" />
-                        <filter string="Request date" name="request_date"
-                            context="{'group_by':'request_date'}" />
-                    </group>
+                    <separator />
+                    <filter string="Full documented" name="full_documented"
+                        context="{'group_by':'full_doc'}" />
+                    <filter string="State" name="contributors" context="{'group_by':'state'}" />
+                    <filter string="Type" name="type" context="{'group_by':'request_type_id'}" />
+                    <filter string="Request date" name="request_date"
+                        context="{'group_by':'request_date'}" />
                 </search>
             </field>
         </record>
