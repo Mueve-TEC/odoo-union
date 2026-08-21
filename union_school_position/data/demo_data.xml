@@ -1,0 +1,94 @@
+<odoo>
+    <data noupdate="1">
+        <record id="demo_pos_type_docente" model="school_position.type">
+            <field name="code">DOC</field>
+            <field name="name">Docente</field>
+            <field name="in_hours" eval="True" />
+            <field name="dedication">Tiempo completo</field>
+        </record>
+        <record id="demo_pos_type_directivo" model="school_position.type">
+            <field name="code">DIR</field>
+            <field name="name">Directivo</field>
+            <field name="in_hours" eval="False" />
+            <field name="dedication">Dedicacion exclusiva</field>
+        </record>
+        <record id="demo_pos_type_administrativo" model="school_position.type">
+            <field name="code">ADM</field>
+            <field name="name">Administrativo</field>
+            <field name="in_hours" eval="True" />
+            <field name="dedication">Media jornada</field>
+        </record>
+        <record id="demo_pos_char_titular" model="school_position.character">
+            <field name="code">TIT</field>
+            <field name="name">Titular</field>
+        </record>
+        <record id="demo_pos_char_interino" model="school_position.character">
+            <field name="code">INT</field>
+            <field name="name">Interino</field>
+        </record>
+        <record id="demo_pos_char_suplente" model="school_position.character">
+            <field name="code">SUP</field>
+            <field name="name">Suplente</field>
+        </record>
+        <record id="demo_position_1" model="school_position.position">
+            <field name="affiliate_id" ref="union_affiliation.demo_affiliate_2" />
+            <field name="type_id" ref="demo_pos_type_docente" />
+            <field name="character_id" ref="demo_pos_char_titular" />
+            <field name="workplace_id" ref="union_affiliation.demo_workplace_escuela" />
+            <field name="sector">Educacion</field>
+            <field name="hs_amount">24</field>
+            <field name="position_number">P-001</field>
+            <field name="date_from">2023-03-01</field>
+            <field name="registration_date">2023-03-01</field>
+            <field name="featured" eval="True" />
+            <field name="notes">Cargo docente titular en escuela tecnica</field>
+        </record>
+        <record id="demo_position_2" model="school_position.position">
+            <field name="affiliate_id" ref="union_affiliation.demo_affiliate_2" />
+            <field name="type_id" ref="demo_pos_type_administrativo" />
+            <field name="character_id" ref="demo_pos_char_interino" />
+            <field name="workplace_id" ref="union_affiliation.demo_workplace_oficina" />
+            <field name="sector">Administracion</field>
+            <field name="hs_amount">18</field>
+            <field name="position_number">P-002</field>
+            <field name="date_from">2023-06-01</field>
+            <field name="registration_date">2023-06-01</field>
+            <field name="featured" eval="False" />
+        </record>
+        <record id="demo_position_3" model="school_position.position">
+            <field name="affiliate_id" ref="union_affiliation.demo_affiliate_3" />
+            <field name="type_id" ref="demo_pos_type_directivo" />
+            <field name="character_id" ref="demo_pos_char_titular" />
+            <field name="workplace_id" ref="union_affiliation.demo_workplace_escuela" />
+            <field name="sector">Direccion</field>
+            <field name="position_number">P-003</field>
+            <field name="date_from">2020-01-15</field>
+            <field name="registration_date">2020-01-15</field>
+            <field name="featured" eval="True" />
+        </record>
+        <record id="demo_position_4" model="school_position.position">
+            <field name="affiliate_id" ref="union_affiliation.demo_affiliate_3" />
+            <field name="type_id" ref="demo_pos_type_docente" />
+            <field name="character_id" ref="demo_pos_char_suplente" />
+            <field name="workplace_id" ref="union_affiliation.demo_workplace_escuela" />
+            <field name="sector">Educacion</field>
+            <field name="hs_amount">20</field>
+            <field name="position_number">P-004</field>
+            <field name="date_from">2019-03-01</field>
+            <field name="date_to">2020-12-31</field>
+            <field name="registration_date">2019-03-01</field>
+            <field name="featured" eval="False" />
+        </record>
+        <record id="demo_position_5" model="school_position.position">
+            <field name="affiliate_id" ref="union_affiliation.demo_affiliate_1" />
+            <field name="type_id" ref="demo_pos_type_administrativo" />
+            <field name="character_id" ref="demo_pos_char_interino" />
+            <field name="sector">Sin asignar</field>
+            <field name="hs_amount">12</field>
+            <field name="position_number">P-005</field>
+            <field name="date_from">2024-01-15</field>
+            <field name="registration_date">2024-01-15</field>
+            <field name="featured" eval="False" />
+        </record>
+    </data>
+</odoo>

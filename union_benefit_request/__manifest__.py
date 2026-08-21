@@ -23,6 +23,7 @@
         "views/affiliation_configuration_view.xml",
         "views/affiliate_views.xml",
         "views/menu.xml",
+        "data/demo_data.xml",
     ],
     "installable": True,
 }

@@ -1,0 +1,97 @@
+<odoo>
+    <data noupdate="1">
+        <record id="demo_req_partner_1" model="res.partner">
+            <field name="name">Maria Garcia</field>
+            <field name="email">maria.garcia@example.com</field>
+        </record>
+        <record id="demo_req_partner_2" model="res.partner">
+            <field name="name">Carlos Rodriguez</field>
+            <field name="email">carlos.rodriguez@example.com</field>
+        </record>
+        <record id="demo_req_partner_3" model="res.partner">
+            <field name="name">Juan Perez</field>
+            <field name="email">juan.perez@example.com</field>
+        </record>
+        <record id="demo_request_type_bolson" model="benefit_request.request_type">
+            <field name="name">Solicitud de Bolsones</field>
+            <field name="who_apply">everybody</field>
+            <field name="quote" eval="False" />
+            <field name="require_full_doc" eval="True" />
+            <field name="request_group_ids" eval="[(6, 0, [ref('union_benefit_request.adiuc_request_group_bolsones'), ref('union_benefit_request.adiuc_request_group_importes')])]" />
+        </record>
+        <record id="demo_request_type_notas" model="benefit_request.request_type">
+            <field name="name">Solicitud de Notas</field>
+            <field name="who_apply">affiliates</field>
+            <field name="quote" eval="True" />
+            <field name="require_full_doc" eval="False" />
+            <field name="request_group_ids" eval="[(6, 0, [ref('union_benefit_request.adiuc_request_group_notas')])]" />
+            <field name="state_ids" eval="[(6, 0, [ref('union_benefit_request.affiliate_state_affiliated')])]" />
+        </record>
+        <record id="demo_request_type_simple" model="benefit_request.request_type">
+            <field name="name">Solicitud Simple</field>
+            <field name="who_apply">affiliates</field>
+            <field name="quote" eval="False" />
+            <field name="require_full_doc" eval="True" />
+        </record>
+        <record id="demo_benefit_request_1" model="benefit_request.benefit_request">
+            <field name="partner_id" ref="demo_req_partner_1" />
+            <field name="request_type_id" ref="demo_request_type_bolson" />
+            <field name="state">draft</field>
+            <field name="request_date">2026-08-21</field>
+            <field name="expedient">EXP-2026-001</field>
+            <field name="full_doc" eval="False" />
+            <field name="requested_amount">15000.0</field>
+            <field name="observations">Solicitud de bolsones para familia</field>
+            <field name="responsible" ref="base.user_admin" />
+        </record>
+        <record id="demo_benefit_request_2" model="benefit_request.benefit_request">
+            <field name="partner_id" ref="demo_req_partner_2" />
+            <field name="request_type_id" ref="demo_request_type_bolson" />
+            <field name="state">requested</field>
+            <field name="request_date">2026-08-21</field>
+            <field name="expedient">EXP-2026-002</field>
+            <field name="full_doc" eval="True" />
+            <field name="requested_amount">20000.0</field>
+            <field name="responsible" ref="base.user_admin" />
+        </record>
+        <record id="demo_benefit_request_3" model="benefit_request.benefit_request">
+            <field name="partner_id" ref="demo_req_partner_1" />
+            <field name="request_type_id" ref="demo_request_type_bolson" />
+            <field name="state">authorized</field>
+            <field name="request_date">2024-02-15</field>
+            <field name="expedient">EXP-2024-003</field>
+            <field name="full_doc" eval="True" />
+            <field name="requested_amount">18000.0</field>
+            <field name="authorized_amount">18000.0</field>
+            <field name="responsible" ref="base.user_admin" />
+        </record>
+        <record id="demo_benefit_request_4" model="benefit_request.benefit_request">
+            <field name="partner_id" ref="demo_req_partner_2" />
+            <field name="request_type_id" ref="demo_request_type_bolson" />
+            <field name="state">finalized</field>
+            <field name="request_date">2024-01-20</field>
+            <field name="expedient">EXP-2024-004</field>
+            <field name="full_doc" eval="True" />
+            <field name="requested_amount">12000.0</field>
+            <field name="authorized_amount">12000.0</field>
+            <field name="paid_amount">12000.0</field>
+            <field name="responsible" ref="base.user_admin" />
+        </record>
+        <record id="demo_benefit_request_5" model="benefit_request.benefit_request">
+            <field name="partner_id" ref="demo_req_partner_1" />
+            <field name="request_type_id" ref="demo_request_type_simple" />
+            <field name="state">rejected</field>
+            <field name="request_date">2024-03-01</field>
+            <field name="expedient">EXP-2024-005</field>
+            <field name="observations">No cumple requisitos</field>
+            <field name="responsible" ref="base.user_admin" />
+        </record>
+        <record id="demo_benefit_request_6" model="benefit_request.benefit_request">
+            <field name="partner_id" ref="demo_req_partner_3" />
+            <field name="request_type_id" ref="demo_request_type_simple" />
+            <field name="state">canceled</field>
+            <field name="request_date">2024-02-28</field>
+            <field name="responsible" ref="base.user_admin" />
+        </record>
+    </data>
+</odoo>

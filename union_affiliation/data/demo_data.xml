@@ -1,0 +1,125 @@
+<odoo>
+    <data noupdate="1">
+        <!-- Affiliate types -->
+        <record id="demo_affiliate_type_jubilado" model="affiliation.affiliate_type">
+            <field name="name">Jubilado</field>
+            <field name="enabled" eval="True" />
+        </record>
+        <!-- Workplaces (3-level hierarchy) -->
+        <record id="demo_workplace_seccional" model="union.workplace">
+            <field name="name">Seccional Central</field>
+            <field name="code">SEC01</field>
+        </record>
+        <record id="demo_workplace_departamento" model="union.workplace">
+            <field name="name">Departamento Administracion</field>
+            <field name="code">DEP01</field>
+            <field name="parent_id" ref="demo_workplace_seccional" />
+        </record>
+        <record id="demo_workplace_oficina" model="union.workplace">
+            <field name="name">Oficina de Personal</field>
+            <field name="code">OF01</field>
+            <field name="parent_id" ref="demo_workplace_departamento" />
+        </record>
+        <record id="demo_workplace_escuela" model="union.workplace">
+            <field name="name">Escuela Tecnica</field>
+            <field name="code">ESC01</field>
+        </record>
+        <!-- Affiliate 1: state=new -->
+        <record id="demo_affiliate_1" model="affiliation.affiliate">
+            <field name="uid">10000001</field>
+            <field name="name">Juan Perez</field>
+            <field name="state">new</field>
+            <field name="personal_id_type">dni</field>
+            <field name="personal_id">30123456</field>
+            <field name="gender">male</field>
+            <field name="civil_status">single</field>
+            <field name="email">juan.perez@example.com</field>
+            <field name="phone">+54 351 1234567</field>
+            <field name="street">Av. Colon 1234</field>
+            <field name="city">Cordoba</field>
+        </record>
+        <!-- Affiliate 2: state=affiliated -->
+        <record id="demo_affiliate_2" model="affiliation.affiliate">
+            <field name="uid">10000002</field>
+            <field name="name">Maria Garcia</field>
+            <field name="state">affiliated</field>
+            <field name="affiliate_type_id" ref="union_affiliation.default_affiliate_type" />
+            <field name="personal_id_type">dni</field>
+            <field name="personal_id">30234567</field>
+            <field name="gender">female</field>
+            <field name="civil_status">married</field>
+            <field name="quote" eval="True" />
+            <field name="affiliation_number">1</field>
+            <field name="affiliation_date">2023-03-15</field>
+            <field name="seniority">2023-03-15</field>
+            <field name="main_workplace_id" ref="demo_workplace_oficina" />
+            <field name="delegation_id" ref="demo_workplace_seccional" />
+            <field name="email">maria.garcia@example.com</field>
+            <field name="phone">+54 351 2345678</field>
+            <field name="work_id">W-001</field>
+        </record>
+        <!-- Affiliate 3: state=affiliated, different workplace -->
+        <record id="demo_affiliate_3" model="affiliation.affiliate">
+            <field name="uid">10000003</field>
+            <field name="name">Carlos Rodriguez</field>
+            <field name="state">affiliated</field>
+            <field name="affiliate_type_id" ref="demo_affiliate_type_jubilado" />
+            <field name="personal_id_type">dni</field>
+            <field name="personal_id">30345678</field>
+            <field name="gender">male</field>
+            <field name="civil_status">married</field>
+            <field name="quote" eval="True" />
+            <field name="affiliation_number">2</field>
+            <field name="affiliation_date">2020-01-10</field>
+            <field name="seniority">2020-01-10</field>
+            <field name="main_workplace_id" ref="demo_workplace_escuela" />
+            <field name="email">carlos.rodriguez@example.com</field>
+            <field name="phone">+54 351 3456789</field>
+        </record>
+        <!-- Affiliate 4: state=not_affiliated -->
+        <record id="demo_affiliate_4" model="affiliation.affiliate">
+            <field name="uid">10000004</field>
+            <field name="name">Ana Martinez</field>
+            <field name="state">not_affiliated</field>
+            <field name="personal_id_type">dni</field>
+            <field name="personal_id">30456789</field>
+            <field name="gender">female</field>
+            <field name="email">ana.martinez@example.com</field>
+        </record>
+        <!-- Affiliate 5: state=disaffiliated -->
+        <record id="demo_affiliate_5" model="affiliation.affiliate">
+            <field name="uid">10000005</field>
+            <field name="name">Pedro Sanchez</field>
+            <field name="state">disaffiliated</field>
+            <field name="affiliate_type_id" ref="union_affiliation.default_affiliate_type" />
+            <field name="personal_id_type">dni</field>
+            <field name="personal_id">30567890</field>
+            <field name="gender">male</field>
+            <field name="quote" eval="False" />
+            <field name="affiliation_number">3</field>
+            <field name="affiliation_date">2019-05-20</field>
+            <field name="disaffiliation_date">2024-06-30</field>
+            <field name="seniority">2019-05-20</field>
+            <field name="email">pedro.sanchez@example.com</field>
+        </record>
+        <!-- Affiliate children -->
+        <record id="demo_child_1" model="affiliation.affiliate_child">
+            <field name="name">Sofia Perez</field>
+            <field name="personal_id_type">dni</field>
+            <field name="personal_id">51123456</field>
+            <field name="birth_date">2015-08-12</field>
+            <field name="handicapped" eval="False" />
+            <field name="verified" eval="True" />
+            <field name="affiliate_ids" eval="[(6, 0, [ref('demo_affiliate_2')])]" />
+        </record>
+        <record id="demo_child_2" model="affiliation.affiliate_child">
+            <field name="name">Diego Perez</field>
+            <field name="personal_id_type">dni</field>
+            <field name="personal_id">51234567</field>
+            <field name="birth_date">2018-03-25</field>
+            <field name="handicapped" eval="True" />
+            <field name="verified" eval="False" />
+            <field name="affiliate_ids" eval="[(6, 0, [ref('demo_affiliate_2')])]" />
+        </record>
+    </data>
+</odoo>

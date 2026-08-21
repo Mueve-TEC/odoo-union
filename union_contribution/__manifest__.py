@@ -21,6 +21,7 @@
         "views/query_views.xml",
         "views/result_views.xml",
         "views/inconsistencies_menu.xml",
+        "data/demo_data.xml",
     ],
     "post_init_hook": "_post_init_hook",
     "installable": True,
