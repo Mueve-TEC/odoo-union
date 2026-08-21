@@ -63,7 +63,8 @@ class AffiliateContribution(models.Model):
 
     def _compute_display_name(self):
         for record in self:
-            name = '%s,%s' % (record.affiliate_id.name, record.date.strftime("%Y-%m-%d"))        
+            date_str = record.date.strftime("%Y-%m-%d") if record.date else ''
+            name = '%s,%s' % (record.affiliate_id.name or '', date_str)
             record.display_name = _("%s")%(name)
 
     def _clean_data_affiliate(self, vals):
