@@ -1,6 +1,52 @@
+# pyproject.toml — odoo-union (raíz)
+#
+# Config Ruff para TODO el árbol: los 4 módulos (union_affiliation,
+# union_benefit_request, union_contribution, union_school_position), sus
+# tests/, y archivos de raíz.
+#
+# line-length=120 es el convenio ingadhoc/OCA-actual (paridad con la config
+# raíz de submodules/odoo-argentina); alinea ruff-format con
+# --max-line-length=120 del hook pylint_odoo (ver .pre-commit-config.yaml)
+# de modo que C0301 no dispare falsos positivos en el rango 100–120.
+#
+# quote-style="double": el árbol fue formateado con el default de ruff-format
+# durante la migración 16→19 (comillas dobles). Se fija explícito para que
+# futuros runs de ruff-format no generen churn ni mezclen estilos.
+
 [tool.ruff]
-target-version = "py310"
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long — delegado a ruff-format + pylint C0301
+    "E712",  # equality comparisons to False (común en Odoo)
+    "E722",  # bare except (común en código legacy)
+    "E731",  # lambda assignment
+    "E741",  # ambiguous variable name
+    "UP008", # super() instead of super(__class__, self) (no autofix seguro)
+    "UP031", # percent-format (no autofix)
+]
 
 [tool.ruff.lint.per-file-ignores]
-"**/__init__.py" = ["F401"]
-"**/controllers/__init__.py" = ["F401"]
+"__init__.py" = ["F401", "I001"]
+"__manifest__.py" = ["E", "F", "W"]
+"migrations/*" = ["E", "F", "W"]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-wrap-aliases = true
+known-third-party = [
+    "psycopg2",
+]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+[tool.ruff.format]
+quote-style = "double"
