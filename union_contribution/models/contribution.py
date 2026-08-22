@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from odoo import models, fields, api, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -43,23 +41,8 @@ class AffiliateContribution(models.Model):
         res = super(AffiliateContribution, self).write(vals)
         return res
 
-    def on_import_error(self, line, error):
-        _message = {
-            "line": int(error["record"]) + 1,
-            "record": str(line),
-            "error": error["message"],
-        }
-        log = {
-            "user_id": self.env.user.id,
-            "date": str(fields.Datetime.now()),
-            "model_name": self._name,
-            "model_id": -1,
-            "type": "import",
-            "message": str(_message),
-        }
-        self.env.user.notify_danger(
-            message=(_("There were errors during importation. See the logs!"))
-        )
+    def on_import_error(self, _line, _error):
+        self.env.user.notify_danger(message=_("There were errors during importation. See the logs!"))
 
     def _compute_display_name(self):
         for record in self:
@@ -68,10 +51,8 @@ class AffiliateContribution(models.Model):
             record.display_name = _("%s") % (name)
 
     def _clean_data_affiliate(self, vals):
-        vals.pop("import_name") if "import_name" in vals else None
-        vals.pop("import_uid") if "import_uid" in vals else None
-        vals.pop("import_vat") if "import_vat" in vals else None
-        vals.pop("import_personal_id") if "import_personal_id" in vals else None
+        for key in ("import_name", "import_uid", "import_vat", "import_personal_id"):
+            vals.pop(key, None)
 
     def _prepare_import_vals(self, vals):
         """Resolve or create affiliate during contribution import.
@@ -100,9 +81,7 @@ class AffiliateContribution(models.Model):
             affiliate = affiliate_model.search([("uid", "=", import_uid)], limit=1)
 
         if not affiliate and import_personal_id:
-            affiliate = affiliate_model.search(
-                [("personal_id", "=", import_personal_id)], limit=1
-            )
+            affiliate = affiliate_model.search([("personal_id", "=", import_personal_id)], limit=1)
 
         if not affiliate and import_vat:
             affiliate = affiliate_model.search([("vat", "=", import_vat)], limit=1)
@@ -124,9 +103,7 @@ class AffiliateContribution(models.Model):
 
             if not import_uid:
                 raise ValidationError(
-                    _(
-                        "Missing import_uid. It is required to create affiliates from contributions import."
-                    )
+                    _("Missing import_uid. It is required to create affiliates from contributions import.")
                 )
 
             affiliate_vals = {

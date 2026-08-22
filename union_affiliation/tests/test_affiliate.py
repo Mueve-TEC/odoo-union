@@ -1,6 +1,5 @@
-from odoo.tests import TransactionCase, tagged
 from odoo.exceptions import ValidationError
-
+from odoo.tests import TransactionCase, tagged
 from psycopg2.errors import UniqueViolation
 
 
@@ -13,9 +12,7 @@ class TestAffiliate(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.Affiliate = cls.env["affiliation.affiliate"]
-        cls.affiliate_type = cls.env["affiliation.affiliate_type"].create(
-            {"name": "Test Type", "enabled": True}
-        )
+        cls.affiliate_type = cls.env["affiliation.affiliate_type"].create({"name": "Test Type", "enabled": True})
 
     def _create_affiliate(self, uid="12345678", name="Test Affiliate", **kw):
         vals = {"uid": uid, "name": name, "state": "new"}
@@ -119,8 +116,7 @@ class TestAffiliate(TransactionCase):
     def test_uid_index_exists(self):
         """Verify that the uid_unique index exists on the affiliate table."""
         self.env.cr.execute(
-            "SELECT indexname FROM pg_indexes "
-            "WHERE tablename = 'affiliation_affiliate' AND indexname LIKE '%uid%'"
+            "SELECT indexname FROM pg_indexes " "WHERE tablename = 'affiliation_affiliate' AND indexname LIKE '%uid%'"
         )
         indexes = [r[0] for r in self.env.cr.fetchall()]
         self.assertTrue(any("uid" in i for i in indexes))

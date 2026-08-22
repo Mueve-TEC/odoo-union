@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from odoo import models, fields, api, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -17,7 +15,7 @@ class BenefitRequest(models.Model):
         tracking=True,
     )
 
-    # This is not related to the affiliate table because there are requests that can be made by people who are not affiliates.
+    # Not related to the affiliate table: some applicants are not affiliates.
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Applicant",
@@ -26,12 +24,8 @@ class BenefitRequest(models.Model):
         tracking=True,
     )
     # The next two fields only will be used to filters
-    affiliate_uid = fields.Char(
-        string="Affiliate UID", compute="_compute_uid", store=True
-    )
-    affiliate_personal_id = fields.Char(
-        string="Personal ID", compute="_compute_personal_id", store=True
-    )
+    affiliate_uid = fields.Char(string="Affiliate UID", compute="_compute_uid", store=True)
+    affiliate_personal_id = fields.Char(string="Personal ID", compute="_compute_personal_id", store=True)
 
     # Field for import process - maps to affiliate by UID
     import_uid = fields.Char(string="Legajo")
@@ -52,9 +46,7 @@ class BenefitRequest(models.Model):
         default="draft",
         tracking=True,
     )
-    request_date = fields.Date(
-        string="Request date", required=True, default=fields.Date.today(), tracking=True
-    )
+    request_date = fields.Date(string="Request date", required=True, default=fields.Date.today(), tracking=True)
     last_change_state = fields.Date(string="Last change of state")
     last_state = fields.Char(string="Last state")
     full_doc = fields.Boolean(string="Full documentation", default=False, tracking=True)
@@ -110,14 +102,10 @@ class BenefitRequest(models.Model):
         self._compute_hides()
         if not self.hide_amounts:
             if self.requested_amount <= 0:
-                raise ValidationError(
-                    _("Requested amount must be major to zero")
-                )  # traducir
+                raise ValidationError(_("Requested amount must be major to zero"))  # traducir
         if not self.hide_school_benefits:
             if len(self.school_benefit_ids) < 1:
-                raise ValidationError(
-                    _("There must be at least one school benefit")
-                )  # traducir
+                raise ValidationError(_("There must be at least one school benefit"))  # traducir
 
         self.state = "requested"
 
@@ -141,11 +129,7 @@ class BenefitRequest(models.Model):
         self._compute_hides()
         if not self.hide_amounts:
             if self.paid_amount <= 0 or self.paid_amount > self.authorized_amount:
-                raise ValidationError(
-                    _(
-                        "The paid amount must be major to 0 and minor to authorized amount"
-                    )
-                )
+                raise ValidationError(_("The paid amount must be major to 0 and minor to authorized amount"))
         if self.request_type_id.require_full_doc and not self.full_doc:
             raise ValidationError(_("The documentation must be completed"))
         self.state = "finalized"
@@ -156,25 +140,17 @@ class BenefitRequest(models.Model):
     def set_to_draft(self):
         # Check if user has admin permissions for finalized or canceled states
         if self.state in ["finalized", "canceled"]:
-            if not self.env.user.has_group(
-                "union_benefit_request.group_benefit_request_admin"
-            ):
+            if not self.env.user.has_group("union_benefit_request.group_benefit_request_admin"):
                 raise ValidationError(
-                    _(
-                        "Only users with admin permissions can return finalized or canceled requests to draft state"
-                    )
+                    _("Only users with admin permissions can return finalized or canceled requests to draft state")
                 )
         self.state = "draft"
 
     def write(self, vals):
         if "state" in vals:
-            state_selection = dict(
-                self._fields["state"]._description_selection(self.env)
-            )
+            state_selection = dict(self._fields["state"]._description_selection(self.env))
             for record in self:
-                vals.setdefault(
-                    "last_state", state_selection.get(record.state, record.state)
-                )
+                vals.setdefault("last_state", state_selection.get(record.state, record.state))
                 vals.setdefault("last_change_state", fields.Date.today())
 
         if "partner_id" in vals:
@@ -182,7 +158,7 @@ class BenefitRequest(models.Model):
             self.message_subscribe([vals["partner_id"]])
 
         _groups = self.request_type_id.request_group_ids.mapped("name")
-        if len(_groups):
+        if _groups:
             vals["hide_notes"] = False if "Notas" in _groups else True
             vals["hide_amounts"] = False if "Importes" in _groups else True
             vals["hide_school_benefits"] = False if "Bolsones" in _groups else True
@@ -194,33 +170,27 @@ class BenefitRequest(models.Model):
         if "import_file" in self.env.context:
             for vals in vals_list:
                 if "import_uid" in vals:
-                    affiliate = self.env["affiliation.affiliate"].search(
-                        [("uid", "=", vals["import_uid"])]
-                    )
+                    affiliate = self.env["affiliation.affiliate"].search([("uid", "=", vals["import_uid"])])
                     if len(affiliate.ids):
                         affiliate = affiliate[0]
                     else:
-                        conf = self.env["affiliation.affiliation_configuration"].browse(
-                            1
-                        )
+                        conf = self.env["affiliation.affiliation_configuration"].browse(1)
                         if conf.create_user_from_request:
                             new_uid = vals.get("import_uid")
                             import_name = vals.get("import_name")
 
                             if not new_uid or not import_name:
                                 error_msg = _(
-                                    "Cannot create affiliate for request import. Missing import_name or ID (import_uid). "
-                                    "Please ensure the imported data includes both affiliate Name and ID."
+                                    "Cannot create affiliate for request import."
+                                    " Missing import_name or ID (import_uid)."
+                                    " Please ensure the imported data includes both"
+                                    " affiliate Name and ID."
                                 )
                                 raise ValidationError(error_msg)
                             if not str(new_uid).isdigit():
-                                raise ValidationError(
-                                    _("El campo ID debe contener únicamente números.")
-                                )
+                                raise ValidationError(_("El campo ID debe contener únicamente números."))
                             if str(new_uid)[0] == "0":
-                                raise ValidationError(
-                                    _("El campo ID no puede comenzar con cero.")
-                                )
+                                raise ValidationError(_("El campo ID no puede comenzar con cero."))
 
                             new_affiliate_data = {
                                 "uid": new_uid,
@@ -230,13 +200,9 @@ class BenefitRequest(models.Model):
                             if "import_vat" in vals:
                                 new_affiliate_data.update({"vat": vals["import_vat"]})
                             if "import_personal_id" in vals:
-                                new_affiliate_data.update(
-                                    {"personal_id": vals["import_personal_id"]}
-                                )
+                                new_affiliate_data.update({"personal_id": vals["import_personal_id"]})
 
-                            affiliate = self.env["affiliation.affiliate"].create(
-                                new_affiliate_data
-                            )
+                            affiliate = self.env["affiliation.affiliate"].create(new_affiliate_data)
                         else:
                             error_msg = _(
                                 "Affiliate does not exist in the database (UID: %s, Personal ID: %s), "
@@ -248,12 +214,8 @@ class BenefitRequest(models.Model):
                             raise ValidationError(error_msg)
 
                     vals["partner_id"] = affiliate.partner_id.id
-                    vals.pop("import_name") if "import_name" in vals else None
-                    vals.pop("import_uid") if "import_uid" in vals else None
-                    vals.pop("import_vat") if "import_vat" in vals else None
-                    vals.pop(
-                        "import_personal_id"
-                    ) if "import_personal_id" in vals else None
+                    for key in ("import_name", "import_uid", "import_vat", "import_personal_id"):
+                        vals.pop(key, None)
 
         for vals in vals_list:
             if "state" not in vals:
@@ -281,15 +243,11 @@ class BenefitRequest(models.Model):
                 ("request_date", "=", _date),
                 ("request_type_id", operator, _type),
             ]
-            partner = self.env["res.partner"].search(
-                [("name", operator, _name)], limit=limit
-            )
+            partner = self.env["res.partner"].search([("name", operator, _name)], limit=limit)
             if partner:
                 domain = domain + [("partner_id", "=", partner[0].id)]
         else:
-            partner = self.env["res.partner"].search(
-                [("name", operator, name)], limit=limit
-            )
+            partner = self.env["res.partner"].search([("name", operator, name)], limit=limit)
             if partner:
                 domain = ["|", domain[0], ("partner_id", "=", partner[0].id)]
 
@@ -300,9 +258,7 @@ class BenefitRequest(models.Model):
     def _compute_uid(self):
         for record in self:
             if record.partner_id.id:
-                affiliate = record.env["affiliation.affiliate"].search(
-                    [("partner_id", "=", record.partner_id.id)]
-                )
+                affiliate = record.env["affiliation.affiliate"].search([("partner_id", "=", record.partner_id.id)])
                 if len(affiliate.ids):
                     record.affiliate_uid = affiliate[0].uid
 
@@ -310,9 +266,7 @@ class BenefitRequest(models.Model):
     def _compute_personal_id(self):
         for record in self:
             if record.partner_id.id:
-                affiliate = record.env["affiliation.affiliate"].search(
-                    [("partner_id", "=", record.partner_id.id)]
-                )
+                affiliate = record.env["affiliation.affiliate"].search([("partner_id", "=", record.partner_id.id)])
                 if len(affiliate.ids):
                     record.affiliate_personal_id = affiliate[0].personal_id
 
@@ -323,9 +277,7 @@ class BenefitRequest(models.Model):
         if not self.partner_id:
             return recipients
 
-        already_present = any(
-            r.get("partner_id") == self.partner_id.id for r in recipients
-        )
+        already_present = any(r.get("partner_id") == self.partner_id.id for r in recipients)
 
         if not already_present:
             recipients.append(

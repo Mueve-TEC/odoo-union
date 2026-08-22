@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from odoo import models, fields, api, _
+from odoo import _, api, fields, models
 
 
 class Partner(models.Model):
@@ -12,9 +10,7 @@ class Partner(models.Model):
         inverse_name="partner_id",
         string="Affiliate",
     )
-    is_affiliate = fields.Boolean(
-        string="Is Affiliate", compute="_compute_is_affiliate"
-    )
+    is_affiliate = fields.Boolean(string="Is Affiliate", compute="_compute_is_affiliate")
 
     @api.depends("affiliate_id")
     def _compute_is_affiliate(self):

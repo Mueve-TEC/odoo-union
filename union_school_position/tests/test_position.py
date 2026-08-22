@@ -1,5 +1,5 @@
-from odoo.tests import TransactionCase, tagged
 from odoo.exceptions import ValidationError
+from odoo.tests import TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
@@ -14,19 +14,13 @@ class TestPosition(TransactionCase):
         cls.affiliate = (
             cls.env["affiliation.affiliate"]
             .sudo()
-            .create(
-                {"uid": "20000001", "name": "Position Test Affiliate", "state": "new"}
-            )
+            .create({"uid": "20000001", "name": "Position Test Affiliate", "state": "new"})
         )
         cls.pos_type = cls.env["school_position.type"].create(
             {"code": "TST", "name": "Test Type", "in_hours": True, "dedication": "FT"}
         )
-        cls.character = cls.env["school_position.character"].create(
-            {"code": "CHR", "name": "Test Character"}
-        )
-        cls.workplace = cls.env["union.workplace"].create(
-            {"name": "Test Workplace", "code": "WP001"}
-        )
+        cls.character = cls.env["school_position.character"].create({"code": "CHR", "name": "Test Character"})
+        cls.workplace = cls.env["union.workplace"].create({"name": "Test Workplace", "code": "WP001"})
 
     def _create_position(self, **kw):
         vals = {
@@ -89,12 +83,8 @@ class TestPosition(TransactionCase):
     def test_workplace_levels_hierarchy(self):
         """workplace_level1/2/3 resolve correctly in a 3-level hierarchy."""
         wp1 = self.env["union.workplace"].create({"name": "Level 1", "code": "L1"})
-        wp2 = self.env["union.workplace"].create(
-            {"name": "Level 2", "code": "L2", "parent_id": wp1.id}
-        )
-        wp3 = self.env["union.workplace"].create(
-            {"name": "Level 3", "code": "L3", "parent_id": wp2.id}
-        )
+        wp2 = self.env["union.workplace"].create({"name": "Level 2", "code": "L2", "parent_id": wp1.id})
+        wp3 = self.env["union.workplace"].create({"name": "Level 3", "code": "L3", "parent_id": wp2.id})
         pos = self._create_position(workplace_id=wp3.id)
         self.assertEqual(pos.workplace_level1, "Level 1")
         self.assertEqual(pos.workplace_level2, "Level 2")
@@ -120,9 +110,7 @@ class TestPosition(TransactionCase):
         """Valid date_from < date_to passes constraint."""
         from datetime import date
 
-        pos = self._create_position(
-            date_from=date(2024, 1, 1), date_to=date(2024, 12, 31)
-        )
+        pos = self._create_position(date_from=date(2024, 1, 1), date_to=date(2024, 12, 31))
         self.assertEqual(pos.date_to, date(2024, 12, 31))
 
     def test_check_dates_invalid(self):
@@ -130,9 +118,7 @@ class TestPosition(TransactionCase):
         from datetime import date
 
         with self.assertRaises(ValidationError):
-            self._create_position(
-                date_from=date(2024, 12, 31), date_to=date(2024, 1, 1)
-            )
+            self._create_position(date_from=date(2024, 12, 31), date_to=date(2024, 1, 1))
 
     def test_check_registration_date_future(self):
         """registration_date in the future raises ValidationError."""

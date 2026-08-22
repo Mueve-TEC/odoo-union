@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from odoo import models, fields, api, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -10,9 +8,7 @@ class Query(models.Model):
 
     from_date = fields.Date(string="From", required=True)
     to_date = fields.Date(string="To", required=True)
-    query_date = fields.Date(
-        string="Query date", readonly=True, required=True, default=fields.Date.today()
-    )
+    query_date = fields.Date(string="Query date", readonly=True, required=True, default=fields.Date.today())
     description = fields.Char(string="Description", required=True)
     contribute = fields.Boolean(
         string="Contribute",
@@ -24,9 +20,7 @@ class Query(models.Model):
         help="Include people who didn't contribute and should have contributed",
         required=True,
     )
-    affiliate_type_ids = fields.Many2many(
-        comodel_name="affiliation.affiliate_type", string="Tipos de relación laboral"
-    )
+    affiliate_type_ids = fields.Many2many(comodel_name="affiliation.affiliate_type", string="Tipos de relación laboral")
     contribution_code_ids = fields.Many2many(
         comodel_name="contribution.affiliate_contribution_code",
         relation="inc_query_contrib_code_rel",
@@ -71,10 +65,7 @@ class Query(models.Model):
             """
             self.env.cr.execute(
                 sql1,
-                [status_str]
-                + base_params
-                + [self.from_date, self.to_date]
-                + code_params,
+                [status_str] + base_params + [self.from_date, self.to_date] + code_params,
             )
             if self.env.cr.rowcount > 0:
                 result = True
@@ -94,10 +85,7 @@ class Query(models.Model):
             """
             self.env.cr.execute(
                 sql2,
-                [status_str]
-                + base_params
-                + [self.from_date, self.to_date]
-                + code_params,
+                [status_str] + base_params + [self.from_date, self.to_date] + code_params,
             )
             if self.env.cr.rowcount > 0:
                 result = True

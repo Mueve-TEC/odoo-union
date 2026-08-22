@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-
-from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError, UserError
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 
 class UnionWorkplace(models.Model):
@@ -25,9 +23,7 @@ class UnionWorkplace(models.Model):
 
     level = fields.Integer(string="Level", compute="_compute_level", store=True)
 
-    child_ids = fields.One2many(
-        "union.workplace", "parent_id", string="Child Workplaces"
-    )
+    child_ids = fields.One2many("union.workplace", "parent_id", string="Child Workplaces")
 
     # Odoo field for hierarchies
     parent_path = fields.Char(index=True)
@@ -58,13 +54,9 @@ class UnionWorkplace(models.Model):
     )
 
     # Statistical fields
-    affiliate_count = fields.Integer(
-        string="Affiliate Count", compute="_compute_affiliate_count"
-    )
+    affiliate_count = fields.Integer(string="Affiliate Count", compute="_compute_affiliate_count")
 
-    main_affiliate_count = fields.Integer(
-        string="Main Affiliate Count", compute="_compute_main_affiliate_count"
-    )
+    main_affiliate_count = fields.Integer(string="Main Affiliate Count", compute="_compute_main_affiliate_count")
 
     @api.depends("parent_id")
     def _compute_level(self):
@@ -78,9 +70,7 @@ class UnionWorkplace(models.Model):
     def _compute_complete_name(self):
         for workplace in self:
             if workplace.parent_id:
-                workplace.complete_name = (
-                    f"{workplace.parent_id.complete_name} / {workplace.name}"
-                )
+                workplace.complete_name = f"{workplace.parent_id.complete_name} / {workplace.name}"
             else:
                 workplace.complete_name = workplace.name
 
@@ -98,37 +88,25 @@ class UnionWorkplace(models.Model):
     def _check_parent_id(self):
         """Prevents cycles in the hierarchy"""
         if not self._check_recursion():
-            raise ValidationError(
-                _("You cannot create a recursive workplace hierarchy.")
-            )
+            raise ValidationError(_("You cannot create a recursive workplace hierarchy."))
 
     @api.constrains("name")
     def _check_unique_name(self):
         """Name must be unique"""
         for workplace in self:
             if workplace.name:
-                existing = self.search(
-                    [("name", "=", workplace.name), ("id", "!=", workplace.id)]
-                )
+                existing = self.search([("name", "=", workplace.name), ("id", "!=", workplace.id)])
                 if existing:
-                    raise ValidationError(
-                        _('The name "%s" already exists in another workplace.')
-                        % workplace.name
-                    )
+                    raise ValidationError(_('The name "%s" already exists in another workplace.') % workplace.name)
 
     @api.constrains("code")
     def _check_unique_code(self):
         """Code must be unique"""
         for workplace in self:
             if workplace.code:
-                existing = self.search(
-                    [("code", "=", workplace.code), ("id", "!=", workplace.id)]
-                )
+                existing = self.search([("code", "=", workplace.code), ("id", "!=", workplace.id)])
                 if existing:
-                    raise ValidationError(
-                        _('The code "%s" already exists in another workplace.')
-                        % workplace.code
-                    )
+                    raise ValidationError(_('The code "%s" already exists in another workplace.') % workplace.code)
 
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
@@ -144,9 +122,7 @@ class UnionWorkplace(models.Model):
                 ("complete_name", operator, name),
             ]
         workplaces = self.search(domain + args, limit=limit)
-        return [
-            (workplace.id, workplace.display_name) for workplace in workplaces.sudo()
-        ]
+        return [(workplace.id, workplace.display_name) for workplace in workplaces.sudo()]
 
     def get_main_affiliates_for_reports(self):
         """
@@ -194,20 +170,17 @@ class UnionWorkplace(models.Model):
 
     @api.ondelete(at_uninstall=False)
     def _checks_before_delete(self):
-
         # Allow deletion from wizard
         if self.env.context.get("from_delete_wizard"):
             return
 
-        # For deletions from interface, redirect to wizard if there are children or affiliates associated with the workplace
+        # For deletions from interface, redirect to the delete wizard
+        # if there are children or affiliates associated with the workplace
         for workplace in self:
             all_descendants = workplace._get_all_descendants()
             if all_descendants:
                 raise ValidationError(
-                    _(
-                        "To delete this workplace and its descendants, "
-                        'use the "Delete" button from the form view.'
-                    )
+                    _("To delete this workplace and its descendants, " 'use the "Delete" button from the form view.')
                 )
 
             if workplace.affiliate_ids:

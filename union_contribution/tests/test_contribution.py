@@ -1,6 +1,5 @@
-from odoo.tests import TransactionCase, tagged
-
 from odoo.exceptions import ValidationError
+from odoo.tests import TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
@@ -71,9 +70,7 @@ class TestContribution(TransactionCase):
 
     def test_code_display_name_uses_description(self):
         """contribution_code display_name uses the description field."""
-        code = self.CodeModel.create(
-            {"code": "C002", "description": "Special Code", "enabled": True}
-        )
+        code = self.CodeModel.create({"code": "C002", "description": "Special Code", "enabled": True})
         code._compute_display_name()
         self.assertEqual(code.display_name, "Special Code")
 

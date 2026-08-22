@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from odoo import models, fields, api, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -35,9 +33,7 @@ class SchoolBenefit(models.Model):
         return self._compute_child_domain()
 
     def _compute_child_domain(self):
-        _affiliated = self.env["affiliation.affiliate"].search(
-            [("partner_id", "=", self.partner_id.id)]
-        )
+        _affiliated = self.env["affiliation.affiliate"].search([("partner_id", "=", self.partner_id.id)])
         _child_ids = []
         if _affiliated:
             __childs = _affiliated.affiliate_child_ids
@@ -53,17 +49,13 @@ class SchoolBenefit(models.Model):
     @api.constrains("affiliate_child_id")
     def _check_childs(self):
         for record in self:
-            _affiliated = record.env["affiliation.affiliate"].search(
-                [("partner_id", "=", record.partner_id.id)]
-            )
+            _affiliated = record.env["affiliation.affiliate"].search([("partner_id", "=", record.partner_id.id)])
             if not _affiliated:
                 break
             __childs = _affiliated.affiliate_child_ids.ids
             if record.affiliate_child_id.id in __childs:
                 break
-            raise ValidationError(
-                _("The children of school benefit is not child of affiliated")
-            )
+            raise ValidationError(_("The children of school benefit is not child of affiliated"))
 
     def _compute_display_name(self):
         for record in self:

@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from odoo import models, fields, api, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -32,18 +30,16 @@ class AffiliationPeriod(models.Model):
             [("affiliation_number", "=", self.affiliation_number)]
         )
         if other and (len(other.ids) > 1 or other[0].id != self.id):
-            raise ValidationError(
-                _("There is already exist a period with the same affiliation number!")
-            )
+            raise ValidationError(_("There is already exist a period with the same affiliation number!"))
 
     @api.constrains("from_date")
     def _check_from_date(self):
-        filter = [
+        domain = [
             ("from_date", "<=", self.from_date),
             ("to_date", ">=", self.from_date),
             ("affiliate_id", "=", self.affiliate_id.id),
         ]
-        others = self.env["affiliation.affiliation_period"].search(filter)
+        others = self.env["affiliation.affiliation_period"].search(domain)
         if len(others.ids) > 0:
             for period in others:
                 if period.id != self.id:
@@ -51,12 +47,12 @@ class AffiliationPeriod(models.Model):
 
     @api.constrains("to_date")
     def _check_to_date(self):
-        filter = [
+        domain = [
             ("from_date", "<=", self.to_date),
             ("to_date", ">=", self.to_date),
             ("affiliate_id", "=", self.affiliate_id.id),
         ]
-        others = self.env["affiliation.affiliation_period"].search(filter)
+        others = self.env["affiliation.affiliation_period"].search(domain)
         if len(others.ids) > 0:
             for period in others:
                 if period.id != self.id:
@@ -81,9 +77,7 @@ class AffiliationPeriod(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            _affiliate_id = vals.get("affiliate_id") or self.env.context.get(
-                "default_affiliate_id"
-            )
+            _affiliate_id = vals.get("affiliate_id") or self.env.context.get("default_affiliate_id")
             if _affiliate_id and self._are_any_open(_affiliate_id):
                 raise ValidationError(_("There is already an open period!"))
 

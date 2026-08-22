@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from odoo import models, fields, _
+from odoo import _, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -8,16 +6,10 @@ class AffiliationNumber(models.TransientModel):
     _name = "affiliation.affiliation_number"
     _description = "Model for Affiliation Number wizard"
 
-    affiliate_id = fields.Many2one(
-        comodel_name="affiliation.affiliate", string="Affiliate", required=True
-    )
+    affiliate_id = fields.Many2one(comodel_name="affiliation.affiliate", string="Affiliate", required=True)
     affiliation_number = fields.Integer(string="Affiliation number")
-    enable_affiliation_number_sequence = fields.Boolean(
-        string="Enable affiliation number sequence", required=True
-    )
-    affiliation_number_edition = fields.Boolean(
-        string="Allow editing affiliation number", required=True
-    )
+    enable_affiliation_number_sequence = fields.Boolean(string="Enable affiliation number sequence", required=True)
+    affiliation_number_edition = fields.Boolean(string="Allow editing affiliation number", required=True)
 
     def confirm(self):
         if self.affiliation_number == 0:
@@ -35,13 +27,9 @@ class AffiliationNumber(models.TransientModel):
 
         # increment next affiliation number sequence if it was used
         if self.enable_affiliation_number_sequence:
-            _seq = self.env["ir.sequence"].search(
-                [("code", "=", "next_affiliation_number_seq")]
-            )
+            _seq = self.env["ir.sequence"].search([("code", "=", "next_affiliation_number_seq")])
             if self.affiliation_number == _seq.number_next_actual:
-                next_affiliaton_number = int(
-                    self.env["ir.sequence"].next_by_code("next_affiliation_number_seq")
-                )
+                next_affiliaton_number = int(self.env["ir.sequence"].next_by_code("next_affiliation_number_seq"))
                 next_affiliaton_number = next_affiliaton_number + 1
                 # update next affiliation number on configuration
                 _to_write = {"next_affiliation_number": str(next_affiliaton_number)}

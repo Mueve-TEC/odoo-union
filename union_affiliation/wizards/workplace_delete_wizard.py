@@ -1,15 +1,11 @@
-# -*- coding: utf-8 -*-
-
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 
 class UnionWorkplaceDeleteWizard(models.TransientModel):
     _name = "union.workplace.delete.wizard"
     _description = "Wizard para confirmar eliminación de lugar de trabajo"
 
-    workplace_id = fields.Many2one(
-        "union.workplace", string="Lugar de trabajo", required=True
-    )
+    workplace_id = fields.Many2one("union.workplace", string="Lugar de trabajo", required=True)
 
     message = fields.Text(string="Mensaje de confirmación", readonly=True)
 
@@ -47,64 +43,45 @@ class UnionWorkplaceDeleteWizard(models.TransientModel):
                 if descendants:
                     descendant_count = len(descendants)
                     # Mostrar detalles de lugares descendientes
-                    sorted_descendants = descendants.sorted(
-                        lambda x: x.parent_path or ""
-                    )
+                    sorted_descendants = descendants.sorted(lambda x: x.parent_path or "")
                     descendant_names = sorted_descendants.mapped("complete_name")
 
                     if descendant_count == 1:
-                        message_parts.append(
-                            f"• Se eliminará 1 lugar de trabajo dependiente: {descendant_names[0]}"
-                        )
+                        message_parts.append(f"• Se eliminará 1 lugar de trabajo dependiente: {descendant_names[0]}")
                     else:
                         display_limit = 5
-                        descendant_list = "\n  - ".join(
-                            descendant_names[:display_limit]
-                        )
+                        descendant_list = "\n  - ".join(descendant_names[:display_limit])
                         if descendant_count > display_limit:
-                            descendant_list += (
-                                f"\n  - ... y {descendant_count - display_limit} más"
-                            )
+                            descendant_list += f"\n  - ... y {descendant_count - display_limit} más"
 
                         message_parts.append(
-                            f"• Se eliminarán {descendant_count} lugares de trabajo dependientes:\n  - {descendant_list}"
+                            f"• Se eliminarán {descendant_count} lugares de trabajo dependientes:"
+                            f"\n  - {descendant_list}"
                         )
 
                 if main_affiliates:
                     main_count = len(main_affiliates)
-                    message_parts.append(
-                        f"• {main_count} afiliados/as perderán su lugar de trabajo principal"
-                    )
+                    message_parts.append(f"• {main_count} afiliados/as perderán su lugar de trabajo principal")
 
                 if related_affiliates:
                     related_count = len(related_affiliates)
-                    message_parts.append(
-                        f"• {related_count} afiliados/as serán desvinculados/as de estas delegaciones"
-                    )
+                    message_parts.append(f"• {related_count} afiliados/as serán desvinculados/as de estas delegaciones")
 
                 if message_parts:
-                    res["message"] = (
-                        "Esta eliminación tendrá los siguientes efectos:\n\n"
-                        + "\n".join(message_parts)
-                    )
+                    res["message"] = "Esta eliminación tendrá los siguientes efectos:\n\n" + "\n".join(message_parts)
 
                     # Detalles de afiliados afectados
                     if main_affiliates:
                         affiliate_details = []
                         # Mostrar solo los primeros 10
                         for affiliate in main_affiliates[:10]:
-                            affiliate_details.append(
-                                f"• {affiliate.name} ({affiliate.uid})"
-                            )
+                            affiliate_details.append(f"• {affiliate.name} ({affiliate.uid})")
 
                         if len(main_affiliates) > 10:
-                            affiliate_details.append(
-                                f"... y {len(main_affiliates) - 10} más"
-                            )
+                            affiliate_details.append(f"... y {len(main_affiliates) - 10} más")
 
-                        res["affected_affiliates"] = (
-                            "Afiliados/as que perderán su lugar principal:\n\n"
-                            + "\n".join(affiliate_details)
+                        res["affected_affiliates"] = "Afiliados/as que perderán su lugar principal:\n\n" + "\n".join(
+                            affiliate_details
                         )
                 else:
                     res["message"] = (

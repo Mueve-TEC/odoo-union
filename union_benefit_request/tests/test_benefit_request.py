@@ -1,6 +1,5 @@
-from odoo.tests import TransactionCase, tagged
-
 from odoo.exceptions import ValidationError
+from odoo.tests import TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
@@ -14,12 +13,8 @@ class TestBenefitRequest(TransactionCase):
         cls.RequestType = cls.env["benefit_request.request_type"]
         cls.BenefitRequest = cls.env["benefit_request.benefit_request"]
         cls.partner = cls.env["res.partner"].create({"name": "Test Partner"})
-        cls.request_type = cls.RequestType.create(
-            {"name": "Test Request Type", "who_apply": "everybody"}
-        )
-        cls.amount_type = cls.RequestType.create(
-            {"name": "Amount Type", "who_apply": "everybody"}
-        )
+        cls.request_type = cls.RequestType.create({"name": "Test Request Type", "who_apply": "everybody"})
+        cls.amount_type = cls.RequestType.create({"name": "Amount Type", "who_apply": "everybody"})
 
     def _create_request(self, **kw):
         vals = {
@@ -32,9 +27,7 @@ class TestBenefitRequest(TransactionCase):
     def _create_amount_request_group(self):
         """Create a request group 'Importes' and link it to a request type."""
         group = self.env["benefit_request.request_group"].create({"name": "Importes"})
-        rt = self.RequestType.create(
-            {"name": "Amount Request Type", "who_apply": "everybody"}
-        )
+        rt = self.RequestType.create({"name": "Amount Request Type", "who_apply": "everybody"})
         rt.write({"request_group_ids": [(4, group.id)]})
         return rt
 
@@ -128,9 +121,7 @@ class TestBenefitRequest(TransactionCase):
     def test_hide_amounts_visible_with_group(self):
         """hide_amounts is False when request type has 'Importes' group."""
         rt = self._create_amount_request_group()
-        req = self.BenefitRequest.sudo().create(
-            {"partner_id": self.partner.id, "request_type_id": rt.id}
-        )
+        req = self.BenefitRequest.sudo().create({"partner_id": self.partner.id, "request_type_id": rt.id})
         req._compute_hides()
         self.assertFalse(req.hide_amounts)
 
@@ -156,9 +147,7 @@ class TestBenefitRequest(TransactionCase):
         affiliate = (
             self.env["affiliation.affiliate"]
             .sudo()
-            .create(
-                {"uid": "50000001", "name": "Import Test Affiliate", "state": "new"}
-            )
+            .create({"uid": "50000001", "name": "Import Test Affiliate", "state": "new"})
         )
         req = (
             self.BenefitRequest.sudo()

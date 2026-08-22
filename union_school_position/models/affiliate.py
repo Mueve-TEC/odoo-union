@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 
 class Affiliate(models.Model):
@@ -37,16 +37,14 @@ class Affiliate(models.Model):
     @api.depends("position_ids", "position_ids.featured")
     def _compute_has_featured_position(self):
         for affiliate in self:
-            affiliate.has_featured_position = any(
-                affiliate.position_ids.mapped("featured")
-            )
+            affiliate.has_featured_position = any(affiliate.position_ids.mapped("featured"))
 
     @api.depends("position_ids", "position_ids.registration_date")
     def _compute_position_registration_dates(self):
         date_model = self.env["school_position.registration.date"].sudo()
         for affiliate in self:
             dates = affiliate.position_ids.mapped("registration_date")
-            dates = set([d for d in dates if d])
+            dates = {d for d in dates if d}
 
             if not dates:
                 affiliate.position_registration_date_ids = False

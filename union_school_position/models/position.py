@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-
-from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
-
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 log = logging.getLogger(__name__)
 
@@ -41,12 +39,8 @@ class Position(models.Model):
     sector = fields.Char(string="Sector")
     date_from = fields.Date(string="From", help="Position start date")
     date_to = fields.Date(string="To", help="Position end date (if applicable)")
-    registration_date = fields.Date(
-        string="Registration date", help="Position information date."
-    )
-    notes = fields.Text(
-        string="Notes", help="Additional notes or observations about the position"
-    )
+    registration_date = fields.Date(string="Registration date", help="Position information date.")
+    notes = fields.Text(string="Notes", help="Additional notes or observations about the position")
     import_uid = fields.Char(string="Import UID")
     import_personal_id = fields.Char(string="Import Personal ID")
     import_name = fields.Char(string="Import Name")
@@ -75,25 +69,15 @@ class Position(models.Model):
         readonly=True,
         help="Code of the position type",
     )
-    type_id_in_hours = fields.Boolean(
-        related="type_id.in_hours", string="In hours", readonly=True
-    )
+    type_id_in_hours = fields.Boolean(related="type_id.in_hours", string="In hours", readonly=True)
     featured = fields.Boolean(string="Featured")
-    affiliate_state = fields.Selection(
-        related="affiliate_id.state", string="Affiliate State", store=True
-    )
+    affiliate_state = fields.Selection(related="affiliate_id.state", string="Affiliate State", store=True)
 
-    workplace_level1 = fields.Char(
-        string="Workplace Level 1", compute="_compute_workplace_levels", store=True
-    )
+    workplace_level1 = fields.Char(string="Workplace Level 1", compute="_compute_workplace_levels", store=True)
 
-    workplace_level2 = fields.Char(
-        string="Workplace Level 2", compute="_compute_workplace_levels", store=True
-    )
+    workplace_level2 = fields.Char(string="Workplace Level 2", compute="_compute_workplace_levels", store=True)
 
-    workplace_level3 = fields.Char(
-        string="Workplace Level 3", compute="_compute_workplace_levels", store=True
-    )
+    workplace_level3 = fields.Char(string="Workplace Level 3", compute="_compute_workplace_levels", store=True)
 
     @api.depends("workplace_id", "workplace_id.level", "workplace_id.parent_path")
     def _compute_workplace_levels(self):
@@ -113,21 +97,13 @@ class Position(models.Model):
             else:
                 parent_ids = [workplace.id]
 
-            parent_workplaces = (
-                self.env["union.workplace"].browse(parent_ids).sorted("level")
-            )
+            parent_workplaces = self.env["union.workplace"].browse(parent_ids).sorted("level")
 
             level1_workplace = parent_workplaces.filtered(lambda w: w.level == 1)
-            position.workplace_level1 = (
-                level1_workplace[0].name if level1_workplace else workplace.name
-            )
+            position.workplace_level1 = level1_workplace[0].name if level1_workplace else workplace.name
 
             level2_workplace = parent_workplaces.filtered(lambda w: w.level == 2)
-            position.workplace_level2 = (
-                level2_workplace[0].name
-                if level2_workplace
-                else position.workplace_level1
-            )
+            position.workplace_level2 = level2_workplace[0].name if level2_workplace else position.workplace_level1
 
             position.workplace_level3 = workplace.name
 
@@ -136,36 +112,22 @@ class Position(models.Model):
         for record in self:
             if record.date_from and record.date_to:
                 if record.date_to <= record.date_from:
-                    raise ValidationError(
-                        _("The end date must be later than the start date.")
-                    )
+                    raise ValidationError(_("The end date must be later than the start date."))
 
     @api.constrains("registration_date")
     def _check_registration_date(self):
         for record in self:
             if record.registration_date:
                 if record.registration_date > fields.Date.today():
-                    raise ValidationError(
-                        _("The registration date cannot be in the future.")
-                    )
+                    raise ValidationError(_("The registration date cannot be in the future."))
 
     @api.constrains("hs_amount")
     def _check_hs_amount(self):
         for record in self:
-            if record.type_id.in_hours and (
-                record.hs_amount is None or record.hs_amount <= 0
-            ):
-                raise ValidationError(
-                    _(
-                        "The hours amount must be greater than zero for positions in hours."
-                    )
-                )
+            if record.type_id.in_hours and (record.hs_amount is None or record.hs_amount <= 0):
+                raise ValidationError(_("The hours amount must be greater than zero for positions in hours."))
             if not record.type_id.in_hours and record.hs_amount:
-                raise ValidationError(
-                    _(
-                        "The hours amount must be empty for positions that are not in hours."
-                    )
-                )
+                raise ValidationError(_("The hours amount must be empty for positions that are not in hours."))
 
     def _compute_display_name(self):
         for record in self:
@@ -186,28 +148,23 @@ class Position(models.Model):
                     if affiliate:
                         vals["affiliate_id"] = affiliate.id
                     else:
-                        conf = self.env["affiliation.affiliation_configuration"].browse(
-                            1
-                        )
+                        conf = self.env["affiliation.affiliation_configuration"].browse(1)
                         if conf.create_user_from_position:
                             new_uid = vals.get("import_uid")
                             import_name = vals.get("import_name")
 
                             if not new_uid or not import_name:
                                 error_msg = _(
-                                    "Cannot create affiliate for position import. Missing import_name or ID (import_uid). "
-                                    "Please ensure the imported data includes both Name and ID."
+                                    "Cannot create affiliate for position import."
+                                    " Missing import_name or ID (import_uid)."
+                                    " Please ensure the imported data includes both Name and ID."
                                 )
                                 raise ValidationError(error_msg)
 
                             if not str(new_uid).isdigit():
-                                raise ValidationError(
-                                    _("El campo ID debe contener únicamente números.")
-                                )
+                                raise ValidationError(_("El campo ID debe contener únicamente números."))
                             if str(new_uid)[0] == "0":
-                                raise ValidationError(
-                                    _("El campo ID no puede comenzar con cero.")
-                                )
+                                raise ValidationError(_("El campo ID no puede comenzar con cero."))
 
                             new_affiliate_vals = {
                                 "state": "new",
@@ -216,15 +173,11 @@ class Position(models.Model):
                             }
 
                             if vals.get("import_personal_id"):
-                                new_affiliate_vals["personal_id"] = vals.get(
-                                    "import_personal_id"
-                                )
+                                new_affiliate_vals["personal_id"] = vals.get("import_personal_id")
                             if vals.get("import_vat"):
                                 new_affiliate_vals["vat"] = vals.get("import_vat")
 
-                            new_affiliate = self.env["affiliation.affiliate"].create(
-                                new_affiliate_vals
-                            )
+                            new_affiliate = self.env["affiliation.affiliate"].create(new_affiliate_vals)
                             vals["affiliate_id"] = new_affiliate.id
                         else:
                             error_msg = _(
@@ -263,6 +216,4 @@ class Position(models.Model):
             "record": str(line),
             "error": error["message"],
         }
-        self.env.user.notify_danger(
-            message=(_("There were errors during importation. See the logs!"))
-        )
+        self.env.user.notify_danger(message=_("There were errors during importation. See the logs!"))

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from . import controllers
 from . import models
 
@@ -10,13 +8,12 @@ def _post_init_hook(env):
     _translate_state(cr)
     _calculate_inconsistencies(cr)
     _calc_inconsistencies_by_type(cr)
-    return
 
 
 def _map_state(cr):
     _sql = """
         CREATE or REPLACE FUNCTION mapState(state varchar, value varchar) RETURNS varchar AS $$
-        DECLARE 
+        DECLARE
             result varchar;
         BEGIN
             if state = 'aporto' then
@@ -51,7 +48,7 @@ def _map_state(cr):
 def _translate_state(cr):
     _sql = """
         CREATE or REPLACE FUNCTION translateState(state varchar) RETURNS varchar AS $$
-        DECLARE 
+        DECLARE
             result varchar;
         BEGIN
             if state = 'new' then result := 'Nuevo';
@@ -71,42 +68,42 @@ def _translate_state(cr):
 def _calculate_inconsistencies(cr):
     _sql = """
         CREATE or REPLACE FUNCTION calculateInconsistencies(contrib_state varchar, date_from date, date_to date, description varchar)  RETURNS integer AS $$
-        DECLARE 
+        DECLARE
             result integer;
-        BEGIN 
+        BEGIN
             if contrib_state = 'no_aporto' then
-                insert into inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description) 
-                    select a.id, 'Cotizante sin aportes', date_from, date_to, now(), description  
-                    from affiliation_affiliate a  
+                insert into inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description)
+                    select a.id, 'Cotizante sin aportes', date_from, date_to, now(), description
+                    from affiliation_affiliate a
                     where a.quote=TRUE and a.id not in (
-                        select DISTINCT(c.affiliate_id) 
-                        from contribution_affiliate_contribution c 
-                        where c.date between date_from and date_to 
+                        select DISTINCT(c.affiliate_id)
+                        from contribution_affiliate_contribution c
+                        where c.date between date_from and date_to
                         group by c.affiliate_id);
-                
+
                 GET DIAGNOSTICS result = ROW_COUNT;
-            
+
             elsif contrib_state = 'aporto' then
-                insert into inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description) 
-                    select a.id, 'No cotizante con aportes', date_from, date_to, now(), description  
-                    from affiliation_affiliate a  
+                insert into inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description)
+                    select a.id, 'No cotizante con aportes', date_from, date_to, now(), description
+                    from affiliation_affiliate a
                     where a.quote=FALSE and a.id in (
-                        select DISTINCT(c.affiliate_id) 
-                        from contribution_affiliate_contribution c 
-                        where c.date between date_from and date_to 
+                        select DISTINCT(c.affiliate_id)
+                        from contribution_affiliate_contribution c
+                        where c.date between date_from and date_to
                         group by c.affiliate_id);
-                            
+
                 GET DIAGNOSTICS result = ROW_COUNT;
             end if;
 
-            insert into inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description) 
-                select a.id, concat('Cotizante',' - ',translateState(a.state)), date_from, date_to, now(), description  
-                from affiliation_affiliate a  
+            insert into inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description)
+                select a.id, concat('Cotizante',' - ',translateState(a.state)), date_from, date_to, now(), description
+                from affiliation_affiliate a
                 where a.quote=TRUE and a.state != 'affiliated';
 
-            insert into inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description) 
-                select a.id, 'No Cotizante - Afiliado', date_from, date_to, now(), description  
-                from affiliation_affiliate a  
+            insert into inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description)
+                select a.id, 'No Cotizante - Afiliado', date_from, date_to, now(), description
+                from affiliation_affiliate a
                 where a.quote=FALSE and a.state = 'affiliated';
         RETURN result;
         END; $$
@@ -118,44 +115,44 @@ def _calculate_inconsistencies(cr):
 def _calc_inconsistencies_by_type(cr):
     _sql = """
         CREATE or REPLACE FUNCTION calcInconsByType(contrib_state varchar, date_from date, date_to date, description varchar, type_id integer)  RETURNS integer AS $$
-        DECLARE 
+        DECLARE
             result integer;
-        BEGIN 
+        BEGIN
             if contrib_state = 'no_aporto' then
-                insert into inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description) 
-                    select a.id, concat('Cotizante sin aportes (', at.name,')'), date_from, date_to, now(), description  
-                    from affiliation_affiliate a  
-                    join affiliation_affiliate_type at on(a.affiliate_type_id=at.id) 
+                insert into inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description)
+                    select a.id, concat('Cotizante sin aportes (', at.name,')'), date_from, date_to, now(), description
+                    from affiliation_affiliate a
+                    join affiliation_affiliate_type at on(a.affiliate_type_id=at.id)
                     where a.quote=TRUE and a.affiliate_type_id=type_id and a.id not in (
-                        select DISTINCT(c.affiliate_id) 
-                        from contribution_affiliate_contribution c 
-                        where c.date between date_from and date_to 
+                        select DISTINCT(c.affiliate_id)
+                        from contribution_affiliate_contribution c
+                        where c.date between date_from and date_to
                         group by c.affiliate_id);
-                
+
                 GET DIAGNOSTICS result = ROW_COUNT;
-            
+
             elsif contrib_state = 'aporto' then
-                insert into inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description) 
-                    select a.id, concat('No cotizante con aportes (', at.name,')'), date_from, date_to, now(), description  
-                    from affiliation_affiliate a  
-                    join affiliation_affiliate_type at on(a.affiliate_type_id=at.id) 
+                insert into inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description)
+                    select a.id, concat('No cotizante con aportes (', at.name,')'), date_from, date_to, now(), description
+                    from affiliation_affiliate a
+                    join affiliation_affiliate_type at on(a.affiliate_type_id=at.id)
                     where a.quote=FALSE and a.affiliate_type_id=type_id and a.id in (
-                        select DISTINCT(c.affiliate_id) 
-                        from contribution_affiliate_contribution c 
-                        where c.date between date_from and date_to 
+                        select DISTINCT(c.affiliate_id)
+                        from contribution_affiliate_contribution c
+                        where c.date between date_from and date_to
                         group by c.affiliate_id);
-                            
+
                 GET DIAGNOSTICS result = ROW_COUNT;
             end if;
 
-            insert into inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description) 
-                select a.id, concat('Cotizante',' - ',translateState(a.state)), date_from, date_to, now(), description  
-                from affiliation_affiliate a  
+            insert into inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description)
+                select a.id, concat('Cotizante',' - ',translateState(a.state)), date_from, date_to, now(), description
+                from affiliation_affiliate a
                 where a.quote=TRUE and a.state != 'affiliated' and a.affiliate_type_id=type_id;
 
-            insert into inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description) 
-                select a.id, 'No Cotizante - Afiliado', date_from, date_to, now(), description  
-                from affiliation_affiliate a  
+            insert into inconsistencies_result (affiliate_id, status, from_date, to_date, query_date, description)
+                select a.id, 'No Cotizante - Afiliado', date_from, date_to, now(), description
+                from affiliation_affiliate a
                 where a.quote=FALSE and a.state = 'affiliated' and a.affiliate_type_id=type_id;
         RETURN result;
         END; $$

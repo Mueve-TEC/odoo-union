@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from odoo import models, fields, api, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -14,11 +12,9 @@ class AffiliateType(models.Model):
 
     @api.constrains("name")
     def _check_name(self):
-        filter = [("name", "=", self.name)]
+        domain = [("name", "=", self.name)]
         if self.id:
-            filter.append(("id", "!=", self.id))
-        other = self.env["affiliation.affiliate_type"].search(filter)
+            domain.append(("id", "!=", self.id))
+        other = self.env["affiliation.affiliate_type"].search(domain)
         if len(other.ids):
-            raise ValidationError(
-                _("There is already exist a type with the same name!")
-            )
+            raise ValidationError(_("There is already exist a type with the same name!"))

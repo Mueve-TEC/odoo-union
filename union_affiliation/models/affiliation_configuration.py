@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 
 class AffiliationConfiguration(models.Model):
@@ -12,12 +10,8 @@ class AffiliationConfiguration(models.Model):
         string="Allow editing affiliation number on start affiliation view.",
         default=False,
     )
-    next_affiliation_number = fields.Integer(
-        string="Next affiliation number on sequence"
-    )
-    enable_affiliation_number_sequence = fields.Boolean(
-        string="Enable affiliation number sequence", default=True
-    )
+    next_affiliation_number = fields.Integer(string="Next affiliation number on sequence")
+    enable_affiliation_number_sequence = fields.Boolean(string="Enable affiliation number sequence", default=True)
     affiliation_start = fields.Selection(
         selection=[
             ("on_affiliate", "On affiliate"),
@@ -37,9 +31,7 @@ class AffiliationConfiguration(models.Model):
 
     def write(self, vals):
         if "next_affiliation_number" in vals:
-            _seq = self.env["ir.sequence"].search(
-                [("code", "=", "next_affiliation_number_seq")]
-            )
+            _seq = self.env["ir.sequence"].search([("code", "=", "next_affiliation_number_seq")])
             _seq.number_next_actual = vals["next_affiliation_number"]
         res = super(AffiliationConfiguration, self).write(vals)
         return res

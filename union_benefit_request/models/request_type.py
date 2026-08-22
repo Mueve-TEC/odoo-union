@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from odoo import models, fields, _
+from odoo import _, fields, models
 from odoo.exceptions import ValidationError
 
 from .affiliate_state import es_AR_state_names
@@ -41,9 +39,7 @@ class RequestType(models.Model):
     def meet_reqs(self, affiliate):
         if self.who_apply == "everybody":
             return True
-        affiliate = self.env["affiliation.affiliate"].search(
-            [("partner_id", "=", affiliate.id)]
-        )
+        affiliate = self.env["affiliation.affiliate"].search([("partner_id", "=", affiliate.id)])
         if len(affiliate.ids) == 0:
             return True
         else:
@@ -53,12 +49,13 @@ class RequestType(models.Model):
 
     def _check_state(self, affiliate):
         _state_values = self.state_ids.mapped("value")
-        if not len(_state_values):
+        if not _state_values:
             return True
         if affiliate.state not in _state_values:
             raise ValidationError(
                 _(
-                    "The beneficiary affiliation state is not valid for this request type.\n\nState: %s.\nValid states: %s."
+                    "The beneficiary affiliation state is not valid for this"
+                    " request type.\n\nState: %s.\nValid states: %s."
                 )
                 % (
                     es_AR_state_names[affiliate.state],
@@ -70,9 +67,6 @@ class RequestType(models.Model):
     def _check_quote(self, affiliate):
         if affiliate.quote != self.quote:
             raise ValidationError(
-                _(
-                    "The beneficiary quote state is not valid for this request type.\n\nValid quote: %s."
-                )
-                % (self.quote)
+                _("The beneficiary quote state is not valid for this request type.\n\nValid quote: %s.") % (self.quote)
             )
         return True

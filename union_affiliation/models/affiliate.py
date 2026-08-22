@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
-
-from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError, UserError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 log = logging.getLogger(__name__)
 
@@ -25,9 +24,7 @@ class Affiliate(models.Model):
         "There is already exist an affiliated with the same affiliation number!",
     )
 
-    partner_id = fields.Many2one(
-        comodel_name="res.partner", string="Partner", ondelete="cascade", required=True
-    )
+    partner_id = fields.Many2one(comodel_name="res.partner", string="Partner", ondelete="cascade", required=True)
     uid = fields.Char(string="Affiliate UID", required=True, index=True)
     work_id = fields.Char(string="Work ID")
     personal_id_type = fields.Selection(
@@ -134,9 +131,7 @@ class Affiliate(models.Model):
     affiliation_date = fields.Date(string="Affiliation's date")
     disaffiliation_date = fields.Date(string="Disaffiliation's date")
     seniority = fields.Date(string="Seniority")
-    seniority_years = fields.Integer(
-        string="Seniority in years", compute="_compute_seniority_years"
-    )
+    seniority_years = fields.Integer(string="Seniority in years", compute="_compute_seniority_years")
 
     # EtiquetaBis
     category_bis_id = fields.Many2many(
@@ -151,28 +146,22 @@ class Affiliate(models.Model):
     def _check_uid(self):
         for record in self:
             if record.uid and not record.uid.isdigit():
-                raise ValidationError(
-                    _("El campo ID debe contener únicamente números.")
-                )
+                raise ValidationError(_("El campo ID debe contener únicamente números."))
             if record.uid[0] == "0":
                 raise ValidationError(_("El campo ID no puede comenzar con cero."))
 
     @api.constrains("state", "affiliate_type_id")
     def _check_affiliate_type_id(self):
         for record in self:
-            if (
-                record.state not in ("new", "not_affiliated")
-                and not record.affiliate_type_id
-            ):
+            if record.state not in ("new", "not_affiliated") and not record.affiliate_type_id:
                 raise ValidationError(
                     _(
-                        "The field 'Employment relationship type' is required when state is not 'new' or 'not_affiliated'."
+                        "The field 'Employment relationship type' is required when state"
+                        " is not 'new' or 'not_affiliated'."
                     )
                 )
 
-    @api.depends(
-        "main_workplace_id", "main_workplace_id.level", "main_workplace_id.parent_path"
-    )
+    @api.depends("main_workplace_id", "main_workplace_id.level", "main_workplace_id.parent_path")
     def _compute_main_workplace_levels(self):
         """Computa las agrupaciones jerárquicas por lugar de trabajo"""
         for affiliate in self:
@@ -191,20 +180,14 @@ class Affiliate(models.Model):
                 parent_ids = [workplace.id]
 
             # Ordenar los lugares padres por nivel
-            parent_workplaces = (
-                self.env["union.workplace"].browse(parent_ids).sorted("level")
-            )
+            parent_workplaces = self.env["union.workplace"].browse(parent_ids).sorted("level")
 
             level1_workplace = parent_workplaces.filtered(lambda w: w.level == 1)
-            affiliate.main_workplace_level1 = (
-                level1_workplace[0].name if level1_workplace else workplace.name
-            )
+            affiliate.main_workplace_level1 = level1_workplace[0].name if level1_workplace else workplace.name
 
             level2_workplace = parent_workplaces.filtered(lambda w: w.level == 2)
             affiliate.main_workplace_level2 = (
-                level2_workplace[0].name
-                if level2_workplace
-                else affiliate.main_workplace_level1
+                level2_workplace[0].name if level2_workplace else affiliate.main_workplace_level1
             )
 
             affiliate.main_workplace_level3 = workplace.name
@@ -255,9 +238,7 @@ class Affiliate(models.Model):
             "name": "Period",
             "type": "ir.actions.act_window",
             "res_model": "affiliation.affiliation_period",
-            "view_id": self.env.ref(
-                "affiliation.affiliation_affiliation_period_form"
-            ).id,
+            "view_id": self.env.ref("affiliation.affiliation_affiliation_period_form").id,
             "view_mode": "form",
             "res_id": self._get_current_period().id,
             "target": "new",
@@ -285,7 +266,6 @@ class Affiliate(models.Model):
             self.write(_to_write)
 
     def start_affiliation_(self, _to_write, _config):
-
         _to_write.update({"affiliation_date": fields.Date.today()})
 
         suggested_affiliation_number = None
@@ -296,9 +276,7 @@ class Affiliate(models.Model):
                 .number_next_actual
             )
             if not suggested_affiliation_number:
-                raise UserError(
-                    _("The sequence next_affiliation_number_seq is not defined.")
-                )
+                raise UserError(_("The sequence next_affiliation_number_seq is not defined."))
 
         # TODO: find a way to delete the unconfirmed affiliations from database records
         _data = self.env["affiliation.affiliation_number"].create(
@@ -371,9 +349,7 @@ class Affiliate(models.Model):
                 if isinstance(value, models.BaseModel):
                     return value.display_name or ""
                 if isinstance(value, int):
-                    return (
-                        record.env[field.comodel_name].browse(value).display_name or ""
-                    )
+                    return record.env[field.comodel_name].browse(value).display_name or ""
 
             if isinstance(value, bool):
                 return _("True") if value else _("False")
@@ -445,9 +421,7 @@ class Affiliate(models.Model):
         )
 
         # Keep affiliate linked partner suggested when opening chatter thread.
-        if self.partner_id and self.partner_id.id not in [
-            r.get("partner_id") for r in recipients
-        ]:
+        if self.partner_id and self.partner_id.id not in [r.get("partner_id") for r in recipients]:
             recipients.append(
                 {
                     "email": self.partner_id.email_normalized,
@@ -461,16 +435,12 @@ class Affiliate(models.Model):
     def action_archive(self):
         log.info(self.env.user.groups_id)
         if not self.env.user.has_group("affiliation.group_affiliation_admin"):
-            raise UserError(
-                _("Admin affiliation permission is required to archive records.")
-            )
+            raise UserError(_("Admin affiliation permission is required to archive records."))
         return super().action_archive()
 
     def action_unarchive(self):
         if not self.env.user.has_group("affiliation.group_affiliation_admin"):
-            raise UserError(
-                _("Admin affiliation permission is required to unarchive records.")
-            )
+            raise UserError(_("Admin affiliation permission is required to unarchive records."))
         return super().action_unarchive()
 
     def action_view_partner(self):
