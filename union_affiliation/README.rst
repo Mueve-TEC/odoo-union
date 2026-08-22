@@ -51,7 +51,7 @@ Uso
 
 1. Configura la numeración del afiliado y los periodos de afiliación desde **Sindicato > Configuración > Configuración de afiliación**.
 2. Configura los tipos de relación laboral en **Sindicato > Afiliaciones > Tipos de relación laboral**.
-3. Navega a **Sindicato > Afiliaciones** para gestionar los afiliados. 
+3. Navega a **Sindicato > Afiliaciones** para gestionar los afiliados.
 
 Créditos
 ========

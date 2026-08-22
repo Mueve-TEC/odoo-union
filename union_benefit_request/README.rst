@@ -48,7 +48,7 @@ Este módulo depende de los siguientes módulos de Odoo:
 Uso
 ===
 
-1. Navega a **Sindicato > Solicitudes > Tipos de solicitud** y a **Sindicato > Solicitudes > Tipos de beneficios escolares**  para configurar los tipos de solicitudes. 
+1. Navega a **Sindicato > Solicitudes > Tipos de solicitud** y a **Sindicato > Solicitudes > Tipos de beneficios escolares**  para configurar los tipos de solicitudes.
 2. Navega a **Sindicato > Solicitudes > Lista de solicitudes** para gestionar las solicitudes.
 3. Navega a **Sindicato > Solicitudes > Beneficios escolares** para gestionar en particular las solicitudes de beneficios escolares.
 
