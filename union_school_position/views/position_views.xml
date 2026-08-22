@@ -1,5 +1,4 @@
 <odoo>
-    <data>
         <record model="ir.ui.view" id="union_school_position_form">
             <field name="name">School position form</field>
             <field name="model">school_position.position</field>
@@ -119,5 +118,4 @@
 
         </record>
 
-    </data>
 </odoo>

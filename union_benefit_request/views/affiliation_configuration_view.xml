@@ -1,5 +1,4 @@
 <odoo>
-    <data>
         <record model="ir.ui.view" id="union_benefit_request_affiliation_configuration_form">
             <field name="name">union_benefit_request.union_affiliate_configuration.form</field>
             <field name="model">affiliation.affiliation_configuration</field>
@@ -14,5 +13,4 @@
                 </xpath>
             </field>
         </record>
-    </data>
 </odoo>

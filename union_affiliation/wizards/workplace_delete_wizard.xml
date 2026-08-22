@@ -11,20 +11,20 @@
                     <strong>¡Atención!</strong>
                     <p>Esta acción no se puede deshacer.</p>
                 </div>
-                
+
                 <group>
                     <field name="workplace_id" readonly="1"/>
                 </group>
-                
+
                 <div class="o_form_sheet">
                     <field name="message" widget="text" readonly="1" style="white-space: pre-line; font-family: monospace; border: none; background: none;"/>
-                    
+
                     <div invisible="not affected_affiliates" style="margin-top: 15px;">
                         <separator string="Detalles de afiliados afectados"/>
                         <field name="affected_affiliates" widget="text" readonly="1" style="white-space: pre-line; font-family: monospace; border: none; background: none; color: #6c757d;"/>
                     </div>
                 </div>
-                
+
                 <footer>
                     <button name="action_confirm_delete" type="object" string="Sí, eliminar" class="btn-danger"/>
                     <button name="action_cancel" type="object" string="Cancelar" class="btn-secondary"/>

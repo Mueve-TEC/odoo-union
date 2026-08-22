@@ -1,5 +1,4 @@
 <odoo>
-    <data>
         <record model="ir.ui.view" id="union_affiliation_affiliate_child_form">
             <field name="name">union_affiliation.affiliate_child.form</field>
             <field name="model">affiliation.affiliate_child</field>
@@ -53,5 +52,4 @@
             </field>
         </record>
 
-    </data>
 </odoo>

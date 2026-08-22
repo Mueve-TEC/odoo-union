@@ -1,5 +1,4 @@
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <record id="demo_pos_type_docente" model="school_position.type">
             <field name="code">DOC</field>
             <field name="name">Docente</field>
@@ -90,5 +89,4 @@
             <field name="registration_date">2024-01-15</field>
             <field name="featured" eval="False" />
         </record>
-    </data>
 </odoo>

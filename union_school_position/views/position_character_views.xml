@@ -1,5 +1,4 @@
 <odoo>
-    <data>
         <record model="ir.ui.view" id="union_school_position_character_form">
             <field name="name">School position character form</field>
             <field name="model">school_position.character</field>
@@ -25,5 +24,4 @@
                 </list>
             </field>
         </record>
-    </data>
 </odoo>

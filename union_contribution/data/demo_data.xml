@@ -1,5 +1,4 @@
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <record id="demo_contrib_code_normal" model="contribution.affiliate_contribution_code">
             <field name="code">NOR</field>
             <field name="description">Aporte Normal</field>
@@ -39,5 +38,4 @@
             <field name="contrib_amount">10000.0</field>
             <field name="contribution_code_id" ref="demo_contrib_code_extra" />
         </record>
-    </data>
 </odoo>

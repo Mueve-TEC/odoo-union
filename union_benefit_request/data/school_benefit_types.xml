@@ -1,5 +1,4 @@
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <record id="adiuc_school_benefit_type_nacimiento" model="benefit_request.school_benefit_type">
             <field name="name">Nacimiento</field>
             <field name="active">True</field>
@@ -56,5 +55,4 @@
             <field name="name">Otro</field>
             <field name="active">True</field>
         </record>
-    </data>
 </odoo>

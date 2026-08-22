@@ -1,5 +1,4 @@
 <odoo>
-    <data>
         <!-- Vista tree especial para cargos dentro del formulario de afiliado -->
         <record model="ir.ui.view" id="union_school_position_affiliate_tree">
             <field name="name">union_school_position.affiliate.tree</field>
@@ -66,5 +65,4 @@
                 </xpath>
             </field>
         </record>
-    </data>
 </odoo>

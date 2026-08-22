@@ -1,5 +1,4 @@
 <odoo>
-    <data>
         <record model="ir.ui.view" id="inconsistencies_result_tree">
             <field name="name">inconsistencies.result.tree</field>
             <field name="model">inconsistencies.result</field>
@@ -109,5 +108,4 @@
             </field>
         </record>
 
-    </data>
 </odoo>

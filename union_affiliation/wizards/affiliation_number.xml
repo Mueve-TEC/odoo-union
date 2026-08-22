@@ -1,5 +1,4 @@
 <odoo>
-    <data>
         <record model="ir.ui.view" id="affiliation_affiliation_number_form">
             <field name="name">union_affiliation.affiliation.number.form</field>
             <field name="model">affiliation.affiliation_number</field>
@@ -19,5 +18,4 @@
                 </form>
             </field>
         </record>
-    </data>
 </odoo>

@@ -1,5 +1,4 @@
 <odoo>
-    <data>
         <!-- <template id="assets_backend" name="contribution assets"
         inherit_id="web.assets_backend">
             <xpath expr="//script[last()]" position="after">
@@ -41,7 +40,6 @@
             </field>
         </record>
 
-
         <record id="union_contribution_affiliate_contribution_search" model="ir.ui.view">
             <field name="name">union_contribution.affiliate.contribution.search</field>
             <field name="model">contribution.affiliate_contribution</field>
@@ -62,5 +60,4 @@
             </field>
         </record>
 
-    </data>
 </odoo>

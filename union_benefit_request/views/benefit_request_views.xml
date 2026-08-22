@@ -1,5 +1,4 @@
 <odoo>
-    <data>
         <record model="ir.ui.view" id="union_benefit_request_form">
             <field name="name">union_benefit_request_form</field>
             <field name="model">benefit_request.benefit_request</field>
@@ -162,5 +161,4 @@
             <field name="target">new</field>
         </record>
 
-    </data>
 </odoo>

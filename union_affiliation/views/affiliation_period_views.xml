@@ -1,5 +1,4 @@
 <odoo>
-    <data>
         <record model="ir.ui.view" id="union_affiliation_affiliation_period_form">
             <field name="name">union_affiliation.affiliate_period.form</field>
             <field name="model">affiliation.affiliation_period</field>
@@ -33,5 +32,4 @@
                 </list>
             </field>
         </record>
-    </data>
 </odoo>

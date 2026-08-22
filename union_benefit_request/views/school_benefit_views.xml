@@ -1,5 +1,4 @@
 <odoo>
-    <data>
         <record model="ir.ui.view" id="school_benefit_form">
             <field name="name">school_benefit_form</field>
             <field name="model">benefit_request.school_benefit</field>
@@ -49,5 +48,4 @@
             </field>
         </record>
 
-    </data>
 </odoo>

@@ -1,5 +1,4 @@
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <record id="affiliate_state_not_affiliated" model="benefit_request.affiliate_state">
             <field name="name">Not affiliated</field>
             <field name="value">not_affiliated</field>
@@ -28,5 +27,4 @@
             <field name="name">Historical</field>
             <field name="value">historical</field>
         </record>
-    </data>
 </odoo>

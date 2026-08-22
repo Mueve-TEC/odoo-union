@@ -1,5 +1,4 @@
 <odoo>
-    <data>
         <record id="inconsistencies_query_form" model="ir.ui.view">
             <field name="name">inconsistencies.query.form</field>
             <field name="model">inconsistencies.query</field>
@@ -24,5 +23,4 @@
                 </form>
             </field>
         </record>
-    </data>
 </odoo>
