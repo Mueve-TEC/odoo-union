@@ -270,9 +270,22 @@ class BenefitRequest(models.Model):
                 if len(affiliate.ids):
                     record.affiliate_personal_id = affiliate[0].personal_id
 
-    def _message_get_suggested_recipients(self):
+    def _message_get_suggested_recipients(
+        self,
+        reply_discussion=False,
+        reply_message=None,
+        no_create=True,
+        primary_email=False,
+        additional_partners=None,
+    ):
         self.ensure_one()
-        recipients = super()._message_get_suggested_recipients()
+        recipients = super()._message_get_suggested_recipients(
+            reply_discussion=reply_discussion,
+            reply_message=reply_message,
+            no_create=no_create,
+            primary_email=primary_email,
+            additional_partners=additional_partners,
+        )
 
         if not self.partner_id:
             return recipients

@@ -172,3 +172,45 @@ class TestBenefitRequest(TransactionCase):
                     "request_type_id": self.request_type.id,
                 }
             )
+
+    # ─── _message_get_suggested_recipients (Odoo 19 signature) ──────────────
+
+    def test_suggested_recipients_odoo19_signature(self):
+        """_message_get_suggested_recipients must accept the Odoo 19 kwargs.
+
+        mail.thread._thread_to_store calls this with
+        reply_discussion=, reply_message=, no_create=, primary_email=,
+        additional_partners= — regressions here break the discuss thread
+        store (RPC_ERROR in the web client).
+        """
+        req = self._create_request()
+        recipients = req._message_get_suggested_recipients(
+            reply_discussion=False,
+            reply_message=None,
+            no_create=True,
+            primary_email=False,
+            additional_partners=None,
+        )
+        self.assertIsInstance(recipients, list)
+        # Partner should appear exactly once in suggested recipients
+        partner_ids = [r.get("partner_id") for r in recipients]
+        self.assertIn(req.partner_id.id, partner_ids)
+        self.assertEqual(partner_ids.count(req.partner_id.id), 1)
+
+    def test_suggested_recipients_no_partner(self):
+        """Returns super() result unchanged when partner_id is empty."""
+        # Use a NewId record (in-memory) so partner_id can be False without
+        # hitting the NOT NULL constraint at flush time.
+        req = self.env["benefit_request.benefit_request"].new(
+            {
+                "request_type_id": self.request_type.id,
+                "responsible": self.env.ref("base.user_admin").id,
+            }
+        )
+        self.assertFalse(req.partner_id)
+        recipients = req._message_get_suggested_recipients(
+            no_create=True,
+            primary_email=False,
+        )
+        self.assertIsInstance(recipients, list)
+        self.assertFalse(any(r.get("partner_id") == req.partner_id for r in recipients))
