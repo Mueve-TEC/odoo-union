@@ -211,9 +211,9 @@ class Position(models.Model):
             record.featured = False
 
     def on_import_error(self, line, error):
-        _message = {
-            "line": int(error["record"]) + 1,
-            "record": str(line),
-            "error": error["message"],
-        }
-        self.env.user.notify_danger(message=_("There were errors during importation. See the logs!"))
+        log.warning(
+            "Import row error (line %s): %s | %s",
+            error.get("record"),
+            str(line)[:200],
+            error.get("message"),
+        )

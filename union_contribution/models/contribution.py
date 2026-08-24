@@ -1,5 +1,9 @@
+import logging
+
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+
+_logger = logging.getLogger(__name__)
 
 
 class AffiliateContribution(models.Model):
@@ -42,7 +46,7 @@ class AffiliateContribution(models.Model):
         return res
 
     def on_import_error(self, _line, _error):
-        self.env.user.notify_danger(message=_("There were errors during importation. See the logs!"))
+        _logger.warning("Import row error: %s | %s", _error.get("record"), _error.get("message"))
 
     def _compute_display_name(self):
         for record in self:

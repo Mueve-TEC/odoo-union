@@ -222,3 +222,16 @@ class TestPosition(TransactionCase):
                     "import_name": "Leading Zero",
                 }
             )
+
+    # ─── on_import_error must not crash (P0 regression) ──────────────────────
+
+    def test_on_import_error_does_not_crash(self):
+        """Import row errors are logged, never raise.
+
+        Regression: the old body called res.users.notify_danger(), an API
+        that does not exist in Odoo 19 -> AttributeError aborted the whole
+        import wizard on any failing row.
+        """
+        pos = self._create_position()
+        result = pos.on_import_error("bad,row", {"record": "0", "message": "simulated"})
+        self.assertIsNone(result)

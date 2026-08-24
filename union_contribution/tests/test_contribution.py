@@ -212,3 +212,12 @@ class TestInconsistenciesResult(TransactionCase):
         self.affiliate.write({"quote": True})
         result = self._create_result()
         self.assertTrue(result.quote)
+
+    # ─── on_import_error must not crash (P0 regression) ──────────────────────
+
+    def test_on_import_error_does_not_crash(self):
+        """Import row errors are logged, never raise (Odoo 19 has no
+        res.users.notify_danger; old code crashed with AttributeError)."""
+        contrib = self.env["contribution.affiliate_contribution"].search([], limit=1)
+        result = contrib.on_import_error("bad,row", {"record": "0", "message": "simulated"})
+        self.assertIsNone(result)
