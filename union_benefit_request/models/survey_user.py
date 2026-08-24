@@ -37,7 +37,7 @@ class SurveyUserInput(models.Model):
 
         values = {
             "request_type_id": survey.request_type_id.id if survey.request_type_id.id else None,
-            "responsible": 2,
+            "responsible": self.env.ref("base.user_admin").id,
             "partner_id": affiliate.partner_id.id,
         }
         return self.env["benefit_request.benefit_request"].create(values)
