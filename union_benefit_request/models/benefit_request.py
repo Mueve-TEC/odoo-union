@@ -238,14 +238,21 @@ class BenefitRequest(models.Model):
         args = args or []
         domain = [("request_type_id", operator, name)]
         if "import_file" in self.env.context:
-            _date, _type, _name = name.split(",")
-            domain = [
-                ("request_date", "=", _date),
-                ("request_type_id", operator, _type),
-            ]
-            partner = self.env["res.partner"].search([("name", operator, _name)], limit=limit)
-            if partner:
-                domain = domain + [("partner_id", "=", partner[0].id)]
+            # Expected format: "YYYY-MM-DD,<type>,<partner name>"; maxsplit=2
+            # keeps commas inside the partner name ("Garcia, Maria") intact.
+            parts = name.split(",", 2)
+            if len(parts) == 3:
+                _date, _type, _name = parts
+                domain = [
+                    ("request_date", "=", _date),
+                    ("request_type_id", operator, _type.strip()),
+                ]
+                partner = self.env["res.partner"].search([("name", operator, _name.strip())], limit=limit)
+                if partner:
+                    domain = domain + [("partner_id", "=", partner[0].id)]
+            else:
+                # Malformed lookup string: degrade gracefully instead of crashing.
+                domain = [("request_type_id", operator, name)]
         else:
             partner = self.env["res.partner"].search([("name", operator, name)], limit=limit)
             if partner:

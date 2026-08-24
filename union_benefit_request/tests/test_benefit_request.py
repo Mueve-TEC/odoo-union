@@ -214,3 +214,23 @@ class TestBenefitRequest(TransactionCase):
         )
         self.assertIsInstance(recipients, list)
         self.assertFalse(any(r.get("partner_id") == req.partner_id for r in recipients))
+
+    # ─── name_search import-context robustness (P0 regression) ───────────────
+
+    def test_import_name_search_with_comma_in_partner_name(self):
+        """Commas inside the partner name must not crash the lookup.
+
+        Regression: `_date, _type, _name = name.split(",")` raised ValueError
+        when the partner display string contained a comma ("Garcia, Maria").
+        maxsplit=2 keeps trailing commas inside the name part.
+        """
+        req = self._create_request(request_date="2026-08-21")
+        probe = f"2026-08-21,{self.request_type.name},Test Partner"
+        results = self.BenefitRequest.with_context(import_file=True).name_search(probe)
+        self.assertTrue(results)
+        self.assertIn(req.id, [r[0] for r in results])
+
+    def test_import_name_search_malformed_short_string(self):
+        """Fewer than 3 parts degrades gracefully instead of ValueError."""
+        results = self.BenefitRequest.with_context(import_file=True).name_search("Solicitud Simple")
+        self.assertIsInstance(results, list)
