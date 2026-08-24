@@ -180,7 +180,7 @@ class UnionWorkplace(models.Model):
             all_descendants = workplace._get_all_descendants()
             if all_descendants:
                 raise ValidationError(
-                    _("To delete this workplace and its descendants, " 'use the "Delete" button from the form view.')
+                    _('To delete this workplace and its descendants, use the "Delete" button from the form view.')
                 )
 
             if workplace.affiliate_ids:
