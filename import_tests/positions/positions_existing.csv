@@ -1,0 +1,4 @@
+import_uid,import_name,type_id,character_id,workplace_id,sector,hs_amount,position_number,date_from,date_to,registration_date
+10000001,Juan Perez,DOC,TIT,,Educacion,20,P-101,2026-01-10,,2026-01-10
+10000004,Ana Martinez,ADM,INT,ESC01,Administracion,15,P-102,2026-02-01,,2026-02-01
+10000003,Carlos Rodriguez,DIR,TIT,,Direccion,,P-103,2025-09-01,2026-08-31,2025-09-01

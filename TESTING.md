@@ -398,6 +398,8 @@ Open each menu and confirm the expected demo records are present.
 ## 14. Import Flows (create-from-import, config-gated)
 
 > **Prerequisite:** These flows trigger when importing via base_import with context `import_file`. The auto-create branches only activate when the corresponding config flag is enabled.
+>
+> **Ready-to-use CSVs:** see `import_tests/` at the repo root — per-module files for existing-affiliate resolution, auto-create (flag ON) and invalid-uid errors, plus step-by-step instructions and expected results (`import_tests/README.md`).
 
 ### Position import (`union_school_position`)
 | ID | Test | Steps | Expected |

@@ -1,0 +1,3 @@
+import_uid,import_name,type_id,character_id,sector,hs_amount,position_number,date_from,registration_date
+ABCD1234,Uid No Numerico,DOC,TIT,Educacion,20,P-301,2026-01-10,2026-01-10
+01234567,Uid Con Cero Inicial,ADM,INT,Administracion,15,P-302,2026-02-01,2026-02-01

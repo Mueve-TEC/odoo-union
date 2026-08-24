@@ -1,0 +1,3 @@
+import_uid,import_name,date,contrib_amount,contribution_code_id
+XYZ789,Uid No Numerico,2026-08-01,100.0,Aporte Normal
+05555555,Uid Con Cero Inicial,2026-08-01,200.0,Aporte Normal

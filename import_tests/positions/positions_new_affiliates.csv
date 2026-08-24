@@ -1,0 +1,3 @@
+import_uid,import_name,type_id,character_id,sector,hs_amount,position_number,date_from,registration_date
+70000011,Nueva Afiliada Uno,DOC,TIT,Educacion,18,P-201,2026-03-01,2026-03-01
+70000012,Nuevo Afiliado Dos,ADM,SUP,Administracion,10,P-202,2026-03-15,2026-03-15
