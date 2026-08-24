@@ -116,7 +116,37 @@ class TestAffiliate(TransactionCase):
     def test_uid_index_exists(self):
         """Verify that the uid_unique index exists on the affiliate table."""
         self.env.cr.execute(
-            "SELECT indexname FROM pg_indexes " "WHERE tablename = 'affiliation_affiliate' AND indexname LIKE '%uid%'"
+            "SELECT indexname FROM pg_indexes WHERE tablename = 'affiliation_affiliate' AND indexname LIKE '%uid%'"
         )
         indexes = [r[0] for r in self.env.cr.fetchall()]
         self.assertTrue(any("uid" in i for i in indexes))
+
+    # ─── _check_uid edge cases (P0 regression) ────────────────────────────────
+
+    def test_uid_empty_string_raises_validation_error(self):
+        """Writing an empty uid must raise ValidationError, not IndexError.
+
+        Regression: `record.uid[0] == '0'` ran before any falsy guard and
+        crashed with IndexError on '' (empty string bypasses the NOT NULL
+        column check because it is not NULL).
+        """
+        aff = self._create_affiliate(uid="70777001")
+        with self.assertRaises(ValidationError):
+            aff.write({"uid": ""})
+
+    def test_batch_create_types_does_not_crash(self):
+        """Batch create of affiliate types must not hit ExpectedSingleton.
+
+        Regression: _check_name read self.name/self.id without a loop.
+        """
+        AffiliateType = self.env["affiliation.affiliate_type"]
+        records = AffiliateType.create(
+            [{"name": "Audit Batch A", "enabled": True}, {"name": "Audit Batch B", "enabled": True}]
+        )
+        self.assertEqual(len(records), 2)
+
+    def test_batch_create_duplicate_name_raises_validation_error(self):
+        """Duplicate names in a batch raise ValidationError (not ValueError)."""
+        AffiliateType = self.env["affiliation.affiliate_type"]
+        with self.assertRaises(ValidationError):
+            AffiliateType.create([{"name": "Audit Dup X", "enabled": True}, {"name": "Audit Dup X", "enabled": True}])

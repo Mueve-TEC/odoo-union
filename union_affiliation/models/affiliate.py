@@ -145,7 +145,9 @@ class Affiliate(models.Model):
     @api.constrains("uid")
     def _check_uid(self):
         for record in self:
-            if record.uid and not record.uid.isdigit():
+            if not record.uid:
+                raise ValidationError(_("The affiliate UID is required."))
+            if not record.uid.isdigit():
                 raise ValidationError(_("El campo ID debe contener únicamente números."))
             if record.uid[0] == "0":
                 raise ValidationError(_("El campo ID no puede comenzar con cero."))
