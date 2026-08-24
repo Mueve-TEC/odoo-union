@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0\n"
+"Project-Id-Version: Odoo Server 19.0-20260803\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-07 02:34+0000\n"
-"PO-Revision-Date: 2023-04-07 02:34+0000\n"
+"POT-Creation-Date: 2026-08-24 19:33+0000\n"
+"PO-Revision-Date: 2026-08-24 19:33+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,14 +16,16 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: union_benefit_request
+#. odoo-python
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+#: code:addons/union_benefit_request/models/school_benefit.py:0
+msgid "%s"
+msgstr ""
+
+#. module: union_benefit_request
 #: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_type_form
 msgid "Acceptation"
 msgstr "Aceptación"
-
-#. module: union_benefit_request
-#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__accountabled_amount
-msgid "Accountable amount"
-msgstr "Importe contable"
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__message_needaction
@@ -52,9 +54,30 @@ msgid "Activity State"
 msgstr "Estado de actividad"
 
 #. module: union_benefit_request
+#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Icono de tipo de actividad"
+
+#. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__affiliate_uid
 msgid "Affiliate UID"
-msgstr "Legajo"
+msgstr "ID"
+
+#. module: union_benefit_request
+#. odoo-python
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+msgid ""
+"Affiliate does not exist in the database (UID: %s, Personal ID: %s), and the"
+" option to auto-create them during import is disabled in the configuration."
+msgstr ""
+"El afiliado/a no existe en la base de datos (ID: %s, ID personal: %s), y la "
+"opción para crearlos durante la importación está deshabilitada en la "
+"configuración."
+
+#. module: union_benefit_request
+#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_form
+msgid "Amounts"
+msgstr "Importes"
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__partner_id
@@ -84,8 +107,8 @@ msgid "Authorized amount"
 msgstr "Importe autorizado"
 
 #. module: union_benefit_request
+#. odoo-python
 #: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
 msgid "Authorized amount must be major to zero"
 msgstr "La cantidad autorizada debe ser mayor a cero"
 
@@ -144,20 +167,26 @@ msgid "Canceled"
 msgstr "Cancelado"
 
 #. module: union_benefit_request
-#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_form
-msgid "Return to Draft"
-msgstr "Volver a borrador"
-
-#. module: union_benefit_request
+#. odoo-python
 #: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Only users with admin permissions can return finalized or canceled requests to draft state"
-msgstr "Solo los usuarios con permisos de administrador pueden volver a borrador las solicitudes finalizadas o canceladas"
+msgid ""
+"Cannot create affiliate for request import. Missing import_name or ID "
+"(import_uid). Please ensure the imported data includes both affiliate Name "
+"and ID."
+msgstr ""
+"No se pudo crear el afiliado/a para la importación de solicitudes. Falta el "
+"nombre de importación (import_name) o el ID (import_uid). Asegúrese de que "
+"los datos importados incluyan tanto el nombre como el ID del afiliado/a."
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_school_benefit__affiliate_child_id
 msgid "Child"
 msgstr "Hijo/a"
+
+#. module: union_benefit_request
+#: model:ir.model,name:union_benefit_request.model_affiliation_affiliation_configuration
+msgid "Configuration of Affiliaton module"
+msgstr "Configuración del módulo de afiliación"
 
 #. module: union_benefit_request
 #: model:ir.model,name:union_benefit_request.model_res_partner
@@ -168,6 +197,11 @@ msgstr "Contacto"
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_request_type__quote
 msgid "Contributors"
 msgstr "Cotizantes"
+
+#. module: union_benefit_request
+#: model:ir.model.fields,field_description:union_benefit_request.field_affiliation_affiliation_configuration__create_user_from_request
+msgid "Create affiliate when importing requests"
+msgstr "Crear afiliado/a al importar solicitudes."
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_affiliate_state__create_uid
@@ -195,14 +229,47 @@ msgid "Delivered"
 msgstr "Entregado"
 
 #. module: union_benefit_request
+#: model:ir.model.fields,field_description:union_benefit_request.field_affiliation_affiliate__display_name
+#: model:ir.model.fields,field_description:union_benefit_request.field_affiliation_affiliation_configuration__display_name
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_affiliate_state__display_name
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__display_name
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_request_group__display_name
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_request_type__display_name
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_school_benefit__display_name
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_school_benefit_type__display_name
+#: model:ir.model.fields,field_description:union_benefit_request.field_res_partner__display_name
+#: model:ir.model.fields,field_description:union_benefit_request.field_survey_survey__display_name
+#: model:ir.model.fields,field_description:union_benefit_request.field_survey_user_input__display_name
 msgid "Display Name"
 msgstr "Nombre para mostrar"
+
+#. module: union_benefit_request
+#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_type_form
+msgid "Documentation"
+msgstr "Documentación"
+
+#. module: union_benefit_request
+#: model:ir.model.fields.selection,name:union_benefit_request.selection__benefit_request_benefit_request__state__draft
+#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_search
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: union_benefit_request
+#. odoo-python
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+msgid "El campo ID debe contener únicamente números."
+msgstr ""
+
+#. module: union_benefit_request
+#. odoo-python
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+msgid "El campo ID no puede comenzar con cero."
+msgstr ""
+
+#. module: union_benefit_request
+#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__email
+msgid "Email"
+msgstr ""
 
 #. module: union_benefit_request
 #: model:ir.model.fields.selection,name:union_benefit_request.selection__benefit_request_request_type__who_apply__everybody
@@ -231,14 +298,14 @@ msgid "Followers"
 msgstr "Seguidores"
 
 #. module: union_benefit_request
-#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__message_channel_ids
-msgid "Followers (Channels)"
-msgstr "Seguidores (canales)"
-
-#. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Seguidores (socios)"
+
+#. module: union_benefit_request
+#: model:ir.model.fields,help:union_benefit_request.field_benefit_request_benefit_request__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__full_doc
@@ -251,11 +318,6 @@ msgid "Full documented"
 msgstr "Completamente documentado"
 
 #. module: union_benefit_request
-#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_search
-msgid "Group By"
-msgstr "Agrupar por"
-
-#. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_request_type__request_group_ids
 msgid "Groups"
 msgstr "Grupos"
@@ -264,6 +326,11 @@ msgstr "Grupos"
 #: model:ir.model,name:union_benefit_request.model_benefit_request_request_group
 msgid "Groups for benefit's type"
 msgstr "Grupos por tipo de beneficio"
+
+#. module: union_benefit_request
+#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__has_message
+msgid "Has Message"
+msgstr "Tiene mensaje"
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__hide_amounts
@@ -281,14 +348,19 @@ msgid "Hide School Benefits"
 msgstr "Ocultar beneficios escolares"
 
 #. module: union_benefit_request
+#: model:ir.model.fields,field_description:union_benefit_request.field_affiliation_affiliate__id
+#: model:ir.model.fields,field_description:union_benefit_request.field_affiliation_affiliation_configuration__id
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_affiliate_state__id
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__id
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_request_group__id
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_request_type__id
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_school_benefit__id
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_school_benefit_type__id
+#: model:ir.model.fields,field_description:union_benefit_request.field_res_partner__id
+#: model:ir.model.fields,field_description:union_benefit_request.field_survey_survey__id
+#: model:ir.model.fields,field_description:union_benefit_request.field_survey_user_input__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__activity_exception_icon
@@ -296,21 +368,44 @@ msgid "Icon"
 msgstr "Icono"
 
 #. module: union_benefit_request
-#: model:ir.model.fields,help:union_benefit_request.field_union_benefit_request_benefit_request__activity_exception_icon
+#: model:ir.model.fields,help:union_benefit_request.field_benefit_request_benefit_request__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr "Icono para indicar una actividad de excepción"
+msgstr ""
 
 #. module: union_benefit_request
-#: model:ir.model.fields,help:union_benefit_request.field_union_benefit_request_benefit_request__message_needaction
-#: model:ir.model.fields,help:union_benefit_request.field_union_benefit_request_benefit_request__message_unread
+#: model:ir.model.fields,help:union_benefit_request.field_benefit_request_request_type__require_full_doc
+msgid ""
+"If checked, full documentation will be required to finalize requests of this"
+" type"
+msgstr ""
+"Si está marcado, se requerirá documentación completa para finalizar "
+"solicitudes de este tipo"
+
+#. module: union_benefit_request
+#: model:ir.model.fields,help:union_benefit_request.field_benefit_request_benefit_request__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Si está tildado, los mensajes nuevos requieren su atención"
+msgstr ""
 
 #. module: union_benefit_request
-#: model:ir.model.fields,help:union_benefit_request.field_union_benefit_request_benefit_request__message_has_error
-#: model:ir.model.fields,help:union_benefit_request.field_union_benefit_request_benefit_request__message_has_sms_error
+#: model:ir.model.fields,help:union_benefit_request.field_benefit_request_benefit_request__message_has_error
+#: model:ir.model.fields,help:union_benefit_request.field_benefit_request_benefit_request__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Si está tildado, algunos mensajes tienen un error de entrega"
+msgstr ""
+
+#. module: union_benefit_request
+#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__import_name
+msgid "Import Name"
+msgstr ""
+
+#. module: union_benefit_request
+#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__import_personal_id
+msgid "Import Personal ID"
+msgstr ""
+
+#. module: union_benefit_request
+#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__import_vat
+msgid "Import VAT"
+msgstr ""
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__message_is_follower
@@ -321,16 +416,6 @@ msgstr "Es seguidor"
 #: model:ir.model.fields,field_description:union_benefit_request.field_survey_survey__generate_benefit
 msgid "It create request"
 msgstr "Crea una solicitud"
-
-#. module: union_benefit_request
-#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_affiliate_state____last_update
-#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request____last_update
-#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_request_group____last_update
-#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_request_type____last_update
-#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_school_benefit____last_update
-#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_school_benefit_type____last_update
-msgid "Last Modified on"
-msgstr "Última modificación el"
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_affiliate_state__write_uid
@@ -363,9 +448,9 @@ msgid "Last state"
 msgstr "Estado anterior"
 
 #. module: union_benefit_request
-#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__message_main_attachment_id
-msgid "Main Attachment"
-msgstr "Adjunto principal"
+#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__import_uid
+msgid "Legajo"
+msgstr ""
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__message_has_error
@@ -378,17 +463,15 @@ msgid "Messages"
 msgstr "Mensajes"
 
 #. module: union_benefit_request
+#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_school_benefit_type__name
 #: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_type_form
 msgid "Name"
 msgstr "Nombre"
-
-
-#. module: union_benefit_request
-#: model:ir.model.fields.selection,name:union_benefit_request.selection__benefit_request_benefit_request__state__draft
-#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_search
-msgid "Draft"
-msgstr "Borrador"
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__activity_date_deadline
@@ -427,19 +510,14 @@ msgid "Number of errors"
 msgstr "Número de errores"
 
 #. module: union_benefit_request
-#: model:ir.model.fields,help:union_benefit_request.field_union_benefit_request_benefit_request__message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr "Número de mensajes que requieren una acción"
+#: model:ir.model.fields,help:union_benefit_request.field_benefit_request_benefit_request__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
 
 #. module: union_benefit_request
-#: model:ir.model.fields,help:union_benefit_request.field_union_benefit_request_benefit_request__message_has_error_counter
+#: model:ir.model.fields,help:union_benefit_request.field_benefit_request_benefit_request__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr "Número de mensajes con error de entrega"
-
-#. module: union_benefit_request
-#: model:ir.model.fields,help:union_benefit_request.field_union_benefit_request_benefit_request__message_unread_counter
-msgid "Number of unread messages"
-msgstr "Número de mensajes no leídos"
+msgstr ""
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__observations
@@ -450,6 +528,16 @@ msgstr "Observaciones"
 #: model:ir.model.fields.selection,name:union_benefit_request.selection__benefit_request_request_type__who_apply__affiliates
 msgid "Only affiliates"
 msgstr "Solo afiliados"
+
+#. module: union_benefit_request
+#. odoo-python
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+msgid ""
+"Only users with admin permissions can return finalized or canceled requests "
+"to draft state"
+msgstr ""
+"Solo los usuarios con permisos de administrador pueden volver a borrador las"
+" solicitudes finalizadas o canceladas"
 
 #. module: union_benefit_request
 #: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_form
@@ -488,19 +576,14 @@ msgid "Request"
 msgstr "Solicitud"
 
 #. module: union_benefit_request
-#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_form
-msgid "Submit Request"
-msgstr "Solicitar"
-
-#. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__request_date
 #: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_search
 msgid "Request date"
 msgstr "Fecha de solicitud"
 
 #. module: union_benefit_request
-#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_search
 #: model_terms:ir.ui.view,arch_db:union_benefit_request.school_benefit_search
+#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_search
 msgid "Request filters"
 msgstr "Filtro de solicitudes"
 
@@ -522,6 +605,12 @@ msgid "Requested amount"
 msgstr "Importe solicitado"
 
 #. module: union_benefit_request
+#. odoo-python
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+msgid "Requested amount must be major to zero"
+msgstr "El importe solicitado debe ser mayor a cero"
+
+#. module: union_benefit_request
 #: model:ir.ui.menu,name:union_benefit_request.requests_section
 msgid "Requests"
 msgstr "Solicitudes"
@@ -533,6 +622,16 @@ msgid "Requests list"
 msgstr "Lista de solicitudes"
 
 #. module: union_benefit_request
+#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_affiliation_configuration_form
+msgid "Requests' configuration"
+msgstr "Configuración de solicitudes"
+
+#. module: union_benefit_request
+#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_request_type__require_full_doc
+msgid "Require full documentation"
+msgstr "Exigir documentación completa"
+
+#. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__responsible
 msgid "Responsible"
 msgstr "Responsable"
@@ -541,6 +640,11 @@ msgstr "Responsable"
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__activity_user_id
 msgid "Responsible User"
 msgstr "Usuario responsable"
+
+#. module: union_benefit_request
+#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_form
+msgid "Return to Draft"
+msgstr "Volver a borrador"
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__message_has_sms_error
@@ -569,21 +673,27 @@ msgid "School benefit's type model given by ADIUC"
 msgstr "Modelo de tipo de beneficio escolar proporcionado por ADIUC"
 
 #. module: union_benefit_request
+#: model:ir.actions.act_window,name:union_benefit_request.union_benefit_request_school_benefit_list_action
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__school_benefit_ids
+#: model:ir.ui.menu,name:union_benefit_request.union_benefit_request_school_benefit_list
 #: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_form
 msgid "School benefits"
 msgstr "Beneficios escolares"
 
 #. module: union_benefit_request
-#: model:ir.actions.act_window,name:union_benefit_request.union_benefit_request_school_benefit_list_action
-#: model:ir.ui.menu,name:union_benefit_request.union_benefit_request_school_benefit_list
-msgid "School benefits"
-msgstr "Beneficios escolares"
+#: model:ir.actions.act_window,name:union_benefit_request.action_benefit_request_mail_form
+msgid "Send email"
+msgstr "Enviar email"
+
+#. module: union_benefit_request
+#: model:ir.actions.act_window,name:union_benefit_request.action_request_mass_mail
+msgid "Send email to aplicants"
+msgstr "Enviar email a solicitantes"
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__state
-#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_search
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_school_benefit__state
+#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_search
 msgid "State"
 msgstr "Estado"
 
@@ -598,9 +708,18 @@ msgid "States"
 msgstr "Estados"
 
 #. module: union_benefit_request
+#: model:ir.model.fields,help:union_benefit_request.field_benefit_request_benefit_request__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: union_benefit_request
 #: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_form
-msgid "Amounts"
-msgstr "Importes"
+msgid "Submit Request"
+msgstr "Solicitar"
 
 #. module: union_benefit_request
 #: model:ir.model,name:union_benefit_request.model_survey_survey
@@ -611,41 +730,55 @@ msgstr "Encuesta"
 #: model:ir.model,name:union_benefit_request.model_survey_user_input
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__survey_user_input_id
 msgid "Survey User Input"
-msgstr "Entrada de usuario de la encuesta"
+msgstr "Encuesta de opinión de los usuarios"
 
 #. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "The beneficiary does not meet the requirements"
-msgstr "El beneficiario no cumple los requisitos"
+#. odoo-python
+#: code:addons/union_benefit_request/models/request_type.py:0
+msgid ""
+"The beneficiary affiliation state is not valid for this request type.\n"
+"\n"
+"State: %s.\n"
+"Valid states: %s."
+msgstr ""
+"El estado de afiliación del beneficiario no es válido para este tipo de solicitud.\n"
+"\n"
+"Estado: %s.\n"
+"Estados válidos: %s."
 
 #. module: union_benefit_request
+#. odoo-python
+#: code:addons/union_benefit_request/models/request_type.py:0
+msgid ""
+"The beneficiary quote state is not valid for this request type.\n"
+"\n"
+"Valid quote: %s."
+msgstr ""
+"El estado cotizante del beneficiario no es válido para este tipo de solicitud.\n"
+"\n"
+"Estado cotizante necesario: %s."
+
+#. module: union_benefit_request
+#. odoo-python
 #: code:addons/union_benefit_request/models/school_benefit.py:0
-#, python-format
 msgid "The children of school benefit is not child of affiliated"
 msgstr "El hijo/a del beneficio no es hijo/a de un afiliado"
 
 #. module: union_benefit_request
+#. odoo-python
 #: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
 msgid "The documentation must be completed"
 msgstr "La documentación debe estar completa"
 
 #. module: union_benefit_request
+#. odoo-python
 #: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
 msgid "The paid amount must be major to 0 and minor to authorized amount"
 msgstr "El monto pagado debe ser mayor a 0 y menor a monto autorizado"
 
 #. module: union_benefit_request
+#. odoo-python
 #: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "There is not an affiliate with that uid %s"
-msgstr "No hay ningún afiliado con ese legajo %s"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
 msgid "There must be at least one school benefit"
 msgstr "Debe haber al menos un beneficio escolar"
 
@@ -657,41 +790,19 @@ msgid "Type"
 msgstr "Tipo"
 
 #. module: union_benefit_request
-#: code:addons/union_benefit_request/models/request_type.py:0
-#, python-format
-msgid "The beneficiary affiliation state is not valid for this request type.\n\nState: %s.\nValid states: %s."
-msgstr "El estado de afiliación del beneficiario no es válido para este tipo de solicitud.\n\nEstado: %s.\nEstados válidos: %s."
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/request_type.py:0
-#, python-format
-msgid "The beneficiary quote state is not valid for this request type.\n\nValid quote: %s."
-msgstr "El estado cotizante del beneficiario no es válido para este tipo de solicitud.\n\nEstado cotizante necesario: %s."
-
-#. module: union_benefit_request
 #: model:ir.model,name:union_benefit_request.model_benefit_request_request_type
 msgid "Type of benefits"
 msgstr "Tipo de beneficios"
 
 #. module: union_benefit_request
-#: model:ir.model.fields,help:union_benefit_request.field_union_benefit_request_benefit_request__activity_exception_decoration
+#: model:ir.model.fields,help:union_benefit_request.field_benefit_request_benefit_request__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr "Tipo de actividad de excepción registrada"
+msgstr ""
 
 #. module: union_benefit_request
 #: model:ir.model,name:union_benefit_request.model_affiliation_affiliate
 msgid "Union affiliate entity"
-msgstr "Entidad de afiliado sindical"
-
-#. module: union_benefit_request
-#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__message_unread
-msgid "Unread Messages"
-msgstr "Mensajes no leídos"
-
-#. module: union_benefit_request
-#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr "Contador de mensajes no leídos"
+msgstr "Entidad del afiliado/a sindical"
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_request_type__who_apply
@@ -709,234 +820,3 @@ msgstr "nombre"
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_affiliate_state__value
 msgid "value"
 msgstr "valor"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "new"
-msgstr "Nuevo"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "requested"
-msgstr "Solicitado"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "draft"
-msgstr "Borrador"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "authorized"
-msgstr "Autorizado"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "rejected"
-msgstr "Rechazado"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "finalized"
-msgstr "Finalizado"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "canceled"
-msgstr "Cancelado"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "State changed from <b>%s</b> to <b>%s</b>"
-msgstr "Cambio de estado de <b>%s</b> a <b>%s</b>"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Not set"
-msgstr "No"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Yes"
-msgstr "Sí"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "No"
-msgstr "No"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "<b>%s</b> changed from \"%s\" to \"%s\""
-msgstr "<b>%s</b> se cambió de \"%s\" a \"%s\""
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "<b>School Benefit</b> added"
-msgstr "<b>Bolsón Escolar</b> agregado"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "<b>School Benefit</b> \"%s\" updated"
-msgstr "<b>Bolsón Escolar</b> \"%s\" actualizado"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "<b>School Benefit</b> \"%s\" removed"
-msgstr "<b>Bolsón Escolar</b> \"%s\" eliminado"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "<b>School Benefit</b> \"%s\" unlinked"
-msgstr "<b>Bolsón Escolar</b> \"%s\" desvinculado"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "<b>All School Benefits</b> removed"
-msgstr "<b>Todos los Bolsones Escolares</b> eliminados"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "<b>School Benefits</b> list replaced"
-msgstr "Lista de <b>Bolsones Escolares</b> reemplazada"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Type"
-msgstr "Tipo"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Applicant"
-msgstr "Solicitante"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Request date"
-msgstr "Fecha de solicitud"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Full documentation"
-msgstr "Documentación completa"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Expedient/resolution"
-msgstr "Expediente/resolución"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Observations"
-msgstr "Observaciones"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Notes"
-msgstr "Notas"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Responsible"
-msgstr "Responsable"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Requested amount"
-msgstr "Importe solicitado"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Authorized amount"
-msgstr "Importe autorizado"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Paid amount"
-msgstr "Importe pagado"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "New"
-msgstr "Nuevo"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Draft"
-msgstr "Borrador"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Requested"
-msgstr "Solicitado"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Authorized"
-msgstr "Autorizado"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Rejected"
-msgstr "Rechazado"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Finalized"
-msgstr "Finalizado"
-
-#. module: union_benefit_request
-#: code:addons/union_benefit_request/models/benefit_request.py:0
-#, python-format
-msgid "Canceled"
-msgstr "Cancelado"
-
-#. module: union_benefit_request
-#: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_request_type__require_full_doc
-msgid "Require full documentation"
-msgstr "Exigir documentación completa"
-
-#. module: union_benefit_request
-#: model:ir.model.fields,help:union_benefit_request.field_benefit_request_request_type__require_full_doc
-msgid "If checked, full documentation will be required to finalize requests of this type"
-msgstr "Si está marcado, se requerirá documentación completa para finalizar solicitudes de este tipo"
-
-#. module: union_benefit_request
-#: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_type_form
-msgid "Documentation"
-msgstr "Documentación"

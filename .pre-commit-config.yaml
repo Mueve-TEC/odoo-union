@@ -68,10 +68,9 @@ repos:
           # Un solo flag --disable: un segundo flag pisa al primero
           # (semántica last-wins de argparse).
           # - po-pretty-format: formateo cosmético.
-          # - po-duplicate-message-definition: los es_AR.po heredados de 16.0
-          #   tienen msgids duplicados; pendiente regenerarlos desde fuentes
-          #   19.0 (Phase 4.1 del plan). Al terminar, quitar este disable.
-          - --disable=po-pretty-format,po-duplicate-message-definition
+          # El disable temporal de po-duplicate-message-definition se quitó
+          # tras regenerar los es_AR.po desde las fuentes 19.0 (Phase 4.1).
+          - --disable=po-pretty-format
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.6.8
