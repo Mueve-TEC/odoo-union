@@ -21,42 +21,44 @@ class AffiliationPeriod(models.Model):
 
     @api.constrains("from_date", "to_date")
     def _check_dates(self):
-        if self.from_date and self.to_date and self.from_date >= self.to_date:
-            raise ValidationError(_("'From date' is major to 'to date'!"))
+        for rec in self:
+            if rec.from_date and rec.to_date and rec.from_date >= rec.to_date:
+                raise ValidationError(_("'From date' is major to 'to date'!"))
 
     @api.constrains("affiliation_number")
     def _check_affiliation_number(self):
-        other = self.env["affiliation.affiliation_period"].search(
-            [("affiliation_number", "=", self.affiliation_number)]
-        )
-        if other and (len(other.ids) > 1 or other[0].id != self.id):
-            raise ValidationError(_("There is already exist a period with the same affiliation number!"))
+        for rec in self:
+            others = self.env["affiliation.affiliation_period"].search(
+                [("affiliation_number", "=", rec.affiliation_number), ("id", "!=", rec.id)],
+                limit=1,
+            )
+            if others:
+                raise ValidationError(_("There is already exist a period with the same affiliation number!"))
 
-    @api.constrains("from_date")
-    def _check_from_date(self):
-        domain = [
-            ("from_date", "<=", self.from_date),
-            ("to_date", ">=", self.from_date),
-            ("affiliate_id", "=", self.affiliate_id.id),
-        ]
-        others = self.env["affiliation.affiliation_period"].search(domain)
-        if len(others.ids) > 0:
-            for period in others:
-                if period.id != self.id:
-                    raise ValidationError(_("Period's init overlapped with other!"))
+    @api.constrains("from_date", "to_date")
+    def _check_overlap(self):
+        """Interval overlap against any other period of the same affiliate.
 
-    @api.constrains("to_date")
-    def _check_to_date(self):
-        domain = [
-            ("from_date", "<=", self.to_date),
-            ("to_date", ">=", self.to_date),
-            ("affiliate_id", "=", self.affiliate_id.id),
-        ]
-        others = self.env["affiliation.affiliation_period"].search(domain)
-        if len(others.ids) > 0:
-            for period in others:
-                if period.id != self.id:
-                    raise ValidationError(_("Period's end overlapped with other!"))
+        Two ranges [a1,a2] and [b1,b2] (b2 may be NULL = open-ended) overlap
+        iff a1 < b2 (or b2 NULL) and b1 < a2 (or a2 NULL). Checking from both
+        directions via the constraint on each record covers containment gaps
+        that the previous endpoint-only checks missed.
+        """
+        for rec in self:
+            if not rec.from_date:
+                continue
+            domain = [
+                ("affiliate_id", "=", rec.affiliate_id.id),
+                ("id", "!=", rec.id),
+                "|",
+                ("to_date", "=", False),
+                ("to_date", ">", rec.from_date),
+            ]
+            others = self.search(domain)
+            if rec.to_date:
+                others = others.filtered(lambda o, _to=rec.to_date: o.from_date < _to)
+            if others:
+                raise ValidationError(_("The period overlaps another period of this affiliate!"))
 
     # @api.depends('to_date')
     # def _compute_closed(self):

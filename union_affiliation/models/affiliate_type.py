@@ -12,9 +12,9 @@ class AffiliateType(models.Model):
 
     @api.constrains("name")
     def _check_name(self):
-        domain = [("name", "=", self.name)]
-        if self.id:
-            domain.append(("id", "!=", self.id))
-        other = self.env["affiliation.affiliate_type"].search(domain)
-        if len(other.ids):
-            raise ValidationError(_("There is already exist a type with the same name!"))
+        for rec in self:
+            domain = [("name", "=", rec.name)]
+            if rec.id:
+                domain.append(("id", "!=", rec.id))
+            if self.env["affiliation.affiliate_type"].search(domain, limit=1):
+                raise ValidationError(_("There is already exist a type with the same name!"))
