@@ -85,10 +85,8 @@ class BenefitRequest(models.Model):
         self.hide_school_benefits = False if "Bolsones" in _groups else True
 
         if self.request_type_id.who_apply == "affiliates":
-            sql = "SELECT partner_id FROM affiliation_affiliate"
-            self.env.cr.execute(sql)
-            ids = list(map(lambda x: x["partner_id"], self.env.cr.dictfetchall()))
-            return {"domain": {"partner_id": [("id", "in", ids)]}}
+            partner_ids = self.env["affiliation.affiliate"].search([]).partner_id.ids
+            return {"domain": {"partner_id": [("id", "in", partner_ids)]}}
         return {"domain": {"partner_id": False}}
 
     @api.depends("request_type_id")
