@@ -64,13 +64,6 @@ class AffiliateContribution(models.Model):
         Expected import keys are: import_uid, import_name, import_vat, import_personal_id.
         """
         import_uid = vals.get("import_uid")
-        try:
-            uid_int = int(import_uid)
-        except (TypeError, ValueError):
-            raise ValidationError(_("El campo ID debe contener un número entero válido."))
-        if uid_int <= 0:
-            raise ValidationError(_("El campo ID debe ser un número positivo."))
-
         import_name = vals.get("import_name")
         import_vat = vals.get("import_vat")
         import_personal_id = vals.get("import_personal_id")
@@ -83,7 +76,14 @@ class AffiliateContribution(models.Model):
         affiliate_model = self.env["affiliation.affiliate"]
         affiliate = affiliate_model.browse()
 
+        uid_int = None
         if import_uid:
+            try:
+                uid_int = int(import_uid)
+            except (TypeError, ValueError):
+                raise ValidationError(_("El campo ID debe contener un número entero válido."))
+            if uid_int <= 0:
+                raise ValidationError(_("El campo ID debe ser un número positivo."))
             affiliate = affiliate_model.search([("uid", "=", uid_int)], limit=1)
 
         if not affiliate and import_personal_id:

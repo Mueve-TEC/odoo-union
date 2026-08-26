@@ -49,9 +49,9 @@ El mensaje de error depende del estado del flag:
   *"Affiliate does not exist in the database (UID: …)"* — los chequeos de
   dígito/cero viven dentro de la rama de auto-creación.
 - **Flag ON**: se llega a las validaciones específicas —
-  *"El campo ID debe contener únicamente números."* y
-  *"El campo ID no puede comenzar con cero."*
-- **Contributions**: la validación de dígitos es **incondicional** (ver bug
+  *"El campo ID debe contener un número entero válido."* y
+  *"El campo ID debe ser un número positivo."*
+- **Contributions**: la validación de uid es **incondicional** (ver nota
   en §5), así que el mensaje específico aparece con el flag en cualquier estado.
 
 ## 3. Qué ejercita cada diseño de columna
@@ -89,19 +89,15 @@ Verificar además que propagaron `personal_id`/`vat` cuando el CSV los trae.
   `<Afiliado>,<fecha>`.
 - Página **Aportes** del afiliado muestra los nuevos registros (orden fecha desc).
 
-## 5. ⚠️ Bug conocido detectado al diseñar estos CSVs
+## 5. ~~Bug conocido~~ — FIXED
 
-`contribution.affiliate_contribution._prepare_import_vals()` valida
-`import_uid.isdigit()` **antes** de los fallbacks por
-`import_personal_id` / `import_vat` / `import_name`. Consecuencia:
+`contribution.affiliate_contribution._prepare_import_vals()` ahora valida
+`import_uid` sólo dentro de la rama `if import_uid:`, permitiendo que los
+fallbacks por `import_personal_id` / `import_vat` / `import_name` funcionen
+cuando el uid no está presente.
 
-- Una fila SIN `import_uid` (aunque traiga un `import_personal_id` válido)
-  siempre lanza *"El campo ID debe contener únicamente números."* — los
-  fallbacks de búsqueda son código muerto hoy.
-- Por eso TODAS las filas de aportes de estos CSVs incluyen `import_uid`.
-
-Fix sugerido (pendiente): mover la validación dentro de la rama que usa el
-uid (búsqueda + auto-creación) y validar `import_uid` sólo si está presente.
+El uid se validó de `Char` a `Integer` en todo el stack (ver commit
+`[REFACTOR] union_*: change affiliate uid from Char to Integer`).
 
 ## 6. Limpieza
 
