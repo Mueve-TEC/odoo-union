@@ -1,7 +1,7 @@
 import logging
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 log = logging.getLogger(__name__)
 
@@ -203,10 +203,14 @@ class Position(models.Model):
         vals.pop("import_vat", None)
 
     def action_set_featured(self):
+        if not self.env.user.has_group("union_school_position.group_school_position_write"):
+            raise UserError(_("You don't have permission to change the featured flag on positions."))
         for record in self:
             record.featured = True
 
     def action_unset_featured(self):
+        if not self.env.user.has_group("union_school_position.group_school_position_write"):
+            raise UserError(_("You don't have permission to change the featured flag on positions."))
         for record in self:
             record.featured = False
 

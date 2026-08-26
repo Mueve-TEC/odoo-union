@@ -1,5 +1,5 @@
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 
 class AffiliationConfiguration(models.Model):
@@ -22,44 +22,50 @@ class AffiliationConfiguration(models.Model):
     quote = fields.Boolean(related="affiliate_id.quote", string="Cotizante", store=True)
 
     def action_set_quote(self):
+        if not self.env.user.has_group("union_contribution.group_inconsistencies_write"):
+            raise UserError(_("You don't have permission to change the contributor state from Inconsistencies."))
         affiliates_processed = set()
         for rec in self:
             if rec.affiliate_id.id in affiliates_processed:
                 continue
             affiliates_processed.add(rec.affiliate_id.id)
 
-            if rec.affiliate_id.state != "affiliated":
+            aff = rec.affiliate_id.sudo()
+            if aff.state != "affiliated":
                 raise ValidationError(
                     _(
                         "Solo se puede cambiar el estado cotizante si el/la"
                         ' afiliado/a %s se encuentra en estado "Afiliado/a".'
                     )
-                    % rec.affiliate_id.name
+                    % aff.name
                 )
 
-            if not rec.affiliate_id.quote:
-                rec.affiliate_id.write({"quote": True})
-                rec.affiliate_id.message_post(body=_("Estado cotizante cambiado a Cotizante desde Inconsistencias."))
+            if not aff.quote:
+                aff.write({"quote": True})
+                aff.message_post(body=_("Estado cotizante cambiado a Cotizante desde Inconsistencias."))
 
     def action_unset_quote(self):
+        if not self.env.user.has_group("union_contribution.group_inconsistencies_write"):
+            raise UserError(_("You don't have permission to change the contributor state from Inconsistencies."))
         affiliates_processed = set()
         for rec in self:
             if rec.affiliate_id.id in affiliates_processed:
                 continue
             affiliates_processed.add(rec.affiliate_id.id)
 
-            if rec.affiliate_id.state != "affiliated":
+            aff = rec.affiliate_id.sudo()
+            if aff.state != "affiliated":
                 raise ValidationError(
                     _(
                         "Solo se puede cambiar el estado cotizante si el/la"
                         ' afiliado/a %s se encuentra en estado "Afiliado/a".'
                     )
-                    % rec.affiliate_id.name
+                    % aff.name
                 )
 
-            if rec.affiliate_id.quote:
-                rec.affiliate_id.write({"quote": False})
-                rec.affiliate_id.message_post(body=_("Estado cotizante cambiado a No Cotizante desde Inconsistencias."))
+            if aff.quote:
+                aff.write({"quote": False})
+                aff.message_post(body=_("Estado cotizante cambiado a No Cotizante desde Inconsistencias."))
 
     def _compute_display_name(self):
         for record in self:
