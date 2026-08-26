@@ -143,8 +143,8 @@ class Position(models.Model):
                     if vals.get("import_uid"):
                         try:
                             uid_int = int(vals["import_uid"])
-                        except (TypeError, ValueError):
-                            raise ValidationError(_("El campo ID debe contener un número entero válido."))
+                        except (TypeError, ValueError) as exc:
+                            raise ValidationError(_("El campo ID debe contener un número entero válido.")) from exc
                         affiliate = self.env["affiliation.affiliate"].search([("uid", "=", uid_int)], limit=1)
 
                     if affiliate:
@@ -156,8 +156,8 @@ class Position(models.Model):
 
                             try:
                                 uid_int = int(vals.get("import_uid"))
-                            except (TypeError, ValueError):
-                                raise ValidationError(_("El campo ID debe contener un número entero válido."))
+                            except (TypeError, ValueError) as exc:
+                                raise ValidationError(_("El campo ID debe contener un número entero válido.")) from exc
                             if uid_int <= 0:
                                 raise ValidationError(_("El campo ID debe ser un número positivo."))
 

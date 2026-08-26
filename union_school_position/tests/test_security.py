@@ -1,7 +1,9 @@
 from odoo.exceptions import AccessError, UserError
 from odoo.tests import TransactionCase, tagged
 
-grp = lambda env, x: env.ref(x).id
+
+def grp(env, x):
+    return env.ref(x).id
 
 
 @tagged("post_install", "security", "union")

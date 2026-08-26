@@ -170,8 +170,8 @@ class BenefitRequest(models.Model):
                 if "import_uid" in vals:
                     try:
                         uid_int = int(vals["import_uid"])
-                    except (TypeError, ValueError):
-                        raise ValidationError(_("El campo ID debe contener un número entero válido."))
+                    except (TypeError, ValueError) as exc:
+                        raise ValidationError(_("El campo ID debe contener un número entero válido.")) from exc
                     affiliate = self.env["affiliation.affiliate"].search([("uid", "=", uid_int)])
                     if len(affiliate.ids):
                         affiliate = affiliate[0]

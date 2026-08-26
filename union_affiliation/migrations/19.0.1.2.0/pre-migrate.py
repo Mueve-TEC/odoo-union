@@ -1,4 +1,4 @@
-def migrate(cr, version):
+def migrate(cr, _version):
     """uid field type changed from Char to Integer.
 
     Odoo's _auto_init handles the column type change
@@ -13,7 +13,7 @@ def migrate(cr, version):
     cr.execute("SELECT count(*) FROM affiliation_affiliate WHERE uid !~ '^[0-9]+$'")
     non_numeric = cr.fetchone()[0]
     if non_numeric:
-        raise Exception(
+        raise ValueError(
             f"Found {non_numeric} affiliate(s) with non-numeric uid. "
             "Fix them before upgrading (the uid column is changing from "
             "varchar to integer)."

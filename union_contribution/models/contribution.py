@@ -80,8 +80,8 @@ class AffiliateContribution(models.Model):
         if import_uid:
             try:
                 uid_int = int(import_uid)
-            except (TypeError, ValueError):
-                raise ValidationError(_("El campo ID debe contener un número entero válido."))
+            except (TypeError, ValueError) as exc:
+                raise ValidationError(_("El campo ID debe contener un número entero válido.")) from exc
             if uid_int <= 0:
                 raise ValidationError(_("El campo ID debe ser un número positivo."))
             affiliate = affiliate_model.search([("uid", "=", uid_int)], limit=1)
