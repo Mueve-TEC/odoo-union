@@ -15,12 +15,12 @@
 | Severity | Count | Theme |
 |---|---|---|
 | 🔴 Critical | 5 | Runtime crashes on reachable paths (`notify_danger` missing API, hardcoded user id, IndexError in constraint, split() crash, singleton assumptions in constrains) |
-| 🟠 Security | 4 | Global (group-less) ACLs on benefit requests, sudo info-leak, ungated sensitive server actions |
+| 🟠 Security | 6 | Group-less ACLs, sudo info-leak, ungated server actions, write-group DELETE, raw-SQL onchange (all ✅ FIXED) |
 | 🟡 Correctness | 9 | Stale computed names, dead fallback code, double-delete risk, overlap-constraint gaps, unused wizard field, no-op override, orphan model |
 | 🔵 Performance | 4 | N+1 stored computes, side-effectful compute, recursive descendant walk, FK indexes |
 | ⚪ Quality | 8 | Duplication (mixin candidates), config-access inconsistencies, license mismatch, leftover scaffolding |
 
-Automated suite status: **88/88 pass** (P0 fixes add 13 regression tests), pre-commit **18/18 green** — none of
+Automated suite status: **116/116 pass** (P0 + security fixes add 41 regression tests), pre-commit **18/18 green** — none of
 the 🔴 items are covered by tests (each entry below names the test that would
 have caught it).
 
@@ -88,7 +88,7 @@ have caught it).
 
 ## 2. 🟠 Security
 
-### 2.1 Global read/write ACLs on benefit requests (no group)
+### 2.1 Global read/write ACLs on benefit requests (no group) ✅ FIXED
 - **Where:** `union_benefit_request/security/ir.model.access.csv:3-4`
   (`write_benefit_request` & `read_benefit_request` with EMPTY `group_id`:
   `1,1,1,0` and `1,0,0,0`).
@@ -101,7 +101,7 @@ have caught it).
   Coordinate with data migration if some users relied on open access.
 - **Audit step after fix:** `\d` + login-as-minimal-user matrix from TESTING.md §15.
 
-### 2.2 `sudo()` in workplace `name_search` leaks restricted data
+### 2.2 `sudo()` in workplace `name_search` leaks restricted data ✅ FIXED
 - **Where:** `union_affiliation/models/workplace.py:125`
   `for workplace in workplaces.sudo()`.
 - **Impact:** users without `group_affiliation_read` still resolve workplace
@@ -110,7 +110,7 @@ have caught it).
 - **Fix:** drop `.sudo()`; if some caller needs it, scope the sudo to the
   specific internal flow with a context flag.
 
-### 2.3 Sensitive server actions without group gating (Odoo 19 removed `groups_id`)
+### 2.3 Sensitive server actions without group gating (Odoo 19 removed `groups_id`) ✅ FIXED
 - **Where:** `action_set_quote_server` / `action_unset_quote_server`
   (`union_contribution/views/result_views.xml`) and featured actions
   (`position_views.xml`). Since `groups_id` was removed from
@@ -128,10 +128,39 @@ have caught it).
   ```
   Same pattern recommended for `action_set_featured/unset`.
 
-### 2.4 Record rules deprecated form (no group) — cleanup debt
+### 2.4 Record rules deprecated form (no group) — cleanup debt ✅ FIXED
 - Upgrade logs flagged “Rule Write/Read for benefit_request… no group”.
   After fixing 2.1, remove/replace those rules; empty-group rules are slated
-  for removal upstream.
+  for removal upstream. ✅ Resolved by 2.1 (ACLs now scoped to groups; upgrade
+  no longer emits the no-group warning) — verified 0 group-less ACL rows remain.
+
+---
+
+## 2b. 🟠 Security — additional findings (odoo-security skill)
+
+> The `odoo-security` skill audit surfaced two further issues beyond §2.1–2.4.
+> Both fixed and covered by `tests/test_security.py` in each module.
+
+### 2.5 Write groups granted `perm_unlink` (DELETE) ✅ FIXED
+- **Where:** every `*_write` row in the four modules'
+  `security/ir.model.access.csv` (rows were `1,1,1,1`).
+- **Impact:** "Overly permissive perms" — non-manager (`*_write`) groups
+  could delete affiliates, positions, contributions, benefit requests, etc.
+- **Fix:** set `perm_unlink=0` on all `*_write` rows (delete stays on
+  `admin_*` rows only). Matches TESTING.md §15.2 ("Write group: …cannot
+  delete for restricted models"). Verified 0 `write_*` rows retain unlink.
+- **Regression test:** `test_affiliation_write_user_cannot_delete`,
+  `test_write_user_cannot_delete_position`.
+
+### 2.6 Raw SQL in `_onchange_request_type` bypassed ACLs ✅ FIXED
+- **Where:** `union_benefit_request/models/benefit_request.py`
+  (`SELECT partner_id FROM affiliation_affiliate` in the onchange).
+- **Impact:** raw SQL returned every affiliate partner regardless of the
+  user's access rules (information disclosure for write users lacking
+  `group_affiliation_read`).
+- **Fix:** replaced with
+  `self.env["affiliation.affiliate"].search([]).partner_id.ids`
+  so the domain respects ACLs.
 
 ---
 
