@@ -6,7 +6,7 @@
     "website": "https://mueve.org.ar/",
     "category": "Union",
     "license": "GPL-3",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "depends": ["base", "union_affiliation"],
     "data": [
         "security/school_position_security.xml",

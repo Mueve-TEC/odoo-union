@@ -5,7 +5,7 @@
     "author": "Mueve",
     "website": "https://mueve.org.ar/",
     "category": "Union",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "license": "GPL-3",
     "depends": ["base", "survey", "mail", "union_affiliation"],
     "data": [
