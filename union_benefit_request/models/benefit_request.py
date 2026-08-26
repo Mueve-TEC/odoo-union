@@ -24,7 +24,7 @@ class BenefitRequest(models.Model):
         tracking=True,
     )
     # The next two fields only will be used to filters
-    affiliate_uid = fields.Char(string="Affiliate UID", compute="_compute_uid", store=True)
+    affiliate_uid = fields.Integer(string="Affiliate UID", compute="_compute_uid", store=True)
     affiliate_personal_id = fields.Char(string="Personal ID", compute="_compute_personal_id", store=True)
 
     # Field for import process - maps to affiliate by UID
@@ -168,16 +168,19 @@ class BenefitRequest(models.Model):
         if "import_file" in self.env.context:
             for vals in vals_list:
                 if "import_uid" in vals:
-                    affiliate = self.env["affiliation.affiliate"].search([("uid", "=", vals["import_uid"])])
+                    try:
+                        uid_int = int(vals["import_uid"])
+                    except (TypeError, ValueError):
+                        raise ValidationError(_("El campo ID debe contener un número entero válido."))
+                    affiliate = self.env["affiliation.affiliate"].search([("uid", "=", uid_int)])
                     if len(affiliate.ids):
                         affiliate = affiliate[0]
                     else:
                         conf = self.env["affiliation.affiliation_configuration"].browse(1)
                         if conf.create_user_from_request:
-                            new_uid = vals.get("import_uid")
                             import_name = vals.get("import_name")
 
-                            if not new_uid or not import_name:
+                            if not import_name:
                                 error_msg = _(
                                     "Cannot create affiliate for request import."
                                     " Missing import_name or ID (import_uid)."
@@ -185,13 +188,11 @@ class BenefitRequest(models.Model):
                                     " affiliate Name and ID."
                                 )
                                 raise ValidationError(error_msg)
-                            if not str(new_uid).isdigit():
-                                raise ValidationError(_("El campo ID debe contener únicamente números."))
-                            if str(new_uid)[0] == "0":
-                                raise ValidationError(_("El campo ID no puede comenzar con cero."))
+                            if uid_int <= 0:
+                                raise ValidationError(_("El campo ID debe ser un número positivo."))
 
                             new_affiliate_data = {
-                                "uid": new_uid,
+                                "uid": uid_int,
                                 "name": import_name,
                                 "state": "new",
                             }

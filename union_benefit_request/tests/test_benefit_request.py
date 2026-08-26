@@ -147,7 +147,7 @@ class TestBenefitRequest(TransactionCase):
         affiliate = (
             self.env["affiliation.affiliate"]
             .sudo()
-            .create({"uid": "50000001", "name": "Import Test Affiliate", "state": "new"})
+            .create({"uid": 50000001, "name": "Import Test Affiliate", "state": "new"})
         )
         req = (
             self.BenefitRequest.sudo()

@@ -27,7 +27,7 @@ class TestAffiliationPeriod(TransactionCase):
         Regression: old _check_from_date/_check_to_date only matched
         endpoint-inside ranges, so [Feb-Mar] + [Jan-Dec] coexisted.
         """
-        aff = self._make_affiliate("70888001")
+        aff = self._make_affiliate(70888001)
         self.Period.create(
             {
                 "affiliate_id": aff.id,
@@ -49,7 +49,7 @@ class TestAffiliationPeriod(TransactionCase):
 
     def test_open_period_overlaps_any_later_period(self):
         """A still-open period (no to_date) blocks any overlapping new one."""
-        aff = self._make_affiliate("70888002")
+        aff = self._make_affiliate(70888002)
         self.Period.create(
             {
                 "affiliate_id": aff.id,
@@ -70,7 +70,7 @@ class TestAffiliationPeriod(TransactionCase):
 
     def test_non_overlapping_periods_allowed(self):
         """Back-to-back periods (end == next start) are valid."""
-        aff = self._make_affiliate("70888003")
+        aff = self._make_affiliate(70888003)
         self.Period.create(
             {
                 "affiliate_id": aff.id,
@@ -93,7 +93,7 @@ class TestAffiliationPeriod(TransactionCase):
 
     def test_batch_create_closed_periods_does_not_crash(self):
         """Batch create must not hit ExpectedSingleton in constrains."""
-        aff = self._make_affiliate("70888004")
+        aff = self._make_affiliate(70888004)
         records = self.Period.create(
             [
                 {
@@ -116,8 +116,8 @@ class TestAffiliationPeriod(TransactionCase):
 
     def test_duplicate_affiliation_number_raises_validation_error(self):
         """Duplicate numbers raise ValidationError even in a batch create."""
-        aff = self._make_affiliate("70888005")
-        other = self._make_affiliate("70888006")
+        aff = self._make_affiliate(70888005)
+        other = self._make_affiliate(70888006)
         self.Period.create(
             {
                 "affiliate_id": aff.id,
@@ -146,7 +146,7 @@ class TestAffiliationPeriod(TransactionCase):
 
     def test_dates_order_validation_error(self):
         """from_date >= to_date raises ValidationError (singleton-safe)."""
-        aff = self._make_affiliate("70888007")
+        aff = self._make_affiliate(70888007)
         with self.assertRaises(ValidationError):
             self.Period.create(
                 {

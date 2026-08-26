@@ -17,7 +17,7 @@ class TestContribution(TransactionCase):
             .sudo()
             .create(
                 {
-                    "uid": "70000001",
+                    "uid": 70000001,
                     "name": "Contribution Test Affiliate",
                     "state": "new",
                 }
@@ -143,7 +143,7 @@ class TestInconsistenciesResult(TransactionCase):
             .sudo()
             .create(
                 {
-                    "uid": "80000001",
+                    "uid": 80000001,
                     "name": "Inconsistency Test Affiliate",
                     "state": "affiliated",
                     "quote": False,

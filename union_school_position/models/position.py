@@ -46,7 +46,7 @@ class Position(models.Model):
     import_name = fields.Char(string="Import Name")
     import_vat = fields.Char(string="Import VAT")
 
-    uid = fields.Char(related="affiliate_id.uid", store=False)
+    uid = fields.Integer(related="affiliate_id.uid", store=False)
     personal_id = fields.Char(related="affiliate_id.personal_id", store=False)
     dedication = fields.Char(
         related="type_id.dedication",
@@ -141,19 +141,27 @@ class Position(models.Model):
                 if not vals.get("affiliate_id"):
                     affiliate = False
                     if vals.get("import_uid"):
-                        affiliate = self.env["affiliation.affiliate"].search(
-                            [("uid", "=", vals["import_uid"])], limit=1
-                        )
+                        try:
+                            uid_int = int(vals["import_uid"])
+                        except (TypeError, ValueError):
+                            raise ValidationError(_("El campo ID debe contener un número entero válido."))
+                        affiliate = self.env["affiliation.affiliate"].search([("uid", "=", uid_int)], limit=1)
 
                     if affiliate:
                         vals["affiliate_id"] = affiliate.id
                     else:
                         conf = self.env["affiliation.affiliation_configuration"].browse(1)
                         if conf.create_user_from_position:
-                            new_uid = vals.get("import_uid")
                             import_name = vals.get("import_name")
 
-                            if not new_uid or not import_name:
+                            try:
+                                uid_int = int(vals.get("import_uid"))
+                            except (TypeError, ValueError):
+                                raise ValidationError(_("El campo ID debe contener un número entero válido."))
+                            if uid_int <= 0:
+                                raise ValidationError(_("El campo ID debe ser un número positivo."))
+
+                            if not import_name:
                                 error_msg = _(
                                     "Cannot create affiliate for position import."
                                     " Missing import_name or ID (import_uid)."
@@ -161,14 +169,9 @@ class Position(models.Model):
                                 )
                                 raise ValidationError(error_msg)
 
-                            if not str(new_uid).isdigit():
-                                raise ValidationError(_("El campo ID debe contener únicamente números."))
-                            if str(new_uid)[0] == "0":
-                                raise ValidationError(_("El campo ID no puede comenzar con cero."))
-
                             new_affiliate_vals = {
                                 "state": "new",
-                                "uid": new_uid,
+                                "uid": uid_int,
                                 "name": import_name,
                             }
 

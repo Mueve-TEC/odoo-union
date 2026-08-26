@@ -48,10 +48,10 @@ class TestAffiliationSecurity(TransactionCase):
             wp.with_user(self.user_internal).write({"name": "X"})
 
     def test_affiliation_read_user_can_read(self):
-        aff = self.Affiliate.sudo().create({"uid": "12121212", "name": "Sec Aff R", "state": "new"})
+        aff = self.Affiliate.sudo().create({"uid": 12121212, "name": "Sec Aff R", "state": "new"})
         aff.with_user(self.user_aff_read).read(["name"])
 
     def test_affiliation_write_user_cannot_delete(self):
-        aff = self.Affiliate.sudo().create({"uid": "34343434", "name": "Sec Aff Del", "state": "new"})
+        aff = self.Affiliate.sudo().create({"uid": 34343434, "name": "Sec Aff Del", "state": "new"})
         with self.assertRaises(AccessError):
             aff.with_user(self.user_aff_write).unlink()
