@@ -12,7 +12,7 @@ class TestAffiliateExtension(TransactionCase):
         cls.affiliate = (
             cls.env["affiliation.affiliate"]
             .sudo()
-            .create({"uid": "40000001", "name": "Extension Test Affiliate", "state": "new"})
+            .create({"uid": 40000001, "name": "Extension Test Affiliate", "state": "new"})
         )
         cls.pos_type = cls.env["school_position.type"].create(
             {

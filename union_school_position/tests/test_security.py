@@ -1,7 +1,9 @@
 from odoo.exceptions import AccessError, UserError
 from odoo.tests import TransactionCase, tagged
 
-grp = lambda env, x: env.ref(x).id
+
+def grp(env, x):
+    return env.ref(x).id
 
 
 @tagged("post_install", "security", "union")
@@ -14,7 +16,7 @@ class TestSchoolPositionSecurity(TransactionCase):
         cls.Position = cls.env["school_position.position"]
         cls.Affiliate = cls.env["affiliation.affiliate"]
         cls.affiliate_type = cls.env["affiliation.affiliate_type"].create({"name": "Sec PType", "enabled": True})
-        cls.aff = cls.Affiliate.sudo().create({"uid": "33333333", "name": "Sec Aff P", "state": "new"})
+        cls.aff = cls.Affiliate.sudo().create({"uid": 33333333, "name": "Sec Aff P", "state": "new"})
         cls.pos_type = cls.env["school_position.type"].create(
             {"code": "SECT", "name": "Sec PosType", "in_hours": True, "dedication": "FT"}
         )

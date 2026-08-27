@@ -14,7 +14,7 @@ class TestPosition(TransactionCase):
         cls.affiliate = (
             cls.env["affiliation.affiliate"]
             .sudo()
-            .create({"uid": "20000001", "name": "Position Test Affiliate", "state": "new"})
+            .create({"uid": 20000001, "name": "Position Test Affiliate", "state": "new"})
         )
         cls.pos_type = cls.env["school_position.type"].create(
             {"code": "TST", "name": "Test Type", "in_hours": True, "dedication": "FT"}
@@ -194,7 +194,7 @@ class TestPosition(TransactionCase):
             )
         )
         self.assertTrue(pos.affiliate_id)
-        self.assertEqual(pos.affiliate_id.uid, "30000003")
+        self.assertEqual(pos.affiliate_id.uid, 30000003)
 
         # Cleanup
         config.write({"create_user_from_position": False})

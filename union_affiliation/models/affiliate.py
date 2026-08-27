@@ -19,13 +19,17 @@ class Affiliate(models.Model):
         "unique(uid)",
         "There is already exist an affiliated with the same affiliate UID!",
     )
+    _uid_positive = models.Constraint(
+        "CHECK (uid > 0)",
+        "The affiliate UID must be a positive number.",
+    )
     _unique_affiliation_number = models.Constraint(
         "unique(affiliation_number)",
         "There is already exist an affiliated with the same affiliation number!",
     )
 
     partner_id = fields.Many2one(comodel_name="res.partner", string="Partner", ondelete="cascade", required=True)
-    uid = fields.Char(string="Affiliate UID", required=True, index=True)
+    uid = fields.Integer(string="Affiliate UID", required=True, index=True)
     work_id = fields.Char(string="Work ID")
     personal_id_type = fields.Selection(
         [
@@ -141,16 +145,6 @@ class Affiliate(models.Model):
         column2="category_id",
         string="Etiqueta BIS",
     )
-
-    @api.constrains("uid")
-    def _check_uid(self):
-        for record in self:
-            if not record.uid:
-                raise ValidationError(_("The affiliate UID is required."))
-            if not record.uid.isdigit():
-                raise ValidationError(_("El campo ID debe contener únicamente números."))
-            if record.uid[0] == "0":
-                raise ValidationError(_("El campo ID no puede comenzar con cero."))
 
     @api.constrains("state", "affiliate_type_id")
     def _check_affiliate_type_id(self):
@@ -396,12 +390,11 @@ class Affiliate(models.Model):
         if name:
             domain = [
                 "|",
-                "|",
                 ("personal_id", operator, name),
-                ("uid", operator, name),
                 ("name", operator, name),
             ]
-            # Buscar directamente con el dominio personalizado
+            if name.isdigit():
+                domain = ["|", ("uid", "=", int(name))] + domain
             return self._search(args + domain, limit=limit)
         return super()._name_search(name, args, operator, limit)
 

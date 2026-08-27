@@ -31,7 +31,7 @@ class AffiliateContribution(models.Model):
     import_vat = fields.Char(string="Import vat")
     import_personal_id = fields.Char(string="Import personal ID")
 
-    uid = fields.Char(related="affiliate_id.uid", store=False)
+    uid = fields.Integer(related="affiliate_id.uid", store=False)
     personal_id = fields.Char(related="affiliate_id.personal_id", store=False)
 
     @api.model_create_multi
@@ -64,11 +64,6 @@ class AffiliateContribution(models.Model):
         Expected import keys are: import_uid, import_name, import_vat, import_personal_id.
         """
         import_uid = vals.get("import_uid")
-        if not str(import_uid).isdigit():
-            raise ValidationError(_("El campo ID debe contener únicamente números."))
-        if str(import_uid)[0] == "0":
-            raise ValidationError(_("El campo ID no puede comenzar con cero."))
-
         import_name = vals.get("import_name")
         import_vat = vals.get("import_vat")
         import_personal_id = vals.get("import_personal_id")
@@ -81,8 +76,15 @@ class AffiliateContribution(models.Model):
         affiliate_model = self.env["affiliation.affiliate"]
         affiliate = affiliate_model.browse()
 
+        uid_int = None
         if import_uid:
-            affiliate = affiliate_model.search([("uid", "=", import_uid)], limit=1)
+            try:
+                uid_int = int(import_uid)
+            except (TypeError, ValueError) as exc:
+                raise ValidationError(_("El campo ID debe contener un número entero válido.")) from exc
+            if uid_int <= 0:
+                raise ValidationError(_("El campo ID debe ser un número positivo."))
+            affiliate = affiliate_model.search([("uid", "=", uid_int)], limit=1)
 
         if not affiliate and import_personal_id:
             affiliate = affiliate_model.search([("personal_id", "=", import_personal_id)], limit=1)
@@ -111,9 +113,9 @@ class AffiliateContribution(models.Model):
                 )
 
             affiliate_vals = {
-                "uid": import_uid,
+                "uid": uid_int,
                 "state": "new",
-                "name": import_name or import_uid,
+                "name": import_name or str(uid_int),
             }
             if import_vat:
                 affiliate_vals["vat"] = import_vat

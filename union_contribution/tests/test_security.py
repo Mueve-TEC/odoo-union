@@ -1,7 +1,9 @@
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
 
-grp = lambda env, x: env.ref(x).id
+
+def grp(env, x):
+    return env.ref(x).id
 
 
 @tagged("post_install", "security", "union")
@@ -16,7 +18,7 @@ class TestContributionSecurity(TransactionCase):
         cls.affiliate_type = cls.env["affiliation.affiliate_type"].create({"name": "Sec CType", "enabled": True})
         cls.aff = cls.Affiliate.sudo().create(
             {
-                "uid": "22222222",
+                "uid": 22222222,
                 "name": "Sec Aff Q",
                 "state": "affiliated",
                 "affiliate_type_id": cls.affiliate_type.id,
