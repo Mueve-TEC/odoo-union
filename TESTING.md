@@ -9,7 +9,7 @@
 
 ## 0. How to Use This Guideline
 
-1. Log in as **admin** at http://localhost:8069 (database: `sindicato`).
+1. Log in as **admin** at http://localhost:8070 (database: `sindicato`).
 2. Work through sections **1 → 12** in order.
 3. For each test case, record: **PASS / FAIL** + a note.
 4. Use the **demo data** (Section 1) as the baseline. Do NOT delete it while testing — it is `noupdate` but persists in the DB.
