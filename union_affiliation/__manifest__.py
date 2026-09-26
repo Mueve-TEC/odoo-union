@@ -24,7 +24,9 @@
         "views/res_partner_views.xml",
         "views/menu.xml",
         "data/default_home_action.xml",
-        "data/demo_data.xml",
+    ],
+    "demo": [
+        "demo/demo_data.xml",
     ],
     "installable": True,
 }
