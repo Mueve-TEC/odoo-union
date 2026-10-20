@@ -13,7 +13,7 @@ class Position(models.Model):
     affiliate_id = fields.Many2one(
         comodel_name="affiliation.affiliate",
         string="Affiliate",
-        ondelete="restrict",
+        ondelete="cascade",
         required=True,
     )
     type_id = fields.Many2one(

@@ -14,7 +14,7 @@ class AffiliateContribution(models.Model):
         comodel_name="affiliation.affiliate",
         string="Affiliate",
         required=True,
-        ondelete="restrict",
+        ondelete="cascade",
     )
     date = fields.Date(string="Date", required=True)
     contrib_amount = fields.Float("Amount", required=True)
