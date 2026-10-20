@@ -5,9 +5,9 @@
     "author": "Mueve",
     "website": "https://mueve.org.ar/",
     "category": "Union",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.3.0",
     "license": "AGPL-3",
-    "depends": ["base", "mail"],
+    "depends": ["base", "mail", "base_import"],
     "data": [
         "security/affiliation_security.xml",
         "security/ir.model.access.csv",

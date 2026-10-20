@@ -6,3 +6,4 @@ from . import (
     affiliation_period,
 )
 from . import affiliation_configuration, workplace
+from . import base_import
