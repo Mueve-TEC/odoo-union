@@ -1,10 +1,5 @@
-import logging
-
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
-
-log = logging.getLogger(__name__)
-
 
 AFFILIATE_STR_TO_INT = {"active": 0, "retired": 1}
 
@@ -428,13 +423,12 @@ class Affiliate(models.Model):
         return recipients
 
     def action_archive(self):
-        log.info(self.env.user.groups_id)
-        if not self.env.user.has_group("affiliation.group_affiliation_admin"):
+        if not self.env.user.has_group("union_affiliation.group_affiliation_admin"):
             raise UserError(_("Admin affiliation permission is required to archive records."))
         return super().action_archive()
 
     def action_unarchive(self):
-        if not self.env.user.has_group("affiliation.group_affiliation_admin"):
+        if not self.env.user.has_group("union_affiliation.group_affiliation_admin"):
             raise UserError(_("Admin affiliation permission is required to unarchive records."))
         return super().action_unarchive()
 

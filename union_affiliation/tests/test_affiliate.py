@@ -1,4 +1,4 @@
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests import TransactionCase, tagged
 from psycopg2.errors import UniqueViolation
 
@@ -134,3 +134,26 @@ class TestAffiliate(TransactionCase):
         AffiliateType = self.env["affiliation.affiliate_type"]
         with self.assertRaises(ValidationError):
             AffiliateType.create([{"name": "Audit Dup X", "enabled": True}, {"name": "Audit Dup X", "enabled": True}])
+
+    # ─── archive / unarchive ─────────────────────────────────────────────────
+
+    def test_action_archive_and_unarchive(self):
+        """action_archive sets active=False and action_unarchive restores it."""
+        aff = self._create_affiliate(uid=20202020, name="Archive Test Affiliate")
+        aff.action_archive()
+        self.assertFalse(aff.active)
+        aff.action_unarchive()
+        self.assertTrue(aff.active)
+
+    def test_action_archive_requires_admin_group(self):
+        """action_archive raises UserError for a non-admin internal user."""
+        user = self.env["res.users"].create(
+            {
+                "name": "Union Non Admin Archive",
+                "login": "union_non_admin_archive",
+                "group_ids": [(6, 0, [self.env.ref("base.group_user").id])],
+            }
+        )
+        aff = self._create_affiliate(uid=20202021, name="Non Admin Archive Affiliate")
+        with self.assertRaises(UserError):
+            aff.with_user(user).action_archive()
