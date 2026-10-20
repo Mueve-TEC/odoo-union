@@ -229,7 +229,7 @@ class Affiliate(models.Model):
             "name": "Period",
             "type": "ir.actions.act_window",
             "res_model": "affiliation.affiliation_period",
-            "view_id": self.env.ref("affiliation.affiliation_affiliation_period_form").id,
+            "view_id": self.env.ref("union_affiliation.union_affiliation_affiliation_period_form").id,
             "view_mode": "form",
             "res_id": self._get_current_period().id,
             "target": "new",
