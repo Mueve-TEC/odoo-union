@@ -56,9 +56,12 @@ El mensaje de error depende del estado del flag:
 
 ## 3. Qué ejercita cada diseño de columna
 
-- **`type_id` / `character_id` con códigos** (`DOC`, `TIT`, …): en contexto
-  `import_file` el `name_search` de ambos modelos matchea **solo por code**,
-  nunca por nombre. Usar "Docente" en el CSV NO resolvería.
+- **`type_id` con código o descripción** (`DOC`, `Docente`, …): el tipo de cargo
+  se muestra como `[COD] Descripción` y, en contexto `import_file`, resuelve
+  tanto por `code` como por `name` exactos.
+- **`character_id` con código** (`TIT`, `INT`, …): su `name_search` sigue
+  matcheando **solo por code** en contexto `import_file`. Usar "Titular" en el
+  CSV NO resolvería.
 - **`request_type_id` con nombre**: `benefit_request.request_type` usa su
   `_rec_name` (name), sin override de import.
 - **`contribution_code_id` con descripción**: `_rec_name = description`.
