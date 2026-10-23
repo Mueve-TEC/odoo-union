@@ -42,7 +42,10 @@ class TestAffiliateDelete(TransactionCase):
         with self.assertRaises(UserError) as error:
             self.affiliate.with_context(lang="en_US").unlink()
 
-        self.assertIn("1 contribution(s)", str(error.exception))
+        message = str(error.exception)
+        self.assertIn("1 contribution(s)", message)
+        self.assertIn("Delete those records first", message)
+        self.assertIn("archive it instead", message)
         self.assertTrue(self.affiliate.exists())
         self.assertTrue(self.contribution.exists())
 

@@ -218,7 +218,10 @@ class Affiliate(models.Model):
         blockers = self._get_unlink_blockers()
         if blockers:
             raise UserError(
-                _("Cannot delete the affiliate because it has dependencies: %s. Archive it instead.")
+                _(
+                    "Cannot delete the affiliate because it has dependencies: %s. "
+                    "Delete those records first to delete the affiliate, or archive it instead."
+                )
                 % ", ".join(blockers)
             )
         self.partner_id.unlink()
