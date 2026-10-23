@@ -1,4 +1,4 @@
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 from odoo.tests import TransactionCase, tagged
 
 
@@ -42,7 +42,32 @@ class TestContributionSecurity(TransactionCase):
             {
                 "name": "Sec Inc Write",
                 "login": "sec_inc_write",
-                "group_ids": [(6, 0, [grp(cls.env, "union_contribution.group_inconsistencies_write")])],
+                "group_ids": [
+                    (
+                        6,
+                        0,
+                        [
+                            grp(cls.env, "union_contribution.group_inconsistencies_write"),
+                            grp(cls.env, "union_affiliation.group_affiliation_read"),
+                        ],
+                    )
+                ],
+            }
+        )
+        cls.user_inc_admin = cls.env["res.users"].create(
+            {
+                "name": "Sec Inc Admin",
+                "login": "sec_inc_admin",
+                "group_ids": [
+                    (
+                        6,
+                        0,
+                        [
+                            grp(cls.env, "union_contribution.group_inconsistencies_admin"),
+                            grp(cls.env, "union_affiliation.group_affiliation_read"),
+                        ],
+                    )
+                ],
             }
         )
 
@@ -55,6 +80,21 @@ class TestContributionSecurity(TransactionCase):
                 "query_date": "2024-06-01",
                 "description": "Sec Q",
             }
+        )
+
+    def _make_query(self):
+        return (
+            self.env["inconsistencies.query"]
+            .sudo()
+            .create(
+                {
+                    "from_date": "2024-01-01",
+                    "to_date": "2024-12-31",
+                    "description": "Sec Query",
+                    "contribute": True,
+                    "not_contribute": True,
+                }
+            )
         )
 
     def test_set_quote_allowed_for_write_group(self):
@@ -77,3 +117,57 @@ class TestContributionSecurity(TransactionCase):
         rec = self._make_result()
         rec.with_user(self.user_inc_write).action_unset_quote()
         self.assertFalse(self.aff.sudo().quote)
+
+    # ─── delete/create permissions on inconsistencies ────────────────────────
+
+    def test_inconsistencies_admin_can_delete_result(self):
+        rec = self._make_result()
+        rec.with_user(self.user_inc_admin).unlink()
+        self.assertFalse(rec.exists())
+
+    def test_inconsistencies_admin_can_delete_query(self):
+        query = self._make_query()
+        query.with_user(self.user_inc_admin).unlink()
+        self.assertFalse(query.exists())
+
+    def test_inconsistencies_write_cannot_delete_result(self):
+        rec = self._make_result()
+        with self.assertRaises(AccessError):
+            rec.with_user(self.user_inc_write).unlink()
+
+    def test_inconsistencies_write_cannot_delete_query(self):
+        query = self._make_query()
+        with self.assertRaises(AccessError):
+            query.with_user(self.user_inc_write).unlink()
+
+    def test_inconsistencies_write_can_create_result(self):
+        result = (
+            self.env["inconsistencies.result"]
+            .with_user(self.user_inc_write)
+            .create(
+                {
+                    "affiliate_id": self.aff.id,
+                    "from_date": "2024-01-01",
+                    "to_date": "2024-12-31",
+                    "query_date": "2024-06-01",
+                    "description": "Sec write create",
+                }
+            )
+        )
+        self.assertTrue(result.exists())
+
+    def test_inconsistencies_write_can_create_query(self):
+        query = (
+            self.env["inconsistencies.query"]
+            .with_user(self.user_inc_write)
+            .create(
+                {
+                    "from_date": "2024-01-01",
+                    "to_date": "2024-12-31",
+                    "description": "Sec write query",
+                    "contribute": True,
+                    "not_contribute": True,
+                }
+            )
+        )
+        self.assertTrue(query.exists())

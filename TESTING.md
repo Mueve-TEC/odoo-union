@@ -378,6 +378,14 @@ Open each menu and confirm the expected demo records are present.
 | 12.20 | affiliate_type required | new_state=Affiliated on affiliate without type, no type provided | ValidationError (type required) |
 | 12.21 | affiliate_type_id prefill | Provide affiliate_type_id in wizard | Written to affiliate before state change |
 
+### Inconsistencies delete/create permissions
+| ID | Test | Steps | Expected |
+|---|---|---|---|
+| 12.22 | Admin deletes result | Inconsistencies admin → select result → Delete | Result deleted |
+| 12.23 | Admin deletes query | Inconsistencies admin → open saved query → Delete | Query deleted |
+| 12.24 | Write cannot delete | Inconsistencies write → delete result/query | Access denied (no unlink) |
+| 12.25 | Write can create | Inconsistencies write → run query / create record | Result/query created |
+
 ---
 
 ## 13. Search Views & Filters (Odoo 19 `<group>` removal)
