@@ -493,3 +493,9 @@ msgstr "3° Nivel de agrupación del lugar de trabajo"
 #: model:ir.model.fields,help:union_school_position.field_school_position_position__workplace_id
 msgid "Workplace where the position is held"
 msgstr "Lugar de trabajo donde se desempeña el cargo"
+
+#. module: union_school_position
+#. odoo-python
+#: code:addons/union_school_position/models/affiliate.py:0
+msgid "%s position(s)"
+msgstr "%s cargo(s)"

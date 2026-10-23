@@ -157,3 +157,13 @@ class TestAffiliate(TransactionCase):
         aff = self._create_affiliate(uid=20202021, name="Non Admin Archive Affiliate")
         with self.assertRaises(UserError):
             aff.with_user(user).action_archive()
+
+    # ─── unlink ───────────────────────────────────────────────────────────────
+
+    def test_admin_can_delete_clean_affiliate(self):
+        """An affiliate without cross-module dependents can be deleted."""
+        aff = self._create_affiliate(uid=20202022, name="Clean Delete Affiliate")
+        partner = aff.partner_id
+        aff.unlink()
+        self.assertFalse(aff.exists())
+        self.assertFalse(partner.exists())

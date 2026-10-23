@@ -542,3 +542,9 @@ msgstr "Entidad de código de aporte de afiliados"
 #: model:ir.model,name:union_contribution.model_contribution_affiliate_contribution
 msgid "Union affiliates contribution entity"
 msgstr "Entidad de aportes de afiliados"
+
+#. module: union_contribution
+#. odoo-python
+#: code:addons/union_contribution/models/affiliate.py:0
+msgid "%s contribution(s)"
+msgstr "%s aporte(s)"

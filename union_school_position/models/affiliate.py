@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 
 class Affiliate(models.Model):
@@ -33,6 +33,13 @@ class Affiliate(models.Model):
         store=True,
         readonly=True,
     )
+
+    def _get_unlink_blockers(self):
+        blockers = super()._get_unlink_blockers()
+        count = self.env["school_position.position"].sudo().search_count([("affiliate_id", "in", self.ids)])
+        if count:
+            blockers.append(_("%s position(s)") % count)
+        return blockers
 
     @api.depends("position_ids", "position_ids.featured")
     def _compute_has_featured_position(self):

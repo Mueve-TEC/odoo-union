@@ -207,8 +207,20 @@ class Affiliate(models.Model):
         res = super(Affiliate, self).write(vals)
         return res
 
-    # TODO: In delegated inheritance (_inherits), parent cleanup is handled by ORM.
+    def _get_unlink_blockers(self):
+        """Return the reasons why these affiliates cannot be deleted.
+
+        Consumer modules extend this hook to report their own dependents.
+        """
+        return []
+
     def unlink(self):
+        blockers = self._get_unlink_blockers()
+        if blockers:
+            raise UserError(
+                _("Cannot delete the affiliate because it has dependencies: %s. Archive it instead.")
+                % ", ".join(blockers)
+            )
         self.partner_id.unlink()
         res = super(Affiliate, self).unlink()
         return res

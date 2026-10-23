@@ -1722,3 +1722,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_form
 msgid "ej: Oficina Central"
 msgstr ""
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliate.py:0
+msgid "Cannot delete the affiliate because it has dependencies: %s. Archive it instead."
+msgstr "No se puede eliminar el/la afiliado/a porque tiene dependencias: %s. Archívelo/a en su lugar."

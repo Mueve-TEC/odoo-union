@@ -110,7 +110,7 @@ Open each menu and confirm the expected demo records are present.
 | ID | Test | Steps | Expected |
 |---|---|---|---|
 | 3.12 | Delete affiliate (New state) | Delete Juan Perez | Affiliate + linked partner deleted (delegated inheritance cleanup) |
-| 3.13 | Delete affiliate with constraint | Try deleting Maria Garcia (has positions/contributions/children) | Blocked (ondelete=restrict on related models) or warns |
+| 3.13 | Delete affiliate with dependents | Try deleting Maria Garcia (has positions/contributions/benefit requests) | Blocked by a UserError listing the dependencies; archive instead. A clean affiliate can be deleted by an admin. |
 
 ### _name_search
 | ID | Test | Steps | Expected |
