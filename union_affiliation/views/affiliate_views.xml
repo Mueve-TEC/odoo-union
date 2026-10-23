@@ -162,6 +162,8 @@
                         domain="[('state', '=', 'disaffiliated')]" />
                     <filter string="Historical" name="state_historical"
                         domain="[('state', '=', 'historical')]" />
+                    <filter string="Archived" name="archived"
+                        domain="[('active', '=', False)]" />
                     <field name="state" />
                     <separator />
                     <filter string="Contributors" name="contributors"

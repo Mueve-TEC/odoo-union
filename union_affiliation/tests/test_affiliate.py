@@ -167,3 +167,18 @@ class TestAffiliate(TransactionCase):
         aff.unlink()
         self.assertFalse(aff.exists())
         self.assertFalse(partner.exists())
+
+    # ─── archived filter ─────────────────────────────────────────────────────
+
+    def test_archived_filter_returns_archived_affiliates(self):
+        """Searching with active=False returns archived affiliates."""
+        aff = self._create_affiliate(uid=20202023, name="Archived Search Affiliate")
+        aff.action_archive()
+        self.assertNotIn(aff, self.Affiliate.search([("uid", "=", 20202023)]))
+        archived = self.Affiliate.search([("uid", "=", 20202023), ("active", "=", False)])
+        self.assertEqual(archived, aff)
+
+    def test_archived_filter_in_search_view(self):
+        """The affiliate search view exposes the Archived filter."""
+        view = self.env.ref("union_affiliation.union_affiliation_affiliate_search")
+        self.assertIn('name="archived"', view.arch)
