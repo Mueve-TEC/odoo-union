@@ -1,8 +1,9 @@
 # Import Test Files — odoo-union
 
-CSVs para probar manualmente los flujos de importación (base_import) de los
-3 módulos con lógica `create`-from-import, incluyendo la **creación automática
-de afiliados** desde la importación (`create_user_from_*` en Configuración).
+CSVs y XLSX para probar manualmente los flujos de importación (base_import) de
+los 3 módulos con lógica `create`-from-import, incluyendo la **creación
+automática de afiliados** desde la importación (`create_user_from_*` en
+Configuración).
 
 Estos archivos NO se cargan solos: son insumos para el diálogo **Importar** de
 la vista lista de cada modelo. No están en el addons path ni referenciados por
@@ -17,6 +18,8 @@ ningún `__manifest__.py`.
 | `positions/positions_existing.csv` | 3 cargos para afiliados demo existentes (10000001/10000003/10000004) | OFF (default) | 3 posiciones creadas, `affiliate_id` resuelto por uid |
 | `positions/positions_new_affiliates.csv` | 2 cargos con uids desconocidos → auto-crea afiliados | **ON**: `create_user_from_position` | 2 afiliados nuevos (state=New) + 2 posiciones |
 | `positions/positions_invalid_uids.csv` | uid `ABCD1234` (no numérico), `01234567` (cero inicial) | ver nota ↓ | ValidationError por fila — NO debe crear nada |
+| `positions/positions_type_by_code.xlsx` | 3 cargos demo con `type_id` por código (`DOC`, `ADM`, `DIR`) | OFF (default) | 3 posiciones; tipo resuelto por `code` |
+| `positions/positions_type_by_description.xlsx` | mismos 3 cargos, pero `type_id` por descripción (`Docente`, `Administrativo`, `Directivo`) | OFF (default) | 3 posiciones; tipo resuelto por `name` |
 | `benefit_requests/requests_existing.csv` | 3 solicitudes para afiliados existentes | OFF (default) | 3 solicitudes draft, `partner_id` = partner del afiliado |
 | `benefit_requests/requests_new_affiliates.csv` | uids desconocidos → auto-crea | **ON**: `create_user_from_request` | 2 afiliados nuevos + 2 solicitudes vinculadas |
 | `benefit_requests/requests_invalid_uids.csv` | uids inválidos | ver nota ↓ | ValidationError — no crea nada |
@@ -33,9 +36,10 @@ ningún `__manifest__.py`.
    - Positions → *Union → Positions → Positions list*
    - Benefit requests → *Union → Requests → Requests list*
    - Contributions → *Union → Contributions → Contributions list*
-3. Botón **Importar** (⚙/icono de import) → subir el CSV → verificar el
-   mapeo sugerido (los headers usan nombres técnicos de campos, el mapeo
-   debería ser automático) → **Test** → **Import**.
+3. Botón **Importar** (⚙/icono de import) → subir el CSV o XLSX → verificar
+   el mapeo sugerido (los headers usan nombres técnicos de campos, el mapeo
+   debería ser automático) → **Test** → **Import**. En los XLSX, elegir la
+   hoja correcta en el selector del diálogo.
 4. Repetir dejando los flags en OFF salvo donde la tabla indique ON.
 
 > Importante: cada archivo se importa desde SU modelo. Si se importa
@@ -70,6 +74,24 @@ El mensaje de error depende del estado del flag:
 - **Fila DIR sin `hs_amount`**: ejercita la constraint "hs_amount must be
   empty for positions that are not in hours" (si se le pone valor, falla).
 - **`date_to` > `date_from`** solo en P-103: valida `_check_dates`.
+
+### Prueba XLSX de `type_id` por código o descripción
+
+`positions_type_by_code.xlsx` y `positions_type_by_description.xlsx` tienen
+exactamente las mismas filas; solo cambia la columna `type_id`. Importar cada
+archivo desde **Positions** y verificar que se crean las tres posiciones:
+
+- el archivo por código ejercita `type_id` = `DOC`, `ADM`, `DIR`;
+- el archivo por descripción ejercita `type_id` = `Docente`,
+  `Administrativo`, `Directivo`, que solo resuelve porque
+  `school_position.type` busca por `code` o `name` (`_rec_names_search`).
+
+Las fechas son celdas Excel reales con formato `yyyy-mm-dd`, no texto, para
+comprobar que el lector XLSX las convierte correctamente.
+
+Los tipos (`DOC`, `ADM`, `DIR` / `Docente`, `Administrativo`, `Directivo`) y
+los afiliados 10000001/10000003/10000004 son los del demo data. Usar una base
+con demo (`sindicato_demo`) o crear esos registros antes de importar.
 
 ## 4. Verificaciones post-importación
 
