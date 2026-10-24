@@ -33,16 +33,20 @@ class TestAffiliateDelete(TransactionCase):
                 }
             )
         )
+        cls.partner = cls.affiliate.partner_id
 
     def test_delete_affiliate_with_benefit_request_is_blocked(self):
         with self.assertRaises(UserError) as error:
             self.affiliate.with_context(lang="en_US").unlink()
 
         self.assertIn("1 benefit request(s)", str(error.exception))
+        # nothing was deleted, not even the partner
         self.assertTrue(self.affiliate.exists())
         self.assertTrue(self.request.exists())
+        self.assertTrue(self.partner.exists())
 
     def test_delete_affiliate_after_removing_benefit_request(self):
         self.request.unlink()
         self.affiliate.unlink()
         self.assertFalse(self.affiliate.exists())
+        self.assertFalse(self.partner.exists())

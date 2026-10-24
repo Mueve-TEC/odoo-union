@@ -168,6 +168,44 @@ class TestAffiliate(TransactionCase):
         self.assertFalse(aff.exists())
         self.assertFalse(partner.exists())
 
+    def test_unlink_with_record_rule(self):
+        """Deleting an affiliate must not read rows the partner cascade removed.
+
+        A record rule on the affiliate makes check_access() evaluate its
+        domain with filtered_domain(), a Python read. Deleting the partner
+        first cascaded the affiliate row away, so that read raised a
+        missing-record error and rolled the whole deletion back: the
+        affiliate was still visible after the error.
+        """
+        try:
+            self.env["ir.rule"].create(
+                {
+                    "name": "Test affiliate unlink rule",
+                    "model_id": self.env["ir.model"]._get_id("affiliation.affiliate"),
+                    "domain_force": "[('state', '!=', 'historical')]",
+                    "groups": False,
+                    "perm_unlink": True,
+                }
+            )
+            aff = self._create_affiliate(uid=20202024, name="Rule Unlink Affiliate")
+            partner = aff.partner_id
+            # base.user_admin is not the superuser, so check_access() runs for real
+            aff.with_user(self.env.ref("base.user_admin")).unlink()
+            self.assertFalse(aff.exists())
+            self.assertFalse(partner.exists())
+        finally:
+            # rolling the test back does not drop the rule from the ormcache
+            self.env.registry.clear_cache()
+
+    def test_unlink_keeps_partner_of_other_affiliate(self):
+        """A partner shared with another affiliate is not deleted."""
+        first = self._create_affiliate(uid=20202025, name="Shared Partner A")
+        second = self._create_affiliate(uid=20202026, name="Shared Partner B", partner_id=first.partner_id.id)
+        second.unlink()
+        self.assertFalse(second.exists())
+        self.assertTrue(first.exists())
+        self.assertTrue(first.partner_id.exists())
+
     # ─── archived filter ─────────────────────────────────────────────────────
 
     def test_archived_filter_returns_archived_affiliates(self):

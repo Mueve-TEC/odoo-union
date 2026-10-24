@@ -224,8 +224,24 @@ class Affiliate(models.Model):
                 )
                 % ", ".join(blockers)
             )
-        self.partner_id.unlink()
+        # Capture the partners while the affiliate rows still exist, and only
+        # delete them once super().unlink() is done. Deleting the partner first
+        # would cascade-delete the affiliate row (ON DELETE CASCADE), and the
+        # ORM would then read vanished rows while deleting: check_access()
+        # evaluates record rules with filtered_domain() (a Python read), which
+        # raised a missing-record error and rolled the whole deletion back.
+        partners = self.partner_id
         res = super(Affiliate, self).unlink()
+        used_partners = (
+            self.env["affiliation.affiliate"]
+            .sudo()
+            .with_context(active_test=False)
+            .search([("partner_id", "in", partners.ids)])
+            .mapped("partner_id")
+        )
+        orphans = partners - used_partners
+        if orphans:
+            orphans.unlink()
         return res
 
     def action_affiliate(self):
