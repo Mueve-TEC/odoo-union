@@ -1,9 +1,9 @@
 # Import Test Files — odoo-union
 
 CSVs y XLSX para probar manualmente los flujos de importación (base_import) de
-los 3 módulos con lógica `create`-from-import, incluyendo la **creación
-automática de afiliados** desde la importación (`create_user_from_*` en
-Configuración).
+los 4 módulos (`union_affiliation`, `union_contribution`, `union_school_position`,
+`union_benefit_request`), incluyendo la **creación automática de afiliados**
+desde la importación (`create_user_from_*` en Configuración).
 
 Estos archivos NO se cargan solos: son insumos para el diálogo **Importar** de
 la vista lista de cada modelo. No están en el addons path ni referenciados por
@@ -15,6 +15,8 @@ ningún `__manifest__.py`.
 
 | Archivo | Escenario | Flag requerido | Resultado esperado |
 |---|---|---|---|
+| `affiliates/affiliates_existing.xlsx` | 5 afiliados con los uids que usan todos los demás fixtures (10000001..10000005) | n/a | 5 afiliados creados con nombre, estado, DNI y datos de contacto |
+| `positions/position_types.xlsx` | Tipos de cargo DOC / DIR / ADM (código, descripción, in_hours, dedicación) | n/a | 3 tipos de cargo creados |
 | `positions/positions_existing.csv` | 3 cargos para afiliados demo existentes (10000001/10000003/10000004) | OFF (default) | 3 posiciones creadas, `affiliate_id` resuelto por uid |
 | `positions/positions_new_affiliates.csv` | 2 cargos con uids desconocidos → auto-crea afiliados | **ON**: `create_user_from_position` | 2 afiliados nuevos (state=New) + 2 posiciones |
 | `positions/positions_invalid_uids.csv` | uid `ABCD1234` (no numérico), `01234567` (cero inicial) | ver nota ↓ | ValidationError por fila — NO debe crear nada |
@@ -23,9 +25,36 @@ ningún `__manifest__.py`.
 | `benefit_requests/requests_existing.csv` | 3 solicitudes para afiliados existentes | OFF (default) | 3 solicitudes draft, `partner_id` = partner del afiliado |
 | `benefit_requests/requests_new_affiliates.csv` | uids desconocidos → auto-crea | **ON**: `create_user_from_request` | 2 afiliados nuevos + 2 solicitudes vinculadas |
 | `benefit_requests/requests_invalid_uids.csv` | uids inválidos | ver nota ↓ | ValidationError — no crea nada |
+| `benefit_requests/requests_existing.xlsx` | mismas 3 solicitudes que el CSV, con celdas de fecha reales | OFF (default) | 3 solicitudes draft, `partner_id` = partner del afiliado |
 | `contributions/contributions_existing.csv` | 4 aportes para 10000002/10000003 | OFF (default) | 4 aportes, afiliado resuelto por uid |
+| `contributions/contributions_existing.xlsx` | mismos 3 aportes que el CSV, con celdas de fecha reales | OFF (default) | 3 aportes, afiliado resuelto por uid |
 | `contributions/contributions_new_affiliates.csv` | uids desconocidos → auto-crea | **ON**: `create_user_from_contribution` | 2 afiliados nuevos + 2 aportes |
 | `contributions/contributions_invalid_uids.csv` | uids inválidos | cualquiera | ValidationError — no crea nada |
+
+### Orden sugerido en una base sin datos demo
+
+Dos fixtures sirven para arrancar una base que no tiene demo data. Importarlos
+en este orden:
+
+1. `positions/position_types.xlsx` → **Positions → Position's type**: crea
+   `DOC` / `DIR` / `ADM`, que los fixtures de cargos usan como `type_id`.
+2. `affiliates/affiliates_existing.xlsx` → **Affiliates**: crea los afiliados
+   `10000001`..`10000005` que referencian los fixtures de cargos, aportes y
+   solicitudes.
+3. Cualquiera de los fixtures de cargos / aportes / solicitudes.
+
+> Estos dos archivos están pensados para una base **sin** demo data. Si la base
+> ya los tiene, `position_types.xlsx` crea tipos duplicados (el modelo no
+> tiene restricción única sobre `code`) y `affiliates_existing.xlsx` falla con
+> "There is already exist an affiliated with the same affiliate UID!".
+
+Prerrequisitos que siguen siendo demo data y **no** tienen fixture todavía:
+
+| Fixture a importar | Requiere primero (demo data) |
+|---|---|
+| `contributions/*` | códigos de aporte: `Aporte Normal`, `Aporte Extraordinario`, `Aporte Jubilado` |
+| `benefit_requests/*` | tipos de solicitud: `Solicitud de Bolsones`, `Solicitud Simple` |
+| `positions/positions_*` | caracteres: `TIT`, `INT`, `SUP` (y lugares `ESC01` si se usa la columna `workplace_id`) |
 
 ## 2. Cómo importar
 
@@ -33,6 +62,8 @@ ningún `__manifest__.py`.
    **Union → Configuration → Affiliation configuration**
    (`create_user_from_position` / `..._from_request` / `..._from_contribution`).
 2. Ir a la vista **lista del modelo** correcto:
+   - Affiliates → *Union → Affiliates → Affiliates list*
+   - Position types → *Union → Positions → Position's type*
    - Positions → *Union → Positions → Positions list*
    - Benefit requests → *Union → Requests → Requests list*
    - Contributions → *Union → Contributions → Contributions list*
