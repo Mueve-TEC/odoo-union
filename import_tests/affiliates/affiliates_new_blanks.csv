@@ -1,0 +1,4 @@
+uid,name,state,affiliate_type_id,personal_id_type,personal_id,gender,civil_status,email,phone,affiliation_number,affiliation_date,disaffiliation_date,seniority,quote,street,city
+10000071,Pablo Suarez,new,,dni,30987654,male,single,pablo.suarez@example.com,+54 351 5551111,,,,,False,,Cordoba
+10000072,Marta Gil,affiliated,Activo,dni,30987655,female,married,marta.gil@example.com,,8,2024-05-10,,2024-05-10,True,,
+10000073,Nicolas Vera,not_affiliated,,dni,30987656,male,not_report,nicolas.vera@example.com,,,,,,False,,
