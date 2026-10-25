@@ -196,12 +196,39 @@ class Affiliate(models.Model):
             else:
                 affiliate.seniority_years = 0
 
+    @staticmethod
+    def _discard_blank_affiliation_number(vals):
+        """Drop a blank affiliation number from create/write values.
+
+        An empty cell in an Integer column reaches the ORM as False and
+        Integer.convert_to_column(False) is 0, so two blank rows collided on
+        unique(affiliation_number) and the import failed with a message about
+        an affiliate that does not exist. On an id mapped update the same
+        blank turned the stored number into 0.
+
+        0 is never a valid affiliation number (the sequence starts at 1 and
+        the field is read only in the form), and the ORM cannot store NULL on
+        an Integer field either. So a blank means "no number given": remove
+        the key, which leaves the column unset on create and untouched on
+        write.
+        """
+        if "affiliation_number" in vals and not vals["affiliation_number"]:
+            del vals["affiliation_number"]
+
     # This method is necessary for RPC importation
     @api.model_create_multi
     def create(self, vals_list):
+        for vals in vals_list:
+            self._discard_blank_affiliation_number(vals)
         return super(Affiliate, self).create(vals_list)
 
     def write(self, vals):
+        # Discard before logging, so a blank that changes nothing is not
+        # reported as a change in the affiliate log.
+        self._discard_blank_affiliation_number(vals)
+        if not vals:
+            return True
+
         self._log_change_field(vals)
 
         res = super(Affiliate, self).write(vals)

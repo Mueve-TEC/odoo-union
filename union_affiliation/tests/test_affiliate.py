@@ -220,3 +220,69 @@ class TestAffiliate(TransactionCase):
         """The affiliate search view exposes the Archived filter."""
         view = self.env.ref("union_affiliation.union_affiliation_affiliate_search")
         self.assertIn('name="archived"', view.arch)
+
+    # ─── affiliation_number ───────────────────────────────────────────────────
+
+    def test_blank_affiliation_number_stores_null(self):
+        """A blank affiliation number must not collide with another blank one.
+
+        An empty cell in an Integer column reaches create() as False and is
+        stored as 0 (Integer.convert_to_column(False) is 0), so two blank rows
+        used to violate unique(affiliation_number) and the import died with a
+        message about an affiliate that does not exist.
+        """
+        self.Affiliate.sudo().create(
+            [
+                {"uid": 99111101, "name": "Blank Number One", "state": "new", "affiliation_number": False},
+                {"uid": 99111102, "name": "Blank Number Two", "state": "new", "affiliation_number": False},
+            ]
+        )
+        self.env.flush_all()
+        self.env.cr.execute(
+            "SELECT uid, affiliation_number FROM affiliation_affiliate WHERE uid IN (99111101, 99111102) ORDER BY uid"
+        )
+        self.assertEqual(self.env.cr.fetchall(), [(99111101, None), (99111102, None)])
+
+    def test_blank_affiliation_number_imports_as_null(self):
+        """The import path stores empty cells as NULL and keeps real numbers."""
+        res = self.Affiliate.with_context(import_file=True).load(
+            ["uid", "name", "affiliation_number"],
+            [
+                [99111103, "Imported Without Number", ""],
+                [99111104, "Imported With Number", "42"],
+            ],
+        )
+        errors = [m for m in res["messages"] if m.get("type") == "error"]
+        self.assertFalse(errors, errors)
+        self.assertEqual(len(res["ids"]), 2)
+        self.env.flush_all()
+        self.env.cr.execute(
+            "SELECT uid, affiliation_number FROM affiliation_affiliate WHERE uid IN (99111103, 99111104) ORDER BY uid"
+        )
+        self.assertEqual(self.env.cr.fetchall(), [(99111103, None), (99111104, 42)])
+
+    def test_blank_affiliation_number_on_write_is_ignored(self):
+        """A blank number on update keeps the stored value instead of 0.
+
+        write() cannot store NULL on an Integer field, so the blank is
+        discarded rather than turned into a 0 that would collide with every
+        other blank row.
+        """
+        rec = self._create_affiliate(uid=99111105, name="Kept Number", affiliation_number=7)
+        rec.write({"affiliation_number": 0})
+        self.env.flush_all()
+        self.env.cr.execute("SELECT affiliation_number FROM affiliation_affiliate WHERE uid = 99111105")
+        self.assertEqual(self.env.cr.fetchone()[0], 7)
+
+    def test_blank_affiliation_number_on_update_keeps_number(self):
+        """An id mapped import with an empty cell keeps the stored number."""
+        rec = self._create_affiliate(uid=99111106, name="Updated Number", affiliation_number=9)
+        res = self.Affiliate.with_context(import_file=True).load(
+            [".id", "affiliation_number"],
+            [[str(rec.id), ""]],
+        )
+        errors = [m for m in res["messages"] if m.get("type") == "error"]
+        self.assertFalse(errors, errors)
+        self.env.flush_all()
+        self.env.cr.execute("SELECT affiliation_number FROM affiliation_affiliate WHERE uid = 99111106")
+        self.assertEqual(self.env.cr.fetchone()[0], 9)

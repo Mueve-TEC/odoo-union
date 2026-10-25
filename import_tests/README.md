@@ -91,6 +91,16 @@ El mensaje de error depende del estado del flag:
 
 ## 3. Qué ejercita cada diseño de columna
 
+- **Celda vacía en una columna Integer** (`affiliation_number`, `hs_amount`, …):
+  la celda se escribe como `0`, no como `NULL`, porque `ir.fields.converter`
+  devuelve `False` y `Integer.convert_to_column(False)` es `0`. En `hs_amount`
+  eso dispara las constraints de los cargos en horas. En `affiliation_number`
+  dos filas en blanco chocarían con `unique(affiliation_number)` (el error
+  nombraría a un afiliado inexistente) y en una importación con `id` borraría
+  el número ya guardado. Por eso `affiliation.affiliate` descarta el número en
+  blanco: al crear la columna queda sin asignar (`NULL`) y al actualizar no se
+  toca el valor guardado (ver `test_blank_affiliation_number_*`). Un archivo
+  propio también puede dejar de lado la columna entera.
 - **`type_id` con código o descripción** (`DOC`, `Docente`, …): el tipo de cargo
   se muestra como `[COD] Descripción` y, en contexto `import_file`, resuelve
   tanto por `code` como por `name` exactos.
