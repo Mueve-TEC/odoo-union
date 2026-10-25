@@ -16,6 +16,7 @@ ningún `__manifest__.py`.
 | Archivo | Escenario | Flag requerido | Resultado esperado |
 |---|---|---|---|
 | `affiliates/affiliates_existing.xlsx` | 5 afiliados con los uids que usan todos los demás fixtures (10000001..10000005) | n/a | 5 afiliados creados con nombre, estado, DNI y datos de contacto |
+| `affiliates/affiliates_new.xlsx` | 3 afiliados que **no** existen (10000061..10000063): uno nuevo, uno afiliado y uno no afiliado | n/a | 3 afiliados creados; el estado `affiliated` resuelve el tipo `Activo` por nombre |
 | `positions/position_types.xlsx` | Tipos de cargo DOC / DIR / ADM (código, descripción, in_hours, dedicación) | n/a | 3 tipos de cargo creados |
 | `positions/positions_existing.csv` | 3 cargos para afiliados demo existentes (10000001/10000003/10000004) | OFF (default) | 3 posiciones creadas, `affiliate_id` resuelto por uid |
 | `positions/positions_new_affiliates.csv` | 2 cargos con uids desconocidos → auto-crea afiliados | **ON**: `create_user_from_position` | 2 afiliados nuevos (state=New) + 2 posiciones |
