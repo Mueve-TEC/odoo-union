@@ -47,8 +47,9 @@ en este orden:
 3. Cualquiera de los fixtures de cargos / aportes / solicitudes.
 
 > Estos dos archivos están pensados para una base **sin** demo data. Si la base
-> ya los tiene, `position_types.xlsx` crea tipos duplicados (el modelo no
-> tiene restricción única sobre `code`) y `affiliates_existing.xlsx` falla con
+> ya los tiene, reimportar `position_types.xlsx` falla por las restricciones
+> únicas sobre `code` y `name` (ya no crea tipos duplicados) y
+> `affiliates_existing.xlsx` falla con
 > "There is already exist an affiliated with the same affiliate UID!".
 
 Prerrequisitos que siguen siendo demo data y **no** tienen fixture todavía:
