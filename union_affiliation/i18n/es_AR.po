@@ -1754,6 +1754,7 @@ msgstr ""
 "%(min)s y %(max)s. Revisá el valor importado o el mapeo de columnas."
 
 #. module: union_affiliation
+#. odoo-python
 #: code:addons/union_affiliation/models/base_import.py:0
 msgid "Invalid cell value at row %(row)s, column %(col)s: %(cell_value)s"
 msgstr "Valor de celda inválido en la fila %(row)s, columna %(col)s: %(cell_value)s"
