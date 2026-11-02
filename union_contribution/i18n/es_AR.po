@@ -558,3 +558,21 @@ msgstr "Entidad de aportes de afiliados"
 #: code:addons/union_contribution/models/affiliate.py:0
 msgid "%s contribution(s)"
 msgstr "%s aporte(s)"
+
+#. module: union_contribution
+#. odoo-python
+#: code:addons/union_contribution/models/contribution.py:0
+msgid "El campo ID debe contener un número entero válido."
+msgstr "El campo ID debe contener un número entero válido."
+
+#. module: union_contribution
+#. odoo-python
+#: code:addons/union_contribution/models/contribution.py:0
+msgid "El campo ID debe ser un número positivo."
+msgstr "El campo ID debe ser un número positivo."
+
+#. module: union_contribution
+#. odoo-python
+#: code:addons/union_contribution/models/result.py:0
+msgid "You don't have permission to change the contributor state from Inconsistencies."
+msgstr "No tiene permiso para cambiar el estado de cotizante desde Inconsistencias."

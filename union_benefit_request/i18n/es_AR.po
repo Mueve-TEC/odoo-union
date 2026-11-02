@@ -826,3 +826,15 @@ msgstr "valor"
 #: code:addons/union_benefit_request/models/affiliate.py:0
 msgid "%s benefit request(s)"
 msgstr "%s solicitud(es)"
+
+#. module: union_benefit_request
+#. odoo-python
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+msgid "El campo ID debe contener un número entero válido."
+msgstr "El campo ID debe contener un número entero válido."
+
+#. module: union_benefit_request
+#. odoo-python
+#: code:addons/union_benefit_request/models/benefit_request.py:0
+msgid "El campo ID debe ser un número positivo."
+msgstr "El campo ID debe ser un número positivo."

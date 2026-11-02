@@ -1752,3 +1752,14 @@ msgid ""
 msgstr ""
 "El valor %(value)s de %(field)s está fuera de rango: debe estar entre "
 "%(min)s y %(max)s. Revisá el valor importado o el mapeo de columnas."
+
+#. module: union_affiliation
+#: code:addons/union_affiliation/models/base_import.py:0
+msgid "Invalid cell value at row %(row)s, column %(col)s: %(cell_value)s"
+msgstr "Valor de celda inválido en la fila %(row)s, columna %(col)s: %(cell_value)s"
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliation_period.py:0
+msgid "The period overlaps another period of this affiliate!"
+msgstr "¡El período se superpone con otro período de este afiliado/a!"

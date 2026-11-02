@@ -509,3 +509,21 @@ msgstr "Lugar de trabajo donde se desempeña el cargo"
 #: code:addons/union_school_position/models/affiliate.py:0
 msgid "%s position(s)"
 msgstr "%s cargo(s)"
+
+#. module: union_school_position
+#. odoo-python
+#: code:addons/union_school_position/models/position.py:0
+msgid "El campo ID debe contener un número entero válido."
+msgstr "El campo ID debe contener un número entero válido."
+
+#. module: union_school_position
+#. odoo-python
+#: code:addons/union_school_position/models/position.py:0
+msgid "El campo ID debe ser un número positivo."
+msgstr "El campo ID debe ser un número positivo."
+
+#. module: union_school_position
+#. odoo-python
+#: code:addons/union_school_position/models/position.py:0
+msgid "You don't have permission to change the featured flag on positions."
+msgstr "No tiene permiso para cambiar la marca de destacado en los cargos."
