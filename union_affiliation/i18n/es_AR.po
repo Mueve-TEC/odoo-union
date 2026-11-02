@@ -1478,6 +1478,11 @@ msgid ""
 msgstr ""
 
 #. module: union_affiliation
+#: model:ir.model.constraint,message:union_affiliation.constraint_affiliation_affiliate_uid_positive
+msgid "The affiliate UID must be a positive number."
+msgstr "El ID del afiliado/a debe ser un número positivo."
+
+#. module: union_affiliation
 #. odoo-python
 #: code:addons/union_affiliation/models/workplace.py:0
 msgid "The code \"%s\" already exists in another workplace."
