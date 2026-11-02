@@ -6,69 +6,101 @@ Sindicato - Aportes
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/license-GPL--3-blue.png
-    :target: http://www.gnu.org/licenses/gpl-3.0-standalone.html
-    :alt: License: AGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-union-lightgray.png?logo=github
-    :target: https://github.com/Mueve-TEC
+    :target: https://www.gnu.org/licenses/gpl-3.0-standalone.html
+    :alt: License: GPL-3
+.. |badge3| image:: https://img.shields.io/badge/github-odoo--union-lightgray.png?logo=github
+    :target: https://github.com/Mueve-TEC/odoo-union
     :alt: Mueve
 
 |badge1| |badge2| |badge3|
 
-Módulo para gestión de aportes/contribuciones de afiliados.
+Módulo para la gestión de aportes y contribuciones de los afiliados. Permite
+registrar aportes, importarlos desde archivos y detectar inconsistencias entre
+los afiliados que deberían aportar y los aportes efectivamente registrados.
 
-Características
+**Tabla de contenidos**
+
+.. contents::
+   :local:
+
+Funcionalidades
 ===============
 
-- Gestión de aportes.
-- Importación de aportes desde archivos csv.
-- Creación de afiliados a partir de la importación de aportes.
-- Busqueda de inconsistencias en los aportes de afiliados.
+- Gestión de aportes por afiliado, fecha, código y monto.
+- Configuración de códigos de aportes.
+- Importación de aportes desde archivos CSV/XLSX con el importador estándar de
+  Odoo, incluyendo la resolución del afiliado por legajo/UID, CUIT o documento.
+- Opción para crear afiliados automáticamente durante la importación de
+  aportes.
+- Consulta de inconsistencias: detecta afiliados cotizantes sin aportes y no
+  cotizantes con aportes en un período.
+- Filtros de la consulta por período, tipo de relación laboral y código de
+  aporte.
+- Resultados de las consultas con historial y asistente para cambiar el estado
+  del afiliado.
+- Grupos de seguridad de lectura, escritura y administración de aportes e
+  inconsistencias.
 
 Instalación
 ===========
 
-Para instalar este módulo, debe seguir los siguientes pasos:
+Para instalar el módulo:
 
-1. Descargue el módulo y colóquelo en el directorio de addons de Odoo.
-2. Reinicie el servidor de Odoo.
-3. Vaya a **Apps** en el menú de Odoo.
-4. Busque `union_contribution`.
-5. Haga clic en **Instalar**.
+1. Copie el módulo en un directorio de addons de Odoo.
+2. Reinicie el servidor.
+3. Vaya a **Aplicaciones**, actualice la lista y busque **Sindicato -
+   Aportes**.
+4. Haga clic en **Instalar**.
 
 Dependencias
 ============
 
 Este módulo depende de los siguientes módulos de Odoo:
 
-- `base`
-- `union_affiliation`
+- ``base``
+- ``union_affiliation``
+
+Configuración
+=============
+
+1. Navegue a **Sindicato > Aportes > Códigos de aportes** para configurar los
+   códigos de aportes.
+2. Navegue a **Sindicato > Configuración > Configuración de afiliación** y
+   active la opción para crear afiliados al importar aportes, si corresponde.
 
 Uso
 ===
 
-1. Navega a **Sindicato > Aportes > Códigos de aportes** para configurar los códigos de aportes.
-2. Navega a **Sindicato > Solicitudes > Lista de aportes** para gestionar los aportes.
+Aportes
+-------
+
+1. Navegue a **Sindicato > Aportes > Lista de aportes** para gestionar los
+   aportes.
 
 Importación
 -----------
 
-1. Navega a **Sindicato > Configuración > Configuración de afiliación** para seleccionar si crear nuevos afiliados o no al importar.
-2. Navega a **Sindicato > Aportes > Lista de aportes**, luego presiona en **Favoritos** y selecciona **Importar registros**.
-3. Sube el archivo csv con los aportes.
-4. Completa bien los campos de Odoo "Código", "Fecha", "Legajo (importación)", "Monto" y los necesarios para corresponder las columnas de tu archivo .csv de aportes.
-5. Completa el formato de la fecha, separador de miles y de decimales utilizados en el .csv en la pestaña de la izquierda de **Formato**.
-6. Presiona **Prueba** para chequear que todo esté configurado correctamente.
-7. Presiona **Importar** para importar los aportes.
+1. Navegue a **Sindicato > Aportes > Lista de aportes**, abra **Favoritos** y
+   seleccione **Importar registros**.
+2. Suba el archivo CSV/XLSX con los aportes.
+3. Mapee las columnas del archivo a los campos de Odoo: **Código**, **Fecha**,
+   **Legajo (importación)**, **Monto** y los campos de identificación que
+   correspondan (UID, CUIT o documento).
+4. Configure el formato de fecha, separador de miles y de decimales del archivo
+   en la pestaña **Formato**.
+5. Presione **Prueba** para validar la configuración y luego **Importar**.
 
-inconsistencias
+Inconsistencias
 ---------------
 
-1. Presiona en **Sindicato > Aportes > Consulta de inconsistencias** para realizar una búsqueda de inconsistencias en los aportes de los afiliados.
-2. Añade una descripción para identificar la búsqueda.
-3. Configura los filtros de búsqueda, el período, el tipo de relación laboral.
-4. Selecciona si la búsqueda es sobre los que tienen aportes o los que no tienen.
-5. Presiona **CONSULTA DE INCONSISTENCIAS** para realizar la búsqueda.
-6. Observa los resultados de todas las búsquedas en **Sindicato > Aportes > Lista de inconsistencias**.
+1. Navegue a **Sindicato > Aportes > Consulta de inconsistencias**.
+2. Ingrese una descripción para identificar la consulta.
+3. Configure el período, el tipo de relación laboral y el código de aporte.
+4. Seleccione si la consulta busca aportantes sin aportes, no aportantes con
+   aportes, o ambos.
+5. Presione **CONSULTA DE INCONSISTENCIAS**.
+6. Consulte los resultados en **Sindicato > Aportes > Lista de
+   inconsistencias**.
 
 Créditos
 ========
@@ -86,3 +118,5 @@ Mantenedores
 Este módulo es mantenido por:
 
 - Mueve (https://www.mueve.org.ar/)
+
+Para contribuir a este módulo, visite https://github.com/Mueve-TEC/odoo-union.

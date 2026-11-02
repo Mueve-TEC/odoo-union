@@ -8,47 +8,72 @@ Sindicato - Cargos
 .. |badge2| image:: https://img.shields.io/badge/license-GPL--3-blue.png
     :target: https://www.gnu.org/licenses/gpl-3.0-standalone.html
     :alt: License: GPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-union-lightgray.png?logo=github
-    :target: https://github.com/Mueve-TEC
+.. |badge3| image:: https://img.shields.io/badge/github-odoo--union-lightgray.png?logo=github
+    :target: https://github.com/Mueve-TEC/odoo-union
     :alt: Mueve
 
 |badge1| |badge2| |badge3|
 
-Módulo para la gestión de cargos.
+Módulo para la gestión de cargos de los afiliados. Registra los cargos
+ocupados, su tipo, carácter, cantidad de horas, lugar de trabajo y fechas de
+vigencia, y permite importarlos desde archivos.
 
-Características
+**Tabla de contenidos**
+
+.. contents::
+   :local:
+
+Funcionalidades
 ===============
 
-- Gestión de cargos.
-- Configuración de tipos cargos.
-- Configuración de caracteres de cargos.
-- Importación de cargos desde archivos csv.
+- Gestión de cargos por afiliado.
+- Configuración de tipos de cargo, con código, descripción y control por horas.
+- Configuración de caracteres de cargo.
+- Registro de número de cargo, cantidad de horas, sector, dedicación y
+  observaciones.
+- Fechas de vigencia del cargo (**Desde** y **Hasta**) y fecha de registro.
+- Marcas de cargo destacado y etiquetas de cargo.
+- Datos del lugar de trabajo por niveles, heredados del afiliado.
+- Importación de cargos desde archivos CSV/XLSX con el importador estándar de
+  Odoo, resolviendo el afiliado por legajo/UID, CUIT o documento.
+- Grupos de seguridad de lectura, escritura y administración de cargos.
 
 Instalación
 ===========
 
-Para instalar este módulo, debe seguir los siguientes pasos:
+Para instalar el módulo:
 
-1. Descargue el módulo y colóquelo en el directorio de addons de Odoo.
-2. Reinicie el servidor de Odoo.
-3. Vaya a **Apps** en el menú de Odoo.
-4. Busque `union_school_position`.
-5. Haga clic en **Instalar**.
+1. Copie el módulo en un directorio de addons de Odoo.
+2. Reinicie el servidor.
+3. Vaya a **Aplicaciones**, actualice la lista y busque **Sindicato -
+   Cargos**.
+4. Haga clic en **Instalar**.
 
 Dependencias
 ============
 
 Este módulo depende de los siguientes módulos de Odoo:
 
-- `base`
-- `union_affiliation`
+- ``base``
+- ``union_affiliation``
+
+Configuración
+=============
+
+1. Navegue a **Sindicato > Cargos > Tipos de cargos** para configurar los
+   tipos de cargo.
+2. Navegue a **Sindicato > Cargos > Caracteres de cargos** para configurar los
+   caracteres de cargo.
 
 Uso
 ===
 
-1. Navega a **Sindicato > Cargos > Tipos de Cargos** para configurar los tipos de cargos.
-2. Navega a **Sindicato > Cargos > Caracteres de Cargos** para configurar los caracteres de cargos.
-3. Navega a **Sindicato > Cargos > Lista de Cargos** para gestionar los cargos.
+1. Navegue a **Sindicato > Cargos > Lista de cargos** para gestionar los
+   cargos.
+2. Cree un cargo indicando el afiliado, el tipo, el carácter, el número, las
+   horas, el lugar de trabajo y las fechas de vigencia.
+3. Para importar cargos, use **Favoritos > Importar registros** en la lista de
+   cargos, mapee las columnas y valide con **Prueba** antes de **Importar**.
 
 Créditos
 ========
@@ -66,3 +91,5 @@ Mantenedores
 Este módulo es mantenido por:
 
 - Mueve (https://www.mueve.org.ar/)
+
+Para contribuir a este módulo, visite https://github.com/Mueve-TEC/odoo-union.
