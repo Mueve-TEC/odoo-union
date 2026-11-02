@@ -1,7 +1,22 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
+from .field_types import BigInteger
+
 AFFILIATE_STR_TO_INT = {"active": 0, "retired": 1}
+
+# SQL integer column ranges: fields.Integer is int4, fields.BigInteger is int8.
+_INT4_MIN = -(2**31)
+_INT4_MAX = 2**31 - 1
+_INT8_MIN = -(2**63)
+_INT8_MAX = 2**63 - 1
+
+# uid is a BigInteger because the client may use the CUIT (11 digits) as the
+# affiliate UID; affiliation_number comes from a sequence and stays an int4.
+_INTEGER_RANGES = {
+    "uid": (_INT8_MIN, _INT8_MAX),
+    "affiliation_number": (_INT4_MIN, _INT4_MAX),
+}
 
 
 class Affiliate(models.Model):
@@ -24,7 +39,7 @@ class Affiliate(models.Model):
     )
 
     partner_id = fields.Many2one(comodel_name="res.partner", string="Partner", ondelete="cascade", required=True)
-    uid = fields.Integer(string="Affiliate UID", required=True, index=True)
+    uid = BigInteger(string="Affiliate UID", required=True, index=True)
     work_id = fields.Char(string="Work ID")
     personal_id_type = fields.Selection(
         [
@@ -215,17 +230,46 @@ class Affiliate(models.Model):
         if "affiliation_number" in vals and not vals["affiliation_number"]:
             del vals["affiliation_number"]
 
+    @api.model
+    def _check_integer_ranges(self, vals):
+        """Name the field when an integer value does not fit its SQL column.
+
+        Postgres answers a bare "integer out of range" (or "bigint out of
+        range") and the import UI cannot say which column produced it. This is
+        what a phone number typed as a number and mapped to uid or
+        affiliation_number looks like, so fail early with the field and value.
+        """
+        for fname, (low, high) in _INTEGER_RANGES.items():
+            value = vals.get(fname)
+            if isinstance(value, bool) or not isinstance(value, int):
+                continue
+            if low <= value <= high:
+                continue
+            field = self._fields[fname]
+            raise ValidationError(
+                _(
+                    "The value %(value)s for %(field)s is out of range: it must be between"
+                    " %(min)s and %(max)s. Check the imported value or the column mapping.",
+                    value=value,
+                    field=field.string,
+                    min=low,
+                    max=high,
+                )
+            )
+
     # This method is necessary for RPC importation
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
             self._discard_blank_affiliation_number(vals)
+            self._check_integer_ranges(vals)
         return super(Affiliate, self).create(vals_list)
 
     def write(self, vals):
         # Discard before logging, so a blank that changes nothing is not
         # reported as a change in the affiliate log.
         self._discard_blank_affiliation_number(vals)
+        self._check_integer_ranges(vals)
         if not vals:
             return True
 

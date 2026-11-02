@@ -1,6 +1,7 @@
 import logging
 
 from odoo import _, api, fields, models
+from odoo.addons.union_affiliation.models.field_types import BigInteger
 from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
@@ -31,7 +32,7 @@ class AffiliateContribution(models.Model):
     import_vat = fields.Char(string="Import vat")
     import_personal_id = fields.Char(string="Import personal ID")
 
-    uid = fields.Integer(related="affiliate_id.uid", store=False)
+    uid = BigInteger(related="affiliate_id.uid", store=False)
     personal_id = fields.Char(related="affiliate_id.personal_id", store=False)
 
     @api.model_create_multi

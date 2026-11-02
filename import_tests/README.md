@@ -94,6 +94,13 @@ El mensaje de error depende del estado del flag:
 
 ## 3. Qué ejercita cada diseño de columna
 
+- **`uid` es `BigInteger`, `affiliation_number` es `Integer`**: el UID acepta el
+  CUIT completo (11 dígitos, ~2,7 × 10¹⁰) porque la columna es `int8`; el número
+  de afiliación sigue siendo `int4` (máximo `2147483647`). Un valor fuera del
+  rango de su columna falla con un mensaje que nombra el campo y el valor, en
+  lugar del `integer/bigint out of range` de Postgres. Ver
+  `test_out_of_range_integer_on_import_names_the_field`.
+
 - **Celda vacía en una columna Integer** (`affiliation_number`, `hs_amount`, …):
   la celda se escribe como `0`, no como `NULL`, porque `ir.fields.converter`
   devuelve `False` y `Integer.convert_to_column(False)` es `0`. En `hs_amount`

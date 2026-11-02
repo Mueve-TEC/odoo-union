@@ -286,3 +286,53 @@ class TestAffiliate(TransactionCase):
         self.env.flush_all()
         self.env.cr.execute("SELECT affiliation_number FROM affiliation_affiliate WHERE uid = 99111106")
         self.assertEqual(self.env.cr.fetchone()[0], 9)
+
+    # ─── integer range ────────────────────────────────────────────────────────
+
+    def test_cuit_sized_uid_is_stored(self):
+        """uid is a BigInteger, so a CUIT fits: it is not limited to int4."""
+        aff = self._create_affiliate(uid=27203742296, name="CUIT UID")
+        self.env.flush_all()
+        self.env.cr.execute("SELECT uid FROM affiliation_affiliate WHERE id = %s", [aff.id])
+        self.assertEqual(self.env.cr.fetchone()[0], 27203742296)
+
+    def test_cuit_sized_uid_on_import(self):
+        """A CUIT in the uid column imports and keeps its exact value."""
+        res = self.Affiliate.with_context(import_file=True, lang="en_US").load(
+            ["uid", "name"],
+            [["27203742296", "Imported CUIT UID"]],
+        )
+        errors = [m for m in res["messages"] if m.get("type") == "error"]
+        self.assertFalse(errors, errors)
+        self.assertEqual(len(res["ids"]), 1)
+        self.env.flush_all()
+        self.env.cr.execute("SELECT uid FROM affiliation_affiliate WHERE id = %s", [res["ids"][0]])
+        self.assertEqual(self.env.cr.fetchone()[0], 27203742296)
+
+    def test_out_of_range_uid_names_the_field(self):
+        """Beyond int8 it still fails, but naming the field instead of the DB."""
+        Affiliate = self.Affiliate.with_context(lang="en_US")
+        with self.assertRaises(ValidationError) as error:
+            Affiliate.create({"uid": 10**19, "name": "Huge UID", "state": "new"})
+        message = str(error.exception)
+        self.assertIn("10000000000000000000", message)
+        self.assertIn("Affiliate UID", message)
+
+    def test_out_of_range_affiliation_number_names_the_field(self):
+        Affiliate = self.Affiliate.with_context(lang="en_US")
+        with self.assertRaises(ValidationError) as error:
+            Affiliate.create({"uid": 99111107, "name": "Big Number", "state": "new", "affiliation_number": 20301234563})
+        message = str(error.exception)
+        self.assertIn("20301234563", message)
+        self.assertIn("Affiliation number", message)
+
+    def test_out_of_range_integer_on_import_names_the_field(self):
+        """The import path gets the same message instead of 'integer out of range'."""
+        res = self.Affiliate.with_context(import_file=True, lang="en_US").load(
+            ["uid", "name", "affiliation_number"],
+            [["99111108", "Imported Big Number", "20301234563"]],
+        )
+        messages = " ".join(m.get("message") or "" for m in res["messages"])
+        self.assertIn("Affiliation number", messages)
+        self.assertIn("20301234563", messages)
+        self.assertNotIn("integer out of range", messages)

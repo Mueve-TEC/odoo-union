@@ -1737,3 +1737,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
 msgid "Archived"
 msgstr "Archivados"
+
+#. module: union_affiliation
+#. odoo-python
+#: code:addons/union_affiliation/models/affiliate.py:0
+msgid ""
+"The value %(value)s for %(field)s is out of range: it must be between "
+"%(min)s and %(max)s. Check the imported value or the column mapping."
+msgstr ""
+"El valor %(value)s de %(field)s está fuera de rango: debe estar entre "
+"%(min)s y %(max)s. Revisá el valor importado o el mapeo de columnas."

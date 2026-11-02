@@ -1,6 +1,7 @@
 import logging
 
 from odoo import _, api, fields, models
+from odoo.addons.union_affiliation.models.field_types import BigInteger
 from odoo.exceptions import UserError, ValidationError
 
 log = logging.getLogger(__name__)
@@ -46,7 +47,7 @@ class Position(models.Model):
     import_name = fields.Char(string="Import Name")
     import_vat = fields.Char(string="Import VAT")
 
-    uid = fields.Integer(related="affiliate_id.uid", store=False)
+    uid = BigInteger(related="affiliate_id.uid", store=False)
     personal_id = fields.Char(related="affiliate_id.personal_id", store=False)
     dedication = fields.Char(
         related="type_id.dedication",

@@ -1,4 +1,5 @@
 from odoo import _, api, fields, models
+from odoo.addons.union_affiliation.models.field_types import BigInteger
 from odoo.exceptions import ValidationError
 
 
@@ -24,7 +25,7 @@ class BenefitRequest(models.Model):
         tracking=True,
     )
     # The next two fields only will be used to filters
-    affiliate_uid = fields.Integer(string="Affiliate UID", compute="_compute_uid", store=True)
+    affiliate_uid = BigInteger(string="Affiliate UID", compute="_compute_uid", store=True)
     affiliate_personal_id = fields.Char(string="Personal ID", compute="_compute_personal_id", store=True)
 
     # Field for import process - maps to affiliate by UID
