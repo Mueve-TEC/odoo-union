@@ -1,3 +1,5 @@
+import xml.etree.ElementTree as ET
+
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import TransactionCase, tagged
 from psycopg2.errors import UniqueViolation
@@ -336,3 +338,19 @@ class TestAffiliate(TransactionCase):
         self.assertIn("Affiliation number", messages)
         self.assertIn("20301234563", messages)
         self.assertNotIn("integer out of range", messages)
+
+    # ─── uid formatting in views ──────────────────────────────────────────────
+
+    def test_uid_field_disables_thousands_formatting(self):
+        """The uid field disables integer formatting in form and list views."""
+        for xmlid in (
+            "union_affiliation.union_affiliation_affiliate_form",
+            "union_affiliation.union_affiliation_affiliate_tree",
+        ):
+            root = ET.fromstring(self.env.ref(xmlid).arch)
+            uid_fields = [node for node in root.iter("field") if node.get("name") == "uid"]
+            self.assertTrue(uid_fields, f"{xmlid} has no uid field")
+            for field in uid_fields:
+                options = field.get("options") or ""
+                self.assertIn("enable_formatting", options)
+                self.assertIn("false", options)

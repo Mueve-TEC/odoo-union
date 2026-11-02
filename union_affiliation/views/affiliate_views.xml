@@ -67,6 +67,7 @@
                         <group>
                             <group string="Employment infomation" name="personal_information">
                                 <field name="uid"
+                                    options="{'enable_formatting': false}"
                                     readonly="state in ['pending_suscribe', 'affiliated', 'pending_unsuscribe', 'disaffiliated', 'historical']" />
                                 <field name="work_id" />
                                 <field name="affiliate_type_id" />
@@ -127,7 +128,7 @@
             <field name="arch" type="xml">
                 <list>
                     <field name="name" />
-                    <field name="uid" />
+                    <field name="uid" options="{'enable_formatting': false}" />
                     <field name="affiliate_type_id" />
                     <field name="main_workplace_id" />
                     <field name="personal_id" />
