@@ -7,6 +7,15 @@ class PositionType(models.Model):
     _rec_name = "name"
     _rec_names_search = ["code", "name"]
 
+    _code_unique = models.Constraint(
+        "unique(code)",
+        "There is already a position type with the same code!",
+    )
+    _name_unique = models.Constraint(
+        "unique(name)",
+        "There is already a position type with the same description!",
+    )
+
     code = fields.Char(string="Code", required=True)
     name = fields.Char(string="Description", required=True)
     in_hours = fields.Boolean(string="Is in hours", required=True)

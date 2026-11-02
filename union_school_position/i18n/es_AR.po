@@ -424,6 +424,16 @@ msgid "The registration date cannot be in the future."
 msgstr "La fecha de registro no puede ser posterior a la fecha actual."
 
 #. module: union_school_position
+#: model:ir.model.constraint,message:union_school_position.constraint_school_position_type_code_unique
+msgid "There is already a position type with the same code!"
+msgstr "¡Ya existe un tipo de cargo con el mismo código!"
+
+#. module: union_school_position
+#: model:ir.model.constraint,message:union_school_position.constraint_school_position_type_name_unique
+msgid "There is already a position type with the same description!"
+msgstr "¡Ya existe un tipo de cargo con la misma descripción!"
+
+#. module: union_school_position
 #. odoo-python
 #: code:addons/union_school_position/models/position.py:0
 msgid "There were errors during importation. See the logs!"
