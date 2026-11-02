@@ -19,7 +19,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/union_school_position/models/position.py:0
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #. module: union_school_position
 #: model:ir.model.fields,help:union_school_position.field_school_position_position__notes
@@ -72,7 +72,7 @@ msgstr ""
 #. module: union_school_position
 #: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_affiliation_affiliate_form
 msgid "Cargos"
-msgstr ""
+msgstr "Cargos"
 
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__character_id
@@ -161,13 +161,13 @@ msgstr "Nombre para mostrar"
 #. odoo-python
 #: code:addons/union_school_position/models/position.py:0
 msgid "El campo ID debe contener únicamente números."
-msgstr ""
+msgstr "El campo ID debe contener únicamente números."
 
 #. module: union_school_position
 #. odoo-python
 #: code:addons/union_school_position/models/position.py:0
 msgid "El campo ID no puede comenzar con cero."
-msgstr ""
+msgstr "El campo ID no puede comenzar con cero."
 
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__featured
@@ -178,12 +178,12 @@ msgstr "Destacado"
 #. module: union_school_position
 #: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_affiliation_affiliate_search
 msgid "Fecha de registro (Cargos)"
-msgstr ""
+msgstr "Fecha de registro (Cargos)"
 
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_affiliation_affiliate__position_registration_date_ids
 msgid "Fechas de registro de cargos"
-msgstr ""
+msgstr "Fechas de registro de cargos"
 
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__date_from
@@ -294,7 +294,7 @@ msgstr "Tipo de cargo (por código)"
 #. module: union_school_position
 #: model:ir.model.fields,field_description:union_school_position.field_affiliation_affiliate__position_type_ids
 msgid "Position Types"
-msgstr ""
+msgstr "Tipos de cargos"
 
 #. module: union_school_position
 #: model:ir.model.fields,help:union_school_position.field_school_position_position__date_to
@@ -385,7 +385,7 @@ msgstr "Escritura de cargos"
 #: model:ir.model.fields,field_description:union_school_position.field_school_position_position__sector
 #: model_terms:ir.ui.view,arch_db:union_school_position.union_school_position_search
 msgid "Sector"
-msgstr ""
+msgstr "Sector"
 
 #. module: union_school_position
 #: model:ir.actions.server,name:union_school_position.action_set_featured

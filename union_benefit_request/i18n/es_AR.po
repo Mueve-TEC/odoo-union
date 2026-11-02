@@ -20,7 +20,7 @@ msgstr ""
 #: code:addons/union_benefit_request/models/benefit_request.py:0
 #: code:addons/union_benefit_request/models/school_benefit.py:0
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #. module: union_benefit_request
 #: model_terms:ir.ui.view,arch_db:union_benefit_request.union_benefit_request_type_form
@@ -258,13 +258,13 @@ msgstr "Borrador"
 #. odoo-python
 #: code:addons/union_benefit_request/models/benefit_request.py:0
 msgid "El campo ID debe contener únicamente números."
-msgstr ""
+msgstr "El campo ID debe contener únicamente números."
 
 #. module: union_benefit_request
 #. odoo-python
 #: code:addons/union_benefit_request/models/benefit_request.py:0
 msgid "El campo ID no puede comenzar con cero."
-msgstr ""
+msgstr "El campo ID no puede comenzar con cero."
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__email
@@ -395,17 +395,17 @@ msgstr ""
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__import_name
 msgid "Import Name"
-msgstr ""
+msgstr "Nombre de importación"
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__import_personal_id
 msgid "Import Personal ID"
-msgstr ""
+msgstr "ID personal de importación"
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__import_vat
 msgid "Import VAT"
-msgstr ""
+msgstr "CUIT de importación"
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__message_is_follower
@@ -450,7 +450,7 @@ msgstr "Estado anterior"
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__import_uid
 msgid "Legajo"
-msgstr ""
+msgstr "Legajo"
 
 #. module: union_benefit_request
 #: model:ir.model.fields,field_description:union_benefit_request.field_benefit_request_benefit_request__message_has_error

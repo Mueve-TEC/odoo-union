@@ -436,7 +436,7 @@ class Affiliate(models.Model):
             if field.type == "selection" and isinstance(value, str):
                 selection = field._description_selection(record.env)
                 selection_map = dict(selection or [])
-                return _(selection_map.get(value, value))
+                return selection_map.get(value, value)
 
             if field.type == "many2one":
                 if isinstance(value, models.BaseModel):
@@ -448,7 +448,7 @@ class Affiliate(models.Model):
                 return _("True") if value else _("False")
 
             if isinstance(value, str):
-                return _(value)
+                return value
 
             return str(value)
 
