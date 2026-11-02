@@ -19,7 +19,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/union_affiliation/models/affiliate.py:0
 msgid "%s [%s] The field %s changed from %s to %s"
-msgstr ""
+msgstr "%s [%s] El campo %s cambió de %s a %s"
 
 #. module: union_affiliation
 #. odoo-python
@@ -30,22 +30,22 @@ msgstr "¡'Fecha desde' es mayor a 'Fecha hasta'!"
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
 msgid "1° Lugar de trabajo principal"
-msgstr ""
+msgstr "1° Lugar de trabajo principal"
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
 msgid "2° Lugar de trabajo principal"
-msgstr ""
+msgstr "2° Lugar de trabajo principal"
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
 msgid "3° Lugar de trabajo principal"
-msgstr ""
+msgstr "3° Lugar de trabajo principal"
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_delete_wizard_form
 msgid "<strong>¡Atención!</strong>"
-msgstr ""
+msgstr "<strong>¡Atención!</strong>"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__message_needaction
@@ -272,22 +272,22 @@ msgstr "Fecha de afiliación"
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_union_workplace_delete_wizard__affected_affiliates
 msgid "Afiliados afectados"
-msgstr ""
+msgstr "Afiliados afectados"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__main_workplace_level1
 msgid "Agrupación Nivel 1"
-msgstr ""
+msgstr "Agrupación Nivel 1"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__main_workplace_level2
 msgid "Agrupación Nivel 2"
-msgstr ""
+msgstr "Agrupación Nivel 2"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__main_workplace_level3
 msgid "Agrupación Nivel 3"
-msgstr ""
+msgstr "Agrupación Nivel 3"
 
 #. module: union_affiliation
 #: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__lang
@@ -299,7 +299,7 @@ msgstr ""
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_number__affiliation_number_edition
 msgid "Allow editing affiliation number"
-msgstr ""
+msgstr "Permitir la edición del número de afiliación"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_configuration__affiliation_number_edition
@@ -382,17 +382,17 @@ msgstr "Rebotar"
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__personal_id_type__ci
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate_child__personal_id_type__ci
 msgid "CI"
-msgstr ""
+msgstr "CI"
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
 msgid "CUIL"
-msgstr ""
+msgstr "CUIL"
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_delete_wizard_form
 msgid "Cancelar"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: union_affiliation
 #. odoo-python
@@ -545,12 +545,12 @@ msgstr "Confirmar desafiliación"
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.affiliation_affiliation_number_form
 msgid "Confirmación de Afiliación"
-msgstr ""
+msgstr "Confirmación de Afiliación"
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_delete_wizard_form
 msgid "Confirmar Eliminación"
-msgstr ""
+msgstr "Confirmar Eliminación"
 
 #. module: union_affiliation
 #: model:ir.model,name:union_affiliation.model_res_partner
@@ -616,27 +616,27 @@ msgstr "Creado en"
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__personal_id_type__dni
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate_child__personal_id_type__dni
 msgid "DNI"
-msgstr ""
+msgstr "DNI"
 
 #. module: union_affiliation
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__personal_id_type__du
 msgid "DU"
-msgstr ""
+msgstr "DU"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__delegation_id
 msgid "Delegación"
-msgstr ""
+msgstr "Delegación"
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_form
 msgid "Dependencias inferiores"
-msgstr ""
+msgstr "Dependencias inferiores"
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_delete_wizard_form
 msgid "Detalles de afiliados afectados"
-msgstr ""
+msgstr "Detalles de afiliados afectados"
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
@@ -689,18 +689,18 @@ msgstr ""
 #. odoo-python
 #: code:addons/union_affiliation/models/affiliate.py:0
 msgid "El campo ID debe contener únicamente números."
-msgstr ""
+msgstr "El campo ID debe contener únicamente números."
 
 #. module: union_affiliation
 #. odoo-python
 #: code:addons/union_affiliation/models/affiliate.py:0
 msgid "El campo ID no puede comenzar con cero."
-msgstr ""
+msgstr "El campo ID no puede comenzar con cero."
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_form
 msgid "Eliminar"
-msgstr ""
+msgstr "Eliminar"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__email
@@ -742,18 +742,18 @@ msgstr "Habilitado"
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_delete_wizard_form
 msgid "Esta acción no se puede deshacer."
-msgstr ""
+msgstr "Esta acción no se puede deshacer."
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__category_bis_id
 msgid "Etiqueta BIS"
-msgstr ""
+msgstr "Etiqueta BIS"
 
 #. module: union_affiliation
 #. odoo-python
 #: code:addons/union_affiliation/models/affiliate.py:0
 msgid "False"
-msgstr ""
+msgstr "Falso"
 
 #. module: union_affiliation
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__gender__female
@@ -908,7 +908,7 @@ msgstr "Imagen 512"
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_form
 msgid "Inactivo"
-msgstr ""
+msgstr "Inactivo"
 
 #. module: union_affiliation
 #: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__phone_blacklisted
@@ -964,13 +964,13 @@ msgstr "Puesto de trabajo"
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__personal_id_type__lc
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate_child__personal_id_type__lc
 msgid "LC"
-msgstr ""
+msgstr "LC"
 
 #. module: union_affiliation
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__personal_id_type__le
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate_child__personal_id_type__le
 msgid "LE"
-msgstr ""
+msgstr "LE"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__lang
@@ -1009,13 +1009,13 @@ msgstr "Nivel"
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__log
 msgid "Log"
-msgstr ""
+msgstr "Registro"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_union_workplace_delete_wizard__workplace_id
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_form
 msgid "Lugar de trabajo"
-msgstr ""
+msgstr "Lugar de trabajo"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__main_workplace_id
@@ -1023,14 +1023,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_form
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
 msgid "Lugar de trabajo principal"
-msgstr ""
+msgstr "Lugar de trabajo principal"
 
 #. module: union_affiliation
 #: model:ir.actions.act_window,name:union_affiliation.union_workplace_list_action
 #: model:ir.ui.menu,name:union_affiliation.union_workplace_list
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_tree
 msgid "Lugares de trabajo"
-msgstr ""
+msgstr "Lugares de trabajo"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__main_affiliate_count
@@ -1065,7 +1065,7 @@ msgstr "Casado/a"
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_union_workplace_delete_wizard__message
 msgid "Mensaje de confirmación"
-msgstr ""
+msgstr "Mensaje de confirmación"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__message_has_error
@@ -1216,7 +1216,7 @@ msgstr "Otro correo electrónico"
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate__personal_id_type__pasaporte
 #: model:ir.model.fields.selection,name:union_affiliation.selection__affiliation_affiliate_child__personal_id_type__pasaporte
 msgid "PASAPORTE"
-msgstr ""
+msgstr "PASAPORTE"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_union_workplace__parent_path
@@ -1453,7 +1453,7 @@ msgstr "Calle # 2"
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_delete_wizard_form
 msgid "Sí, eliminar"
-msgstr ""
+msgstr "Sí, eliminar"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__category_id
@@ -1481,7 +1481,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/union_affiliation/models/workplace.py:0
 msgid "The code \"%s\" already exists in another workplace."
-msgstr ""
+msgstr "El código \"%s\" ya existe en otro lugar de trabajo."
 
 #. module: union_affiliation
 #. odoo-python
@@ -1500,7 +1500,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/union_affiliation/models/workplace.py:0
 msgid "The name \"%s\" already exists in another workplace."
-msgstr ""
+msgstr "El nombre \"%s\" ya existe en otro lugar de trabajo."
 
 #. module: union_affiliation
 #: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__company_registry
@@ -1532,13 +1532,13 @@ msgstr "¡Ya hay un período abierto!"
 #. odoo-python
 #: code:addons/union_affiliation/models/affiliation_period.py:0
 msgid "There is already exist a period with the same affiliation number!"
-msgstr ""
+msgstr "¡Ya existe un período con el mismo número de afiliación!"
 
 #. module: union_affiliation
 #. odoo-python
 #: code:addons/union_affiliation/models/affiliate_type.py:0
 msgid "There is already exist a type with the same name!"
-msgstr ""
+msgstr "¡Ya existe un tipo con el mismo nombre!"
 
 #. module: union_affiliation
 #: model:ir.model.constraint,message:union_affiliation.constraint_affiliation_affiliate_uid_unique
@@ -1570,7 +1570,7 @@ msgstr "Desplazamiento de zona horaria"
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_affiliation_affiliate_search
 msgid "Tipo de relacion laboral"
-msgstr ""
+msgstr "Tipo de relacion laboral"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliation_period__to_date
@@ -1591,7 +1591,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/union_affiliation/models/affiliate.py:0
 msgid "True"
-msgstr ""
+msgstr "Verdadero"
 
 #. module: union_affiliation
 #: model:ir.model.fields,help:union_affiliation.field_affiliation_affiliate__activity_exception_decoration
@@ -1674,7 +1674,7 @@ msgstr "Viudo/a"
 #. module: union_affiliation
 #: model:ir.model,name:union_affiliation.model_union_workplace_delete_wizard
 msgid "Wizard para confirmar eliminación de lugar de trabajo"
-msgstr ""
+msgstr "Wizard para confirmar eliminación de lugar de trabajo"
 
 #. module: union_affiliation
 #: model:ir.model.fields,field_description:union_affiliation.field_affiliation_affiliate__work_id
@@ -1716,12 +1716,12 @@ msgstr "Código Postal"
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_form
 msgid "ej: OFC-001"
-msgstr ""
+msgstr "ej: OFC-001"
 
 #. module: union_affiliation
 #: model_terms:ir.ui.view,arch_db:union_affiliation.union_workplace_form
 msgid "ej: Oficina Central"
-msgstr ""
+msgstr "ej: Oficina Central"
 
 #. module: union_affiliation
 #. odoo-python

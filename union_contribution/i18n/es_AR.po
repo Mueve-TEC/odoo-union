@@ -19,7 +19,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/union_contribution/models/contribution.py:0
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution__affiliate_id
@@ -45,36 +45,39 @@ msgid ""
 "contribution import' in affiliation configuration or import with an existing"
 " affiliate."
 msgstr ""
+"Afiliado/a no encontrado/a para la importación de aportes. Habilite "
+"'Crear usuario en la importación de aportes' en la configuración de "
+"afiliación o importe con un afiliado/a existente."
 
 #. module: union_contribution
 #: model_terms:ir.ui.view,arch_db:union_contribution.union_contribution_affiliate_contribution_search
 msgid "Afiliado"
-msgstr ""
+msgstr "Afiliado"
 
 #. module: union_contribution
 #: model_terms:ir.ui.view,arch_db:union_contribution.union_contribution_inconsistencies_result_filter
 msgid "Agrupar por Descripción"
-msgstr ""
+msgstr "Agrupar por Descripción"
 
 #. module: union_contribution
 #: model_terms:ir.ui.view,arch_db:union_contribution.union_contribution_inconsistencies_result_filter
 msgid "Agrupar por Estado cotizante"
-msgstr ""
+msgstr "Agrupar por Estado cotizante"
 
 #. module: union_contribution
 #: model_terms:ir.ui.view,arch_db:union_contribution.union_contribution_inconsistencies_result_filter
 msgid "Agrupar por Estado de afiliación"
-msgstr ""
+msgstr "Agrupar por Estado de afiliación"
 
 #. module: union_contribution
 #: model_terms:ir.ui.view,arch_db:union_contribution.union_contribution_inconsistencies_result_filter
 msgid "Agrupar por Situación"
-msgstr ""
+msgstr "Agrupar por Situación"
 
 #. module: union_contribution
 #: model_terms:ir.ui.view,arch_db:union_contribution.union_contribution_inconsistencies_result_filter
 msgid "Agrupar por Tipo de relación laboral"
-msgstr ""
+msgstr "Agrupar por Tipo de relación laboral"
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution__contrib_amount
@@ -89,28 +92,28 @@ msgstr "Importación base"
 #. module: union_contribution
 #: model_terms:ir.ui.view,arch_db:union_contribution.view_change_state_wizard_form
 msgid "Cambiar Estado"
-msgstr ""
+msgstr "Cambiar Estado"
 
 #. module: union_contribution
 #: model:ir.actions.act_window,name:union_contribution.action_change_state_wizard
 msgid "Cambiar Estado de Afiliación"
-msgstr ""
+msgstr "Cambiar Estado de Afiliación"
 
 #. module: union_contribution
 #: model:ir.actions.server,name:union_contribution.action_set_quote_server
 msgid "Cambiar a Cotizante"
-msgstr ""
+msgstr "Cambiar a Cotizante"
 
 #. module: union_contribution
 #: model:ir.actions.server,name:union_contribution.action_unset_quote_server
 msgid "Cambiar a No Cotizante"
-msgstr ""
+msgstr "Cambiar a No Cotizante"
 
 #. module: union_contribution
 #. odoo-python
 #: code:addons/union_contribution/models/result.py:0
 msgid "Cambio de estado desde Inconsistencias: de %s a %s."
-msgstr ""
+msgstr "Cambio de estado desde Inconsistencias: de %s a %s."
 
 #. module: union_contribution
 #: model_terms:ir.ui.view,arch_db:union_contribution.inconsistencies_query_form
@@ -120,7 +123,7 @@ msgstr "Cancelar"
 #. module: union_contribution
 #: model_terms:ir.ui.view,arch_db:union_contribution.view_change_state_wizard_form
 msgid "Cancelar"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: union_contribution
 #: model:ir.model,name:union_contribution.model_inconsistencies_change_state_wizard
@@ -141,7 +144,7 @@ msgstr "Configuración del módulo de afiliación"
 #. module: union_contribution
 #: model_terms:ir.ui.view,arch_db:union_contribution.view_change_state_wizard_form
 msgid "Confirmar"
-msgstr ""
+msgstr "Confirmar"
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_query__contribute
@@ -199,7 +202,7 @@ msgstr "Lista de aportes"
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_result__quote
 msgid "Cotizante"
-msgstr ""
+msgstr "Cotizante"
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_affiliation_affiliation_configuration__create_user_from_contribution
@@ -227,12 +230,12 @@ msgstr "Creado el"
 #. module: union_contribution
 #: model_terms:ir.ui.view,arch_db:union_contribution.union_contribution_affiliate_contribution_search
 msgid "Código de Aporte"
-msgstr ""
+msgstr "Código de Aporte"
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_query__contribution_code_ids
 msgid "Códigos de aportes"
-msgstr ""
+msgstr "Códigos de aportes"
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution__date
@@ -267,19 +270,19 @@ msgstr "No aportó"
 #. odoo-python
 #: code:addons/union_contribution/models/contribution.py:0
 msgid "El campo ID debe contener únicamente números."
-msgstr ""
+msgstr "El campo ID debe contener únicamente números."
 
 #. module: union_contribution
 #. odoo-python
 #: code:addons/union_contribution/models/contribution.py:0
 msgid "El campo ID no puede comenzar con cero."
-msgstr ""
+msgstr "El campo ID no puede comenzar con cero."
 
 #. module: union_contribution
 #. odoo-python
 #: code:addons/union_contribution/models/result.py:0
 msgid "El/La afiliado/a %s ya se encuentra en el estado seleccionado."
-msgstr ""
+msgstr "El/La afiliado/a %s ya se encuentra en el estado seleccionado."
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_result__affiliate_type_id
@@ -295,23 +298,23 @@ msgstr "Habilitado"
 #. odoo-python
 #: code:addons/union_contribution/models/result.py:0
 msgid "Estado cotizante cambiado a Cotizante desde Inconsistencias."
-msgstr ""
+msgstr "Estado cotizante cambiado a Cotizante desde Inconsistencias."
 
 #. module: union_contribution
 #. odoo-python
 #: code:addons/union_contribution/models/result.py:0
 msgid "Estado cotizante cambiado a No Cotizante desde Inconsistencias."
-msgstr ""
+msgstr "Estado cotizante cambiado a No Cotizante desde Inconsistencias."
 
 #. module: union_contribution
 #: model_terms:ir.ui.view,arch_db:union_contribution.union_contribution_affiliate_contribution_search
 msgid "Fecha"
-msgstr ""
+msgstr "Fecha"
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_change_state_wizard__change_date
 msgid "Fecha Efectiva"
-msgstr ""
+msgstr "Fecha Efectiva"
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_query__from_date
@@ -365,12 +368,12 @@ msgstr "Incluir personas que no aportaron y deberían haber aportado"
 #. odoo-python
 #: code:addons/union_contribution/models/result.py:0
 msgid "Inconsistencia: %s"
-msgstr ""
+msgstr "Inconsistencia: %s"
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_change_state_wizard__inconsistency_ids
 msgid "Inconsistencias"
-msgstr ""
+msgstr "Inconsistencias"
 
 #. module: union_contribution
 #: model_terms:ir.ui.view,arch_db:union_contribution.inconsistencies_result_tree
@@ -428,6 +431,8 @@ msgid ""
 "Missing import_uid. It is required to create affiliates from contributions "
 "import."
 msgstr ""
+"Falta import_uid. Es obligatorio para crear afiliados/as desde la "
+"importación de aportes."
 
 #. module: union_contribution
 #: model_terms:ir.ui.view,arch_db:union_contribution.inconsistencies_query_form
@@ -437,7 +442,7 @@ msgstr "Consultar"
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_change_state_wizard__new_state
 msgid "Nuevo Estado"
-msgstr ""
+msgstr "Nuevo Estado"
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_contribution_affiliate_contribution__personal_id
@@ -471,7 +476,7 @@ msgstr ""
 #. module: union_contribution
 #: model_terms:ir.ui.view,arch_db:union_contribution.union_contribution_inconsistencies_result_filter
 msgid "Resultados"
-msgstr ""
+msgstr "Resultados"
 
 #. module: union_contribution
 #: model:ir.model.fields,help:union_contribution.field_inconsistencies_change_state_wizard__affiliate_type_id
@@ -480,6 +485,9 @@ msgid ""
 "distintos de \"No afiliado/a\" o \"New\" si el/la afiliado/a no tiene uno "
 "asignado."
 msgstr ""
+"Seleccione el tipo de relación laboral. Requerido para cambiar a estados "
+"distintos de \"No afiliado/a\" o \"New\" si el/la afiliado/a no tiene "
+"uno asignado."
 
 #. module: union_contribution
 #. odoo-python
@@ -488,6 +496,8 @@ msgid ""
 "Solo se puede cambiar el estado cotizante si el/la afiliado/a %s se "
 "encuentra en estado \"Afiliado/a\"."
 msgstr ""
+"Solo se puede cambiar el estado cotizante si el/la afiliado/a %s se "
+"encuentra en estado \"Afiliado/a\"."
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_result__status
@@ -509,12 +519,12 @@ msgstr "Hubo errores durante la importación. ¡Revise los registros!"
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_change_state_wizard__affiliate_type_id
 msgid "Tipo de relación laboral"
-msgstr ""
+msgstr "Tipo de relación laboral"
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_query__affiliate_type_ids
 msgid "Tipos de relación laboral"
-msgstr ""
+msgstr "Tipos de relación laboral"
 
 #. module: union_contribution
 #: model:ir.model.fields,field_description:union_contribution.field_inconsistencies_query__to_date
