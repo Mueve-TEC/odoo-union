@@ -28,9 +28,9 @@
 
     <menuitem name="Request's types"
         id="union_benefit_request_request_type_list"
-        sequence="10" parent="union_benefit_request.requests_section"
+        sequence="40" parent="union_affiliation.configuration_section"
         action="union_benefit_request_request_type_list_action"
-        groups="group_benefit_request_read" />
+        groups="group_benefit_request_admin,-group_benefit_request_read" />
 
     <record model="ir.actions.act_window" id="union_benefit_request_school_benefit_list_action">
         <field name="name">School benefits</field>
@@ -41,7 +41,7 @@
 
     <menuitem name="School benefits"
         id="union_benefit_request_school_benefit_list"
-        sequence="30" parent="union_benefit_request.requests_section"
+        sequence="20" parent="union_benefit_request.requests_section"
         action="union_benefit_request_school_benefit_list_action"
         groups="group_benefit_request_read" />
 
@@ -54,7 +54,7 @@
 
     <menuitem name="School benefit types"
         id="union_benefit_request_school_benefit_type_list"
-        sequence="40" parent="union_benefit_request.requests_section"
+        sequence="50" parent="union_affiliation.configuration_section"
         action="union_benefit_request_school_benefit_type_list_action"
-        groups="group_benefit_request_read" />
+        groups="group_benefit_request_admin,-group_benefit_request_read" />
 </odoo>

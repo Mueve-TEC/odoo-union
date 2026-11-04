@@ -29,9 +29,9 @@
 
     <menuitem name="Contribution's code"
         id="union_contribution_affiliate_contribution_code_list"
-        sequence="20" parent="union_contribution.contributions_section"
+        sequence="30" parent="union_affiliation.configuration_section"
         action="union_contribution_affiliate_contribution_code_list_action"
-        groups="group_contribution_read" />
+        groups="group_contribution_admin,-group_contribution_read" />
 
 
 </odoo>

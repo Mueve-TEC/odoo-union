@@ -44,21 +44,8 @@
 
     <menuitem name="Affiliate's childs"
         id="union_affiliation_affiliate_child_list"
-        sequence="30" parent="union_affiliation.affiliates_section"
+        sequence="40" parent="union_affiliation.affiliates_section"
         action="union_affiliation_affiliate_child_list_action"
-        groups="group_affiliation_read" />
-
-    <record model="ir.actions.act_window" id="union_affiliation_affiliate_type_list_action">
-        <field name="name">Employment relationship types</field>
-        <field name="res_model">affiliation.affiliate_type</field>
-        <field name="view_id" ref="union_affiliation_affiliate_type_tree" />
-        <field name="view_mode">list,form</field>
-    </record>
-
-    <menuitem name="Employment relationship types"
-        id="union_affiliation_affiliate_type_list"
-        sequence="20" parent="union_affiliation.affiliates_section"
-        action="union_affiliation_affiliate_type_list_action"
         groups="group_affiliation_read" />
 
     <record model="ir.actions.act_window" id="union_workplace_list_action">
@@ -70,14 +57,14 @@
 
     <menuitem name="Lugares de trabajo"
         id="union_workplace_list"
-        sequence="25" parent="union_affiliation.affiliates_section"
+        sequence="30" parent="union_affiliation.affiliates_section"
         action="union_workplace_list_action"
         groups="group_affiliation_read" />
 
     <!-- Configuration section -->
     <menuitem name="Configuration" id="union_affiliation.configuration_section"
         sequence="100" parent="union_affiliation.union"
-        groups="group_affiliation_admin" />
+        groups="group_affiliation_read,-group_affiliation_admin" />
 
     <record model="ir.actions.act_window"
         id="union_affiliation_affiliation_configuration_form_action">
@@ -93,5 +80,18 @@
         sequence="10" parent="union_affiliation.configuration_section"
         action="union_affiliation_affiliation_configuration_form_action"
         groups="group_affiliation_admin" />
+
+    <record model="ir.actions.act_window" id="union_affiliation_affiliate_type_list_action">
+        <field name="name">Employment relationship types</field>
+        <field name="res_model">affiliation.affiliate_type</field>
+        <field name="view_id" ref="union_affiliation_affiliate_type_tree" />
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem name="Employment relationship types"
+        id="union_affiliation_affiliate_type_list"
+        sequence="20" parent="union_affiliation.configuration_section"
+        action="union_affiliation_affiliate_type_list_action"
+        groups="group_affiliation_admin,-group_affiliation_read" />
 
 </odoo>
