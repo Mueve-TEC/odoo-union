@@ -337,6 +337,12 @@ class Affiliate(models.Model):
             "target": "new",
         }
 
+    def unaffiliate_(self):
+        _to_write = {"state": "not_affiliated"}
+        if self.quote:
+            _to_write.update({"quote": False})
+        self.write(_to_write)
+
     def affiliate_(self):
         _config = self.env["affiliation.affiliation_configuration"].browse(1)
         _to_write = {"state": "pending_suscribe"}

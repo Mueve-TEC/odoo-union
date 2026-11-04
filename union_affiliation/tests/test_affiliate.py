@@ -63,6 +63,13 @@ class TestAffiliate(TransactionCase):
         aff = self._create_affiliate(uid=55555555, state="new")
         self.assertEqual(aff.state, "new")
 
+    def test_unaffiliate_from_new(self):
+        """The Not affiliated button moves a new affiliate to not_affiliated."""
+        aff = self._create_affiliate(uid=55555556, name="Unaffiliated Test", state="new", quote=True)
+        aff.unaffiliate_()
+        self.assertEqual(aff.state, "not_affiliated")
+        self.assertFalse(aff.quote)
+
     # ─── seniority_years compute ──────────────────────────────────────────────
 
     def test_seniority_years_computed(self):

@@ -14,6 +14,9 @@
                             name="affiliate_"
                             invisible="state not in ['disaffiliated', 'historical', 'not_affiliated', 'new']"
                             groups="union_affiliation.group_affiliation_change_state" />
+                        <button string="Not affiliated" class="btn btn-secondary" type="object"
+                            name="unaffiliate_" invisible="state != 'new'"
+                            groups="union_affiliation.group_affiliation_change_state" />
                         <!--TODO:
                         Result from converting "states='affiliated'" attribute into an 'invisible'
                         attribute
