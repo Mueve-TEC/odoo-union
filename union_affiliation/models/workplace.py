@@ -109,19 +109,19 @@ class UnionWorkplace(models.Model):
                     raise ValidationError(_('The code "%s" already exists in another workplace.') % workplace.code)
 
     @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100):
+    def name_search(self, name="", domain=None, operator="ilike", limit=100):
         """Allows searching by code or name"""
-        args = args or []
-        domain = []
+        domain = list(domain or [])
+        search_domain = []
         if name:
-            domain = [
+            search_domain = [
                 "|",
                 "|",
                 ("name", operator, name),
                 ("code", operator, name),
                 ("complete_name", operator, name),
             ]
-        workplaces = self.search(domain + args, limit=limit)
+        workplaces = self.search(search_domain + domain, limit=limit)
         return [(workplace.id, workplace.display_name) for workplace in workplaces]
 
     def get_main_affiliates_for_reports(self):

@@ -9,8 +9,8 @@ class SchoolBenefitType(models.Model):
     active = fields.Boolean(string="Active", default=True)
 
     @api.model
-    def name_search(self, name, args=None, operator="ilike", limit=100):
-        args = args or []
-        domain = [("name", operator, name)]
-        recs = self.search(domain + args, limit=limit)
+    def name_search(self, name="", domain=None, operator="ilike", limit=100):
+        domain = list(domain or [])
+        search_domain = [("name", operator, name)]
+        recs = self.search(search_domain + domain, limit=limit)
         return [(r.id, r.display_name) for r in recs]

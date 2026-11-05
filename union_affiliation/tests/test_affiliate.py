@@ -8,7 +8,7 @@ from psycopg2.errors import UniqueViolation
 @tagged("post_install", "-at_install")
 class TestAffiliate(TransactionCase):
     """Tests for affiliation.affiliate: SQL constraints, uid validation,
-    seniority_years, _name_search, and _compute_name on configuration."""
+    seniority_years, name_search, and _compute_name on configuration."""
 
     @classmethod
     def setUpClass(cls):
@@ -85,24 +85,24 @@ class TestAffiliate(TransactionCase):
         aff = self._create_affiliate(uid=77777777)
         self.assertEqual(aff.seniority_years, 0)
 
-    # ─── _name_search override ────────────────────────────────────────────────
+    # ─── name_search override ────────────────────────────────────────────────
 
     def test_name_search_by_uid(self):
-        """_name_search finds affiliates by uid (integer equality)."""
+        """name_search finds affiliates by uid (integer equality)."""
         self._create_affiliate(uid=88888888, name="John Doe")
-        results = self.Affiliate.sudo()._name_search("88888888")
+        results = self.Affiliate.sudo().name_search("88888888")
         self.assertTrue(results, "Should find affiliate by uid")
 
     def test_name_search_by_personal_id(self):
-        """_name_search finds affiliates by personal_id."""
+        """name_search finds affiliates by personal_id."""
         self._create_affiliate(uid=99999999, name="Jane Roe", personal_id="12345")
-        results = self.Affiliate.sudo()._name_search("12345")
+        results = self.Affiliate.sudo().name_search("12345")
         self.assertTrue(results, "Should find affiliate by personal_id")
 
     def test_name_search_by_name(self):
-        """_name_search finds affiliates by name."""
+        """name_search finds affiliates by name."""
         self._create_affiliate(uid=10101010, name="Unique Search Name")
-        results = self.Affiliate.sudo()._name_search("Unique Search")
+        results = self.Affiliate.sudo().name_search("Unique Search")
         self.assertTrue(results, "Should find affiliate by name")
 
     # ─── _compute_name on affiliation_configuration ───────────────────────────

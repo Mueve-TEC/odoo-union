@@ -234,31 +234,31 @@ class BenefitRequest(models.Model):
             record.display_name = _("%s") % (name)
 
     @api.model
-    def name_search(self, name, args=None, operator="ilike", limit=100):
-        args = args or []
-        domain = [("request_type_id", operator, name)]
+    def name_search(self, name="", domain=None, operator="ilike", limit=100):
+        domain = list(domain or [])
+        search_domain = [("request_type_id", operator, name)]
         if "import_file" in self.env.context:
             # Expected format: "YYYY-MM-DD,<type>,<partner name>"; maxsplit=2
             # keeps commas inside the partner name ("Garcia, Maria") intact.
             parts = name.split(",", 2)
             if len(parts) == 3:
                 _date, _type, _name = parts
-                domain = [
+                search_domain = [
                     ("request_date", "=", _date),
                     ("request_type_id", operator, _type.strip()),
                 ]
                 partner = self.env["res.partner"].search([("name", operator, _name.strip())], limit=limit)
                 if partner:
-                    domain = domain + [("partner_id", "=", partner[0].id)]
+                    search_domain = search_domain + [("partner_id", "=", partner[0].id)]
             else:
                 # Malformed lookup string: degrade gracefully instead of crashing.
-                domain = [("request_type_id", operator, name)]
+                search_domain = [("request_type_id", operator, name)]
         else:
             partner = self.env["res.partner"].search([("name", operator, name)], limit=limit)
             if partner:
-                domain = ["|", domain[0], ("partner_id", "=", partner[0].id)]
+                search_domain = ["|", search_domain[0], ("partner_id", "=", partner[0].id)]
 
-        recs = self.search(domain + args, limit=limit)
+        recs = self.search(search_domain + domain, limit=limit)
         return [(r.id, r.display_name) for r in recs]
 
     @api.depends("partner_id")

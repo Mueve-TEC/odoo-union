@@ -488,18 +488,19 @@ class Affiliate(models.Model):
             vals.update({"log": _log})
 
     @api.model
-    def _name_search(self, name, args=None, operator="ilike", limit=100):
-        args = args or []
+    def name_search(self, name="", domain=None, operator="ilike", limit=100):
+        domain = list(domain or [])
         if name:
-            domain = [
+            search_domain = [
                 "|",
                 ("personal_id", operator, name),
                 ("name", operator, name),
             ]
             if name.isdigit():
-                domain = ["|", ("uid", "=", int(name))] + domain
-            return self._search(args + domain, limit=limit)
-        return super()._name_search(name, args, operator, limit)
+                search_domain = ["|", ("uid", "=", int(name))] + search_domain
+            records = self.search(search_domain + domain, limit=limit)
+            return [(record.id, record.display_name) for record in records]
+        return super().name_search(name, domain, operator, limit)
 
     def _message_get_suggested_recipients(
         self,

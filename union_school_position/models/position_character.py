@@ -10,10 +10,10 @@ class PositionCharacter(models.Model):
     name = fields.Char(string="Description", required=True)
 
     @api.model
-    def name_search(self, name, args=None, operator="ilike", limit=100):
-        args = args or []
-        domain = ["|", ("name", operator, name), ("code", operator, name)]
+    def name_search(self, name="", domain=None, operator="ilike", limit=100):
+        domain = list(domain or [])
+        search_domain = ["|", ("name", operator, name), ("code", operator, name)]
         if "import_file" in self.env.context:
-            domain = [("code", operator, name)]
-        recs = self.search(domain + args, limit=limit)
+            search_domain = [("code", operator, name)]
+        recs = self.search(search_domain + domain, limit=limit)
         return [(r.id, r.display_name) for r in recs]
