@@ -10,6 +10,8 @@ class TestPosition(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.config = cls.env["affiliation.affiliation_configuration"].browse(1)
+        cls.config.write({"create_user_from_position": False})
         cls.Position = cls.env["school_position.position"]
         cls.affiliate = (
             cls.env["affiliation.affiliate"]
@@ -211,15 +213,16 @@ class TestPosition(TransactionCase):
                 }
             )
 
-    def test_create_from_import_leading_zero_uid(self):
-        """create with import_uid starting with '0' raises ValidationError."""
+    def test_create_from_import_non_positive_uid(self):
+        """create with import_uid <= 0 raises ValidationError when auto-create is enabled."""
+        self.config.write({"create_user_from_position": True})
         with self.assertRaises(ValidationError):
             self.Position.sudo().with_context(import_file=True).create(
                 {
-                    "import_uid": "01234567",
+                    "import_uid": "0",
                     "type_id": self.pos_type.id,
                     "character_id": self.character.id,
-                    "import_name": "Leading Zero",
+                    "import_name": "Non Positive UID",
                 }
             )
 

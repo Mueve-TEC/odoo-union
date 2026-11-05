@@ -10,6 +10,8 @@ class TestBenefitRequest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.config = cls.env["affiliation.affiliation_configuration"].browse(1)
+        cls.config.write({"create_user_from_request": False})
         cls.RequestType = cls.env["benefit_request.request_type"]
         cls.BenefitRequest = cls.env["benefit_request.benefit_request"]
         cls.partner = cls.env["res.partner"].create({"name": "Test Partner"})
