@@ -6,7 +6,7 @@ def grp(env, x):
     return env.ref(x).id
 
 
-@tagged("post_install", "security", "union")
+@tagged("post_install", "-at_install", "security", "union")
 class TestContributionSecurity(TransactionCase):
     """Verify set/unset quote server actions are gated by group_inconsistencies_write (2.3)."""
 

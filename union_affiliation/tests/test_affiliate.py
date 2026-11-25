@@ -33,11 +33,11 @@ class TestAffiliate(TransactionCase):
     def test_affiliation_number_unique_constraint(self):
         """models.Constraint unique_affiliation_number prevents duplicates."""
         aff1 = self._create_affiliate(uid=22222222)
-        aff1.write({"affiliation_number": 1001})
+        aff1.write({"affiliation_number": 1999999101})
         aff2 = self._create_affiliate(uid=33333333)
         with self.assertRaises(UniqueViolation):
             with self.env.cr.savepoint():
-                aff2.write({"affiliation_number": 1001})
+                aff2.write({"affiliation_number": 1999999101})
 
     # ─── uid positive constraint (SQL CHECK uid > 0) ─────────────────────────
 
@@ -258,7 +258,7 @@ class TestAffiliate(TransactionCase):
             ["uid", "name", "affiliation_number"],
             [
                 [99111103, "Imported Without Number", ""],
-                [99111104, "Imported With Number", "42"],
+                [99111104, "Imported With Number", "1999999042"],
             ],
         )
         errors = [m for m in res["messages"] if m.get("type") == "error"]
@@ -268,7 +268,7 @@ class TestAffiliate(TransactionCase):
         self.env.cr.execute(
             "SELECT uid, affiliation_number FROM affiliation_affiliate WHERE uid IN (99111103, 99111104) ORDER BY uid"
         )
-        self.assertEqual(self.env.cr.fetchall(), [(99111103, None), (99111104, 42)])
+        self.assertEqual(self.env.cr.fetchall(), [(99111103, None), (99111104, 1999999042)])
 
     def test_blank_affiliation_number_on_write_is_ignored(self):
         """A blank number on update keeps the stored value instead of 0.
@@ -277,15 +277,15 @@ class TestAffiliate(TransactionCase):
         discarded rather than turned into a 0 that would collide with every
         other blank row.
         """
-        rec = self._create_affiliate(uid=99111105, name="Kept Number", affiliation_number=7)
+        rec = self._create_affiliate(uid=99111105, name="Kept Number", affiliation_number=1999999907)
         rec.write({"affiliation_number": 0})
         self.env.flush_all()
         self.env.cr.execute("SELECT affiliation_number FROM affiliation_affiliate WHERE uid = 99111105")
-        self.assertEqual(self.env.cr.fetchone()[0], 7)
+        self.assertEqual(self.env.cr.fetchone()[0], 1999999907)
 
     def test_blank_affiliation_number_on_update_keeps_number(self):
         """An id mapped import with an empty cell keeps the stored number."""
-        rec = self._create_affiliate(uid=99111106, name="Updated Number", affiliation_number=9)
+        rec = self._create_affiliate(uid=99111106, name="Updated Number", affiliation_number=1999999909)
         res = self.Affiliate.with_context(import_file=True).load(
             [".id", "affiliation_number"],
             [[str(rec.id), ""]],
@@ -294,7 +294,7 @@ class TestAffiliate(TransactionCase):
         self.assertFalse(errors, errors)
         self.env.flush_all()
         self.env.cr.execute("SELECT affiliation_number FROM affiliation_affiliate WHERE uid = 99111106")
-        self.assertEqual(self.env.cr.fetchone()[0], 9)
+        self.assertEqual(self.env.cr.fetchone()[0], 1999999909)
 
     # ─── integer range ────────────────────────────────────────────────────────
 

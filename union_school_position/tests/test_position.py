@@ -1,5 +1,7 @@
+from lxml import etree
 from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase, tagged
+from odoo.tools.safe_eval import safe_eval
 
 
 @tagged("post_install", "-at_install")
@@ -96,6 +98,30 @@ class TestPosition(TransactionCase):
         """workplace_level2 string is 'Workplace Level 2' (regression: was 'Workplace Level 1')."""
         field = self.Position._fields["workplace_level2"]
         self.assertEqual(field.string, "Workplace Level 2")
+
+    # ─── affiliate search filter ──────────────────────────────────────────────
+
+    def _affiliate_filter_domain(self, term):
+        view = self.env.ref("union_school_position.union_school_position_search")
+        node = etree.fromstring(view.arch).xpath("//field[@name='affiliate_id']")[0]
+        return safe_eval(node.get("filter_domain"), {"self": term})
+
+    def test_search_filter_domain_with_text_term(self):
+        """A free-text term must not be cast to int (regression)."""
+        domain = self._affiliate_filter_domain("NO-MATCH-TERM")
+        self.assertFalse(self.Position.sudo().search(domain))
+
+    def test_search_filter_domain_with_uid_term(self):
+        """The uid is still matched when the term is numeric."""
+        pos = self._create_position()
+        domain = self._affiliate_filter_domain(str(self.affiliate.uid))
+        self.assertEqual(self.Position.sudo().search(domain), pos)
+
+    def test_search_filter_domain_with_name_term(self):
+        """The affiliate is matched by its name."""
+        pos = self._create_position()
+        domain = self._affiliate_filter_domain(self.affiliate.name)
+        self.assertEqual(self.Position.sudo().search(domain), pos)
 
     # ─── _compute_display_name ────────────────────────────────────────────────
 

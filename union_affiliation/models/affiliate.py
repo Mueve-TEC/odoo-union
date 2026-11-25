@@ -496,7 +496,9 @@ class Affiliate(models.Model):
                 ("personal_id", operator, name),
                 ("name", operator, name),
             ]
-            if name.isdigit():
+            # isdecimal(), not isdigit(): superscripts such as "²" are digits
+            # for isdigit() but int() rejects them with a ValueError.
+            if name.isdecimal():
                 search_domain = ["|", ("uid", "=", int(name))] + search_domain
             records = self.search(search_domain + domain, limit=limit)
             return [(record.id, record.display_name) for record in records]

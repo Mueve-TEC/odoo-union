@@ -243,13 +243,20 @@ class BenefitRequest(models.Model):
             parts = name.split(",", 2)
             if len(parts) == 3:
                 _date, _type, _name = parts
-                search_domain = [
-                    ("request_date", "=", _date),
-                    ("request_type_id", operator, _type.strip()),
-                ]
-                partner = self.env["res.partner"].search([("name", operator, _name.strip())], limit=limit)
-                if partner:
-                    search_domain = search_domain + [("partner_id", "=", partner[0].id)]
+                try:
+                    fields.Date.to_date(_date.strip())
+                except (TypeError, ValueError):
+                    # Malformed date in the lookup string: degrade gracefully
+                    # instead of letting the ORM cast the text to a date.
+                    search_domain = [("request_type_id", operator, name)]
+                else:
+                    search_domain = [
+                        ("request_date", "=", _date),
+                        ("request_type_id", operator, _type.strip()),
+                    ]
+                    partner = self.env["res.partner"].search([("name", operator, _name.strip())], limit=limit)
+                    if partner:
+                        search_domain = search_domain + [("partner_id", "=", partner[0].id)]
             else:
                 # Malformed lookup string: degrade gracefully instead of crashing.
                 search_domain = [("request_type_id", operator, name)]

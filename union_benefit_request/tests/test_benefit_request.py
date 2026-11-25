@@ -236,3 +236,10 @@ class TestBenefitRequest(TransactionCase):
         """Fewer than 3 parts degrades gracefully instead of ValueError."""
         results = self.BenefitRequest.with_context(import_file=True).name_search("Solicitud Simple")
         self.assertIsInstance(results, list)
+
+    def test_import_name_search_invalid_date_does_not_crash(self):
+        """An invalid date in the lookup string degrades instead of ValueError."""
+        results = self.BenefitRequest.with_context(import_file=True).name_search(
+            f"2024-13-45,{self.request_type.name},Test Partner"
+        )
+        self.assertIsInstance(results, list)

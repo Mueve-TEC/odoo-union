@@ -6,7 +6,7 @@ def grp(env, x):
     return env.ref(x).id
 
 
-@tagged("post_install", "security", "union")
+@tagged("post_install", "-at_install", "security", "union")
 class TestSchoolPositionSecurity(TransactionCase):
     """Verify featured server actions are gated (2.3) and write-group cannot delete positions (2.5)."""
 

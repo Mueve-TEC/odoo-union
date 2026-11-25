@@ -1,5 +1,7 @@
+from lxml import etree
 from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase, tagged
+from odoo.tools.safe_eval import safe_eval
 
 
 @tagged("post_install", "-at_install")
@@ -10,6 +12,8 @@ class TestContribution(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.config = cls.env["affiliation.affiliation_configuration"].browse(1)
+        cls.config.write({"create_user_from_contribution": False})
         cls.Contribution = cls.env["contribution.affiliate_contribution"]
         cls.CodeModel = cls.env["contribution.affiliate_contribution_code"]
         cls.affiliate = (
@@ -110,20 +114,82 @@ class TestContribution(TransactionCase):
                 }
             )
 
-    def test_create_from_import_leading_zero_uid(self):
-        """create with import_uid starting with '0' raises ValidationError."""
+    def test_create_from_import_non_positive_uid(self):
+        """create with import_uid <= 0 raises ValidationError when auto-create is enabled."""
         from datetime import date
 
+        self.config.write({"create_user_from_contribution": True})
         with self.assertRaises(ValidationError):
             self.Contribution.sudo().with_context(import_file=True).create(
                 {
-                    "import_uid": "01234567",
-                    "import_name": "Leading Zero",
+                    "import_uid": "0",
+                    "import_name": "Non Positive UID",
                     "date": date(2024, 2, 1),
                     "contrib_amount": 200.0,
                     "contribution_code_id": self.contrib_code.id,
                 }
             )
+
+
+@tagged("post_install", "-at_install")
+class TestContributionSearchByAffiliate(TransactionCase):
+    """Regression: the affiliate filter must accept free text.
+
+    The search view ORs a text search on the affiliate name/personal id with a
+    comparison on the integer uid. Comparing uid with "=" and a text term made
+    the ORM cast it with ``int("CARLEVARO")``, raising a ValueError and an
+    RPC_ERROR for the whole search.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        from datetime import date
+
+        cls.Contribution = cls.env["contribution.affiliate_contribution"]
+        cls.affiliate = (
+            cls.env["affiliation.affiliate"]
+            .sudo()
+            .create(
+                {
+                    "uid": 987654321,
+                    "name": "Carlevaro Search Affiliate 987654321",
+                    "personal_id": "CS-987654321",
+                    "state": "new",
+                }
+            )
+        )
+        code = cls.env["contribution.affiliate_contribution_code"].create(
+            {"code": "SRCH", "description": "Search Test Code", "enabled": True}
+        )
+        cls.contribution = cls.Contribution.sudo().create(
+            {
+                "affiliate_id": cls.affiliate.id,
+                "date": date(2024, 3, 15),
+                "contrib_amount": 10.0,
+                "contribution_code_id": code.id,
+            }
+        )
+
+    def _affiliate_filter_domain(self, term):
+        view = self.env.ref("union_contribution.union_contribution_affiliate_contribution_search")
+        node = etree.fromstring(view.arch).xpath("//field[@name='affiliate_id']")[0]
+        return safe_eval(node.get("filter_domain"), {"self": term})
+
+    def test_filter_domain_with_text_term(self):
+        """A free-text term must not be cast to int (regression)."""
+        domain = self._affiliate_filter_domain("NO-MATCH-TERM")
+        self.assertFalse(self.Contribution.sudo().search(domain))
+
+    def test_filter_domain_with_uid_term(self):
+        """The uid is still matched when the term is numeric."""
+        domain = self._affiliate_filter_domain(str(self.affiliate.uid))
+        self.assertEqual(self.Contribution.sudo().search(domain), self.contribution)
+
+    def test_filter_domain_with_name_term(self):
+        """The affiliate is matched by its name."""
+        domain = self._affiliate_filter_domain(self.affiliate.name)
+        self.assertEqual(self.Contribution.sudo().search(domain), self.contribution)
 
 
 @tagged("post_install", "-at_install")

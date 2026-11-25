@@ -44,6 +44,11 @@ class TestNameSearchDomain(TransactionCase):
         result = self.Affiliate.name_search("DS-123", domain=[("id", "=", self.affiliate.id)])
         self.assertEqual([record[0] for record in result], [self.affiliate.id])
 
+    def test_affiliate_name_search_superscript_digit_does_not_crash(self):
+        """Superscripts pass isdigit() but int() rejects them with ValueError."""
+        result = self.Affiliate.name_search("\u00b2")
+        self.assertIsInstance(result, list)
+
     def test_affiliate_name_search_domain_excludes_record(self):
         result = self.Affiliate.name_search("Domain Search Affiliate", domain=[("id", "!=", self.affiliate.id)])
         self.assertNotIn(self.affiliate.id, [record[0] for record in result])
