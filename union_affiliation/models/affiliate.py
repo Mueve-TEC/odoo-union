@@ -40,6 +40,12 @@ class Affiliate(models.Model):
 
     partner_id = fields.Many2one(comodel_name="res.partner", string="Partner", ondelete="cascade", required=True)
     uid = BigInteger(string="Affiliate UID", required=True, index=True)
+    uid_search = fields.Char(
+        string="Affiliate UID",
+        store=False,
+        search="_search_uid_search",
+        help="Search by affiliate UID, including CUIT-sized values.",
+    )
     work_id = fields.Char(string="Work ID")
     personal_id_type = fields.Selection(
         [
@@ -486,6 +492,29 @@ class Affiliate(models.Model):
                     )
             _log = _log + record.log if record.log else _log
             vals.update({"log": _log})
+
+    @api.model
+    def _search_uid_search(self, operator, value):
+        """Search uid from a text field.
+
+        The web client parses integer search values as int4 and rejects
+        CUIT-sized uids before they reach the server. This field keeps the
+        value as text and compares it with the text form of uid instead.
+        """
+        if operator in ("in", "not in"):
+            domains = [fields.Domain("uid", "=ilike", term) for term in value if term not in (False, None)]
+            if not domains:
+                return fields.Domain.TRUE if operator == "not in" else fields.Domain.FALSE
+            return fields.Domain.AND(domains) if operator == "not in" else fields.Domain.OR(domains)
+        if operator in ("=", "!="):
+            return fields.Domain("uid", "=ilike" if operator == "=" else "not =ilike", value)
+        if operator.endswith("like"):
+            return fields.Domain("uid", operator, value)
+        try:
+            int(value)
+        except (TypeError, ValueError):
+            return fields.Domain.FALSE
+        return fields.Domain("uid", operator, value)
 
     @api.model
     def name_search(self, name="", domain=None, operator="ilike", limit=100):

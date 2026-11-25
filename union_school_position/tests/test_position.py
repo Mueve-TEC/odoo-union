@@ -101,10 +101,16 @@ class TestPosition(TransactionCase):
 
     # ─── affiliate search filter ──────────────────────────────────────────────
 
-    def _affiliate_filter_domain(self, term):
+    def _filter_domain(self, field_name, term):
         view = self.env.ref("union_school_position.union_school_position_search")
-        node = etree.fromstring(view.arch).xpath("//field[@name='affiliate_id']")[0]
-        return safe_eval(node.get("filter_domain"), {"self": term})
+        node = etree.fromstring(view.arch).xpath(f"//field[@name='{field_name}']")[0]
+        return safe_eval(
+            node.get("filter_domain"),
+            {"self": term, "raw_value": term, "context": {}, "uid": self.env.uid},
+        )
+
+    def _affiliate_filter_domain(self, term):
+        return self._filter_domain("affiliate_id", term)
 
     def test_search_filter_domain_with_text_term(self):
         """A free-text term must not be cast to int (regression)."""
@@ -122,6 +128,34 @@ class TestPosition(TransactionCase):
         pos = self._create_position()
         domain = self._affiliate_filter_domain(self.affiliate.name)
         self.assertEqual(self.Position.sudo().search(domain), pos)
+
+    def test_search_filter_domain_with_type_term(self):
+        pos = self._create_position()
+        domain = self._filter_domain("type_id", self.pos_type.name)
+        self.assertIn(pos, self.Position.sudo().search(domain))
+
+    def test_search_filter_domain_with_workplace_term(self):
+        pos = self._create_position(workplace_id=self.workplace.id)
+        domain = self._filter_domain("workplace_id", self.workplace.code)
+        self.assertIn(pos, self.Position.sudo().search(domain))
+
+    def test_search_filter_domain_with_character_term(self):
+        pos = self._create_position()
+        domain = self._filter_domain("character_id", self.character.code)
+        self.assertIn(pos, self.Position.sudo().search(domain))
+
+    def test_all_search_view_filter_domains_accept_text_and_numbers(self):
+        """Every filter_domain must survive a text and a numeric term."""
+        view = self.env.ref("union_school_position.union_school_position_search")
+        model = self.env[view.model].sudo()
+        for node in etree.fromstring(view.arch).xpath("//field[@filter_domain]"):
+            expr = node.get("filter_domain")
+            for term in ("CARLEVARO", "1234"):
+                domain = safe_eval(
+                    expr,
+                    {"self": term, "raw_value": term, "context": {}, "uid": self.env.uid},
+                )
+                model.search(domain, limit=1)
 
     # ─── _compute_display_name ────────────────────────────────────────────────
 

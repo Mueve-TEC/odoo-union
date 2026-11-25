@@ -171,10 +171,16 @@ class TestContributionSearchByAffiliate(TransactionCase):
             }
         )
 
-    def _affiliate_filter_domain(self, term):
+    def _filter_domain(self, field_name, term):
         view = self.env.ref("union_contribution.union_contribution_affiliate_contribution_search")
-        node = etree.fromstring(view.arch).xpath("//field[@name='affiliate_id']")[0]
-        return safe_eval(node.get("filter_domain"), {"self": term})
+        node = etree.fromstring(view.arch).xpath(f"//field[@name='{field_name}']")[0]
+        return safe_eval(
+            node.get("filter_domain"),
+            {"self": term, "raw_value": term, "context": {}, "uid": self.env.uid},
+        )
+
+    def _affiliate_filter_domain(self, term):
+        return self._filter_domain("affiliate_id", term)
 
     def test_filter_domain_with_text_term(self):
         """A free-text term must not be cast to int (regression)."""
@@ -190,6 +196,25 @@ class TestContributionSearchByAffiliate(TransactionCase):
         """The affiliate is matched by its name."""
         domain = self._affiliate_filter_domain(self.affiliate.name)
         self.assertEqual(self.Contribution.sudo().search(domain), self.contribution)
+
+    def test_filter_domain_with_code_term(self):
+        """The code filter matches by description."""
+        code = self.contribution.contribution_code_id
+        domain = self._filter_domain("contribution_code_id", code.description)
+        self.assertIn(self.contribution, self.Contribution.sudo().search(domain))
+
+    def test_all_search_view_filter_domains_accept_text_and_numbers(self):
+        """Every filter_domain must survive a text and a numeric term."""
+        view = self.env.ref("union_contribution.union_contribution_affiliate_contribution_search")
+        model = self.env[view.model].sudo()
+        for node in etree.fromstring(view.arch).xpath("//field[@filter_domain]"):
+            expr = node.get("filter_domain")
+            for term in ("CARLEVARO", "1234"):
+                domain = safe_eval(
+                    expr,
+                    {"self": term, "raw_value": term, "context": {}, "uid": self.env.uid},
+                )
+                model.search(domain, limit=1)
 
 
 @tagged("post_install", "-at_install")
